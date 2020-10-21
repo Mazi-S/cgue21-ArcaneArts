@@ -2,3 +2,7 @@
 	path = Engine/dependencies/GLFW
 	url = https://github.com/Mazi-S/glfw
 	branch = master
+[submodule "Engine/dependencies/spdlog"]
+	path = Engine/dependencies/spdlog
+	url = https://github.com/gabime/spdlog.git
+	branch = master

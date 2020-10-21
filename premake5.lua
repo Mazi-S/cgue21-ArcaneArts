@@ -10,6 +10,7 @@ workspace "ArcaneArts"
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}";
 
 IncludeDir = {}
+IncludeDir["spdlog"] = "%{wks.location}/Engine/dependencies/spdlog/include"
 IncludeDir["GLFW"] = "%{wks.location}/Engine/dependencies/GLFW/include"
 IncludeDir["Glad"] = "%{wks.location}/Engine/dependencies/Glad/include"
 

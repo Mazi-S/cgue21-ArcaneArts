@@ -11,8 +11,7 @@ static bool s_GLFWInitialized = false;
 
 static void GLFWErrorCallback(int error, const char* description)
 {
-	//LOG_ERROR("GLFW Error ({0}): {1}", error, description);
-	LOG_ERROR("GLFW Error");
+	LOG_ERROR("GLFW Error ({0}): {1}", error, description);
 }
 
 namespace Engine {
@@ -59,8 +58,7 @@ namespace Engine {
 		m_Data.Width = props.Width;
 		m_Data.Height = props.Height;
 
-		//LOG_INFO("Creating window {0} ({1}, {2})", props.Title, props.Width, props.Height);
-		LOG_INFO("Creating window");
+		LOG_INFO("Creating window {0} ({1}, {2})", props.Title, props.Width, props.Height);
 
 		if (!s_GLFWInitialized)
 		{

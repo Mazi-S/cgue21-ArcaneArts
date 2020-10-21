@@ -10,6 +10,8 @@ namespace Engine {
 
 	Application::Application()
 	{
+		Log::Init();
+
 		s_Instance = this;
 
 		m_Window = Scope<Window>(Window::Create());

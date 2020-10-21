@@ -17,6 +17,7 @@ project "Engine"
 
 	includedirs {
 		"%{wks.location}/Engine/src",
+		"%{IncludeDir.spdlog}",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}"
 	}
