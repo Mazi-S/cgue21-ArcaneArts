@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine/Core/Window.h"
+#include "Engine/Renderer/RenderContext.h"
 #include <GLFW/glfw3.h>
 
 namespace Engine {
@@ -25,6 +26,7 @@ namespace Engine {
 
 	private:
 		GLFWwindow* m_Window;
+		RenderContext* m_Context;
 
 		struct WindowData
 		{

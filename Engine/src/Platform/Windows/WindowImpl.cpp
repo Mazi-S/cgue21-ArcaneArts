@@ -5,6 +5,8 @@
 #include "Engine/Events/KeyEvent.h"
 #include "Engine/Events/MouseEvent.h"
 
+#include "Platform/OpenGL/Context.h"
+
 static bool s_GLFWInitialized = false;
 
 static void GLFWErrorCallback(int error, const char* description)
@@ -33,8 +35,7 @@ namespace Engine {
 	void WindowImpl::OnUpdate()
 	{
 		glfwPollEvents();
-		//m_Context->SwapBuffers();
-		glfwSwapBuffers(m_Window);
+		m_Context->SwapBuffers();
 	}
 
 	void WindowImpl::SetVSync(bool enabled)
@@ -72,9 +73,8 @@ namespace Engine {
 
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
 
-		//m_Context = new OpenGL::OpenGLContext(m_Window);
-		//m_Context->Init();
-		glfwMakeContextCurrent(m_Window);
+		m_Context = new OpenGL::Context(m_Window);
+		m_Context->Init();
 
 		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
