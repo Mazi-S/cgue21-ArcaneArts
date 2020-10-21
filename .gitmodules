@@ -1,0 +1,4 @@
+[submodule "Engine/dependencies/GLFW"]
+	path = Engine/dependencies/GLFW
+	url = https://github.com/Mazi-S/glfw
+	branch = master
