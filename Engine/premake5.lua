@@ -17,9 +17,12 @@ project "Engine"
 
 	includedirs {
 		"%{wks.location}/Engine/src",
+		"%{IncludeDir.GLFW}"
 	}
 
 	links {
+		"GLFW",
+		"opengl32.lib"
 	}
 
 	defines	{

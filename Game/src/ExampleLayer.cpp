@@ -1,6 +1,7 @@
 #include "ExampleLayer.h"
 
 #include <iostream>
+#include <Engine/Events/KeyEvent.h>
 
 ExampleLayer::ExampleLayer()
 	: Layer("Example")
@@ -20,21 +21,23 @@ void ExampleLayer::OnDetach()
 void ExampleLayer::OnUpdate(Engine::Timestep ts)
 {
 	// Update here
-	static uint64_t i = 0;
-	if (i > 15000)
-	{
-		Engine::WindowCloseEvent closeEvent;
-		Engine::Application::Get().OnEvent(closeEvent);
-	}
 
 	// Render here
+}
 
-	// just for testing
-	std::cout << "Test: " << i++ << std::endl;
+static bool printKey(Engine::KeyPressedEvent e)
+{
+	std::stringstream ss;
+	ss << "KeyPressedEvent: " << e.GetKeyCode();
+	LOG_INFO(ss.str());
+	return false;
 }
 
 void ExampleLayer::OnEvent(Engine::Event& event)
 {
-
+	// just for testing
+	Engine::EventHandler eventHandler(event);
+	eventHandler.Handle<Engine::KeyPressedEvent>(printKey);
 }
+
 

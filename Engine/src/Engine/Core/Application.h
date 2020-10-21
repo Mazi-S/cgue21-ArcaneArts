@@ -8,6 +8,8 @@
 #include "Engine/Core/Layer.h"
 #include "Engine/Core/LayerStack.h"
 
+#include "Engine/Core/Window.h"
+
 namespace Engine {
 
 	class Application
@@ -24,11 +26,15 @@ namespace Engine {
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* layer);
 
+		Window& GetWindow() { return *m_Window; }
+
 		static Application& Get() { return *s_Instance; }
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
 
 	private:
+		Scope<Window> m_Window;
+
 		bool m_Running = true;
 		bool m_Minimized = false;
 

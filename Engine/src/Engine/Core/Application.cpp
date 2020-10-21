@@ -12,6 +12,9 @@ namespace Engine {
 	{
 		s_Instance = this;
 
+		m_Window = Scope<Window>(Window::Create());
+		m_Window->SetEventCallback(EG_BIND_EVENT_FN(Application::OnEvent));
+
 		//Renderer::Init();
 	}
 
@@ -58,7 +61,7 @@ namespace Engine {
 					layer->OnUpdate(timestep);
 			}
 
-			//m_Window->OnUpdate();
+			m_Window->OnUpdate();
 		}
 	}
 
