@@ -13,6 +13,7 @@ IncludeDir = {}
 IncludeDir["spdlog"] = "%{wks.location}/Engine/dependencies/spdlog/include"
 IncludeDir["GLFW"] = "%{wks.location}/Engine/dependencies/GLFW/include"
 IncludeDir["Glad"] = "%{wks.location}/Engine/dependencies/Glad/include"
+IncludeDir["glm"] = "%{wks.location}/Engine/dependencies/glm"
 
 group "Dependencies"
 	include "Engine/dependencies/GLFW"

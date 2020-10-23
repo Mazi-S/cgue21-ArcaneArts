@@ -16,7 +16,8 @@ project "Game"
 		"%{wks.location}/Engine/src",
 		"%{wks.location}/Engine/dependencies",
 		"%{IncludeDir.spdlog}",
-		"%{IncludeDir.Glad}"
+		"%{IncludeDir.Glad}",
+		"%{IncludeDir.glm}"
 	}
 
 	links {

@@ -13,13 +13,16 @@ project "Engine"
 	files {
 		"src/**.h",
 		"src/**.cpp",
+		"dependencies/glm/glm/**.hpp",
+		"dependencies/glm/glm/**.inl"
 	}
 
 	includedirs {
 		"%{wks.location}/Engine/src",
 		"%{IncludeDir.spdlog}",
 		"%{IncludeDir.GLFW}",
-		"%{IncludeDir.Glad}"
+		"%{IncludeDir.Glad}",
+		"%{IncludeDir.glm}"
 	}
 
 	links {

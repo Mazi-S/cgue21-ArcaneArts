@@ -6,3 +6,7 @@
 	path = Engine/dependencies/spdlog
 	url = https://github.com/gabime/spdlog.git
 	branch = master
+[submodule "Engine/dependencies/glm"]
+	path = Engine/dependencies/glm
+	url = https://github.com/g-truc/glm
+	branch = master
