@@ -16,5 +16,5 @@ public:
 private:
 
 	Engine::Ref<Engine::VertexArray> m_VA;
-	uint32_t m_ShaderID;
+	Engine::Ref<Engine::Shader> m_Shader;
 };

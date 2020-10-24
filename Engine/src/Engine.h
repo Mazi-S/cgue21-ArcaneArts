@@ -12,5 +12,6 @@
 //#include "Engine/Core/Input.h"
 
 // Renderer
+#include "Engine/Renderer/Shader.h"
 #include "Engine/Renderer/Buffer.h"
 #include "Engine/Renderer/VertexArray.h"
