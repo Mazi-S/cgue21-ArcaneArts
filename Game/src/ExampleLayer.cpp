@@ -50,12 +50,20 @@ void ExampleLayer::OnDetach()
 void ExampleLayer::OnUpdate(Engine::Timestep ts)
 {
 	// Update here
+	glm::vec4 color = { 0.2f, 0.2f, 0.2f , 1.0f };
+	if (Engine::Input::IsKeyPressed(Engine::Key::R))
+		color.r = 0.8f;
+	if (Engine::Input::IsKeyPressed(Engine::Key::G))
+		color.g = 0.8f;
+	if (Engine::Input::IsKeyPressed(Engine::Key::B))
+		color.b = 0.8f;
+
 
 	// Render here
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	m_Shader->Bind();
-	m_Shader->SetFloat4("u_Color", { 0.8f, 0.65f, 0.2f , 1.0f });
+	m_Shader->SetFloat4("u_Color", color);
 	m_VA->Bind();
 	glDrawElements(GL_TRIANGLES, m_VA->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
 

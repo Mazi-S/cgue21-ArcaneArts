@@ -9,7 +9,7 @@
 
 #include "Engine/Core/KeyCodes.h"
 #include "Engine/Core/MouseCodes.h"
-//#include "Engine/Core/Input.h"
+#include "Engine/Core/Input.h"
 
 // Renderer
 #include "Engine/Renderer/Shader.h"
