@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <Engine/Events/KeyEvent.h>
+#include <Engine/Renderer/ObjectLoader.h>
 
 #include <glad/glad.h>
 
@@ -20,21 +21,20 @@ void ExampleLayer::OnAttach()
 	glEnable(GL_DEPTH_TEST);
 
 	m_VA = Engine::VertexArray::Create();
-	
-	float vertices[3 * 3] = {
-		-0.5f, -0.5f, 0.0f,
-		 0.5f, -0.5f, 0.0f,
-		 0.0f,  0.5f, 0.0f
-	};
 
-	uint32_t indices[3] = { 0, 1, 2 };
+
+	std::vector<glm::vec3> vertices;
+	std::vector<glm::vec2> uvs;
+	std::vector<glm::vec3> normals;
+
+	bool res = loadOBJ("./assets/objects/cube.obj", vertices, uvs, normals);
 	
-	Engine::Ref<Engine::VertexBuffer> vb = Engine::VertexBuffer::Create(vertices, sizeof(vertices));
+	Engine::Ref<Engine::VertexBuffer> vb = Engine::VertexBuffer::Create(&vertices[0], vertices.size() * sizeof(glm::vec3));
 	vb->SetLayout({
 		{ Engine::ShaderDataType::Float3, "a_Position" }
 	});
 
-	Engine::Ref<Engine::IndexBuffer> ib = Engine::IndexBuffer::Create(indices, 3);
+	Engine::Ref<Engine::IndexBuffer> ib = Engine::IndexBuffer::Create(new unsigned int[vertices.size()], vertices.size());
 	
 	m_VA->AddVertexBuffer(vb);
 	m_VA->SetIndexBuffer(ib);

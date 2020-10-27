@@ -2,6 +2,7 @@
 #include "Buffer.h"
 
 #include "Platform/OpenGL/OpenGLBuffer.h"
+#include <glad\glad.h>
 
 namespace Engine {
 
@@ -10,7 +11,7 @@ namespace Engine {
 		return CreateRef<OpenGL::VertexBuffer>(size);
 	}
 
-	Ref<VertexBuffer> VertexBuffer::Create(float* vertices, uint32_t size)
+	Ref<VertexBuffer> VertexBuffer::Create(const void* vertices, uint32_t size)
 	{
 		return CreateRef<OpenGL::VertexBuffer>(vertices, size);
 	}
