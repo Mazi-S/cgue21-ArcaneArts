@@ -17,4 +17,8 @@ private:
 
 	Engine::Ref<Engine::VertexArray> m_VA;
 	Engine::Ref<Engine::Shader> m_Shader;
+	
+	glm::mat4 m_Camera_Transform;
+	Engine::Ref<Engine::Camera> m_Camera;
+	
 };
