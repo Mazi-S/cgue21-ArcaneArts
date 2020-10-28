@@ -22,21 +22,30 @@ void ExampleLayer::OnAttach()
 
 	m_VA = Engine::VertexArray::Create();
 
-
 	std::vector<glm::vec3> vertices;
 	std::vector<glm::vec2> uvs;
 	std::vector<glm::vec3> normals;
 
-	bool res = loadOBJ("./assets/objects/cube.obj", vertices, uvs, normals);
+	bool res = loadOBJ("assets/objects/cube.obj", vertices, uvs, normals);
 	
 	Engine::Ref<Engine::VertexBuffer> vb = Engine::VertexBuffer::Create(&vertices[0], vertices.size() * sizeof(glm::vec3));
 	vb->SetLayout({
 		{ Engine::ShaderDataType::Float3, "a_Position" }
 	});
 
+	for (int i = 0; i < vertices.size(); i++) {
+		std::cout << "(" << vertices[i].x <<  ", " << vertices[i].y << ", " << vertices[i].y << ")" << std::endl;
+	}
+
+	Engine::Ref<Engine::VertexBuffer> uvvb = Engine::VertexBuffer::Create(&uvs[0], uvs.size() * sizeof(glm::vec3));
+	uvvb->SetLayout({
+		{ Engine::ShaderDataType::Float2, "a_Texture" }
+		});
+
 	Engine::Ref<Engine::IndexBuffer> ib = Engine::IndexBuffer::Create(new unsigned int[vertices.size()], vertices.size());
 	
 	m_VA->AddVertexBuffer(vb);
+	m_VA->AddVertexBuffer(uvvb);
 	m_VA->SetIndexBuffer(ib);
 
 	m_Shader = Engine::Shader::Create("assets/shaders/FlatColor.glsl");
