@@ -18,7 +18,7 @@ private:
 	Engine::Ref<Engine::VertexArray> m_VA;
 	Engine::Ref<Engine::Shader> m_Shader;
 	
-	Engine::Ref<Engine::Camera> m_Camera;
+	Engine::Ref<Engine::SceneCamera> m_Camera;
 	Engine::Ref<Engine::CameraController> m_CameraController;
 	
 };

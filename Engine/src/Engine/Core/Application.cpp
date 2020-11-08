@@ -4,6 +4,8 @@
 
 #include "Platform/Platform.h"
 
+#include "Engine/Renderer/Renderer.h"
+
 namespace Engine {
 
 	Application* Application::s_Instance = nullptr;
@@ -17,17 +19,18 @@ namespace Engine {
 		m_Window = Scope<Window>(Window::Create());
 		m_Window->SetEventCallback(EG_BIND_EVENT_FN(Application::OnEvent));
 
-		//Renderer::Init();
+		Renderer::Init();
 	}
 
 	Application::~Application() {
-		//Renderer::Shutdown();
+		Renderer::Shutdown();
 	}
 
 	void Application::OnEvent(Event& e)
 	{
 		EventHandler handler(e);
 		handler.Handle<WindowCloseEvent>(EG_BIND_EVENT_FN(Application::OnWindowClose));
+		handler.Handle<WindowResizeEvent>(EG_BIND_EVENT_FN(Application::OnWindowResize));
 
 		for (auto it = m_LayerStack.rbegin(); it != m_LayerStack.rend(); it++)
 		{
@@ -76,6 +79,18 @@ namespace Engine {
 	{
 		m_Running = false;
 		return true;
+	}
+
+	bool Application::OnWindowResize(WindowResizeEvent& e)
+	{
+		if (e.GetWidth() == 0 || e.GetHeight() == 0) {
+			m_Minimized = true;
+			return false;
+		}
+		m_Minimized = false;
+		Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
+
+		return false;
 	}
 
 }

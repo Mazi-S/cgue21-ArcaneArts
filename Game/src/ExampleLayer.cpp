@@ -14,11 +14,7 @@ ExampleLayer::ExampleLayer()
 void ExampleLayer::OnAttach()
 {
 	// Init here
-	glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	glEnable(GL_DEPTH_TEST);
+	Engine::OpenGL::API::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 
 	m_VA = Engine::VertexArray::Create();
 
@@ -43,6 +39,8 @@ void ExampleLayer::OnAttach()
 
 	m_CameraController = Engine::CreateRef<Engine::CameraController>();
 	m_Camera = Engine::CreateRef<Engine::SceneCamera>();
+	m_Camera->SetViewportSize(Engine::Application::Get().GetWindow().GetWidth(), Engine::Application::Get().GetWindow().GetHeight());
+	m_CameraController->temp_Camera = m_Camera;
 }
 
 void ExampleLayer::OnDetach()
@@ -53,36 +51,15 @@ void ExampleLayer::OnDetach()
 void ExampleLayer::OnUpdate(Engine::Timestep ts)
 {
 	// Update here
-	glm::vec4 color = { 0.2f, 0.2f, 0.2f , 1.0f };
-	if (Engine::Input::IsKeyPressed(Engine::Key::R))
-		color.r = 0.8f;
-	if (Engine::Input::IsKeyPressed(Engine::Key::G))
-		color.g = 0.8f;
-	if (Engine::Input::IsKeyPressed(Engine::Key::B))
-		color.b = 0.8f;
-
 	// CameraController
 	m_CameraController->OnUpdate(ts);
 
 	// Render here
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	Engine::OpenGL::API::Clear();
 
-	glm::mat4 viewProjection = m_Camera->GetProjection() * glm::inverse(m_CameraController->temp_Transform);
-
-	m_Shader->Bind();
-	m_Shader->SetFloat4("u_Color", color);
-	m_Shader->SetMat4("u_ViewProjection", viewProjection);
-	m_VA->Bind();
-	glDrawElements(GL_TRIANGLES, m_VA->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
-
-}
-
-static bool printKey(Engine::KeyPressedEvent e)
-{
-	std::stringstream ss;
-	ss << "KeyPressedEvent: " << e.GetKeyCode();
-	LOG_INFO(ss.str());
-	return false;
+	Engine::Renderer::BeginScene(m_Camera, m_CameraController->temp_Transform);
+	Engine::Renderer::Submit(m_Shader, m_VA);
+	Engine::Renderer::EndScene();
 }
 
 void ExampleLayer::OnEvent(Engine::Event& event)

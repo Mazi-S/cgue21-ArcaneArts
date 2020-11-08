@@ -1,6 +1,10 @@
 #pragma once
 
+#include "Engine/Core/Base.h"
 #include "Engine/Core/Timestep.h"
+
+#include "Engine/Renderer/SceneCamera.h"
+
 #include "Engine/Events/Event.h"
 #include "Engine/Events/MouseEvent.h"
 #include "Engine/Events/ApplicationEvent.h"
@@ -20,6 +24,7 @@ namespace Engine {
 
 		// todo: move to tranform component
 		glm::mat4 temp_Transform{1.0f};
+		Ref<SceneCamera> temp_Camera;
 
 	private:
 		bool OnMouseScrolled(MouseScrolledEvent& e);

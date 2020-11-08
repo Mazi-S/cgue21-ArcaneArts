@@ -25,7 +25,7 @@ namespace Engine {
 		if (Engine::Input::IsKeyPressed(Engine::Key::LeftControl)) // move down (-y)
 			move.y -= m_TranslationSpeed * ts;
 
-		move = glm::toMat4(glm::quat(m_EulerAngles)) * move;
+		move = glm::toMat4(glm::quat({ 0.0f, m_EulerAngles.y, 0.0f })) * move;
 		m_Translation.x += move.x; m_Translation.y += move.y; m_Translation.z += move.z;
 
 		if (Engine::Input::IsMouseButtonPressed(Engine::Mouse::ButtonLeft))
@@ -44,6 +44,7 @@ namespace Engine {
 	{
 		Engine::EventHandler eventHandler(event);
 		eventHandler.Handle<MouseScrolledEvent>(EG_BIND_EVENT_FN(CameraController::OnMouseScrolled));
+		eventHandler.Handle<WindowResizeEvent>(EG_BIND_EVENT_FN(CameraController::OnWindowResize));
 	}
 
 	bool CameraController::OnMouseScrolled(MouseScrolledEvent& e)
@@ -56,7 +57,7 @@ namespace Engine {
 
 	bool CameraController::OnWindowResize(WindowResizeEvent& e)
 	{
-		// todo: Implement (get the associated Camera and update m_AspectRatio)
+		temp_Camera->SetViewportSize(e.GetWidth(), e.GetHeight());
 		return false;
 	}
 }

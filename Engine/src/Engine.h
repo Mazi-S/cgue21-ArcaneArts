@@ -16,6 +16,9 @@
 #include "Engine/Renderer/Buffer.h"
 #include "Engine/Renderer/VertexArray.h"
 
+#include "Engine/Renderer/Renderer.h"
+#include "Platform/OpenGL/OpenGLAPI.h"
+
 #include "Engine/Renderer/Camera.h"
 #include "Engine/Renderer/SceneCamera.h"
 #include "Engine/Renderer/CameraController.h"
