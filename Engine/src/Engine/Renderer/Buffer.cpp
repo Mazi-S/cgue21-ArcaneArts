@@ -2,6 +2,7 @@
 #include "Buffer.h"
 
 #include "Platform/OpenGL/OpenGLBuffer.h"
+#include <glad\glad.h>
 
 namespace Engine {
 
