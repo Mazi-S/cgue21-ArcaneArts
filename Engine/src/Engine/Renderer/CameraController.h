@@ -16,7 +16,7 @@ namespace Engine {
 	class CameraController
 	{
 	public:
-		CameraController() = default;
+		CameraController();
 		~CameraController() = default;
 
 		void OnUpdate(Timestep ts);
