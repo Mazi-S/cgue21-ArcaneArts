@@ -29,8 +29,14 @@ namespace Engine {
 	void Renderer::Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, const glm::mat4& transform)
 	{
 		shader->Bind();
-		shader->SetMat4("u_ViewProjection", s_SceneData.ViewProjectionMatrix);	// once per shader
-		shader->SetMat4("u_Transform", transform);	// once per object
+
+		// once per shader
+		shader->SetMat4("u_ViewProjection", s_SceneData.ViewProjectionMatrix);
+		
+		// once per object
+		shader->SetMat4("u_Transform", transform);
+		glm::mat4 normalMatrix = glm::mat3(glm::transpose(glm::inverse(transform)));
+		shader->SetMat3("u_NormalMatrix", normalMatrix);
 
 		// Material System
 		// material->Bind();

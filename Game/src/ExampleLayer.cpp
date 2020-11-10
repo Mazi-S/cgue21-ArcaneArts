@@ -3,8 +3,8 @@
 #include <Engine/Events/KeyEvent.h>
 #include <Engine/Renderer/ObjectLoader.h>
 
-
 #include <glad/glad.h>
+#include <glm/gtc/matrix_transform.hpp>
 
 ExampleLayer::ExampleLayer()
 	: Layer("Example")
@@ -31,12 +31,13 @@ void ExampleLayer::OnAttach()
 	});
 
 	Engine::Ref<Engine::IndexBuffer> ib = Engine::IndexBuffer::Create(indices.data(), indices.size());
-	
+	 
 	m_VA->AddVertexBuffer(vb);
 	m_VA->SetIndexBuffer(ib);
 
-	m_Shader = Engine::Shader::Create("assets/shaders/FlatColor.glsl");
-
+	m_ShaderLibrary = Engine::CreateRef<Engine::ShaderLibrary>();
+	m_ShaderLibrary->Load("ColorShader", "assets/shaders/FlatColor.glsl");
+	
 	m_CameraController = Engine::CreateRef<Engine::CameraController>();
 	m_Camera = Engine::CreateRef<Engine::SceneCamera>();
 	m_Camera->SetViewportSize(Engine::Application::Get().GetWindow().GetWidth(), Engine::Application::Get().GetWindow().GetHeight());
@@ -57,8 +58,14 @@ void ExampleLayer::OnUpdate(Engine::Timestep ts)
 	// Render here
 	Engine::OpenGL::API::Clear();
 
+	// model matrix = translation * rotation * scale 
+	static glm::mat4 transform 
+		= glm::translate(glm::mat4(1.0f), { 0.0f, 0.0f, 0.0f })
+		* glm::rotate(glm::mat4(1.0f), glm::radians(45.0f), { 0.5f, 0.7f, 0.2f })
+		* glm::scale(glm::mat4(1.0f), { 0.5f, 0.5f, 0.5f } );
+
 	Engine::Renderer::BeginScene(m_Camera, m_CameraController->temp_Transform);
-	Engine::Renderer::Submit(m_Shader, m_VA);
+	Engine::Renderer::Submit(m_ShaderLibrary->Get("ColorShader"), m_VA, transform);
 	Engine::Renderer::EndScene();
 }
 

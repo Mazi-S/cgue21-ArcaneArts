@@ -81,7 +81,6 @@ namespace Engine {
 			fov -= e.GetYOffset() * 0.1f;
 			fov = std::max(fov, glm::quarter_pi<float>() * 0.5f);
 			fov = std::min(fov, glm::half_pi<float>());
-			LOG_TRACE("Vertical FOV: {}", glm::degrees(fov));
 			temp_Camera->SetVerticalFOV(fov);
 			return false;
 		}
@@ -90,7 +89,6 @@ namespace Engine {
 		m_Zoom -= e.GetYOffset() * m_ZoomSpeed;
 		m_Zoom = std::max(m_Zoom, 1.0f);
 		m_Zoom = std::min(m_Zoom, 25.0f);
-		LOG_TRACE("Zoom: {}", m_Zoom);
 
 		return false;
 	}

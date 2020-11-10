@@ -7,19 +7,27 @@ layout(location = 2) in vec3 a_Normals;
 
 uniform mat4 u_ViewProjection;
 uniform mat4 u_Transform;
-uniform vec4 u_Color;
+uniform mat3 u_NormalMatrix;
 
-out vec4 v_Color;
+out vec3 v_Normals;
+
 void main() {
+	v_Normals = u_NormalMatrix * a_Normals;
+
 	gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
-	v_Color = u_Color;
 }
 
 #type fragment
 #version 330 core
 
+uniform vec4 u_Color;
+
+in vec3 v_Normals;
+
 out vec4 color;
-in vec4 v_Color;
+
 void main() {
-	color = v_Color;
+	vec3 n = normalize(v_Normals);
+	
+	color += u_Color + n.x * 0.01;
 }
