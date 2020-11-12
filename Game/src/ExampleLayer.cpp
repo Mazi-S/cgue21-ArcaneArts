@@ -1,6 +1,7 @@
 #include "ExampleLayer.h"
 
 #include <Engine/Events/KeyEvent.h>
+#include <Engine/Renderer/Texture.h>
 #include <Engine/Renderer/ObjectLoader.h>
 
 
@@ -20,6 +21,8 @@ void ExampleLayer::OnAttach()
 
 	std::vector<float> vertices;
 	std::vector<uint32_t> indices;
+
+	GLuint Texture = loadDDS("assets/textures/uvmap.DDS");
 
 	bool res = loadOBJ("assets/objects/cube.obj", vertices, indices);
 	
