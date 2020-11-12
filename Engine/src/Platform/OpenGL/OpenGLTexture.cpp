@@ -43,7 +43,7 @@ namespace Engine::OpenGL {
 		glBindTexture(GL_TEXTURE_2D, 0);
 	}
 
-	GLuint Texture::LoadDDS(const char* filepath)
+	std::uint32_t Texture::LoadDDS(const char* filepath)
 	{
 		unsigned char header[124];
 
@@ -102,7 +102,7 @@ namespace Engine::OpenGL {
 		}
 
 		// Create one OpenGL texture
-		GLuint textureID;
+		std::uint32_t textureID;
 		glGenTextures(1, &textureID);
 
 		// "Bind" the newly created texture : all future texture functions will modify this texture

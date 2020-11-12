@@ -15,10 +15,10 @@ namespace Engine::OpenGL {
 		virtual void Unbind() const override;
 
 	private:
-		GLuint LoadDDS(const char* filepath);
+		std::uint32_t LoadDDS(const char* filepath);
 
 	private:
-		GLuint m_TextureID;
+		std::uint32_t m_TextureID;
 	};
 
 }

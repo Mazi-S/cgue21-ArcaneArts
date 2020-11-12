@@ -61,7 +61,7 @@ void ExampleLayer::OnUpdate(Engine::Timestep ts)
 	Engine::OpenGL::API::Clear();
 
 	Engine::Renderer::BeginScene(m_Camera, m_CameraController->temp_Transform);
-	Engine::Renderer::Submit(m_Shader, m_VA);
+	Engine::Renderer::Submit(m_Shader, m_VA, m_Texture);
 	Engine::Renderer::EndScene();
 }
 

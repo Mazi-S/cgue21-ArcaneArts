@@ -35,7 +35,7 @@ namespace Engine {
 		// Material System
 		// material->Bind();
 			// Todo: remove (just temporary)
-			shader->SetFloat4("u_Color", glm::vec4(0.8f, 0.15f, 0.2f, 1.0f));
+			//shader->SetFloat4("u_Color", glm::vec4(0.8f, 0.15f, 0.2f, 1.0f));
 
 		vertexArray->Bind();
 		OpenGL::API::DrawIndexed(vertexArray, vertexArray->GetIndexBuffer()->GetCount());
@@ -44,12 +44,23 @@ namespace Engine {
 	void Renderer::Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, const Ref<Texture>& texture, const glm::mat4& transform)
 	{
 		shader->Bind();
-		// ...
+		shader->SetMat4("u_ViewProjection", s_SceneData.ViewProjectionMatrix);	// once per shader
+		shader->SetMat4("u_Transform", transform);	// once per object
 
-		// Bind texture at slot 0
+		// Material System
+		// material->Bind();
+			// Todo: remove (just temporary)
+		//shader->SetFloat4("u_Color", glm::vec4(0.8f, 0.15f, 0.2f, 1.0f));
+
+		vertexArray->Bind();
+
 		texture->Bind(0);
 
-		// ...
+		shader->SetInt("u_Texture", 0);
+
+		OpenGL::API::DrawIndexed(vertexArray, vertexArray->GetIndexBuffer()->GetCount());
+
+		
 	}
 
 }
