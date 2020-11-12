@@ -1,13 +1,8 @@
-#include <vector>
-#include <stdio.h>
+#pragma once
+
 #include <string>
-#include <cstring>
-
 #include <glm/glm.hpp>
-#include <glad/glad.h>
-
-// Load a .DDS file using GLFW's own loader
-GLuint loadDDS(const char* imagepath);
+#include "Engine/Core/Base.h"
 
 namespace Engine {
 
@@ -16,7 +11,10 @@ namespace Engine {
 	public:
 		virtual ~Texture() = default;
 
-		virtual void Bind() const = 0;
+		virtual void Bind(uint32_t slot) const = 0;
 		virtual void Unbind() const = 0;
+
+		static Ref<Texture> Create(const char* filepath);
 	};
+
 }

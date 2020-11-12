@@ -1,12 +1,9 @@
 #pragma once
 
 #include "Engine/Renderer/Shader.h"
+#include "Engine/Renderer/Texture.h"
 #include "Engine/Renderer/VertexArray.h"
 #include "Engine/Renderer/Camera.h"
-
-// TODO: remove (temporary)
-using Texture = std::string;
-
 
 namespace Engine {
 

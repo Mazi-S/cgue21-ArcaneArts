@@ -22,7 +22,7 @@ void ExampleLayer::OnAttach()
 	std::vector<float> vertices;
 	std::vector<uint32_t> indices;
 
-	GLuint Texture = loadDDS("assets/textures/uvmap.DDS");
+	m_Texture = Engine::Texture::Create("assets/textures/uvmap.DDS");
 
 	bool res = loadOBJ("assets/objects/cube.obj", vertices, indices);
 	

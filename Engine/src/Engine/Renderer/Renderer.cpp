@@ -47,7 +47,7 @@ namespace Engine {
 		// ...
 
 		// Bind texture at slot 0
-		// texture->Bind(0);
+		texture->Bind(0);
 
 		// ...
 	}
