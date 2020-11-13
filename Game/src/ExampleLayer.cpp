@@ -6,6 +6,8 @@
 #include <glad/glad.h>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "Materials.h"
+
 ExampleLayer::ExampleLayer()
 	: Layer("Example")
 {
@@ -35,8 +37,8 @@ void ExampleLayer::OnAttach()
 	m_VA->AddVertexBuffer(vb);
 	m_VA->SetIndexBuffer(ib);
 
-	m_ShaderLibrary = Engine::CreateRef<Engine::ShaderLibrary>();
-	m_ShaderLibrary->Load("ColorShader", "assets/shaders/FlatColor.glsl");
+	m_RedMaterial = Engine::CreateRef<ColorMaterial>(glm::vec4{ 0.8f, 0.2f, 0.15f, 1.0f });
+	m_GreenMaterial = Engine::CreateRef<ColorMaterial>(glm::vec4{ 0.15f, 0.8f, 0.2f, 1.0f });
 	
 	m_CameraController = Engine::CreateRef<Engine::CameraController>();
 	m_Camera = Engine::CreateRef<Engine::SceneCamera>();
@@ -59,13 +61,19 @@ void ExampleLayer::OnUpdate(Engine::Timestep ts)
 	Engine::OpenGL::API::Clear();
 
 	// model matrix = translation * rotation * scale 
-	static glm::mat4 transform 
-		= glm::translate(glm::mat4(1.0f), { 0.0f, 0.0f, 0.0f })
+	static glm::mat4 transform1
+		= glm::translate(glm::mat4(1.0f), { -2.0f, 0.0f, 0.0f })
 		* glm::rotate(glm::mat4(1.0f), glm::radians(45.0f), { 0.5f, 0.7f, 0.2f })
 		* glm::scale(glm::mat4(1.0f), { 0.5f, 0.5f, 0.5f } );
 
+	static glm::mat4 transform2
+		= glm::translate(glm::mat4(1.0f), { 2.0f, 0.0f, 0.0f })
+		* glm::rotate(glm::mat4(1.0f), glm::radians(25.0f), { 0.1f, 0.5f, 0.2f })
+		* glm::scale(glm::mat4(1.0f), { 0.5f, 0.5f, 0.5f } );
+
 	Engine::Renderer::BeginScene(m_Camera, m_CameraController->temp_Transform);
-	Engine::Renderer::Submit(m_ShaderLibrary->Get("ColorShader"), m_VA, transform);
+	Engine::Renderer::Submit(m_RedMaterial, m_VA, transform1);
+	Engine::Renderer::Submit(m_GreenMaterial, m_VA, transform2);
 	Engine::Renderer::EndScene();
 }
 

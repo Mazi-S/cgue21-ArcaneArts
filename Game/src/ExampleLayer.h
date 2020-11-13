@@ -17,7 +17,8 @@ private:
 
 	Engine::Ref<Engine::VertexArray> m_VA;
 
-	Engine::Ref<Engine::ShaderLibrary> m_ShaderLibrary;
+	Engine::Ref<Engine::Material> m_RedMaterial;
+	Engine::Ref<Engine::Material> m_GreenMaterial;
 
 	Engine::Ref<Engine::SceneCamera> m_Camera;
 	Engine::Ref<Engine::CameraController> m_CameraController;

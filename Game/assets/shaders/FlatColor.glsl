@@ -5,7 +5,10 @@ layout(location = 0) in vec3 a_Position;
 layout(location = 1) in vec2 a_TexCoord;
 layout(location = 2) in vec3 a_Normals;
 
-uniform mat4 u_ViewProjection;
+layout (std140) uniform SceneData {
+	mat4 u_ViewProjection;
+};
+
 uniform mat4 u_Transform;
 uniform mat3 u_NormalMatrix;
 
@@ -20,7 +23,9 @@ void main() {
 #type fragment
 #version 330 core
 
-uniform vec4 u_Color;
+layout (std140) uniform MaterialData {
+	vec4 u_Color;
+};
 
 in vec3 v_Normals;
 
@@ -29,5 +34,5 @@ out vec4 color;
 void main() {
 	vec3 n = normalize(v_Normals);
 	
-	color += u_Color + n.x * 0.01;
+	color = u_Color + n.x * 0.01;
 }

@@ -74,6 +74,13 @@ namespace Engine::OpenGL {
 		glUseProgram(0);
 	}
 
+	void Shader::SetBlockBinding(const std::string& name, uint32_t bindingPoint)
+	{
+		GLint blockIndex = glGetUniformBlockIndex(m_RendererID, name.c_str());
+		ASSERT(blockIndex != GL_INVALID_INDEX, "'" + name + "' does not correspond to an active uniform block in this shader!", name);
+		glUniformBlockBinding(m_RendererID, blockIndex, bindingPoint);
+	}
+
 	void Shader::SetInt(const std::string& name, int value)
 	{
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());

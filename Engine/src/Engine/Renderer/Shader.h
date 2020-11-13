@@ -1,6 +1,8 @@
 #pragma once
 #include "Engine/Core/Base.h"
 
+#include "Engine/Renderer/Buffer.h"
+
 #include <string>
 #include <glm/glm.hpp>
 #include <unordered_map>
@@ -18,8 +20,7 @@ namespace Engine {
 		virtual void Bind() const = 0;
 		virtual void Unbind() const = 0;
 
-		// TODO: add UniformBuffers
-		// virtual void UploadUniformBuffer(const UniformBuffer& buffer)
+		virtual void SetBlockBinding(const std::string& name, uint32_t bindingPoint) = 0;
 
 		virtual void SetInt(const std::string& name, int value) = 0;
 		virtual void SetIntArray(const std::string& name, int* values, uint32_t count) = 0;
