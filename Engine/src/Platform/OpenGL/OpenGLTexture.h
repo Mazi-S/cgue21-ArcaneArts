@@ -16,7 +16,6 @@ namespace Engine::OpenGL {
 		virtual void Bind(uint32_t slot) const override;
 
 	private:
-		std::uint32_t LoadDDS(const char* filepath);
 		bool Load(const std::string& path);
 
 	private:
