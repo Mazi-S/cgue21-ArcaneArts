@@ -3,8 +3,9 @@
 
 #include <fstream>
 
-#include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
+
+#include <stb_image.h>
 
 #define FOURCC_DXT1 0x31545844 // Equivalent to "DXT1" in ASCII
 #define FOURCC_DXT3 0x33545844 // Equivalent to "DXT3" in ASCII
@@ -22,9 +23,10 @@ namespace Engine {
 namespace Engine::OpenGL {
 
 
-	Texture::Texture(const char* filepath)
+	Texture::Texture(const std::string& filepath)
 	{
-		m_TextureID = LoadDDS(filepath);
+		//m_TextureID = LoadDDS(filepath);
+		Load(filepath);
 	}
 
 	Texture::~Texture()
@@ -34,13 +36,7 @@ namespace Engine::OpenGL {
 
 	void Texture::Bind(uint32_t slot) const
 	{
-		glActiveTexture(slot);
-		glBindTexture(GL_TEXTURE_2D, m_TextureID);
-	}
-
-	void Texture::Unbind() const
-	{
-		glBindTexture(GL_TEXTURE_2D, 0);
+		glBindTextureUnit(slot, m_TextureID);
 	}
 
 	std::uint32_t Texture::LoadDDS(const char* filepath)
@@ -52,6 +48,7 @@ namespace Engine::OpenGL {
 		/* try to open the file */
 		fp = fopen(filepath, "rb");
 		if (fp == NULL) {
+			// todo: remove use logging lib. => e.g. LOG_INFO(msg)
 			printf("%s could not be opened. Are you in the right directory ? Don't forget to read the FAQ !\n", filepath); getchar();
 			return 0;
 		}
@@ -132,6 +129,30 @@ namespace Engine::OpenGL {
 		free(buffer);
 
 		return textureID;
+	}
+
+	bool Texture::Load(const std::string& path)
+	{
+		stbi_set_flip_vertically_on_load(1);
+		int width, height, channels;
+		unsigned char* data = stbi_load(path.c_str(), &width, &height, &channels, 0);
+
+		ASSERT(data, "Faild to load texture!");
+
+		m_Width = width;
+		m_Height = height;
+		m_InternalFormat = channels == 3 ? GL_RGB8 : GL_RGBA8;
+		m_DataFormat = channels == 3 ? GL_RGB : GL_RGBA;
+
+		glGenTextures(1, &m_TextureID);
+
+		glBindTexture(GL_TEXTURE_2D, m_TextureID);
+
+		glTexImage2D(GL_TEXTURE_2D, 0, m_InternalFormat, m_Width, m_Height, 0, m_DataFormat, GL_UNSIGNED_BYTE, data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+
+		stbi_image_free(data);
+		return true;
 	}
 
 }

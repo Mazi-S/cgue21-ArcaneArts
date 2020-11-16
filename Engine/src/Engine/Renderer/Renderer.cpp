@@ -55,7 +55,6 @@ namespace Engine {
 		vertexArray->Bind();
 
 		texture->Bind(0);
-
 		shader->SetInt("u_Texture", 0);
 
 		OpenGL::API::DrawIndexed(vertexArray, vertexArray->GetIndexBuffer()->GetCount());

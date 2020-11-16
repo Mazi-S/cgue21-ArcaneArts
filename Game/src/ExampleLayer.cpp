@@ -4,6 +4,7 @@
 #include <Engine/Renderer/Texture.h>
 #include <Engine/Renderer/ObjectLoader.h>
 
+#include <glm/gtc/matrix_transform.hpp>
 
 #include <glad/glad.h>
 
@@ -19,10 +20,11 @@ void ExampleLayer::OnAttach()
 
 	m_VA = Engine::VertexArray::Create();
 
+	m_BricksTexture = Engine::Texture::Create("assets/textures/Bricks.jpg");
+	m_WoodFloorTexture = Engine::Texture::Create("assets/textures/WoodFloor.jpg");
+
 	std::vector<float> vertices;
 	std::vector<uint32_t> indices;
-
-	m_Texture = Engine::Texture::Create("assets/textures/uvmap.DDS");
 
 	bool res = loadOBJ("assets/objects/cube.obj", vertices, indices);
 	
@@ -61,7 +63,8 @@ void ExampleLayer::OnUpdate(Engine::Timestep ts)
 	Engine::OpenGL::API::Clear();
 
 	Engine::Renderer::BeginScene(m_Camera, m_CameraController->temp_Transform);
-	Engine::Renderer::Submit(m_Shader, m_VA, m_Texture);
+	Engine::Renderer::Submit(m_Shader, m_VA, m_BricksTexture, glm::translate(glm::mat4(1.0f), glm::vec3(3.0f, 0.0f , -2.0f)));
+	Engine::Renderer::Submit(m_Shader, m_VA, m_WoodFloorTexture, glm::translate(glm::mat4(1.0f), glm::vec3(-3.0f, 0.0f, -2.0f)));
 	Engine::Renderer::EndScene();
 }
 
