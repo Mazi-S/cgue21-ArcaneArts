@@ -9,3 +9,7 @@ To manually clone the necessary submodules, use:
 
 ## Project Files
 To generate the project files, run: `scripts/GenerateProjects.bat`
+
+## Resources & Tutorials
+> [Uniform Buffers](https://www.lighthouse3d.com/tutorials/glsl-tutorial/uniform-blocks/)  
+> [Textures](https://learnopengl.com/Getting-started/Textures)
