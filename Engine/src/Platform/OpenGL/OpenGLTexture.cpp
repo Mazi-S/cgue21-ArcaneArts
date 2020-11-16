@@ -7,13 +7,9 @@
 
 #include <stb_image.h>
 
-#define FOURCC_DXT1 0x31545844 // Equivalent to "DXT1" in ASCII
-#define FOURCC_DXT3 0x33545844 // Equivalent to "DXT3" in ASCII
-#define FOURCC_DXT5 0x35545844 // Equivalent to "DXT5" in ASCII
-
 namespace Engine {
 
-	Ref<Texture> Texture::Create(const char* filepath)
+	Ref<Texture> Texture::Create(const std::string& filepath)
 	{
 		return CreateRef<OpenGL::Texture>(filepath);
 	}
@@ -25,7 +21,6 @@ namespace Engine::OpenGL {
 
 	Texture::Texture(const std::string& filepath)
 	{
-		//m_TextureID = LoadDDS(filepath);
 		Load(filepath);
 	}
 
@@ -41,6 +36,7 @@ namespace Engine::OpenGL {
 
 	bool Texture::Load(const std::string& path)
 	{
+		LOG_TRACE("Loading texture file {} ...", path);
 		stbi_set_flip_vertically_on_load(1);
 		int width, height, channels;
 		unsigned char* data = stbi_load(path.c_str(), &width, &height, &channels, 0);
@@ -60,6 +56,7 @@ namespace Engine::OpenGL {
 		glGenerateMipmap(GL_TEXTURE_2D);
 
 		stbi_image_free(data);
+		LOG_TRACE("File loaded successfully!");
 		return true;
 	}
 

@@ -28,6 +28,9 @@ layout (std140) uniform MaterialData {
 	vec4 u_Color;
 };
 
+uniform sampler2D u_Texture;
+
+
 in vec3 v_Normals;
 in vec2 v_TexCoord;
 
@@ -36,5 +39,5 @@ out vec4 color;
 void main() {
 	vec3 n = normalize(v_Normals);
 	
-	color = u_Color + n.x * 0.01;
+	color = texture(u_Texture, v_TexCoord) + n.x * 0.01;
 }
