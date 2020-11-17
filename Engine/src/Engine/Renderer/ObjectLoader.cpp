@@ -14,7 +14,7 @@ bool loadOBJ(
 	std::vector<float>& out_vertices,
 	std::vector<uint32_t>& out_indices
 ) {
-	LOG_TRACE("Loading OBJ file {}...", path);
+	LOG_TRACE("Loading OBJ file {} ...", path);
 
 	std::vector<unsigned int> temp_vertexIndices, temp_uvIndices, temp_normalIndices;
 	std::vector<glm::vec3> temp_vertices;

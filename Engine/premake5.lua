@@ -14,7 +14,9 @@ project "Engine"
 		"src/**.h",
 		"src/**.cpp",
 		"dependencies/glm/glm/**.hpp",
-		"dependencies/glm/glm/**.inl"
+		"dependencies/glm/glm/**.inl",
+		"dependencies/stb_image/**.h",
+		"dependencies/stb_image/**.cpp"
 	}
 
 	includedirs {
@@ -22,6 +24,7 @@ project "Engine"
 		"%{IncludeDir.spdlog}",
 		"%{IncludeDir.GLFW}",
 		"%{IncludeDir.Glad}",
+		"%{IncludeDir.stb_image}",
 		"%{IncludeDir.glm}"
 	}
 
