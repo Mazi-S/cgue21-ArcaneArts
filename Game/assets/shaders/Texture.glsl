@@ -38,6 +38,6 @@ out vec4 color;
 
 void main() {
 	vec3 n = normalize(v_Normals);
-	
+
 	color = texture(u_Texture, v_TexCoord) + n.x * 0.01;
 }
