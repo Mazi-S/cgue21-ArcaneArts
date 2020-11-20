@@ -3,6 +3,7 @@
 bin/
 bin-int/
 Game/assets/textures
+Game/assets/objects
 
 # Files
 *.user

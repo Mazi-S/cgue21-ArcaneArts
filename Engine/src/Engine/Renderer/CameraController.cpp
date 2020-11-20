@@ -19,9 +19,8 @@ namespace Engine {
 		//	Down:    LCtrl
 
 		//	Zoom:    Scroll
-		//	V FOV:   LAlt + Scroll
 
-		LOG_INFO("CameraController: Key Bindings\nMovement\n  Forward: W\n  Left:    A\n  Back:    S\n  Right:   D\n  Up:      Space\n  Down:    LCtrl\n\n  Zoom:    Scroll\n  V FOV:   LAlt + Scroll");
+		LOG_INFO("CameraController: Key Bindings\nMovement\n  Forward: W\n  Left:    A\n  Back:    S\n  Right:   D\n  Up:      Space\n  Down:    LCtrl\n\n  Zoom:    Scroll");
 	}
 
 	CameraController::CameraController()
@@ -59,7 +58,7 @@ namespace Engine {
 			m_EulerAngles.y -= (currentMouseX - m_MouseX) * (m_RotationSpeed + m_Zoom * 0.0004f);
 		}
 
-		temp_Transform = glm::translate(glm::mat4(1.0f), m_Translation) * glm::toMat4(glm::quat(m_EulerAngles)) * glm::translate(glm::mat4(1.0f), { 0.0f, 0.0f, m_Zoom });
+		m_Transform = glm::translate(glm::mat4(1.0f), m_Translation) * glm::toMat4(glm::quat(m_EulerAngles)) * glm::translate(glm::mat4(1.0f), { 0.0f, 0.0f, m_Zoom });
 
 		m_MouseX = currentMouseX;
 		m_MouseY = currentMouseY;
@@ -69,22 +68,10 @@ namespace Engine {
 	{
 		Engine::EventHandler eventHandler(event);
 		eventHandler.Handle<MouseScrolledEvent>(EG_BIND_EVENT_FN(CameraController::OnMouseScrolled));
-		eventHandler.Handle<WindowResizeEvent>(EG_BIND_EVENT_FN(CameraController::OnWindowResize));
 	}
 
 	bool CameraController::OnMouseScrolled(MouseScrolledEvent& e)
 	{
-		// Vertical FOV:  LAlt + Scroll
-		if (Engine::Input::IsKeyPressed(Key::LeftAlt))
-		{
-			float fov = temp_Camera->GetVerticalFOV();
-			fov -= e.GetYOffset() * 0.1f;
-			fov = std::max(fov, glm::quarter_pi<float>() * 0.5f);
-			fov = std::min(fov, glm::half_pi<float>());
-			temp_Camera->SetVerticalFOV(fov);
-			return false;
-		}
-
 		// Zoom: Scroll
 		m_Zoom -= e.GetYOffset() * m_ZoomSpeed;
 		m_Zoom = std::max(m_Zoom, 1.0f);
@@ -93,9 +80,4 @@ namespace Engine {
 		return false;
 	}
 
-	bool CameraController::OnWindowResize(WindowResizeEvent& e)
-	{
-		temp_Camera->SetViewportSize(e.GetWidth(), e.GetHeight());
-		return false;
-	}
 }

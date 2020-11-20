@@ -22,15 +22,14 @@ namespace Engine {
 		void OnUpdate(Timestep ts);
 		void OnEvent(Engine::Event& event);
 
-		// todo: move to tranform component
-		glm::mat4 temp_Transform{1.0f};
-		Ref<SceneCamera> temp_Camera;
+		const glm::mat4 GetTransform() const { return m_Transform; }
 
 	private:
 		bool OnMouseScrolled(MouseScrolledEvent& e);
-		bool OnWindowResize(WindowResizeEvent& e);
 
 	private:
+		glm::mat4 m_Transform{ 1.0f };
+
 		float m_TranslationSpeed = 7.0f;
 		float m_RotationSpeed = 0.0005f;
 		float m_ZoomSpeed = 1.0f;

@@ -73,6 +73,7 @@ namespace Engine::OpenGL {
 		}
 
 		m_VertexBuffers.push_back(vertexBuffer);
+		glBindVertexArray(0);
 	}
 
 	void VertexArray::SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer)
@@ -81,6 +82,8 @@ namespace Engine::OpenGL {
 		indexBuffer->Bind();
 
 		m_IndexBuffer = indexBuffer;
+
+		glBindVertexArray(0);
 	}
 
 }
