@@ -6,6 +6,8 @@ namespace Engine {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// ShaderLibrary //////////////////////////////////////////////////////////////////////////////
 
+	std::unordered_map<std::string, Ref<Shader>> ShaderLibrary::s_Shaders;
+
 	void ShaderLibrary::Add(const Ref<Shader>& shader)
 	{
 		auto& name = shader->GetName();
@@ -15,7 +17,7 @@ namespace Engine {
 	void ShaderLibrary::Add(const std::string& name, const Ref<Shader>& shader)
 	{
 		ASSERT(!Exists(name), "Shader already exists!");
-		m_Shaders[name] = shader;
+		s_Shaders[name] = shader;
 	}
 
 	Ref<Shader> ShaderLibrary::Load(const std::string& filepath)
@@ -35,12 +37,12 @@ namespace Engine {
 	Ref<Shader> ShaderLibrary::Get(const std::string& name)
 	{
 		ASSERT(Exists(name), "Shader not found!");
-		return m_Shaders[name];
+		return s_Shaders[name];
 	}
 
-	bool ShaderLibrary::Exists(const std::string& name) const
+	bool ShaderLibrary::Exists(const std::string& name)
 	{
-		return m_Shaders.find(name) != m_Shaders.end();
+		return s_Shaders.find(name) != s_Shaders.end();
 	}
 
 }
