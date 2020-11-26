@@ -5,7 +5,21 @@
 
 namespace Engine::OpenGL {
 
-	UniformBuffer::UniformBuffer(const UniformBufferLayout& layout)
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// BufferLayout - std140 //////////////////////////////////////////////////////////////////////
+
+	BufferLayout_std140::BufferLayout_std140(uint32_t size, const std::initializer_list<BufferElement>& elements)
+		: m_Size(size)
+	{
+		for (auto& element : elements)
+			m_Elements[element.Name] = element;
+	}
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// UniformBuffer //////////////////////////////////////////////////////////////////////////////
+
+	UniformBuffer::UniformBuffer(const BufferLayout_std140& layout)
 	{
 		m_Layout = layout;
 		glCreateBuffers(1, &m_RendererID);

@@ -11,8 +11,8 @@ namespace Engine {
 	void Renderer::Init()
 	{
 		OpenGL::API::Init();
-		s_SceneUB = UniformBuffer::Create({
-			{ShaderDataType::Mat4, "ViewProjection"}
+		s_SceneUB = UniformBuffer::Create(4 * 4 * 4, {
+			{ShaderDataType::Mat4, "ViewProjection", 0}
 		});
 	}
 

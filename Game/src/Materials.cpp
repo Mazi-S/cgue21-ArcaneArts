@@ -12,8 +12,8 @@ ColorMaterial::ColorMaterial(const glm::vec4& color)
 
 	m_Shader = Engine::ShaderLibrary::Get("ColorShader");
 
-	m_MaterialUB = Engine::UniformBuffer::Create({
-		{Engine::ShaderDataType::Float4, "Color"}
+	m_MaterialUB = Engine::UniformBuffer::Create(4 * 4, {
+		{Engine::ShaderDataType::Float4, "Color", 0}
 	});
 
 	m_MaterialUB->SetData(glm::value_ptr(color), "Color");
@@ -30,8 +30,8 @@ TextureMaterial::TextureMaterial(const std::string& filepath)
 	m_Shader = Engine::ShaderLibrary::Get("TextureShader");
 	m_Texture = Engine::Texture::Create(filepath);
 
-	m_MaterialUB = Engine::UniformBuffer::Create({
-		{Engine::ShaderDataType::Float4, "Color"}
+	m_MaterialUB = Engine::UniformBuffer::Create(4 * 4, {
+		{Engine::ShaderDataType::Float4, "Color", 0}
 	});
 	
 	
