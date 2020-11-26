@@ -28,7 +28,7 @@ namespace Engine {
 	class Material
 	{
 	public:
-		Material() = default; // todo: remove???
+		Material(const std::string& name, const glm::vec3& ambient, const glm::vec3& diffuse, const glm::vec3& specular, float shininess, const Ref<Shader>& shader);
 		virtual ~Material() = default;
 
 		Ref<Shader> GetShader() { return m_Shader; }
@@ -39,9 +39,6 @@ namespace Engine {
 		const std::string& GetName() const { return m_Name; };
 
 		static Ref<Material> Create(const MaterialProperties& properties, const Ref<Shader>& shader);
-
-		Material(const std::string& name, const glm::vec3& ambient, const glm::vec3& diffuse, const glm::vec3& specular, float shininess, const Ref<Shader>& shader);
-	protected:
 
 	protected:
 		std::string m_Name;
@@ -63,7 +60,6 @@ namespace Engine {
 	class TextureMaterial : public Material
 	{
 	public:
-		// todo: move to private
 		TextureMaterial(const std::string& name, const glm::vec3& ambient, const glm::vec3& diffuse, const glm::vec3& specular, float shininess, const Ref<Texture>& colorTex, const Ref<Shader>& shader);
 		
 		virtual void Bind() override;

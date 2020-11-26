@@ -52,16 +52,20 @@ namespace Engine {
 		m_BindingPoint++;
 	}
 
-	Ref<Material> Material::Create(const MaterialProperties& properties, const Ref<Shader>& shader)
+	Ref<Material> Material::Create(const MaterialProperties& props, const Ref<Shader>& shader)
 	{
-		if (properties.ColorTex_path != "")
+		if (props.ColorTex_path != "")
 		{
-			// todo: Use TextureLibrary
-			Ref<Texture> colorTex = Texture::Create(properties.ColorTex_path);
-			return CreateRef<TextureMaterial>(properties.Name, properties.Ambient, properties.Diffuse, properties.Specular, properties.Shininess, colorTex,shader);
+			Ref<Texture> colorTex;
+			if (TextureLibrary::ContainsPath(props.ColorTex_path))
+				colorTex = TextureLibrary::GetByPath(props.ColorTex_path);
+			else
+				colorTex = TextureLibrary::Load(props.ColorTex_path);
+			
+			return CreateRef<TextureMaterial>(props.Name, props.Ambient, props.Diffuse, props.Specular, props.Shininess, colorTex, shader);
 		}
 
-		return CreateRef<Material>(properties.Name, properties.Ambient, properties.Diffuse, properties.Specular, properties.Shininess, shader);
+		return CreateRef<Material>(props.Name, props.Ambient, props.Diffuse, props.Specular, props.Shininess, shader);
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
