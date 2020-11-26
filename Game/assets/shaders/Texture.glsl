@@ -25,11 +25,13 @@ void main() {
 #version 330 core
 
 layout (std140) uniform MaterialData {
-	vec4 u_Color;
+	vec3 u_Ambient;
+	vec3 u_Diffuse;
+	vec3 u_Specular;
+	float u_Shininess;
 };
 
 uniform sampler2D u_Texture;
-
 
 in vec3 v_Normals;
 in vec2 v_TexCoord;

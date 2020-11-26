@@ -25,7 +25,10 @@ void main() {
 #version 330 core
 
 layout (std140) uniform MaterialData {
-	vec4 u_Color;
+	vec3 u_Ambient;
+	vec3 u_Diffuse;
+	vec3 u_Specular;
+	float u_Shininess;
 };
 
 in vec3 v_Normals;
@@ -36,5 +39,5 @@ out vec4 color;
 void main() {
 	vec3 n = normalize(v_Normals);
 	
-	color = u_Color + n.x * 0.01;
+	color = vec4(u_Ambient, 1.0) + n.x * 0.01;
 }

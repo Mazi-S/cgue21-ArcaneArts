@@ -8,8 +8,6 @@
 #include <glad/glad.h>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "Materials.h"
-
 ExampleLayer::ExampleLayer()
 	: Layer("Example")
 {
@@ -60,11 +58,15 @@ void ExampleLayer::OnAttach()
 	m4a1VA->AddVertexBuffer(m4a1VB);
 	m4a1VA->SetIndexBuffer(m4a1IB);
 
+	// Load Shaders
+	Engine::ShaderLibrary::Load("TextureShader", "assets/shaders/Texture.glsl");
+	Engine::ShaderLibrary::Load("ColorShader", "assets/shaders/FlatColor.glsl");
+
 	// Create Materials
-	Engine::Ref<Engine::Material> redMaterial = Engine::CreateRef<ColorMaterial>(glm::vec4{ 0.8f, 0.2f, 0.15f, 1.0f });
-	Engine::Ref<Engine::Material> greenMaterial = Engine::CreateRef<ColorMaterial>(glm::vec4{ 0.15f, 0.8f, 0.2f, 1.0f });
-	Engine::Ref<Engine::Material> bricksMaterial = Engine::CreateRef<TextureMaterial>("assets/textures/Bricks.jpg");
-	Engine::Ref<Engine::Material> woodFloorMaterial = Engine::CreateRef<TextureMaterial>("assets/textures/WoodFloor.jpg");
+	Engine::Ref<Engine::Material> redMaterial = Engine::Material::Create(Engine::MaterialProperties("RedMaterial", { 0.8f, 0.15f, 0.2f }), Engine::ShaderLibrary::Get("ColorShader"));
+	Engine::Ref<Engine::Material> greenMaterial = Engine::Material::Create(Engine::MaterialProperties("GreenMaterial", { 0.2f, 0.8f, 0.15f }), Engine::ShaderLibrary::Get("ColorShader"));
+	Engine::Ref<Engine::Material> bricksMaterial = Engine::Material::Create(Engine::MaterialProperties("BricksMaterial", { 1.0f, 1.0f, 1.0f }, "assets/textures/Bricks.jpg"), Engine::ShaderLibrary::Get("TextureShader"));
+	Engine::Ref<Engine::Material> woodFloorMaterial = Engine::Material::Create(Engine::MaterialProperties("WoodFloorMaterial", { 1.0f, 1.0f, 1.0f }, "assets/textures/WoodFloor.jpg"), Engine::ShaderLibrary::Get("TextureShader"));
 	
 	// Create Scene
 	m_Scene = Engine::CreateRef<Engine::Scene>();
@@ -92,7 +94,7 @@ void ExampleLayer::OnAttach()
 		entity.GetComponent<Engine::TransformComponent>().Scale = { 0.5f, 0.5f, 0.5f };
 		entity.AddComponent<Engine::MaterialComponent>(bricksMaterial);
 		entity.AddComponent<Engine::MeshComponent>(cubeVA);
-
+		
 		entity = m_Scene->CreateEntity();
 		entity.GetComponent<Engine::TransformComponent>().Translation = { 2.0f, 0.0f, -3.0f };
 		entity.GetComponent<Engine::TransformComponent>().Rotation = { 0.7f, 0.5f, 0.9f };
