@@ -25,7 +25,7 @@ namespace Engine {
 	Material::Material(const std::string& name, const glm::vec3& ambient, const glm::vec3& diffuse, const glm::vec3& specular, float shininess, const Ref<Shader>& shader)
 		: m_Name(name), m_Ambient(ambient), m_Diffuse(diffuse), m_Specular(specular), m_Shininess(shininess), m_Shader(shader)
 	{
-		m_MaterialUB = Engine::UniformBuffer::Create(4 * 4 * 3, {
+		m_MaterialUB = UniformBuffer::Create(4 * 4 * 3, {
 			{ShaderDataType::Float3, "Ambient", 0},
 			{ShaderDataType::Float3, "Diffuse", 4 * 4},
 			{ShaderDataType::Float3, "Specular", 4 * 4 * 2},
@@ -77,7 +77,7 @@ namespace Engine {
 
 	void TextureMaterial::Bind()
 	{
-		Engine::Material::Bind();
+		Material::Bind();
 		m_ColorTexture->Bind();
 	}
 

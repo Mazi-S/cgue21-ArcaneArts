@@ -23,6 +23,14 @@ namespace Engine {
 			return m_Scene->m_Registry.emplace<T>(m_EntityHandle, std::forward<Args>(args)...);
 		}
 
+		template <typename T, typename... Args>
+		void AddNativeScript(Args&&... args)
+		{
+			ASSERT(!HasComponent<NativeScriptComponent>(), "Entity already has a native script!");
+			NativeScriptComponent& nsc = m_Scene->m_Registry.emplace<NativeScriptComponent>(m_EntityHandle);
+			nsc.Bind<T>(Entity(m_EntityHandle, m_Scene), std::forward<Args>(args)...);
+		}
+
 		template <typename T>
 		T& GetComponent()
 		{
@@ -41,6 +49,12 @@ namespace Engine {
 		{
 			ASSERT(HasComponent<T>(), "Entity does not have component!");
 			m_Scene->m_Registry.remove<T>(m_EntityHandle);
+		}
+
+		void Destroy()
+		{
+			m_Scene->DestroyEntity(Entity(m_EntityHandle, m_Scene));
+			m_Scene = nullptr;
 		}
 
 		operator bool() const { return m_EntityHandle != entt::null; }

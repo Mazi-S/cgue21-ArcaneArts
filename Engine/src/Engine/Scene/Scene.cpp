@@ -13,8 +13,15 @@
 
 namespace Engine {
 
+	static void UnbindScript(entt::registry& registry, entt::entity entity)
+	{
+		registry.get<NativeScriptComponent>(entity).Unbind();
+	}
+
 	Scene::Scene()
 	{
+		m_Registry.on_destroy<NativeScriptComponent>().connect<&UnbindScript>();
+
 		m_SpectatorController = CreateRef<Engine::CameraController>();
 		m_SpectatorCamera = CreateRef<Engine::SceneCamera>();
 		m_SpectatorCamera->SetViewportSize(Application::Get().GetWindow().GetWidth(), Application::Get().GetWindow().GetHeight());
@@ -43,8 +50,9 @@ namespace Engine {
 		if (m_Spectator)
 			m_SpectatorController->OnUpdate(ts);
 
-		// todo: physics..
+		m_Registry.view<NativeScriptComponent>().each([=](auto entity, auto& nsc) { nsc.Instance->OnUpdate(ts); });
 
+		// todo: physics..
 
 	}
 
@@ -65,13 +73,12 @@ namespace Engine {
 
 	void Scene::OnEvent(Event& event)
 	{
-		Engine::EventHandler eventHandler(event);
+		EventHandler eventHandler(event);
 		eventHandler.Handle<WindowResizeEvent>(EG_BIND_EVENT_FN(Scene::OnWindowResize));
 
 		if (m_Spectator && m_SceneHovered)
 			m_SpectatorController->OnEvent(event);
 	}
-
 
 	bool Scene::OnWindowResize(WindowResizeEvent& e)
 	{

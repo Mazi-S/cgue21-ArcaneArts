@@ -13,6 +13,13 @@ public:
 
 	virtual void OnEvent(Engine::Event& event) override;
 
+	bool OnKeyPressed(Engine::KeyPressedEvent& event);
+
+	void CreateMagicBall();
+
+	// todo: remove (use MeshLibrary)
+	Engine::Ref<Engine::VertexArray> m_MagicBallVA;
+
 private:
 	Engine::Ref<Engine::Scene> m_Scene;
 };

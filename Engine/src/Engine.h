@@ -7,6 +7,11 @@
 
 #include "Engine/Core/Timestep.h"
 
+#include "Engine/Events/Event.h"
+#include "Engine/Events/ApplicationEvent.h"
+#include "Engine/Events/KeyEvent.h"
+#include "Engine/Events/MouseEvent.h"
+
 #include "Engine/Core/KeyCodes.h"
 #include "Engine/Core/MouseCodes.h"
 #include "Engine/Core/Input.h"
@@ -28,3 +33,4 @@
 #include "Engine/Scene/Scene.h"
 #include "Engine/Scene/Entity.h"
 #include "Engine/Scene/Components.h"
+#include "Engine/Scene/ScriptableEntity.h"

@@ -6,6 +6,7 @@
 
 #include "Engine/Renderer/VertexArray.h"
 #include "Engine/Renderer/Material.h"
+#include "Engine/Scene/ScriptableEntity.h"
 
 namespace Engine {
 
@@ -76,6 +77,30 @@ namespace Engine {
 		MaterialComponent(const MaterialComponent&) = default;
 		MaterialComponent(Ref<Engine::Material> material)
 			: Material(material) { }
+	};
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// NativeScriptComponent //////////////////////////////////////////////////////////////////////
+
+	struct NativeScriptComponent
+	{
+		ScriptableEntity* Instance = nullptr;
+
+		ScriptableEntity* (*InstantiateScript)();
+		void (*DestroyScript)(NativeScriptComponent*);
+
+		template <typename T, typename... Args>
+		void Bind(Args&&... args)
+		{
+			Instance = static_cast<ScriptableEntity*>(new T(std::forward<Args>(args)...));
+			Instance->OnCreate();
+		}
+
+		void Unbind()
+		{
+			delete Instance;
+			Instance = nullptr;
+		}
 	};
 
 }
