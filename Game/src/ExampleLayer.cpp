@@ -84,10 +84,20 @@ void ExampleLayer::OnAttach()
 	Engine::ShaderLibrary::Load("ColorShader", "assets/shaders/FlatColor.glsl");
 
 	// Create Materials
-	Engine::Ref<Engine::Material> redMaterial = Engine::Material::Create(Engine::MaterialProperties("RedMaterial", { 0.8f, 0.15f, 0.2f }), Engine::ShaderLibrary::Get("ColorShader"));
-	Engine::Ref<Engine::Material> greenMaterial = Engine::Material::Create(Engine::MaterialProperties("GreenMaterial", { 0.2f, 0.8f, 0.15f }), Engine::ShaderLibrary::Get("ColorShader"));
-	Engine::Ref<Engine::Material> bricksMaterial = Engine::Material::Create(Engine::MaterialProperties("BricksMaterial", { 1.0f, 1.0f, 1.0f }, "assets/textures/Bricks.jpg"), Engine::ShaderLibrary::Get("TextureShader"));
-	Engine::Ref<Engine::Material> woodFloorMaterial = Engine::Material::Create(Engine::MaterialProperties("WoodFloorMaterial", { 1.0f, 1.0f, 1.0f }, "assets/textures/WoodFloor.jpg"), Engine::ShaderLibrary::Get("TextureShader"));
+	{
+		auto redMaterial = Engine::Material::Create(Engine::MaterialProperties("RedMaterial", { 0.8f, 0.15f, 0.2f }), Engine::ShaderLibrary::Get("ColorShader"));
+		auto greenMaterial = Engine::Material::Create(Engine::MaterialProperties("GreenMaterial", { 0.2f, 0.8f, 0.15f }), Engine::ShaderLibrary::Get("ColorShader"));
+		auto bricksMaterial = Engine::Material::Create(Engine::MaterialProperties("BricksMaterial", { 1.0f, 1.0f, 1.0f }, "assets/textures/Bricks.jpg"), Engine::ShaderLibrary::Get("TextureShader"));
+		auto woodFloorMaterial = Engine::Material::Create(Engine::MaterialProperties("WoodFloorMaterial", { 1.0f, 1.0f, 1.0f }, "assets/textures/WoodFloor.jpg"), Engine::ShaderLibrary::Get("TextureShader"));
+		
+		Engine::MaterialLibrary::Add(redMaterial);
+		Engine::MaterialLibrary::Add(greenMaterial);
+		Engine::MaterialLibrary::Add(bricksMaterial);
+		Engine::MaterialLibrary::Add(woodFloorMaterial);
+
+		Engine::MaterialLibrary::Add(Engine::Material::Create(Engine::MaterialProperties("MagicBall", { 0.7f, 0.7f, 0.7f }), Engine::ShaderLibrary::Get("ColorShader")));
+		Engine::MaterialLibrary::Add(Engine::Material::Create(Engine::MaterialProperties("MagicBallRed", { 0.55f, 0.15f, 0.2f }), Engine::ShaderLibrary::Get("ColorShader")));
+	}
 	
 	// Create Scene
 	m_Scene = Engine::CreateRef<Engine::Scene>();
@@ -99,35 +109,35 @@ void ExampleLayer::OnAttach()
 		entity.GetComponent<Engine::TransformComponent>().Translation = { -2.0f, 0.0f, 0.0f };
 		entity.GetComponent<Engine::TransformComponent>().Rotation = { 0.2f, 0.4f, 0.1f };
 		entity.GetComponent<Engine::TransformComponent>().Scale = { 0.5f, 0.5f, 0.5f };
-		entity.AddComponent<Engine::MaterialComponent>(redMaterial);
+		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("RedMaterial"));
 		entity.AddComponent<Engine::MeshComponent>(cubeVA);
 
 		entity = m_Scene->CreateEntity();
 		entity.GetComponent<Engine::TransformComponent>().Translation = { 2.0f, 0.0f, 0.0f };
 		entity.GetComponent<Engine::TransformComponent>().Rotation = { 0.5f, 0.4f, 0.2f };
 		entity.GetComponent<Engine::TransformComponent>().Scale = { 0.5f, 0.5f, 0.5f };
-		entity.AddComponent<Engine::MaterialComponent>(greenMaterial);
+		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("GreenMaterial"));
 		entity.AddComponent<Engine::MeshComponent>(cubeVA);
 
 		entity = m_Scene->CreateEntity();
 		entity.GetComponent<Engine::TransformComponent>().Translation = { -2.0f, 0.0f, -3.0f };
 		entity.GetComponent<Engine::TransformComponent>().Rotation = { 0.2f, 0.2f, 0.7f };
 		entity.GetComponent<Engine::TransformComponent>().Scale = { 0.5f, 0.5f, 0.5f };
-		entity.AddComponent<Engine::MaterialComponent>(bricksMaterial);
+		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("BricksMaterial"));
 		entity.AddComponent<Engine::MeshComponent>(cubeVA);
 		
 		entity = m_Scene->CreateEntity();
 		entity.GetComponent<Engine::TransformComponent>().Translation = { 2.0f, 0.0f, -3.0f };
 		entity.GetComponent<Engine::TransformComponent>().Rotation = { 0.7f, 0.5f, 0.9f };
 		entity.GetComponent<Engine::TransformComponent>().Scale = { 0.5f, 0.5f, 0.5f };
-		entity.AddComponent<Engine::MaterialComponent>(woodFloorMaterial);
+		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("WoodFloorMaterial"));
 		entity.AddComponent<Engine::MeshComponent>(cubeVA);
 
 		entity = m_Scene->CreateEntity();
-		entity.GetComponent<Engine::TransformComponent>().Translation = { -0.5f, 2.0f, 0.0f };
-		entity.GetComponent<Engine::TransformComponent>().Rotation = { 0.0f, 2.0f, 0.0f };
+		entity.GetComponent<Engine::TransformComponent>().Translation = { -0.0f, 2.0f, 2.0f };
+		entity.GetComponent<Engine::TransformComponent>().Rotation = { 0.0f, 3.1f, 0.0f };
 		entity.GetComponent<Engine::TransformComponent>().Scale = { 0.1f, 0.1f, 0.1f };
-		entity.AddComponent<Engine::MaterialComponent>(redMaterial);
+		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("RedMaterial"));
 		entity.AddComponent<Engine::MeshComponent>(m4a1VA);
 	}
 
@@ -140,7 +150,6 @@ void ExampleLayer::OnDetach()
 
 void ExampleLayer::OnUpdate(Engine::Timestep ts)
 {
-
 	// Update here
 	m_Scene->OnUpdate(ts);
 
@@ -168,13 +177,11 @@ bool ExampleLayer::OnKeyPressed(Engine::KeyPressedEvent& event)
 void ExampleLayer::CreateMagicBall()
 {
 	// todo: MaterialLibrary and MeshLibrary
-	// MaterialLibrary.Get("MagicBall");
 	// MeshLibrary.Get("MagicBall");
-	static Engine::Ref<Engine::Material> material = Engine::Material::Create(Engine::MaterialProperties("MagicBallMaterial",{ 0.8f, 0.8f, 0.8f }), Engine::ShaderLibrary::Get("ColorShader"));
 	static Engine::Ref<Engine::VertexArray> vertexArray = m_MagicBallVA;
 
 	Engine::Entity ball = m_Scene->CreateEntity("MagicBall");
-	ball.AddComponent<Engine::MaterialComponent>(material);
+	ball.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("MagicBall"));
 	ball.AddComponent<Engine::MeshComponent>(vertexArray);
 
 	// todo: get characters position and orientation

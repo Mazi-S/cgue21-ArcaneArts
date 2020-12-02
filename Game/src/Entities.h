@@ -26,10 +26,10 @@ public:
 		// just for testing
 		if (m_Lifetime < 0.3f)
 		{
-			static Engine::Ref<Engine::Material> material = Engine::Material::Create(Engine::MaterialProperties("RedMagicBallMaterial", { 0.8f, 0.12f, 0.18f }), Engine::ShaderLibrary::Get("ColorShader"));
 			glm::vec3 scale = glm::vec3(2.0f + 10.0f * m_Lifetime);
 			GetComponent<Engine::TransformComponent>().Scale = scale;
-			GetComponent<Engine::MaterialComponent>().Material = material;
+			GetComponent<Engine::MaterialComponent>().Material = Engine::MaterialLibrary::Get("MagicBallRed");
+			m_Velocity = glm::vec3(0.0f);
 		}
 
 		if (m_Lifetime < 0.0f)

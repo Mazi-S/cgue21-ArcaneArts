@@ -68,6 +68,22 @@ namespace Engine {
 		Ref<Texture> m_ColorTexture;
 	};
 
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// MaterialLibrary ////////////////////////////////////////////////////////////////////////////
+
+	class MaterialLibrary
+	{
+	public:
+		static void Add(const Ref<Material>& material);
+		static void Add(const std::vector<Ref<Material>>& materials);
+
+		static Ref<Material> Get(const std::string& name);
+		static bool Exists(const std::string& name);
+
+	private:
+		static std::unordered_map<std::string, Ref<Material>> s_Materials;
+	};
+
 }
 
 
