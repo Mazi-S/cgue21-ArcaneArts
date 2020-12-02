@@ -20,9 +20,11 @@ void ExampleLayer::OnAttach()
 	Engine::OpenGL::API::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 
 	// Load Meshes
-	auto cube = Engine::LoadMesh("Cube", "assets/objects/cube.obj");
-	auto m4a1 = Engine::LoadMesh("M4A1", "assets/objects/m4a1.obj");
-	m_Sphere = Engine::LoadMesh("Sphere", "assets/objects/sphere.obj");
+	{
+		Engine::MeshLibrary::Load("Cube", "assets/objects/cube.obj");
+		Engine::MeshLibrary::Load("M4A1", "assets/objects/m4a1.obj");
+		Engine::MeshLibrary::Load("Sphere", "assets/objects/sphere.obj");
+	}
 
 	// Load Shaders
 	Engine::ShaderLibrary::Load("TextureShader", "assets/shaders/Texture.glsl");
@@ -55,35 +57,35 @@ void ExampleLayer::OnAttach()
 		entity.GetComponent<Engine::TransformComponent>().Rotation = { 0.2f, 0.4f, 0.1f };
 		entity.GetComponent<Engine::TransformComponent>().Scale = { 0.5f, 0.5f, 0.5f };
 		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("RedMaterial"));
-		entity.AddComponent<Engine::MeshComponent>(cube);
+		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Cube"));
 
 		entity = m_Scene->CreateEntity();
 		entity.GetComponent<Engine::TransformComponent>().Translation = { 2.0f, 0.0f, 0.0f };
 		entity.GetComponent<Engine::TransformComponent>().Rotation = { 0.5f, 0.4f, 0.2f };
 		entity.GetComponent<Engine::TransformComponent>().Scale = { 0.5f, 0.5f, 0.5f };
 		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("GreenMaterial"));
-		entity.AddComponent<Engine::MeshComponent>(cube);
+		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Cube"));
 
 		entity = m_Scene->CreateEntity();
 		entity.GetComponent<Engine::TransformComponent>().Translation = { -2.0f, 0.0f, -3.0f };
 		entity.GetComponent<Engine::TransformComponent>().Rotation = { 0.2f, 0.2f, 0.7f };
 		entity.GetComponent<Engine::TransformComponent>().Scale = { 0.5f, 0.5f, 0.5f };
 		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("BricksMaterial"));
-		entity.AddComponent<Engine::MeshComponent>(cube);
-		
+		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Cube"));
+
 		entity = m_Scene->CreateEntity();
 		entity.GetComponent<Engine::TransformComponent>().Translation = { 2.0f, 0.0f, -3.0f };
 		entity.GetComponent<Engine::TransformComponent>().Rotation = { 0.7f, 0.5f, 0.9f };
 		entity.GetComponent<Engine::TransformComponent>().Scale = { 0.5f, 0.5f, 0.5f };
 		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("WoodFloorMaterial"));
-		entity.AddComponent<Engine::MeshComponent>(cube);
+		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Cube"));
 
 		entity = m_Scene->CreateEntity();
 		entity.GetComponent<Engine::TransformComponent>().Translation = { -0.0f, 2.0f, 2.0f };
 		entity.GetComponent<Engine::TransformComponent>().Rotation = { 0.0f, 3.1f, 0.0f };
 		entity.GetComponent<Engine::TransformComponent>().Scale = { 0.1f, 0.1f, 0.1f };
 		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("RedMaterial"));
-		entity.AddComponent<Engine::MeshComponent>(m4a1);
+		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("M4A1"));
 	}
 
 }
@@ -121,12 +123,9 @@ bool ExampleLayer::OnKeyPressed(Engine::KeyPressedEvent& event)
 
 void ExampleLayer::CreateMagicBall()
 {
-	// todo: MaterialLibrary and MeshLibrary
-	// MeshLibrary.Get("MagicBall");
-
 	Engine::Entity ball = m_Scene->CreateEntity("MagicBall");
 	ball.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("MagicBall"));
-	ball.AddComponent<Engine::MeshComponent>(m_Sphere);
+	ball.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Sphere"));
 
 	// todo: get characters position and orientation
 	glm::vec3 position = glm::vec3(0.0f, 0.0f, 5.0f);

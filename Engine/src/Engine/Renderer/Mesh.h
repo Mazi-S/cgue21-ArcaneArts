@@ -47,6 +47,21 @@ namespace Engine {
 		Ref<VertexArray> m_VertexArray;
 	};
 
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// MeshLibrary ////////////////////////////////////////////////////////////////////////////////
+
+	class MeshLibrary
+	{
+	public:
+		static void Add(const Ref<Mesh>& mesh);
+		static Ref<Mesh> Load(const std::string& name, const std::string& filepath);
+
+		static Ref<Mesh> Get(const std::string& name);
+		static bool Exists(const std::string& name);
+
+	private:
+		static std::unordered_map<std::string, Ref<Mesh>> s_Meshes;
+	};
 }
 
 

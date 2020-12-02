@@ -11,12 +11,17 @@
 
 namespace Engine {
 
-	bool loadOBJ(
-		const char* path,
-		std::vector<float>& out_vertices,
-		std::vector<uint32_t>& out_indices
-	);
+	class ObjectLoader
+	{
+	public:
+		static bool loadOBJ(
+			const char* path,
+			std::vector<float>& out_vertices,
+			std::vector<uint32_t>& out_indices
+		);
 
-	Ref<Mesh> LoadMesh(const std::string& name, const std::string& path);
+		static Ref<Mesh> LoadMesh(const std::string& name, const std::string& path);
+
+	};
 
 }

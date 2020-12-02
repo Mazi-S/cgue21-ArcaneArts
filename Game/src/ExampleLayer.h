@@ -17,9 +17,6 @@ public:
 
 	void CreateMagicBall();
 
-	// todo: remove (use MeshLibrary)
-	Engine::Ref<Engine::Mesh> m_Sphere;
-
 private:
 	Engine::Ref<Engine::Scene> m_Scene;
 };

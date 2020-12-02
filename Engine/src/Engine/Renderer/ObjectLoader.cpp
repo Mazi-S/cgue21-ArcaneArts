@@ -11,7 +11,7 @@
 
 namespace Engine {
 
-	bool loadOBJ(
+	bool ObjectLoader::loadOBJ(
 		const char* path,
 		std::vector<float>& out_vertices,
 		std::vector<uint32_t>& out_indices
@@ -105,7 +105,7 @@ namespace Engine {
 		return true;
 	}
 
-	Ref<Mesh> LoadMesh(const std::string& name, const std::string& path)
+	Ref<Mesh> ObjectLoader::LoadMesh(const std::string& name, const std::string& path)
 	{
 		std::vector<float> vertices;
 		std::vector<uint32_t> indices;
