@@ -33,7 +33,7 @@ namespace Engine {
 		// lights...
 	}
 
-	void Renderer::Submit(const Ref<Material>& material, const Ref<VertexArray>& vertexArray, const glm::mat4& transform)
+	void Renderer::Submit(const Ref<VertexArray>& vertexArray, const Ref<Material>& material, const glm::mat4& transform)
 	{
 		// once per material
 		material->Bind();
@@ -48,6 +48,12 @@ namespace Engine {
 
 		vertexArray->Bind();
 		OpenGL::API::DrawIndexed(vertexArray, vertexArray->GetIndexBuffer()->GetCount());
+	}
+
+	void Renderer::Submit(const Ref<Mesh>& mesh, const Ref<Material>& material, const glm::mat4& transform)
+	{
+		for(auto& submesh : mesh->GetSubmeshes())
+			Submit(submesh->GetVertexArray(), material, transform);
 	}
 
 }

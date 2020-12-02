@@ -4,7 +4,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/quaternion.hpp>
 
-#include "Engine/Renderer/VertexArray.h"
+#include "Engine/Renderer/Mesh.h"
 #include "Engine/Renderer/Material.h"
 #include "Engine/Scene/ScriptableEntity.h"
 
@@ -54,14 +54,14 @@ namespace Engine {
 
 	struct MeshComponent
 	{
-		Ref<Engine::VertexArray> VertexArray;
+		Ref<Engine::Mesh> Mesh;
 
-		operator Ref<Engine::VertexArray>() { return VertexArray; }
+		operator Ref<Engine::Mesh>() { return Mesh; }
 
 		MeshComponent() = default;
 		MeshComponent(const MeshComponent&) = default;
-		MeshComponent(Ref<Engine::VertexArray> vertexArray)
-			: VertexArray(vertexArray) { }
+		MeshComponent(Ref<Engine::Mesh> mesh)
+			: Mesh(mesh) { }
 	};
 
 	///////////////////////////////////////////////////////////////////////////////////////////////

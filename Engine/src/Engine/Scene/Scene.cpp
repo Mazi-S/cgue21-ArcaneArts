@@ -65,7 +65,7 @@ namespace Engine {
 			for (auto entity : group)
 			{
 				auto [transform, material, mesh] = group.get<TransformComponent, MaterialComponent, MeshComponent>(entity);
-				Renderer::Submit(material, mesh, transform);
+				Renderer::Submit(mesh, material, transform);
 			}
 		}
 		Renderer::EndScene();
