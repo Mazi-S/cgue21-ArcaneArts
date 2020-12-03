@@ -28,6 +28,11 @@ void main() {
 #type fragment
 #version 330 core
 
+layout (std140) uniform SceneData {
+	mat4 u_ViewProjection;
+	vec3 u_CameraPosition;
+};
+
 layout (std140) uniform MaterialData {
 	vec3 u_Ambient;
 	vec3 u_Diffuse;
