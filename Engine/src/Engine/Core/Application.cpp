@@ -85,7 +85,7 @@ namespace Engine {
 	{
 		if (e.GetWidth() == 0 || e.GetHeight() == 0) {
 			m_Minimized = true;
-			return false;
+			return true;
 		}
 		m_Minimized = false;
 		Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());

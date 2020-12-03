@@ -7,6 +7,7 @@ layout(location = 2) in vec3 a_Normals;
 
 layout (std140) uniform SceneData {
 	mat4 u_ViewProjection;
+	vec3 u_CameraPosition;
 };
 
 uniform mat4 u_Transform;
@@ -23,6 +24,11 @@ void main() {
 
 #type fragment
 #version 330 core
+
+layout (std140) uniform SceneData {
+	mat4 u_ViewProjection;
+	vec3 u_CameraPosition;
+};
 
 layout (std140) uniform MaterialData {
 	vec3 u_Ambient;
