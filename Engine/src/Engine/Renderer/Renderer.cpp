@@ -11,8 +11,9 @@ namespace Engine {
 	void Renderer::Init()
 	{
 		OpenGL::API::Init();
-		s_SceneUB = UniformBuffer::Create(4 * 4 * 4, {
-			{ShaderDataType::Mat4, "ViewProjection", 0}
+		s_SceneUB = UniformBuffer::Create(4 * 4 * 5, {
+			{ShaderDataType::Mat4, "ViewProjection", 0},
+			{ShaderDataType::Float3, "CameraPosition", 4 * 4 * 4}
 		});
 	}
 
@@ -29,6 +30,9 @@ namespace Engine {
 	{
 		glm::mat4 viewProjectionMatrix = camera->GetProjection() * glm::inverse(transform);
 		s_SceneUB->SetData(glm::value_ptr(viewProjectionMatrix), "ViewProjection");
+
+		glm::vec3 cameraPos = { transform[3][0], transform[3][1], transform[3][2] };
+		s_SceneUB->SetData(glm::value_ptr(cameraPos), "CameraPosition");
 
 		// lights...
 	}
