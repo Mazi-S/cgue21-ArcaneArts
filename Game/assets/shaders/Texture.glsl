@@ -16,7 +16,6 @@ uniform mat3 u_NormalMatrix;
 out vec3 v_Position;
 out vec3 v_Normals;
 out vec2 v_TexCoord;
-out vec3 v_CameraPosition;
 
 void main() {
 	v_Normals = u_NormalMatrix * a_Normals;
@@ -45,7 +44,6 @@ uniform sampler2D u_Texture;
 in vec3 v_Position;
 in vec3 v_Normals;
 in vec2 v_TexCoord;
-in vec3 v_CameraPosition;
 
 out vec4 color;
 
@@ -57,7 +55,7 @@ vec3 CalcDirLight(vec3 dirLightDir, vec3 dirLightColor, vec3 normal, vec3 viewDi
 void main() {
 	// normalize normal
 	vec3 normal = normalize(v_Normals);
-	vec3 viewDir = normalize(v_CameraPosition - v_Position);
+	vec3 viewDir = normalize(u_CameraPosition - v_Position);
 
 	// ambient
 	vec3 resultAmbient = u_Ambient * vec3(1.0f, 1.0f, 1.0f);
