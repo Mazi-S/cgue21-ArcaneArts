@@ -37,11 +37,6 @@ namespace Engine {
 	private:
 		entt::registry m_Registry;
 
-		// Spectator
-		bool m_Spectator = true;
-		Ref<SceneCamera> m_SpectatorCamera;
-		Ref<CameraController> m_SpectatorController;
-
 		uint32_t m_ViewportWidth = 0, m_ViewportHeight = 0;
 
 		bool m_SceneFocused = true, m_SceneHovered = true;

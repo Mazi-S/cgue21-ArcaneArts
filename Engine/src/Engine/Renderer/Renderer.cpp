@@ -26,12 +26,12 @@ namespace Engine {
 		OpenGL::API::SetViewport(0, 0, width, height);
 	}
 
-	void Renderer::BeginScene(const Ref<Camera>& camera, const glm::mat4& transform)
+	void Renderer::BeginScene(const Camera& camera)
 	{
-		glm::mat4 viewProjectionMatrix = camera->GetProjection() * glm::inverse(transform);
+		glm::mat4 viewProjectionMatrix = camera.Projection * glm::inverse(camera.Transform);
 		s_SceneUB->SetData(glm::value_ptr(viewProjectionMatrix), "ViewProjection");
 
-		glm::vec3 cameraPos = { transform[3][0], transform[3][1], transform[3][2] };
+		glm::vec3 cameraPos = { camera.Transform[3][0], camera.Transform[3][1], camera.Transform[3][2] };
 		s_SceneUB->SetData(glm::value_ptr(cameraPos), "CameraPosition");
 
 		// lights...

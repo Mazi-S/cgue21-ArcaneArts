@@ -49,6 +49,11 @@ void ExampleLayer::OnAttach()
 	// Create Scene
 	m_Scene = Engine::CreateRef<Engine::Scene>();
 
+	// Character
+	Engine::Entity character = m_Scene->CreateEntity();
+	character.AddComponent<Engine::CharacterControllerComponent>();
+	character.AddComponent<Engine::CameraComponent>();
+
 	// Add objects to the Scene
 	{
 		Engine::Entity entity;

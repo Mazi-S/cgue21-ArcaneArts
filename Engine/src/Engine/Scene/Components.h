@@ -105,8 +105,11 @@ namespace Engine {
 
 	struct CharacterControllerComponent
 	{
-		//CharacterController Controller;
-		bool Active;
+		bool Active = true;
+
+		float TranslationSpeed = 7.0f;
+		float RotationSpeed = 0.0005f;
+		float MouseX = 0, MouseY = 0;
 
 		CharacterControllerComponent() = default;
 		CharacterControllerComponent(const CharacterControllerComponent&) = default;
@@ -117,7 +120,12 @@ namespace Engine {
 
 	struct CameraComponent
 	{
-		SceneCamera Camera;
+		glm::mat4 Projection = glm::mat4(1.0f);
+
+		float FOV = glm::radians(45.0f);
+		float Near = 0.01f, Far = 1000.0f;
+
+		float AspectRatio = 1.0f;
 
 		CameraComponent() = default;
 		CameraComponent(const CameraComponent&) = default;

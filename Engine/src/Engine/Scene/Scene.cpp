@@ -4,6 +4,8 @@
 #include "Engine/Core/Application.h"
 
 #include "Components.h"
+#include "Systems.h"
+
 #include "Engine/Renderer/Renderer.h"
 #include "Engine/Scene/Entity.h"
 
@@ -22,9 +24,8 @@ namespace Engine {
 	{
 		m_Registry.on_destroy<NativeScriptComponent>().connect<&UnbindScript>();
 
-		m_SpectatorController = CreateRef<Engine::CameraController>();
-		m_SpectatorCamera = CreateRef<Engine::SceneCamera>();
-		m_SpectatorCamera->SetViewportSize(Application::Get().GetWindow().GetWidth(), Application::Get().GetWindow().GetHeight());
+		// todo
+		//m_SpectatorCamera->SetViewportSize(Application::Get().GetWindow().GetWidth(), Application::Get().GetWindow().GetHeight());
 	}
 
 	Scene::~Scene()
@@ -47,12 +48,10 @@ namespace Engine {
 	void Scene::OnUpdate(Timestep ts)
 	{
 		// Update
-		if (m_Spectator)
-			m_SpectatorController->OnUpdate(ts);
+		System::CharacterController::OnUpdate(m_Registry, ts);
 
 		m_Registry.view<NativeScriptComponent>().each([=](auto entity, auto& nsc) { nsc.Instance->OnUpdate(ts); });
 
-		//m_Registry.view<CharacterControllerComponent>().each([=](auto entity, auto& ccc) { if ( ccc.Active ) ccc.Controller->OnUpdate(ts); });
 
 		// todo: physics..
 
@@ -61,7 +60,9 @@ namespace Engine {
 	void Scene::OnRender()
 	{
 		// Render materials
-		Renderer::BeginScene(m_SpectatorCamera, m_SpectatorController->GetTransform());
+		Camera camera = System::Camera::GetCamera(m_Registry);
+
+		Renderer::BeginScene(camera);
 		{
 			auto group = m_Registry.group<TransformComponent>(entt::get<MaterialComponent, MeshComponent>);
 			for (auto entity : group)
@@ -70,6 +71,7 @@ namespace Engine {
 				Renderer::Submit(mesh, material, transform);
 			}
 		}
+
 		Renderer::EndScene();
 	}
 
@@ -77,9 +79,6 @@ namespace Engine {
 	{
 		EventHandler eventHandler(event);
 		eventHandler.Handle<WindowResizeEvent>(EG_BIND_EVENT_FN(Scene::OnWindowResize));
-
-		if (m_Spectator && m_SceneHovered)
-			m_SpectatorController->OnEvent(event);
 	}
 
 	bool Scene::OnWindowResize(WindowResizeEvent& e)
@@ -93,11 +92,8 @@ namespace Engine {
 		m_ViewportWidth = width;
 		m_ViewportHeight = height;
 
-		// Resize spectator camera
-		m_SpectatorCamera->SetViewportSize(width, height);
-
 		// Resize camera components
-		m_Registry.view<CameraComponent>().each([=](auto entity, auto& cc) { cc.Camera.SetViewportSize(width, height); });
+		System::Camera::SetViewportSize(m_Registry, width, height);
 	}
 
 	std::pair<uint32_t, uint32_t> Scene::GetVieportSize()
