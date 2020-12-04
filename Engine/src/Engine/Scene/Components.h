@@ -86,9 +86,6 @@ namespace Engine {
 	{
 		ScriptableEntity* Instance = nullptr;
 
-		ScriptableEntity* (*InstantiateScript)();
-		void (*DestroyScript)(NativeScriptComponent*);
-
 		template <typename T, typename... Args>
 		void Bind(Args&&... args)
 		{
@@ -101,6 +98,29 @@ namespace Engine {
 			delete Instance;
 			Instance = nullptr;
 		}
+	};
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// CharacterControllerComponent ///////////////////////////////////////////////////////////////
+
+	struct CharacterControllerComponent
+	{
+		//CharacterController Controller;
+		bool Active;
+
+		CharacterControllerComponent() = default;
+		CharacterControllerComponent(const CharacterControllerComponent&) = default;
+	};
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// CameraComponent ////////////////////////////////////////////////////////////////////////////
+
+	struct CameraComponent
+	{
+		SceneCamera Camera;
+
+		CameraComponent() = default;
+		CameraComponent(const CameraComponent&) = default;
 	};
 
 }

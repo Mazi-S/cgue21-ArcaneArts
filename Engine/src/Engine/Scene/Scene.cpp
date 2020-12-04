@@ -52,6 +52,8 @@ namespace Engine {
 
 		m_Registry.view<NativeScriptComponent>().each([=](auto entity, auto& nsc) { nsc.Instance->OnUpdate(ts); });
 
+		//m_Registry.view<CharacterControllerComponent>().each([=](auto entity, auto& ccc) { if ( ccc.Active ) ccc.Controller->OnUpdate(ts); });
+
 		// todo: physics..
 
 	}
@@ -93,6 +95,9 @@ namespace Engine {
 
 		// Resize spectator camera
 		m_SpectatorCamera->SetViewportSize(width, height);
+
+		// Resize camera components
+		m_Registry.view<CameraComponent>().each([=](auto entity, auto& cc) { cc.Camera.SetViewportSize(width, height); });
 	}
 
 	std::pair<uint32_t, uint32_t> Scene::GetVieportSize()
