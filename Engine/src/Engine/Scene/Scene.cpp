@@ -5,6 +5,7 @@
 
 #include "Components.h"
 #include "Systems.h"
+#include "Factories.h"
 
 #include "Engine/Renderer/Renderer.h"
 #include "Engine/Scene/Entity.h"
@@ -20,12 +21,18 @@ namespace Engine {
 		registry.get<NativeScriptComponent>(entity).Unbind();
 	}
 
+	void Scene::InitCameraComponent(entt::registry& registry, entt::entity entity)
+	{
+		System::Camera::SetViewportSize(registry, entity, m_ViewportWidth, m_ViewportHeight);
+	}
+
 	Scene::Scene()
 	{
-		m_Registry.on_destroy<NativeScriptComponent>().connect<&UnbindScript>();
+		m_ViewportWidth = Application::Get().GetWindow().GetWidth();
+		m_ViewportHeight = Application::Get().GetWindow().GetHeight();
 
-		// todo
-		//m_SpectatorCamera->SetViewportSize(Application::Get().GetWindow().GetWidth(), Application::Get().GetWindow().GetHeight());
+		m_Registry.on_destroy<NativeScriptComponent>().connect<&UnbindScript>();
+		m_Registry.on_construct<CameraComponent>().connect<&Scene::InitCameraComponent>(*this);
 	}
 
 	Scene::~Scene()
@@ -34,13 +41,35 @@ namespace Engine {
 
 	Entity Scene::CreateEntity(const std::string& name)
 	{
-		Entity entity = { m_Registry.create(), this };
-		entity.AddComponent<TransformComponent>();
-		entity.AddComponent<TagComponent>(name.empty() ? "Entity" : name);
-		return entity;
+		entt::entity entity = Factory::CreateEntity(m_Registry, name);
+		return { entity, this };
 	}
 
-	void Scene::DestroyEntity(Entity entity)
+	Entity Scene::CreateHero()
+	{
+		if (m_Hero != entt::null)
+			DestroyEntity(m_Hero);
+
+		m_Hero = Factory::CreateHero(m_Registry);
+		return {m_Hero, this};
+	}
+
+	Entity Scene::CreateMainCamera(Entity parent)
+	{
+		if (m_MainCamera != entt::null)
+			DestroyEntity(m_MainCamera);
+
+		m_MainCamera = Factory::CreateCamera(m_Registry, parent.m_EntityHandle);
+		return { m_MainCamera, this };
+	}
+
+	Entity Scene::CreateMagicBall(bool mainHand)
+	{
+		entt::entity ball = Factory::CreateMagicBall(m_Registry, m_Hero, mainHand);
+		return { ball, this };
+	}
+
+	void Scene::DestroyEntity(entt::entity entity)
 	{
 		m_Registry.destroy(entity);
 	}
@@ -51,8 +80,7 @@ namespace Engine {
 		System::CharacterController::OnUpdate(m_Registry, ts);
 
 		m_Registry.view<NativeScriptComponent>().each([=](auto entity, auto& nsc) { nsc.Instance->OnUpdate(ts); });
-
-
+		
 		// todo: physics..
 
 	}
@@ -60,18 +88,9 @@ namespace Engine {
 	void Scene::OnRender()
 	{
 		// Render materials
-		Camera camera = System::Camera::GetCamera(m_Registry);
-
+		Camera camera = m_MainCamera != entt::null ? System::Camera::GetCamera(m_Registry, m_MainCamera) : System::Camera::GetCamera(m_Registry);
 		Renderer::BeginScene(camera);
-		{
-			auto group = m_Registry.group<TransformComponent>(entt::get<MaterialComponent, MeshComponent>);
-			for (auto entity : group)
-			{
-				auto [transform, material, mesh] = group.get<TransformComponent, MaterialComponent, MeshComponent>(entity);
-				Renderer::Submit(mesh, material, transform);
-			}
-		}
-
+		System::Renderer::Submit(m_Registry);
 		Renderer::EndScene();
 	}
 
@@ -99,6 +118,17 @@ namespace Engine {
 	std::pair<uint32_t, uint32_t> Scene::GetVieportSize()
 	{
 		return std::pair<uint32_t, uint32_t>(m_ViewportWidth, m_ViewportHeight);
+	}
+
+	glm::mat4 Scene::GetCharacterTransform()
+	{
+		auto view = m_Registry.view<HeroComponent, TransformComponent>();
+		for (entt::entity e : view)
+		{
+			return System::GetTransform(m_Registry, e);
+		}
+
+		return glm::mat4(1.0f);
 	}
 
 }

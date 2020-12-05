@@ -49,10 +49,9 @@ void ExampleLayer::OnAttach()
 	// Create Scene
 	m_Scene = Engine::CreateRef<Engine::Scene>();
 
-	// Character
-	Engine::Entity character = m_Scene->CreateEntity();
-	character.AddComponent<Engine::CharacterControllerComponent>();
-	character.AddComponent<Engine::CameraComponent>();
+	// Hero
+	auto hero = m_Scene->CreateHero();
+	m_Scene->CreateMainCamera(hero);
 
 	// Add objects to the Scene
 	{
@@ -116,11 +115,25 @@ void ExampleLayer::OnEvent(Engine::Event& event)
 
 	Engine::EventHandler eventHandler(event);
 	eventHandler.Handle<Engine::KeyPressedEvent>(EG_BIND_EVENT_FN(ExampleLayer::OnKeyPressed));
+	eventHandler.Handle<Engine::MouseButtonPressedEvent>(EG_BIND_EVENT_FN(ExampleLayer::OnMouseButtonPressed));
 }
 
 bool ExampleLayer::OnKeyPressed(Engine::KeyPressedEvent& event)
 {
-	if (event.GetKeyCode() == Engine::Key::E)
+	if (event.GetKeyCode() == Engine::Key::Escape)
+		Engine::Application::Get().Close();
+
+	if (event.GetKeyCode() == Engine::Key::D1)
+		m_Scene->CreateMagicBall(true);
+
+	if (event.GetKeyCode() == Engine::Key::D2)
+		m_Scene->CreateMagicBall(false);
+	return false;
+}
+
+bool ExampleLayer::OnMouseButtonPressed(Engine::MouseButtonPressedEvent& event)
+{
+	if (event.GetMouseButton() == Engine::Mouse::ButtonLeft)
 		CreateMagicBall();
 
 	return false;
@@ -133,8 +146,10 @@ void ExampleLayer::CreateMagicBall()
 	ball.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Sphere"));
 
 	// todo: get characters position and orientation
-	glm::vec3 position = glm::vec3(0.0f, 0.0f, 5.0f);
-	glm::vec3 velocity = glm::vec3(1.0f, 1.0f, -50.0f);
-	ball.AddNativeScript<MagicBall>(position, velocity);
+	glm::mat4 characterTransform = m_Scene->GetCharacterTransform();
+
+	glm::vec3 position = { characterTransform[3][0], characterTransform[3][1], characterTransform[3][2] };
+	glm::vec4 velocity = characterTransform * glm::vec4(0.0f, 0.0f, -50.0f, 0.0f);
+	ball.AddNativeScript<MagicBall>(position, glm::vec3{ velocity.x, velocity.y, velocity.z });
 }
 

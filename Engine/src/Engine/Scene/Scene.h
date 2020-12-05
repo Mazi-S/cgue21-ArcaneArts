@@ -4,11 +4,9 @@
 
 #include "Engine/Core/Timestep.h"
 #include "Engine/Events/Event.h"
+#include "Engine/Core/Application.h"
 
 #include <glm/glm.hpp>
-
-#include "Engine/Renderer/SceneCamera.h"
-#include "Engine/Renderer/CameraController.h"
 
 namespace Engine {
 
@@ -20,8 +18,12 @@ namespace Engine {
 		Scene();
 		~Scene();
 
+		// ECS
 		Entity CreateEntity(const std::string& name = std::string());
-		void DestroyEntity(Entity entity);
+		Entity CreateHero();
+		Entity CreateMainCamera(Entity parent);
+		Entity CreateMagicBall(bool mainHand);
+		void DestroyEntity(entt::entity entity);
 
 		void OnUpdate(Timestep ts);
 		void OnRender();
@@ -31,13 +33,20 @@ namespace Engine {
 
 		std::pair<uint32_t, uint32_t> GetVieportSize();
 
+		// temporary
+		glm::mat4 GetCharacterTransform();
+
 	private:
 		bool OnWindowResize(WindowResizeEvent& e);
 
+		void InitCameraComponent(entt::registry& registry, entt::entity entity);
+
 	private:
 		entt::registry m_Registry;
+		entt::entity m_Hero = entt::null;
+		entt::entity m_MainCamera = entt::null;
 
-		uint32_t m_ViewportWidth = 0, m_ViewportHeight = 0;
+		uint32_t m_ViewportWidth, m_ViewportHeight;
 
 		bool m_SceneFocused = true, m_SceneHovered = true;
 	};

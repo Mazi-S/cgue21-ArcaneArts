@@ -13,6 +13,10 @@ namespace Engine {
 
 		virtual void OnUpdate() override;
 
+		virtual void SetCursorPosition(float x, float y) override;
+		virtual void HideCursor() override;
+		virtual void ShowCursor() override;
+
 		// Window attributes
 		virtual uint32_t GetWidth() const override { return m_Data.Width; }
 		virtual uint32_t GetHeight() const override { return m_Data.Height; }

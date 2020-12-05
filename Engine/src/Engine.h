@@ -27,8 +27,6 @@
 #include "Platform/OpenGL/OpenGLAPI.h"
 
 #include "Engine/Renderer/Camera.h"
-#include "Engine/Renderer/SceneCamera.h"
-#include "Engine/Renderer/CameraController.h"
 
 // Scene
 #include "Engine/Scene/Scene.h"

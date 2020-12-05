@@ -26,6 +26,10 @@ namespace Engine {
 
 		virtual void OnUpdate() = 0;
 
+		virtual void SetCursorPosition(float x, float y) = 0;
+		virtual void HideCursor() = 0;
+		virtual void ShowCursor() = 0;
+
 		// Window attributes
 		virtual uint32_t GetWidth() const = 0;
 		virtual uint32_t GetHeight() const = 0;
