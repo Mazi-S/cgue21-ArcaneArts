@@ -134,7 +134,13 @@ bool ExampleLayer::OnKeyPressed(Engine::KeyPressedEvent& event)
 bool ExampleLayer::OnMouseButtonPressed(Engine::MouseButtonPressedEvent& event)
 {
 	if (event.GetMouseButton() == Engine::Mouse::ButtonLeft)
+	{
 		CreateMagicBall();
+		m_Scene->Throw(true);
+	}
+
+	if (event.GetMouseButton() == Engine::Mouse::ButtonRight)
+		m_Scene->Throw(false);
 
 	return false;
 }
@@ -146,7 +152,7 @@ void ExampleLayer::CreateMagicBall()
 	ball.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Sphere"));
 
 	// todo: get characters position and orientation
-	glm::mat4 characterTransform = m_Scene->GetCharacterTransform();
+	glm::mat4 characterTransform = glm::mat4(1.0f); // m_Scene->GetCharacterTransform();
 
 	glm::vec3 position = { characterTransform[3][0], characterTransform[3][1], characterTransform[3][2] };
 	glm::vec4 velocity = characterTransform * glm::vec4(0.0f, 0.0f, -50.0f, 0.0f);

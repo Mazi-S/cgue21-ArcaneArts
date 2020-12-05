@@ -22,8 +22,10 @@ namespace Engine {
 		Entity CreateEntity(const std::string& name = std::string());
 		Entity CreateHero();
 		Entity CreateMainCamera(Entity parent);
-		Entity CreateMagicBall(bool mainHand);
 		void DestroyEntity(entt::entity entity);
+
+		Entity CreateMagicBall(bool rightHand);
+		void Throw(bool rightHand = true);
 
 		void OnUpdate(Timestep ts);
 		void OnRender();
@@ -32,9 +34,6 @@ namespace Engine {
 		void OnViewportResize(uint32_t width, uint32_t height);
 
 		std::pair<uint32_t, uint32_t> GetVieportSize();
-
-		// temporary
-		glm::mat4 GetCharacterTransform();
 
 	private:
 		bool OnWindowResize(WindowResizeEvent& e);

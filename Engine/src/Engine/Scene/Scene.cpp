@@ -63,10 +63,15 @@ namespace Engine {
 		return { m_MainCamera, this };
 	}
 
-	Entity Scene::CreateMagicBall(bool mainHand)
+	Entity Scene::CreateMagicBall(bool rightHand)
 	{
-		entt::entity ball = Factory::CreateMagicBall(m_Registry, m_Hero, mainHand);
+		entt::entity ball = Factory::CreateMagicBall(m_Registry, m_Hero, rightHand);
 		return { ball, this };
+	}
+
+	void Scene::Throw(bool rightHand)
+	{
+		System::Hero::Throw(m_Registry, m_Hero, rightHand);
 	}
 
 	void Scene::DestroyEntity(entt::entity entity)
@@ -118,17 +123,6 @@ namespace Engine {
 	std::pair<uint32_t, uint32_t> Scene::GetVieportSize()
 	{
 		return std::pair<uint32_t, uint32_t>(m_ViewportWidth, m_ViewportHeight);
-	}
-
-	glm::mat4 Scene::GetCharacterTransform()
-	{
-		auto view = m_Registry.view<HeroComponent, TransformComponent>();
-		for (entt::entity e : view)
-		{
-			return System::GetTransform(m_Registry, e);
-		}
-
-		return glm::mat4(1.0f);
 	}
 
 }
