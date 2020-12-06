@@ -35,8 +35,7 @@ namespace Engine {
 		TransformComponent() = default;
 		TransformComponent(const TransformComponent&) = default;
 		TransformComponent(const glm::vec3& translation)
-			: Translation(translation) {}
-
+			: Translation(translation) { }
 	};
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -83,6 +82,20 @@ namespace Engine {
 		CharacterControllerComponent() = default;
 		CharacterControllerComponent(const CharacterControllerComponent&) = default;
 	};
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// Character //////////////////////////////////////////////////////////////////////////////////
+	
+#if 0
+	struct CharacterComponent
+	{
+		entt::entity LeftHand = entt::null;
+		entt::entity RightHand = entt::null;
+
+		CharacterComponent() = default;
+		CharacterComponent(const CharacterComponent&) = default;
+	};
+#endif // 0
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// Camera /////////////////////////////////////////////////////////////////////////////////////
@@ -102,6 +115,7 @@ namespace Engine {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// Parent /////////////////////////////////////////////////////////////////////////////////////
+	
 	struct ParentComponent
 	{
 		entt::entity Parent;
@@ -111,32 +125,25 @@ namespace Engine {
 	};
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	// Parent /////////////////////////////////////////////////////////////////////////////////////
-	struct HeroComponent
-	{
-		entt::entity LeftHand = entt::null;
-		entt::entity RightHand = entt::null;
-
-		HeroComponent() = default;
-		HeroComponent(const HeroComponent&) = default;
-	};
-
-	///////////////////////////////////////////////////////////////////////////////////////////////
 	// NativeScript ///////////////////////////////////////////////////////////////////////////////
 
 	struct NativeScriptComponent
 	{
 		ScriptableEntity* Instance = nullptr;
 
+		bool Active = false;
+
 		template <typename T, typename... Args>
 		void Bind(Args&&... args)
 		{
 			Instance = static_cast<ScriptableEntity*>(new T(std::forward<Args>(args)...));
 			Instance->OnCreate();
+			Active = true;
 		}
 
 		void Unbind()
 		{
+			Instance->OnDestroy();
 			delete Instance;
 			Instance = nullptr;
 		}

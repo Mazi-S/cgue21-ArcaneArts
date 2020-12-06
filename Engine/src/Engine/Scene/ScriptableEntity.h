@@ -25,6 +25,7 @@ namespace Engine {
 		virtual void OnCreate() {}
 		virtual void OnDestroy() {}
 		virtual void OnUpdate(Timestep ts) {}
+		virtual void OnEvent(Event e) {}
 
 	protected:
 		ScriptableEntity(Entity entity)

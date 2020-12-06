@@ -37,12 +37,8 @@ namespace Engine::Factory {
 		return camera;
 	}
 
-	entt::entity CreateMagicBall(entt::registry& registry, entt::entity hero, bool mainHand)
+	entt::entity CreateMagicBall(entt::registry& registry)
 	{
-		auto* hc = registry.try_get<HeroComponent>(hero);
-		if (hc == nullptr)
-			return entt::null;
-
 		entt::entity ball = CreateEntity(registry, "Magic Ball");
 		registry.emplace<MaterialComponent>(ball, MaterialLibrary::Get("MagicBall"));
 		registry.emplace<MeshComponent>(ball, MeshLibrary::Get("Sphere"));

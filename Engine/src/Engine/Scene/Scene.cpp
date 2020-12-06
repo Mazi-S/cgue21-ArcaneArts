@@ -12,8 +12,6 @@
 
 #include <glm/glm.hpp>
 
-
-
 namespace Engine {
 
 	static void UnbindScript(entt::registry& registry, entt::entity entity)
@@ -63,15 +61,20 @@ namespace Engine {
 		return { m_MainCamera, this };
 	}
 
-	Entity Scene::CreateMagicBall(bool rightHand)
+	// todo: fix
+	Entity Scene::CreateMagicBall(Entity hero, bool rightHand)
 	{
-		entt::entity ball = Factory::CreateMagicBall(m_Registry, m_Hero, rightHand);
+		entt::entity ball = System::Hero::CreateMagicBall(m_Registry, m_Hero, rightHand);
 		return { ball, this };
 	}
 
-	void Scene::Throw(bool rightHand)
+	// todo: fix
+	void Scene::Throw(Entity hero, bool rightHand)
 	{
-		System::Hero::Throw(m_Registry, m_Hero, rightHand);
+		if (rightHand)
+			System::Hero::ThrowRight(m_Registry, m_Hero);
+		else
+			System::Hero::ThrowLeft(m_Registry, m_Hero);
 	}
 
 	void Scene::DestroyEntity(entt::entity entity)

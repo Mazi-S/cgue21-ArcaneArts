@@ -24,8 +24,9 @@ namespace Engine {
 		Entity CreateMainCamera(Entity parent);
 		void DestroyEntity(entt::entity entity);
 
-		Entity CreateMagicBall(bool rightHand);
-		void Throw(bool rightHand = true);
+		// Hero
+		Entity CreateMagicBall(Entity hero, bool rightHand);
+		void Throw(Entity hero, bool rightHand = true);
 
 		void OnUpdate(Timestep ts);
 		void OnRender();
