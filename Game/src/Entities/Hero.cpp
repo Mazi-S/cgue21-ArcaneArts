@@ -54,7 +54,7 @@ void Hero::CreateMagicBall(MagicBallType type)
 	Engine::Entity ball = m_Scene->CreateEntity("MagicBall");
 	ball.AddComponent<Engine::ParentComponent>(m_EntityHandle);
 	auto& tc = ball.GetComponent<Engine::TransformComponent>();
-	tc.Scale = { 0.2f, 0.2f, 0.2f };
+	tc.Scale = { 0.1f, 0.1f, 0.1f };
 
 	switch (type)
 	{
@@ -64,7 +64,7 @@ void Hero::CreateMagicBall(MagicBallType type)
 		ball.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Sphere"));
 		ball.AddNativeScript<MagicBall>();
 		ball.GetComponent<Engine::NativeScriptComponent>().Active = false;
-		tc.Translation = { -0.5f, -0.2f, -1.5f };
+		tc.Translation = { -0.5f, -0.2f, -1.0f };
 		m_LeftHand = ball;
 		break;
 	case MagicBallType::Water:
@@ -73,14 +73,14 @@ void Hero::CreateMagicBall(MagicBallType type)
 		ball.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Sphere"));
 		ball.AddNativeScript<MagicBall>();
 		ball.GetComponent<Engine::NativeScriptComponent>().Active = false;
-		tc.Translation = { -0.5f, -0.2f, -1.5f };
+		tc.Translation = { -0.5f, -0.2f, -1.0f };
 		m_LeftHand = ball;
 		break;
 	case MagicBallType::Light:
 		// right hand
 		ball.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("MagicBall_Light"));
 		ball.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Sphere"));
-		tc.Translation = { 0.5f, -0.2f, -1.5f };
+		tc.Translation = { 0.5f, -0.2f, -1.0f };
 		m_RightHand = ball;
 		break;
 	}
