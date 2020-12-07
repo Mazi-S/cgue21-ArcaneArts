@@ -8,6 +8,7 @@ namespace Engine {
 	class Entity
 	{
 		friend class Scene;
+		friend class ScriptableEntity;
 		
 	public:
 		Entity() = default;

@@ -172,6 +172,22 @@ namespace Engine {
 		glfwDestroyWindow(m_Window);
 	}
 
+	void WindowImpl::SetCursorPosition(float x, float y)
+	{
+		glfwSetCursorPos(m_Window, x, y);
+	}
+
+	void WindowImpl::HideCursor()
+	{
+		glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	}
+
+	void WindowImpl::ShowCursor()
+	{
+		glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	}
+
+
 }
 
 

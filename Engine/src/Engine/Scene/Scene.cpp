@@ -4,12 +4,13 @@
 #include "Engine/Core/Application.h"
 
 #include "Components.h"
+#include "Systems.h"
+#include "Factories.h"
+
 #include "Engine/Renderer/Renderer.h"
 #include "Engine/Scene/Entity.h"
 
 #include <glm/glm.hpp>
-
-
 
 namespace Engine {
 
@@ -18,13 +19,18 @@ namespace Engine {
 		registry.get<NativeScriptComponent>(entity).Unbind();
 	}
 
+	void Scene::InitCameraComponent(entt::registry& registry, entt::entity entity)
+	{
+		System::Camera::SetViewportSize(registry, entity, m_ViewportWidth, m_ViewportHeight);
+	}
+
 	Scene::Scene()
 	{
-		m_Registry.on_destroy<NativeScriptComponent>().connect<&UnbindScript>();
+		m_ViewportWidth = Application::Get().GetWindow().GetWidth();
+		m_ViewportHeight = Application::Get().GetWindow().GetHeight();
 
-		m_SpectatorController = CreateRef<Engine::CameraController>();
-		m_SpectatorCamera = CreateRef<Engine::SceneCamera>();
-		m_SpectatorCamera->SetViewportSize(Application::Get().GetWindow().GetWidth(), Application::Get().GetWindow().GetHeight());
+		m_Registry.on_destroy<NativeScriptComponent>().connect<&UnbindScript>();
+		m_Registry.on_construct<CameraComponent>().connect<&Scene::InitCameraComponent>(*this);
 	}
 
 	Scene::~Scene()
@@ -33,10 +39,17 @@ namespace Engine {
 
 	Entity Scene::CreateEntity(const std::string& name)
 	{
-		Entity entity = { m_Registry.create(), this };
-		entity.AddComponent<TransformComponent>();
-		entity.AddComponent<TagComponent>(name.empty() ? "Entity" : name);
-		return entity;
+		entt::entity entity = Factory::CreateEntity(m_Registry, name);
+		return { entity, this };
+	}
+
+	Entity Scene::CreateMainCamera(Entity parent)
+	{
+		if (m_MainCamera != entt::null)
+			m_Registry.destroy(m_MainCamera);
+
+		m_MainCamera = Factory::CreateCamera(m_Registry, parent.m_EntityHandle);
+		return { m_MainCamera, this };
 	}
 
 	void Scene::DestroyEntity(Entity entity)
@@ -47,27 +60,19 @@ namespace Engine {
 	void Scene::OnUpdate(Timestep ts)
 	{
 		// Update
-		if (m_Spectator)
-			m_SpectatorController->OnUpdate(ts);
+		System::CharacterController::OnUpdate(m_Registry, ts);
 
-		m_Registry.view<NativeScriptComponent>().each([=](auto entity, auto& nsc) { nsc.Instance->OnUpdate(ts); });
-
-		// todo: physics..
-
+		m_Registry.view<NativeScriptComponent>().each([=](auto entity, auto& nsc) { if (nsc.Active) nsc.Instance->OnUpdate(ts); });
+		
+		System::Physics::OnUpdate(m_Registry, ts);
 	}
 
 	void Scene::OnRender()
 	{
 		// Render materials
-		Renderer::BeginScene(m_SpectatorCamera, m_SpectatorController->GetTransform());
-		{
-			auto group = m_Registry.group<TransformComponent>(entt::get<MaterialComponent, MeshComponent>);
-			for (auto entity : group)
-			{
-				auto [transform, material, mesh] = group.get<TransformComponent, MaterialComponent, MeshComponent>(entity);
-				Renderer::Submit(material, mesh, transform);
-			}
-		}
+		Camera camera = m_MainCamera != entt::null ? System::Camera::GetCamera(m_Registry, m_MainCamera) : System::Camera::GetCamera(m_Registry);
+		Renderer::BeginScene(camera);
+		System::Renderer::Submit(m_Registry);
 		Renderer::EndScene();
 	}
 
@@ -76,8 +81,7 @@ namespace Engine {
 		EventHandler eventHandler(event);
 		eventHandler.Handle<WindowResizeEvent>(EG_BIND_EVENT_FN(Scene::OnWindowResize));
 
-		if (m_Spectator && m_SceneHovered)
-			m_SpectatorController->OnEvent(event);
+		m_Registry.view<NativeScriptComponent>().each([&](auto entity, auto& nsc) { if (nsc.Active) nsc.Instance->OnEvent(event); });
 	}
 
 	bool Scene::OnWindowResize(WindowResizeEvent& e)
@@ -91,8 +95,8 @@ namespace Engine {
 		m_ViewportWidth = width;
 		m_ViewportHeight = height;
 
-		// Resize spectator camera
-		m_SpectatorCamera->SetViewportSize(width, height);
+		// Resize camera components
+		System::Camera::SetViewportSize(m_Registry, width, height);
 	}
 
 	std::pair<uint32_t, uint32_t> Scene::GetVieportSize()

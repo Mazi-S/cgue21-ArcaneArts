@@ -4,23 +4,24 @@
 
 #include "Engine/Core/Timestep.h"
 #include "Engine/Events/Event.h"
+#include "Engine/Core/Application.h"
 
 #include <glm/glm.hpp>
-
-#include "Engine/Renderer/SceneCamera.h"
-#include "Engine/Renderer/CameraController.h"
 
 namespace Engine {
 
 	class Scene
 	{
 		friend class Entity;
+		friend class ScriptableEntity;
 
 	public:
 		Scene();
 		~Scene();
 
+		// ECS
 		Entity CreateEntity(const std::string& name = std::string());
+		Entity CreateMainCamera(Entity parent);
 		void DestroyEntity(Entity entity);
 
 		void OnUpdate(Timestep ts);
@@ -34,15 +35,13 @@ namespace Engine {
 	private:
 		bool OnWindowResize(WindowResizeEvent& e);
 
+		void InitCameraComponent(entt::registry& registry, entt::entity entity);
+
 	private:
 		entt::registry m_Registry;
+		entt::entity m_MainCamera = entt::null;
 
-		// Spectator
-		bool m_Spectator = true;
-		Ref<SceneCamera> m_SpectatorCamera;
-		Ref<CameraController> m_SpectatorController;
-
-		uint32_t m_ViewportWidth = 0, m_ViewportHeight = 0;
+		uint32_t m_ViewportWidth, m_ViewportHeight;
 
 		bool m_SceneFocused = true, m_SceneHovered = true;
 	};

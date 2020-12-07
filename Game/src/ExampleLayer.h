@@ -15,11 +15,8 @@ public:
 
 	bool OnKeyPressed(Engine::KeyPressedEvent& event);
 
-	void CreateMagicBall();
-
-	// todo: remove (use MeshLibrary)
-	Engine::Ref<Engine::VertexArray> m_MagicBallVA;
-
 private:
 	Engine::Ref<Engine::Scene> m_Scene;
+
+	Engine::Entity m_Hero;
 };

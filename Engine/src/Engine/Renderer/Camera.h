@@ -4,15 +4,14 @@
 
 namespace Engine {
 
-	class Camera
+	struct Camera
 	{
-	public:
-		virtual ~Camera() = default;
+		glm::mat4 Projection;
+		glm::mat4 Transform;
 
-		const glm::mat4& GetProjection() const { return m_Projection; }
-
-	protected:
-		glm::mat4 m_Projection = glm::mat4(1.0f);
+		Camera(const glm::mat4& projection = glm::mat4(1.0f), const glm::mat4& transform = glm::mat4(1.0f))
+			: Projection(projection), Transform(transform)
+		{ }
 	};
 
 }

@@ -4,14 +4,14 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtx/quaternion.hpp>
 
-#include "Engine/Renderer/VertexArray.h"
+#include "Engine/Renderer/Mesh.h"
 #include "Engine/Renderer/Material.h"
 #include "Engine/Scene/ScriptableEntity.h"
 
 namespace Engine {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	// TagComponent ///////////////////////////////////////////////////////////////////////////////
+	// Tag ////////////////////////////////////////////////////////////////////////////////////////
 
 	struct TagComponent
 	{
@@ -24,7 +24,7 @@ namespace Engine {
 	};
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	// TransformComponent /////////////////////////////////////////////////////////////////////////
+	// Transform //////////////////////////////////////////////////////////////////////////////////
 
 	struct TransformComponent
 	{
@@ -35,37 +35,39 @@ namespace Engine {
 		TransformComponent() = default;
 		TransformComponent(const TransformComponent&) = default;
 		TransformComponent(const glm::vec3& translation)
-			: Translation(translation) {}
-
-		operator glm::mat4() { return GetTransform(); }
-
-	private:
-		glm::mat4 GetTransform() const
-		{
-			glm::mat4 rotation = glm::toMat4(glm::quat(Rotation));
-			return glm::translate(glm::mat4(1.0f), Translation)
-				* rotation
-				* glm::scale(glm::mat4(1.0f), Scale);
-		}
+			: Translation(translation) { }
 	};
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	// MeshComponent //////////////////////////////////////////////////////////////////////////////
+	// Velocity ///////////////////////////////////////////////////////////////////////////////////
+
+	struct VelocityComponent
+	{
+		glm::vec3 Velocity = { 0.0f, 0.0f, 0.0f };
+
+		VelocityComponent() = default;
+		VelocityComponent(const VelocityComponent&) = default;
+		VelocityComponent(const glm::vec3& velocity)
+			: Velocity(velocity) { }
+	};
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// Mesh ///////////////////////////////////////////////////////////////////////////////////////
 
 	struct MeshComponent
 	{
-		Ref<Engine::VertexArray> VertexArray;
+		Ref<Engine::Mesh> Mesh;
 
-		operator Ref<Engine::VertexArray>() { return VertexArray; }
+		operator Ref<Engine::Mesh>() { return Mesh; }
 
 		MeshComponent() = default;
 		MeshComponent(const MeshComponent&) = default;
-		MeshComponent(Ref<Engine::VertexArray> vertexArray)
-			: VertexArray(vertexArray) { }
+		MeshComponent(Ref<Engine::Mesh> mesh)
+			: Mesh(mesh) { }
 	};
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	// MaterialComponent //////////////////////////////////////////////////////////////////////////
+	// Material ///////////////////////////////////////////////////////////////////////////////////
 
 	struct MaterialComponent
 	{
@@ -80,24 +82,81 @@ namespace Engine {
 	};
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	// NativeScriptComponent //////////////////////////////////////////////////////////////////////
+	// CharacterController ////////////////////////////////////////////////////////////////////////
+
+	struct CharacterControllerComponent
+	{
+		bool Active = false;
+
+		float TranslationSpeed = 7.0f;
+		float RotationSpeed = 0.003f;
+		float MouseX = 0, MouseY = 0;
+
+		CharacterControllerComponent() = default;
+		CharacterControllerComponent(const CharacterControllerComponent&) = default;
+	};
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// Character //////////////////////////////////////////////////////////////////////////////////
+	
+#if 0
+	struct CharacterComponent
+	{
+		entt::entity LeftHand = entt::null;
+		entt::entity RightHand = entt::null;
+
+		CharacterComponent() = default;
+		CharacterComponent(const CharacterComponent&) = default;
+	};
+#endif // 0
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// Camera /////////////////////////////////////////////////////////////////////////////////////
+
+	struct CameraComponent
+	{
+		glm::mat4 Projection = glm::mat4(1.0f);
+
+		float FOV = glm::radians(45.0f);
+		float Near = 0.01f, Far = 1000.0f;
+
+		float AspectRatio = 1.0f;
+
+		CameraComponent() = default;
+		CameraComponent(const CameraComponent&) = default;
+	};
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// Parent /////////////////////////////////////////////////////////////////////////////////////
+	
+	struct ParentComponent
+	{
+		entt::entity Parent;
+
+		ParentComponent(entt::entity parent) : Parent(parent) { }
+		ParentComponent(const ParentComponent&) = default;
+	};
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// NativeScript ///////////////////////////////////////////////////////////////////////////////
 
 	struct NativeScriptComponent
 	{
 		ScriptableEntity* Instance = nullptr;
 
-		ScriptableEntity* (*InstantiateScript)();
-		void (*DestroyScript)(NativeScriptComponent*);
+		bool Active = false;
 
 		template <typename T, typename... Args>
 		void Bind(Args&&... args)
 		{
 			Instance = static_cast<ScriptableEntity*>(new T(std::forward<Args>(args)...));
 			Instance->OnCreate();
+			Active = true;
 		}
 
 		void Unbind()
 		{
+			Instance->OnDestroy();
 			delete Instance;
 			Instance = nullptr;
 		}

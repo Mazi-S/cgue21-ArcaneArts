@@ -81,5 +81,36 @@ namespace Engine {
 		m_ColorTexture->Bind();
 	}
 
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// MaterialLibrary ////////////////////////////////////////////////////////////////////////////
+
+	std::unordered_map<std::string, Ref<Material>> MaterialLibrary::s_Materials;
+
+	void MaterialLibrary::Add(const Ref<Material>& material)
+	{
+		auto& name = material->GetName();
+		ASSERT(!Exists(name), "Shader already exists!");
+		s_Materials[name] = material;
+	}
+
+	void MaterialLibrary::Add(const std::vector<Ref<Material>>& materials)
+	{
+		for (auto& material : materials)
+			Add(material);
+	}
+
+	Ref<Material> MaterialLibrary::Get(const std::string& name)
+	{
+		ASSERT(Exists(name), "Material not found!");
+		return s_Materials[name];
+	}
+
+	bool MaterialLibrary::Exists(const std::string& name)
+	{
+		return s_Materials.find(name) != s_Materials.end();
+	}
+
+
 }
 
