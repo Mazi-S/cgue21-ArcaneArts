@@ -47,21 +47,4 @@ namespace Engine::System::CharacterController {
 		}
 	}
 
-	void Activate(entt::registry& registry, entt::entity controller)
-	{
-		auto* ccc = registry.try_get<CharacterControllerComponent>(controller);
-
-		if (ccc == nullptr)
-			return;
-
-		Application::Get().GetWindow().HideCursor();
-
-		auto [currentMouseX, currentMouseY] = Engine::Input::GetMousePosition();
-		ccc->MouseX = currentMouseX;
-		ccc->MouseY = currentMouseY;
-
-		ccc->Active = true;
-
-	}
-
 }

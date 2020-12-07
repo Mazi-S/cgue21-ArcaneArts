@@ -14,10 +14,9 @@ public:
 	virtual void OnEvent(Engine::Event& event) override;
 
 	bool OnKeyPressed(Engine::KeyPressedEvent& event);
-	bool OnMouseButtonPressed(Engine::MouseButtonPressedEvent& event);
-
-	void CreateMagicBall();
 
 private:
 	Engine::Ref<Engine::Scene> m_Scene;
+
+	Engine::Entity m_Hero;
 };

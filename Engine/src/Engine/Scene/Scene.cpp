@@ -43,41 +43,16 @@ namespace Engine {
 		return { entity, this };
 	}
 
-	Entity Scene::CreateHero()
-	{
-		if (m_Hero != entt::null)
-			DestroyEntity(m_Hero);
-
-		m_Hero = Factory::CreateHero(m_Registry);
-		return {m_Hero, this};
-	}
-
 	Entity Scene::CreateMainCamera(Entity parent)
 	{
 		if (m_MainCamera != entt::null)
-			DestroyEntity(m_MainCamera);
+			m_Registry.destroy(m_MainCamera);
 
 		m_MainCamera = Factory::CreateCamera(m_Registry, parent.m_EntityHandle);
 		return { m_MainCamera, this };
 	}
 
-	// todo: fix
-	Entity Scene::CreateMagicBall(Entity hero, bool rightHand)
-	{
-		entt::entity ball = System::Hero::CreateMagicBall(m_Registry, m_Hero, rightHand);
-		return { ball, this };
-	}
-
-	// todo: fix
-	void Scene::Throw(Entity hero, bool rightHand)
-	{
-		if (rightHand)
-			System::Hero::ThrowRight(m_Registry, m_Hero);
-		else
-			System::Hero::ThrowLeft(m_Registry, m_Hero);
-	}
-
-	void Scene::DestroyEntity(entt::entity entity)
+	void Scene::DestroyEntity(Entity entity)
 	{
 		m_Registry.destroy(entity);
 	}
@@ -87,10 +62,9 @@ namespace Engine {
 		// Update
 		System::CharacterController::OnUpdate(m_Registry, ts);
 
-		m_Registry.view<NativeScriptComponent>().each([=](auto entity, auto& nsc) { nsc.Instance->OnUpdate(ts); });
+		m_Registry.view<NativeScriptComponent>().each([=](auto entity, auto& nsc) { if (nsc.Active) nsc.Instance->OnUpdate(ts); });
 		
-		// todo: physics..
-
+		System::Physics::OnUpdate(m_Registry, ts);
 	}
 
 	void Scene::OnRender()
@@ -106,6 +80,8 @@ namespace Engine {
 	{
 		EventHandler eventHandler(event);
 		eventHandler.Handle<WindowResizeEvent>(EG_BIND_EVENT_FN(Scene::OnWindowResize));
+
+		m_Registry.view<NativeScriptComponent>().each([&](auto entity, auto& nsc) { if (nsc.Active) nsc.Instance->OnEvent(event); });
 	}
 
 	bool Scene::OnWindowResize(WindowResizeEvent& e)

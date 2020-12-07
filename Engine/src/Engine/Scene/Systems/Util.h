@@ -8,8 +8,10 @@
 namespace Engine::System::Util {
 
 	glm::mat4 Transform(const TransformComponent& tc);
+	glm::vec3 Transform(const TransformComponent& tc, glm::vec3 v3);
 	glm::mat4 Transform(entt::registry& registry, entt::entity entity);
-	TransformComponent Combine(const TransformComponent& first, const TransformComponent& second);
 
 	void RecalculateProjection(CameraComponent& cc);
+	void Activate(CharacterControllerComponent& ccc);
+	void Deactivate(CharacterControllerComponent& ccc);
 }

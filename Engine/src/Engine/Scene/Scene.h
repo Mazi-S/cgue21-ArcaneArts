@@ -13,6 +13,7 @@ namespace Engine {
 	class Scene
 	{
 		friend class Entity;
+		friend class ScriptableEntity;
 
 	public:
 		Scene();
@@ -20,13 +21,8 @@ namespace Engine {
 
 		// ECS
 		Entity CreateEntity(const std::string& name = std::string());
-		Entity CreateHero();
 		Entity CreateMainCamera(Entity parent);
-		void DestroyEntity(entt::entity entity);
-
-		// Hero
-		Entity CreateMagicBall(Entity hero, bool rightHand);
-		void Throw(Entity hero, bool rightHand = true);
+		void DestroyEntity(Entity entity);
 
 		void OnUpdate(Timestep ts);
 		void OnRender();
@@ -43,7 +39,6 @@ namespace Engine {
 
 	private:
 		entt::registry m_Registry;
-		entt::entity m_Hero = entt::null;
 		entt::entity m_MainCamera = entt::null;
 
 		uint32_t m_ViewportWidth, m_ViewportHeight;

@@ -2,6 +2,7 @@
 #include "Util.h"
 
 #include <glm/glm.hpp>
+#include "Engine/Core/Input.h"
 
 namespace Engine::System::Util {
 
@@ -10,6 +11,12 @@ namespace Engine::System::Util {
 		return glm::translate(glm::mat4(1.0f), tc.Translation)
 			* glm::toMat4(glm::quat(tc.Rotation))
 			* glm::scale(glm::mat4(1.0f), tc.Scale);
+	}
+
+	glm::vec3 Transform(const TransformComponent& tc, glm::vec3 v3)
+	{
+		glm::vec4 v4 = Transform(tc) * glm::vec4{ v3.x, v3.y, v3.z, 1.0f};
+		return { v4.x, v4.y, v4.z };
 	}
 
 	glm::mat4 Transform(entt::registry& registry, entt::entity entity)
@@ -27,23 +34,30 @@ namespace Engine::System::Util {
 		return transform;
 	}
 
-	TransformComponent Combine(const TransformComponent& parent, const TransformComponent& child)
-	{
-		TransformComponent tc(child);
-		tc.Scale *= parent.Scale;
-		tc.Rotation += parent.Rotation;
-		
-		glm::vec4 translation = glm::toMat4(glm::quat(tc.Rotation)) * glm::vec4{ parent.Translation.x, parent.Translation.y, parent.Translation.z, 1.0f};
-		tc.Translation.x += translation.x;
-		tc.Translation.y += translation.y;
-		tc.Translation.z += translation.z;
-
-		return tc;
-	}
-
 	void RecalculateProjection(CameraComponent& cc)
 	{
 		cc.Projection = glm::perspective(cc.FOV, cc.AspectRatio, cc.Near, cc.Far);
+	}
+
+	void Activate(CharacterControllerComponent& ccc)
+	{
+		Application::Get().GetWindow().HideCursor();
+
+		auto [currentMouseX, currentMouseY] = Engine::Input::GetMousePosition();
+		ccc.MouseX = currentMouseX;
+		ccc.MouseY = currentMouseY;
+
+		ccc.Active = true;
+	}
+
+	void Deactivate(CharacterControllerComponent& ccc)
+	{
+		ccc.Active = false;
+
+		float x = Application::Get().GetWindow().GetWidth() / 2;
+		float y = Application::Get().GetWindow().GetHeight() / 2;
+		Application::Get().GetWindow().SetCursorPosition(x, y);
+		Application::Get().GetWindow().ShowCursor();
 	}
 
 }
