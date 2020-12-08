@@ -4,6 +4,7 @@
 
 #include "Engine/Core/Timestep.h"
 #include "Engine/Events/Event.h"
+#include "Engine/Events/KeyEvent.h"
 #include "Engine/Core/Application.h"
 
 #include <glm/glm.hpp>
@@ -34,6 +35,7 @@ namespace Engine {
 
 	private:
 		bool OnWindowResize(WindowResizeEvent& e);
+		bool OnKeyPressed(KeyPressedEvent& e);
 
 		void InitCameraComponent(entt::registry& registry, entt::entity entity);
 

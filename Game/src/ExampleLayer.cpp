@@ -55,6 +55,7 @@ void ExampleLayer::OnAttach()
 	// Hero
 	m_Hero = m_Scene->CreateEntity();
 	m_Hero.AddNativeScript<Hero>();
+	m_Hero.AddComponent<Engine::VelocityComponent>(glm::vec3{ 0.0f, -10.0f, 0.0f });
 	auto& ccc = m_Hero.AddComponent<Engine::CharacterControllerComponent>();
 	Engine::System::Util::Activate(ccc);
 
@@ -127,11 +128,17 @@ void ExampleLayer::OnEvent(Engine::Event& event)
 bool ExampleLayer::OnKeyPressed(Engine::KeyPressedEvent& event)
 {
 	if (event.GetKeyCode() == Engine::Key::Escape)
+	{
 		Engine::System::Util::Deactivate(m_Hero.GetComponent<Engine::CharacterControllerComponent>());
+		m_Hero.GetComponent<Engine::VelocityComponent>().Velocity = glm::vec3{ 0.0f, 0.0f, 0.0f };
+	}
 
-	if(event.GetKeyCode() == Engine::Key::F1)
+
+	if (event.GetKeyCode() == Engine::Key::F1)
+	{
 		Engine::System::Util::Activate(m_Hero.GetComponent<Engine::CharacterControllerComponent>());
-
+		m_Hero.GetComponent<Engine::VelocityComponent>().Velocity = glm::vec3{ 0.0f, -10.0f, 0.0f };
+	}
 	return false;
 }
 

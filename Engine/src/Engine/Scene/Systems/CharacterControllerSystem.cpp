@@ -4,6 +4,7 @@
 #include "Engine/Scene/Components.h"
 #include "Engine/Core/Input.h"
 #include "Engine/Core/Application.h"
+#include "Engine/Events/KeyEvent.h"
 
 namespace Engine::System::CharacterController {
 
@@ -35,6 +36,14 @@ namespace Engine::System::CharacterController {
 				tc.Translation.y += move.y;
 				tc.Translation.z += move.z;
 
+				auto vc = registry.try_get<VelocityComponent>(e);
+				if (vc != nullptr)
+				{
+					float gravity = -30.0f;
+					vc->Velocity.y = std::max(-10.0f, vc->Velocity.y + gravity * ts);
+					tc.Translation.y = std::max(tc.Translation.y, 0.0f);
+				}
+
 				// mouse
 				tc.Rotation.x -= (currentMouseY - ccc.MouseY) * (ccc.RotationSpeed);
 				tc.Rotation.x = glm::min(glm::half_pi<float>() - glm::epsilon<float>(), tc.Rotation.x);
@@ -45,6 +54,20 @@ namespace Engine::System::CharacterController {
 				Application::Get().GetWindow().SetCursorPosition(ccc.MouseX, ccc.MouseY);
 			}
 		}
+	}
+
+	bool OnKeyPressed(entt::registry& registry, Engine::KeyPressedEvent& event)
+	{
+		auto view = registry.view<CharacterControllerComponent, TransformComponent>();
+		for (const entt::entity e : view)
+		{
+			if (event.GetKeyCode() == Engine::Key::Space)
+			{
+				registry.emplace_or_replace<VelocityComponent>(e, glm::vec3{ 0.0f, 10.0f, 0.0f });
+			}
+		}
+
+		return false;
 	}
 
 }

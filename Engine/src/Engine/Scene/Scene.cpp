@@ -80,6 +80,7 @@ namespace Engine {
 	{
 		EventHandler eventHandler(event);
 		eventHandler.Handle<WindowResizeEvent>(EG_BIND_EVENT_FN(Scene::OnWindowResize));
+		eventHandler.Handle<KeyPressedEvent>(EG_BIND_EVENT_FN(Scene::OnKeyPressed));
 
 		m_Registry.view<NativeScriptComponent>().each([&](auto entity, auto& nsc) { if (nsc.Active) nsc.Instance->OnEvent(event); });
 	}
@@ -88,6 +89,11 @@ namespace Engine {
 	{
 		OnViewportResize(e.GetWidth(), e.GetHeight());
 		return false;
+	}
+
+	bool Scene::OnKeyPressed(KeyPressedEvent& e)
+	{
+		return System::CharacterController::OnKeyPressed(m_Registry, e);
 	}
 
 	void Scene::OnViewportResize(uint32_t width, uint32_t height)
