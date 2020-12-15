@@ -50,8 +50,8 @@ namespace Engine::System::CharacterController {
 				tc.Rotation.x = glm::max(-glm::half_pi<float>() + glm::epsilon<float>(), tc.Rotation.x);
 
 				tc.Rotation.y -= (currentMouseX - ccc.MouseX) * (ccc.RotationSpeed);
-
-				Application::Get().GetWindow().SetCursorPosition(ccc.MouseX, ccc.MouseY);
+				ccc.MouseX = currentMouseX;
+				ccc.MouseY = currentMouseY;
 			}
 		}
 	}
