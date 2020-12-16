@@ -34,6 +34,12 @@ namespace Engine::System::Util {
 		return transform;
 	}
 
+	glm::vec3 Position(entt::registry& registry, entt::entity entity)
+	{
+		glm::mat4 transform = Transform(registry, entity);
+		return { transform[3][0], transform[3][1], transform[3][2] };
+	}
+
 	void RecalculateProjection(CameraComponent& cc)
 	{
 		cc.Projection = glm::perspective(cc.FOV, cc.AspectRatio, cc.Near, cc.Far);

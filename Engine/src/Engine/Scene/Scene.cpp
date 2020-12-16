@@ -8,6 +8,8 @@
 #include "Factories.h"
 
 #include "Engine/Renderer/Renderer.h"
+#include "Engine/Renderer/Camera.h"
+#include "Engine/Renderer/Light.h"
 #include "Engine/Scene/Entity.h"
 
 #include <glm/glm.hpp>
@@ -71,7 +73,11 @@ namespace Engine {
 	{
 		// Render materials
 		Camera camera = m_MainCamera != entt::null ? System::Camera::GetCamera(m_Registry, m_MainCamera) : System::Camera::GetCamera(m_Registry);
-		Renderer::BeginScene(camera);
+		DirectionalLight dLight = System::Light::GetDirectionalLight(m_Registry);
+		std::vector<PointLight> pLights = System::Light::GetPointLights(m_Registry);
+		PointLight pLight = pLights.size() >= 1 ? pLights[0] : PointLight();
+
+		Renderer::BeginScene(camera, dLight, pLight);
 		System::Renderer::Submit(m_Registry);
 		Renderer::EndScene();
 	}

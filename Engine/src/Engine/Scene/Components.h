@@ -97,6 +97,36 @@ namespace Engine {
 	};
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
+	// DirectionalLight ///////////////////////////////////////////////////////////////////////////
+
+	struct DirectionalLightComponent
+	{
+		glm::vec3 Direction{ 0.0f, -1.0f, -0.5f };
+		glm::vec3 Color{ 0.8f, 0.8f, 0.8f };
+
+		DirectionalLightComponent() = default;
+		DirectionalLightComponent(const glm::vec3& direction, const glm::vec3& color)
+			: Direction(direction), Color(color) { }
+		DirectionalLightComponent(const DirectionalLightComponent&) = default;
+	};
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// PointLight /////////////////////////////////////////////////////////////////////////////////
+
+	struct PointLightComponent
+	{
+		glm::vec3 Color{ 0.8f, 0.8f, 0.8f };
+		float Constant = 1.0f;
+		float Linear = 0.4f;
+		float Quadratic = 0.1f;
+
+		PointLightComponent() = default;
+		PointLightComponent(const glm::vec3& color, float constant, float linear, float quadratic)
+			: Color(color), Constant(constant), Linear(linear), Quadratic(quadratic) { }
+		PointLightComponent(const PointLightComponent&) = default;
+	};
+
+	///////////////////////////////////////////////////////////////////////////////////////////////
 	// Camera /////////////////////////////////////////////////////////////////////////////////////
 
 	struct CameraComponent

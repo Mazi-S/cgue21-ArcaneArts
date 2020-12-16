@@ -6,6 +6,7 @@
 #include "Engine/Renderer/Mesh.h"
 #include "Engine/Renderer/VertexArray.h"
 #include "Engine/Renderer/Camera.h"
+#include "Engine/Renderer/Light.h"
 
 namespace Engine {
 
@@ -17,7 +18,7 @@ namespace Engine {
 
 		static void OnWindowResize(uint32_t width, uint32_t height);
 
-		static void BeginScene(const Camera& camera);
+		static void BeginScene(const Camera& camera, const DirectionalLight& directionalLight = DirectionalLight(), const PointLight& pointLight = PointLight());
 		static void EndScene() {};
 
 		static void Submit(const Ref<VertexArray>& vertexArray, const Ref<Material>& material, const glm::mat4& transform = glm::mat4(1.0f));

@@ -8,6 +8,13 @@ layout(location = 2) in vec3 a_Normals;
 layout (std140) uniform SceneData {
 	mat4 u_ViewProjection;
 	vec3 u_CameraPosition;
+	vec3 u_DirectionalLight_Direction;
+	vec3 u_DirectionalLight_Color;
+	vec3 u_PointLight_Position;
+	vec3 u_PointLight_Color;
+	float u_PointLight_Constant;
+	float u_PointLight_Linear;
+	float u_PointLight_Quadratic;
 };
 
 uniform mat4 u_Transform;
@@ -30,6 +37,13 @@ void main() {
 layout (std140) uniform SceneData {
 	mat4 u_ViewProjection;
 	vec3 u_CameraPosition;
+	vec3 u_DirectionalLight_Direction;
+	vec3 u_DirectionalLight_Color;
+	vec3 u_PointLight_Position;
+	vec3 u_PointLight_Color;
+	float u_PointLight_Constant;
+	float u_PointLight_Linear;
+	float u_PointLight_Quadratic;
 };
 
 layout (std140) uniform MaterialData {
@@ -61,10 +75,10 @@ void main() {
 	vec3 result = resultAmbient * texture(u_Texture, v_TexCoord).rgb;
 
 	// directional light
-    result += CalcDirLight(normal, viewDir);
+	result += CalcDirLight(normal, viewDir);
 
 	// point light
-    result += CalcPointLight(normal, viewDir);
+	result += CalcPointLight(normal, viewDir);
 		
 	// final color
 	color = vec4(result, 1.0f);
@@ -73,8 +87,10 @@ void main() {
 vec3 CalcDirLight(vec3 normal, vec3 viewDir) 
 {
 	// hardcoded stuff
-	vec3 lightDir = vec3(0.0f, -1.0f, -1.0f);
-	vec3 lightColor = vec3(0.8f, 0.8f, 0.8f);
+	//vec3 lightDir = vec3(0.0f, -1.0f, -1.0f);
+	//vec3 lightColor = vec3(0.8f, 0.8f, 0.8f);
+	vec3 lightDir = u_DirectionalLight_Direction;
+	vec3 lightColor = u_DirectionalLight_Color;
 
 	vec3 newLightDir = normalize(-lightDir);
 
@@ -94,11 +110,16 @@ vec3 CalcDirLight(vec3 normal, vec3 viewDir)
 vec3 CalcPointLight(vec3 normal, vec3 viewDir) 
 {
 	// hardcoded stuff
-	vec3 lightPos = vec3(0.0f, 0.0f, 0.0f);;
-	vec3 lightColor = vec3(1.0f, 1.0f, 1.0f);
-	float constant = 1.0f;
-	float linear = 0.4f;
-	float quadratic = 0.1f;
+	//vec3 lightPos = vec3(0.0f, 0.0f, 0.0f);
+	//vec3 lightColor = vec3(0.9f, 0.9f, 0.9f);
+	//float constant = 1.0f;
+	//float linear = 0.4f;
+	//float quadratic = 0.1f;
+	vec3 lightPos = u_PointLight_Position;
+	vec3 lightColor = u_PointLight_Color;
+	float constant = u_PointLight_Constant;
+	float linear = u_PointLight_Linear;
+	float quadratic = u_PointLight_Quadratic;
 
 	vec3 lightDir = normalize(lightPos - v_Position);
 

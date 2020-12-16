@@ -80,6 +80,7 @@ void Hero::CreateMagicBall(MagicBallType type)
 		// right hand
 		ball.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("MagicBall_Light"));
 		ball.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Sphere"));
+		ball.AddComponent<Engine::PointLightComponent>(glm::vec3{0.8f, 0.97f, 0.99f}, 1.0f, 0.4f, 0.1f);
 		tc.Translation = { 0.5f, -0.2f, -1.0f };
 		m_RightHand = ball;
 		break;
