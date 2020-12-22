@@ -10,10 +10,10 @@ void Hero::OnEvent(Engine::Event& e)
 bool Hero::OnMouseButtonPressed(Engine::MouseButtonPressedEvent& e)
 {
 	if (e.GetMouseButton() == Engine::Mouse::ButtonLeft)
-		UseLeftHand();
+		UseRightHand();
 
 	if (e.GetMouseButton() == Engine::Mouse::ButtonRight)
-		UseRightHand();
+		UseLeftHand();
 
 	return false;
 }
@@ -25,8 +25,8 @@ bool Hero::OnMouseScrolled(Engine::MouseScrolledEvent& e)
 	else
 		m_AktiveSpell = MagicBallType::Fire;
 
-	if (m_LeftHand)
-		DropLeft();
+	if (m_RightHand)
+		DropRight();
 
 	CreateMagicBall(m_AktiveSpell);
 
@@ -36,17 +36,17 @@ bool Hero::OnMouseScrolled(Engine::MouseScrolledEvent& e)
 void Hero::UseLeftHand()
 {
 	if (m_LeftHand)
-		ThrowLeft();
+		DropLeft();
 	else
-		CreateMagicBall(m_AktiveSpell);
+		CreateMagicBall(MagicBallType::Light);
 }
 
 void Hero::UseRightHand()
 {
 	if (m_RightHand)
-		DropRight();
+		ThrowRight();
 	else
-		CreateMagicBall(MagicBallType::Light);
+		CreateMagicBall(m_AktiveSpell);
 }
 
 void Hero::CreateMagicBall(MagicBallType type)
@@ -59,49 +59,46 @@ void Hero::CreateMagicBall(MagicBallType type)
 	switch (type)
 	{
 	case MagicBallType::Fire:
-		// left hand
 		ball.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("MagicBall_Fire"));
 		ball.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Sphere"));
 		ball.AddNativeScript<MagicBall>();
 		ball.GetComponent<Engine::NativeScriptComponent>().Active = false;
-		tc.Translation = { -0.5f, -0.2f, -1.0f };
-		m_LeftHand = ball;
+		tc.Translation = { 0.5f, -0.2f, -1.0f }; // right hand
+		m_RightHand = ball;
 		break;
 	case MagicBallType::Water:
-		// left hand
 		ball.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("MagicBall_Water"));
 		ball.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Sphere"));
 		ball.AddNativeScript<MagicBall>();
 		ball.GetComponent<Engine::NativeScriptComponent>().Active = false;
-		tc.Translation = { -0.5f, -0.2f, -1.0f };
-		m_LeftHand = ball;
+		tc.Translation = { 0.5f, -0.2f, -1.0f }; // right hand
+		m_RightHand = ball;
 		break;
 	case MagicBallType::Light:
-		// right hand
 		ball.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("MagicBall_Light"));
 		ball.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Sphere"));
 		ball.AddComponent<Engine::PointLightComponent>(glm::vec3{0.8f, 0.97f, 0.99f}, 1.0f, 0.4f, 0.1f);
-		tc.Translation = { 0.5f, -0.2f, -1.0f };
-		m_RightHand = ball;
+		tc.Translation = { -0.5f, -0.2f, -1.0f }; // left hand
+		m_LeftHand = ball;
 		break;
 	}
 }
 
-void Hero::ThrowLeft()
+void Hero::ThrowRight()
 {
 	// todo: System::RemoveParent()
 		auto& tc = GetComponent<Engine::TransformComponent>();
-		auto& tc_lh = m_LeftHand.GetComponent<Engine::TransformComponent>();
+		auto& tc_lh = m_RightHand.GetComponent<Engine::TransformComponent>();
 		tc_lh.Translation = Engine::System::Util::Transform(tc, tc_lh.Translation);
 		tc_lh.Rotation += tc.Rotation;
 		tc_lh.Scale *= tc.Scale;
-		m_LeftHand.RemoveComponent<Engine::ParentComponent>();
+		m_RightHand.RemoveComponent<Engine::ParentComponent>();
 
-	m_LeftHand.GetComponent<Engine::NativeScriptComponent>().Active = true;
+	m_RightHand.GetComponent<Engine::NativeScriptComponent>().Active = true;
 	glm::vec4 velocity = glm::toMat4(glm::quat(tc.Rotation)) * glm::vec4{ 1.0f, 1.0f, -50.0f, 0.0 };
-	m_LeftHand.AddComponent<Engine::VelocityComponent>(glm::vec3{ velocity.x, velocity.y, velocity.z });
+	m_RightHand.AddComponent<Engine::VelocityComponent>(glm::vec3{ velocity.x, velocity.y, velocity.z });
 
-	m_LeftHand = Engine::Entity();
+	m_RightHand = Engine::Entity();
 }
 
 void Hero::DropLeft()

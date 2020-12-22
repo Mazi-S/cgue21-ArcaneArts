@@ -26,7 +26,7 @@ private:
 private:
 	MagicBallType m_AktiveSpell = MagicBallType::Fire;
 
-	Engine::Entity m_LeftHand;
-	Engine::Entity m_RightHand;
+	Engine::Entity m_LeftHand; // Pasive Spells
+	Engine::Entity m_RightHand; // Aktive Spells
 };
 

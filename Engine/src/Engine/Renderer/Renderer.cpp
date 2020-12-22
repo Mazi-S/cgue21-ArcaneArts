@@ -14,6 +14,7 @@ namespace Engine {
 		s_SceneUB = UniformBuffer::Create(4 * 4 * 10, {
 			{ShaderDataType::Mat4, "ViewProjection", 0},
 			{ShaderDataType::Float3, "CameraPosition", 4 * 4 * 4},
+
 			{ShaderDataType::Float3, "DirectionalLight_Direction", 4 * 4 * 5},
 			{ShaderDataType::Float3, "DirectionalLight_Color", 4 * 4 * 6},
 
