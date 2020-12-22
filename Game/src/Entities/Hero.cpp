@@ -86,13 +86,12 @@ void Hero::CreateMagicBall(MagicBallType type)
 
 void Hero::ThrowRight()
 {
-	// todo: System::RemoveParent()
-		auto& tc = GetComponent<Engine::TransformComponent>();
-		auto& tc_lh = m_RightHand.GetComponent<Engine::TransformComponent>();
-		tc_lh.Translation = Engine::System::Util::Transform(tc, tc_lh.Translation);
-		tc_lh.Rotation += tc.Rotation;
-		tc_lh.Scale *= tc.Scale;
-		m_RightHand.RemoveComponent<Engine::ParentComponent>();
+	auto& tc = GetComponent<Engine::TransformComponent>();
+	auto& tc_rh = m_RightHand.GetComponent<Engine::TransformComponent>();
+	tc_rh.Translation = Engine::System::Util::Transform(tc, tc_rh.Translation);
+	tc_rh.Rotation += tc.Rotation;
+	tc_rh.Scale *= tc.Scale;
+	m_RightHand.RemoveComponent<Engine::ParentComponent>();
 
 	m_RightHand.GetComponent<Engine::NativeScriptComponent>().Active = true;
 	glm::vec4 velocity = glm::toMat4(glm::quat(tc.Rotation)) * glm::vec4{ 1.0f, 1.0f, -50.0f, 0.0 };
