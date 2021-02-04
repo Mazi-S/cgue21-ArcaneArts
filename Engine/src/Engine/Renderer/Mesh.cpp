@@ -1,6 +1,6 @@
 #include "egpch.h"
 #include "Mesh.h"
-#include "ObjectLoader.h"
+#include "Engine/Util/ObjectLoader.h"
 
 namespace Engine {
 

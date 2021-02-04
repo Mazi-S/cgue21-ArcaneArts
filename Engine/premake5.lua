@@ -16,7 +16,9 @@ project "Engine"
 		"dependencies/glm/glm/**.hpp",
 		"dependencies/glm/glm/**.inl",
 		"dependencies/stb_image/**.h",
-		"dependencies/stb_image/**.cpp"
+		"dependencies/stb_image/**.cpp",
+		"dependencies/tinyobjloader/**.h",
+		"dependencies/tinyobjloader/**.cpp"
 	}
 
 	includedirs {
@@ -26,7 +28,8 @@ project "Engine"
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.stb_image}",
 		"%{IncludeDir.glm}",
-		"%{IncludeDir.entt}"
+		"%{IncludeDir.entt}",
+		"%{IncludeDir.tinyobjloader}"
 	}
 
 	links {

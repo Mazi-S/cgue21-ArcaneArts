@@ -2,7 +2,7 @@
 
 #include <Engine/Events/KeyEvent.h>
 #include <Engine/Renderer/Texture.h>
-#include <Engine/Renderer/ObjectLoader.h>
+#include <Engine/Util/ObjectLoader.h>
 
 #include "Entities/Hero.h"
 #include "Entities/MagicBall.h"

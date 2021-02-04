@@ -1,6 +1,7 @@
 #include "egpch.h"
 
 #include <vector>
+#include <set>
 #include <stdio.h>
 #include <string>
 #include <cstring>
@@ -8,6 +9,7 @@
 #include <glm/glm.hpp>
 
 #include "ObjectLoader.h"
+#include "tiny_obj_loader.h"
 
 namespace Engine {
 
@@ -107,10 +109,72 @@ namespace Engine {
 
 	Ref<Mesh> ObjectLoader::LoadMesh(const std::string& name, const std::string& path)
 	{
+		std::set<Ref<IndexBuffer>> indexBuffers;
+
 		std::vector<float> vertices;
 		std::vector<uint32_t> indices;
 
-		loadOBJ(path.c_str(), vertices, indices);
+		tinyobj::ObjReaderConfig reader_config;
+		tinyobj::ObjReader reader;
+
+		if (!reader.ParseFromFile(path, reader_config))
+		{
+			if (!reader.Error().empty())
+				LOG_ERROR("TinyObjReader: {}", reader.Error());
+			ASSERT(false, "Failed to load Mesh!");
+		}
+
+		if (!reader.Warning().empty())
+			LOG_WARN("ObjectLoader: {}", reader.Warning());
+
+		auto& attrib = reader.GetAttrib();
+		auto& shapes = reader.GetShapes();
+
+		// Loop over shapes
+		uint32_t indexCount = 0;
+		for (size_t s = 0; s < shapes.size(); s++)
+		{
+			LOG_INFO("path: {}\t shapes: {}", path, shapes.size());
+			// Loop over faces(polygon)
+			size_t index_offset = 0;
+			for (size_t f = 0; f < shapes[s].mesh.num_face_vertices.size(); f++)
+			{
+				int fv = shapes[s].mesh.num_face_vertices[f];
+				ASSERT(fv == 3, "ObjectLoader: Invalid number of vertices per face!");
+
+				// Loop over vertices in the face.
+				for (size_t v = 0; v < fv; v++)
+				{
+					// access to vertex
+					tinyobj::index_t idx = shapes[s].mesh.indices[index_offset + v];
+					tinyobj::real_t vx = attrib.vertices[3 * idx.vertex_index + 0];
+					tinyobj::real_t vy = attrib.vertices[3 * idx.vertex_index + 1];
+					tinyobj::real_t vz = attrib.vertices[3 * idx.vertex_index + 2];
+					tinyobj::real_t nx = attrib.normals[3 * idx.normal_index + 0];
+					tinyobj::real_t ny = attrib.normals[3 * idx.normal_index + 1];
+					tinyobj::real_t nz = attrib.normals[3 * idx.normal_index + 2];
+					tinyobj::real_t tx = attrib.texcoords[2 * idx.texcoord_index + 0];
+					tinyobj::real_t ty = attrib.texcoords[2 * idx.texcoord_index + 1];
+
+					vertices.push_back(vx);
+					vertices.push_back(vy);
+					vertices.push_back(vz);
+					vertices.push_back(tx);
+					vertices.push_back(ty);
+					vertices.push_back(nx);
+					vertices.push_back(ny);
+					vertices.push_back(nz);
+
+					indices.push_back(indexCount++);
+				}
+				index_offset += fv;
+
+			}
+
+			auto ib = IndexBuffer::Create(indices.data(), indices.size());
+			indices.clear();
+			indexBuffers.insert(ib);
+		}
 
 		Ref<VertexBuffer> vb = VertexBuffer::Create(vertices.data(), vertices.size() * sizeof(float));
 		vb->SetLayout({
@@ -119,10 +183,11 @@ namespace Engine {
 			{ ShaderDataType::Float3, "a_Normals" }
 		});
 
-		Ref<IndexBuffer> ib = IndexBuffer::Create(indices.data(), indices.size());
-
 		Ref<Mesh> mesh = CreateRef<Mesh>(name, vb);
-		mesh->AddSubmesh(ib);
+		for (auto& ib : indexBuffers)
+		{
+			mesh->AddSubmesh(ib);
+		}
 
 		return mesh;
 	}
