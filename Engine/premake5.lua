@@ -18,7 +18,8 @@ project "Engine"
 		"dependencies/stb_image/**.h",
 		"dependencies/stb_image/**.cpp",
 		"dependencies/tinyobjloader/**.h",
-		"dependencies/tinyobjloader/**.cpp"
+		"dependencies/tinyobjloader/**.cpp",
+		"dependencies/physx/include/**.h",
 	}
 
 	includedirs {
@@ -29,13 +30,18 @@ project "Engine"
 		"%{IncludeDir.stb_image}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.entt}",
-		"%{IncludeDir.tinyobjloader}"
+		"%{IncludeDir.tinyobjloader}",
+		"%{IncludeDir.physx}"
 	}
 
 	links {
 		"GLFW",
 		"Glad",
-		"opengl32.lib"
+		"opengl32.lib",
+		"PhysXCommon_64.lib",
+		"PhysX_64.lib",
+		"PhysXFoundation_64.lib",
+		"PhysXExtensions_static_64.lib",
 	}
 
 	defines	{
@@ -49,8 +55,10 @@ project "Engine"
 		defines "ENGINE_DEBUG"
 		runtime "Debug"
 		symbols "on"
+		libdirs { "%{LibDir.physx_debug}" }
 
 	filter "configurations:Release"
 		defines "ENGINE_RELEASE"
 		runtime "Release"
 		optimize "on"
+		libdirs { "%{LibDir.physx_release}" }

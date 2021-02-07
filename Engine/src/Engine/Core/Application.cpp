@@ -5,6 +5,7 @@
 #include "Platform/Platform.h"
 
 #include "Engine/Renderer/Renderer.h"
+#include "Engine/Physics/Physics.h"
 
 namespace Engine {
 
@@ -20,10 +21,12 @@ namespace Engine {
 		m_Window->SetEventCallback(EG_BIND_EVENT_FN(Application::OnEvent));
 
 		Renderer::Init();
+		Physics::Init();
 	}
 
 	Application::~Application() {
 		Renderer::Shutdown();
+		Physics::Shutdown();
 	}
 
 	void Application::OnEvent(Event& e)
