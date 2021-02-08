@@ -18,7 +18,7 @@ ExampleLayer::ExampleLayer()
 void ExampleLayer::OnAttach()
 {
 	// Init here
-	Engine::OpenGL::API::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+	Engine::OpenGL::API::SetClearColor({ 0.0f, 0.3f, 0.5f, 1.0f });
 
 	// Load Meshes
 	{
@@ -49,6 +49,13 @@ void ExampleLayer::OnAttach()
 		Engine::MeshLibrary::Load("Cloud_2", "assets/objects/clouds/cloud_2.obj");
 		Engine::MeshLibrary::Load("Cloud_3", "assets/objects/clouds/cloud_3.obj");
 		Engine::MeshLibrary::Load("Cloud_4", "assets/objects/clouds/cloud_4.obj");
+
+		// Rocks
+		Engine::MeshLibrary::Load("Rock_1", "assets/objects/rocks/rock_1.obj");
+		Engine::MeshLibrary::Load("Rock_2", "assets/objects/rocks/rock_2.obj");
+		Engine::MeshLibrary::Load("Rock_3", "assets/objects/rocks/rock_3.obj");
+		Engine::MeshLibrary::Load("Rock_4", "assets/objects/rocks/rock_4.obj");
+		Engine::MeshLibrary::Load("Rock_5", "assets/objects/rocks/rock_5.obj");
 	}
 
 	// Load Shaders
@@ -62,8 +69,8 @@ void ExampleLayer::OnAttach()
 		auto greenMaterial = Engine::Material::Create(Engine::MaterialProperties("GreenMaterial", { 0.1f, 0.3f, 0.05f }), Engine::ShaderLibrary::Get("ColorShader"));
 		auto skinMaterial = Engine::Material::Create(Engine::MaterialProperties("SkinMaterial", { 1.0f, 0.8f, 0.6f }), Engine::ShaderLibrary::Get("ColorShader"));
 		auto cloudMaterial = Engine::Material::Create(Engine::MaterialProperties("CloudMaterial", { 0.56f, 0.77f, 1.0f }), Engine::ShaderLibrary::Get("ColorShader"));
-		auto terrainMaterial = Engine::Material::Create(Engine::MaterialProperties("TerrainMaterial", { 0.05f, 0.18f, 0.05f }), Engine::ShaderLibrary::Get("ColorShader"));
-		auto rockMaterial = Engine::Material::Create(Engine::MaterialProperties("RockMaterial", { 0.7f, 0.7f, 0.7f }), Engine::ShaderLibrary::Get("ColorShader"));
+		auto terrainMaterial = Engine::Material::Create(Engine::MaterialProperties("TerrainMaterial", { 0.26f, 0.33f, 0.0f }), Engine::ShaderLibrary::Get("ColorShader"));
+		auto rockMaterial = Engine::Material::Create(Engine::MaterialProperties("RockMaterial", { 0.5f, 0.5f, 0.5f }), Engine::ShaderLibrary::Get("ColorShader"));
 
 		// Textures
 		auto bricksMaterial = Engine::Material::Create(Engine::MaterialProperties("BricksMaterial", { 0.1f, 0.1f, 0.1f }, { 0.6f, 0.6f, 0.6f }, { 0.2f, 0.2f, 0.2f }, 2.0f, "assets/textures/Bricks.jpg"), Engine::ShaderLibrary::Get("TextureShader"));
@@ -95,7 +102,7 @@ void ExampleLayer::OnAttach()
 
 	// light
 	auto directionalLight = m_Scene->CreateEntity();
-	directionalLight.AddComponent<Engine::DirectionalLightComponent>(glm::vec3{ 0.0f, -1.0f, 0.3f }, glm::vec3{ 0.3f, 0.3f, 0.3f } );
+	directionalLight.AddComponent<Engine::DirectionalLightComponent>(glm::vec3{ 0.0f, -1.0f, 0.3f }, glm::vec3{ 0.5f, 0.5f, 0.5f } );
 
 	// Hero
 	m_Hero = m_Scene->CreateEntity();
@@ -109,6 +116,7 @@ void ExampleLayer::OnAttach()
 	// Add objects to the Scene
 	{
 		Engine::Entity entity;
+		/*
 		entity = m_Scene->CreateEntity();
 		entity.GetComponent<Engine::TransformComponent>().Translation = { -2.0f, 0.0f, 0.0f };
 		entity.GetComponent<Engine::TransformComponent>().Rotation = { 0.2f, 0.4f, 0.1f };
@@ -136,6 +144,7 @@ void ExampleLayer::OnAttach()
 		entity.GetComponent<Engine::TransformComponent>().Scale = { 0.5f, 0.5f, 0.5f };
 		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("WoodFloorMaterial"));
 		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Cube"));
+		*/
 
 		entity = m_Scene->CreateEntity();
 		entity.GetComponent<Engine::TransformComponent>().Translation = { -0.0f, 2.0f, 2.0f };
@@ -166,16 +175,17 @@ void ExampleLayer::OnAttach()
 		entity.GetComponent<Engine::TransformComponent>().Scale = { 1.5f, 1.5f, 1.5f };
 		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("HouseMaterial"));
 		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("House"));
+		
 
 		entity = m_Scene->CreateEntity();
-		entity.GetComponent<Engine::TransformComponent>().Translation = { 20.0f, 0.0f, 0.0f };
+		entity.GetComponent<Engine::TransformComponent>().Translation = { 0.0f, -0.45f, 0.0f };
 		entity.GetComponent<Engine::TransformComponent>().Rotation = { 0.0f, 0.0f, 0.0f };
 		entity.GetComponent<Engine::TransformComponent>().Scale = { 1.5f, 1.5f, 1.5f };
 		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("TerrainMaterial"));
 		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Terrain"));
 
 		// Forest
-		for (size_t i = 0; i < 10; i++)
+		for (size_t i = 0; i < 50; i++)
 		{
 			entity = m_Scene->CreateEntity();
 			entity.GetComponent<Engine::TransformComponent>().Translation = { (rand() % 100) - 50, 0.0f, (rand() % 100) - 50 };
@@ -211,14 +221,32 @@ void ExampleLayer::OnAttach()
 			entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("ForestMaterial"));
 			entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Stump_" + std::to_string((rand() % 3) + 1)));
 		}
-
-		// Clouds
 		for (size_t i = 0; i < 10; i++)
 		{
 			entity = m_Scene->CreateEntity();
-			entity.GetComponent<Engine::TransformComponent>().Translation = { (rand() % 100) - 50, 50.0f, (rand() % 100) - 50 };
+			entity.GetComponent<Engine::TransformComponent>().Translation = { (rand() % 100) - 50, 0.0f, (rand() % 100) - 50 };
 			entity.GetComponent<Engine::TransformComponent>().Rotation = { 0.0f, 0.0f, 0.0f };
-			entity.GetComponent<Engine::TransformComponent>().Scale = { 3.0f, 3.0f, 3.0f };
+			entity.GetComponent<Engine::TransformComponent>().Scale = { 1.0f, 1.0f, 1.0f };
+			entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("ForestMaterial"));
+			entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Fallen_Tree_" + std::to_string((rand() % 2) + 1)));
+		}
+		for (size_t i = 0; i < 30; i++)
+		{
+			entity = m_Scene->CreateEntity();
+			entity.GetComponent<Engine::TransformComponent>().Translation = { (rand() % 100) - 50, -0.2f, (rand() % 100) - 50 };
+			entity.GetComponent<Engine::TransformComponent>().Rotation = { 0.0f, 0.0f, 0.0f };
+			entity.GetComponent<Engine::TransformComponent>().Scale = { 1.0f, 1.0f, 1.0f };
+			entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("RockMaterial"));
+			entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Rock_" + std::to_string((rand() % 5) + 1)));
+		}
+
+		// Clouds
+		for (size_t i = 0; i < 30; i++)
+		{
+			entity = m_Scene->CreateEntity();
+			entity.GetComponent<Engine::TransformComponent>().Translation = { (rand() % 200) - 100, 50.0f, (rand() % 200) - 100 };
+			entity.GetComponent<Engine::TransformComponent>().Rotation = { 0.0f, 0.0f, 0.0f };
+			entity.GetComponent<Engine::TransformComponent>().Scale = { 4.0f, 4.0f, 4.0f };
 			entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("CloudMaterial"));
 			entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Cloud_" + std::to_string((rand() % 4) + 1)));
 		}
