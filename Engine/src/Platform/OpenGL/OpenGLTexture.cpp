@@ -68,5 +68,4 @@ namespace Engine::OpenGL {
 		LOG_TRACE("File loaded successfully!");
 		return true;
 	}
-
 }
