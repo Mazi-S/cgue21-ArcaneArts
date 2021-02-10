@@ -27,6 +27,7 @@ namespace Engine::OpenGL {
 		virtual void SetFloat4(const std::string& name, const glm::vec4& values) override;
 		virtual void SetMat3(const std::string& name, const glm::mat3& matrix) override;
 		virtual void SetMat4(const std::string& name, const glm::mat4& matrix) override;
+		virtual void SetVec3(const std::string& name, const glm::vec3& matrix) override;
 
 		virtual const std::string& GetName() const override { return m_Name; }
 

@@ -116,4 +116,10 @@ namespace Engine {
 		return std::pair<uint32_t, uint32_t>(m_ViewportWidth, m_ViewportHeight);
 	}
 
+	Camera Scene::GetCamera()
+	{
+		Camera camera = m_MainCamera != entt::null ? System::Camera::GetCamera(m_Registry, m_MainCamera) : System::Camera::GetCamera(m_Registry);
+		return camera;
+	}
+
 }

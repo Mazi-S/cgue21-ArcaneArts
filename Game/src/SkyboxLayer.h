@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine.h"
 
+
 class SkyboxLayer : public Engine::Layer {
 public:
 	SkyboxLayer();
@@ -14,5 +15,5 @@ public:
 	virtual void OnEvent(Engine::Event& event) override;
 
 private:
-	unsigned int skyboxVAO, skyboxVBO, cubemapTexture;
+	Engine::Ref<Engine::Skybox> m_Skybox;
 };

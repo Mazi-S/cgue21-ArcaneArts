@@ -28,6 +28,8 @@
 
 #include "Engine/Renderer/Camera.h"
 
+#include "Engine/Renderer/Skybox.h"
+
 // Scene
 #include "Engine/Scene/Scene.h"
 #include "Engine/Scene/Entity.h"

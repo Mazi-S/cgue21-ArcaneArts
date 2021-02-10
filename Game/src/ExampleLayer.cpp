@@ -128,6 +128,9 @@ void ExampleLayer::OnAttach()
 	auto& ccc = m_Hero.AddComponent<Engine::CharacterControllerComponent>();
 	Engine::System::Util::Activate(ccc);
 
+	// Skybox
+	m_Skybox = Engine::CreateRef<Engine::Skybox>();
+
 	m_Scene->CreateMainCamera(m_Hero);
 
 	// Add objects to the Scene
@@ -161,7 +164,7 @@ void ExampleLayer::OnAttach()
 		entity.GetComponent<Engine::TransformComponent>().Scale = { 0.5f, 0.5f, 0.5f };
 		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("WoodFloorMaterial"));
 		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Cube"));
-		*/
+		
 
 		entity = m_Scene->CreateEntity();
 		entity.GetComponent<Engine::TransformComponent>().Translation = { -0.0f, 2.0f, 2.0f };
@@ -268,7 +271,6 @@ void ExampleLayer::OnAttach()
 			entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Cloud_" + std::to_string((rand() % 4) + 1)));
 		}
 
-		/*
 		glDepthFunc(GL_LEQUAL);
 		entity = m_Scene->CreateEntity();
 		entity.GetComponent<Engine::TransformComponent>().Translation = { 0.0f, 0.0f, 0.0f };
@@ -294,6 +296,9 @@ void ExampleLayer::OnUpdate(Engine::Timestep ts)
 	// Render here
 	Engine::OpenGL::API::Clear();
 	m_Scene->OnRender();
+
+	// Render Skybox and CubeMap
+	m_Skybox->Draw(m_Scene->GetCamera());
 }
 
 void ExampleLayer::OnEvent(Engine::Event& event)

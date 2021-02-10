@@ -6,6 +6,7 @@
 #include "Engine/Events/Event.h"
 #include "Engine/Events/KeyEvent.h"
 #include "Engine/Core/Application.h"
+#include "Engine/Renderer/Camera.h"
 
 #include <glm/glm.hpp>
 
@@ -32,6 +33,7 @@ namespace Engine {
 		void OnViewportResize(uint32_t width, uint32_t height);
 
 		std::pair<uint32_t, uint32_t> GetVieportSize();
+		Camera Scene::GetCamera();
 
 	private:
 		bool OnWindowResize(WindowResizeEvent& e);

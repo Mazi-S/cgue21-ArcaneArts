@@ -137,6 +137,13 @@ namespace Engine::OpenGL {
 		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 	}
 
+	void Shader::SetVec3(const std::string& name, const glm::vec3& matrix)
+	{
+		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+		ASSERT(location != -1, "'" + name + "' does not correspond to an active uniform variable in this shader!", name);
+		glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
+	}
+
 	std::string Shader::ReadFile(const std::string& filepath)
 	{
 		std::string result;
