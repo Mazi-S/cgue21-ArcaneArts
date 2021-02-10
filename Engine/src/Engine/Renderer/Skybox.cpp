@@ -130,8 +130,8 @@ namespace Engine {
         {
             "assets/textures/skybox/right.jpg",
             "assets/textures/skybox/left.jpg",
-            "assets/textures/skybox/top.jpg",
             "assets/textures/skybox/bottom.jpg",
+            "assets/textures/skybox/top.jpg",
             "assets/textures/skybox/front.jpg",
             "assets/textures/skybox/back.jpg",
         };
@@ -160,11 +160,9 @@ namespace Engine {
         glm::mat4 model = glm::mat4(1.0f);
         glm::mat4 view = glm::inverse(camera.Transform);
         glm::mat4 projection = camera.Projection;
-        glm::vec3 cameraPos = glm::vec3(camera.Transform[0][3], camera.Transform[1][3], camera.Transform[2][3]);
         cubemapShader->SetMat4("u_Model", model);
         cubemapShader->SetMat4("u_View", view);
         cubemapShader->SetMat4("u_Projection", projection);
-        cubemapShader->SetVec3("u_CameraPos", cameraPos);
 
         glBindVertexArray(cubeVAO);
         glActiveTexture(GL_TEXTURE0);

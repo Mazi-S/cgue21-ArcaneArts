@@ -12,9 +12,9 @@ uniform mat4 u_View;
 
 void main()
 {
-    v_Normal = mat3(transpose(inverse(u_Model))) * a_Normal;
-    v_Position = vec3(u_Model * vec4(a_Position, 1.0));
-    gl_Position = u_Projection * u_View * vec4(v_Position, 1.0);
+    v_Normal = mat3(transpose(inverse(u_View * u_Model))) * a_Normal;
+    v_Position = vec3(u_View * u_Model * vec4(a_Position, 1.0));
+    gl_Position = u_Projection * vec4(v_Position, 1.0);
 }  
 
 #type fragment
@@ -24,12 +24,13 @@ out vec4 color;
 in vec3 v_Normal;
 in vec3 v_Position;
 
-uniform vec3 u_CameraPos;
+uniform mat4 u_View;
 uniform samplerCube u_Skybox;
 
 void main()
 {    
-    vec3 I = normalize(v_Position - u_CameraPos);
-    vec3 R = reflect(I, normalize(v_Normal));
-    color = vec4(texture(u_Skybox, R).rgb, 1.0);
+    vec3 I = normalize(v_Position);
+    vec3 viewR = reflect(I, normalize(v_Normal));
+    vec3 worldR = inverse(mat3(u_View)) * viewR;
+    color = vec4(texture(u_Skybox, -worldR).rgb, 1.0);
 }

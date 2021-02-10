@@ -24,5 +24,5 @@ uniform samplerCube u_Skybox;
 
 void main()
 {    
-    color = texture(u_Skybox, v_Texture);
+    color = texture(u_Skybox, -v_Texture);
 }

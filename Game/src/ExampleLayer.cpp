@@ -79,22 +79,6 @@ void ExampleLayer::OnAttach()
 		auto houseMaterial = Engine::Material::Create(Engine::MaterialProperties("HouseMaterial", { 0.5f, 0.5f, 0.5f }, "assets/textures/house.png"), Engine::ShaderLibrary::Get("TextureShader"));
 		auto forestMaterial = Engine::Material::Create(Engine::MaterialProperties("ForestMaterial", { 0.5f, 0.5f, 0.5f }, "assets/textures/forest.png"), Engine::ShaderLibrary::Get("TextureShader"));
 
-		/*
-		// Skybox
-		std::vector<std::string> faces
-		{
-			"assets/textures/skybox/right.png",
-			"assets/textures/skybox/left.png",
-			"assets/textures/skybox/top.png",
-			"assets/textures/skybox/bottom.png",
-			"assets/textures/skybox/front.png",
-			"assets/textures/skybox/back.png",
-		};
-		auto skyboxTexture = Engine::Texture::CreateCube(faces);
-		auto skyboxShader = Engine::ShaderLibrary::Get("SkyboxShader");
-		auto skyboxMaterial = Engine::TextureMaterial("SkyboxMaterial", { 1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f, 1.0f }, 1.0f, skyboxTexture, skyboxShader);
-		*/
-
 		Engine::MaterialLibrary::Add(redMaterial);
 		Engine::MaterialLibrary::Add(greenMaterial);
 		Engine::MaterialLibrary::Add(bricksMaterial);
@@ -106,7 +90,6 @@ void ExampleLayer::OnAttach()
 		Engine::MaterialLibrary::Add(cloudMaterial);
 		Engine::MaterialLibrary::Add(terrainMaterial);
 		Engine::MaterialLibrary::Add(rockMaterial);
-		// Engine::MaterialLibrary::Add(Engine::CreateRef<Engine::Material>(skyboxMaterial));
 
 		Engine::MaterialLibrary::Add(Engine::Material::Create(Engine::MaterialProperties("MagicBall_Light", { 0.8f, 0.8f, 0.8f }), Engine::ShaderLibrary::Get("ColorShader")));
 		Engine::MaterialLibrary::Add(Engine::Material::Create(Engine::MaterialProperties("MagicBall_Fire", { 0.5f, 0.05f, 0.1f }, { 0.5f, 0.05f, 0.1f }, { 0.5f, 0.35f, 0.4f }, 5.0f), Engine::ShaderLibrary::Get("ColorShader")));
@@ -136,35 +119,6 @@ void ExampleLayer::OnAttach()
 	// Add objects to the Scene
 	{
 		Engine::Entity entity;
-		/*
-		entity = m_Scene->CreateEntity();
-		entity.GetComponent<Engine::TransformComponent>().Translation = { -2.0f, 0.0f, 0.0f };
-		entity.GetComponent<Engine::TransformComponent>().Rotation = { 0.2f, 0.4f, 0.1f };
-		entity.GetComponent<Engine::TransformComponent>().Scale = { 0.5f, 0.5f, 0.5f };
-		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("RedMaterial"));
-		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Cube"));
-
-		entity = m_Scene->CreateEntity();
-		entity.GetComponent<Engine::TransformComponent>().Translation = { 2.0f, 0.0f, 0.0f };
-		entity.GetComponent<Engine::TransformComponent>().Rotation = { 0.5f, 0.4f, 0.2f };
-		entity.GetComponent<Engine::TransformComponent>().Scale = { 0.5f, 0.5f, 0.5f };
-		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("GreenMaterial"));
-		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Cube"));
-
-		entity = m_Scene->CreateEntity();
-		entity.GetComponent<Engine::TransformComponent>().Translation = { -2.0f, 0.0f, -3.0f };
-		entity.GetComponent<Engine::TransformComponent>().Rotation = { 0.2f, 0.2f, 0.7f };
-		entity.GetComponent<Engine::TransformComponent>().Scale = { 0.5f, 0.5f, 0.5f };
-		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("BricksMaterial"));
-		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Cube"));
-
-		entity = m_Scene->CreateEntity();
-		entity.GetComponent<Engine::TransformComponent>().Translation = { 2.0f, 0.0f, -3.0f };
-		entity.GetComponent<Engine::TransformComponent>().Rotation = { 0.7f, 0.5f, 0.9f };
-		entity.GetComponent<Engine::TransformComponent>().Scale = { 0.5f, 0.5f, 0.5f };
-		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("WoodFloorMaterial"));
-		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Cube"));
-		
 
 		entity = m_Scene->CreateEntity();
 		entity.GetComponent<Engine::TransformComponent>().Translation = { -0.0f, 2.0f, 2.0f };
@@ -270,16 +224,6 @@ void ExampleLayer::OnAttach()
 			entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("CloudMaterial"));
 			entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Cloud_" + std::to_string((rand() % 4) + 1)));
 		}
-
-		glDepthFunc(GL_LEQUAL);
-		entity = m_Scene->CreateEntity();
-		entity.GetComponent<Engine::TransformComponent>().Translation = { 0.0f, 0.0f, 0.0f };
-		entity.GetComponent<Engine::TransformComponent>().Rotation = { 0.0f, 0.0f, 0.0f };
-		entity.GetComponent<Engine::TransformComponent>().Scale = { 20.0f, 20.0f, 20.0f };
-		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("SkyboxMaterial"));
-		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Cube"));
-		glDepthFunc(GL_LEQUAL);
-		*/
 	}
 }
 
@@ -295,10 +239,13 @@ void ExampleLayer::OnUpdate(Engine::Timestep ts)
 
 	// Render here
 	Engine::OpenGL::API::Clear();
-	m_Scene->OnRender();
 
 	// Render Skybox and CubeMap
 	m_Skybox->Draw(m_Scene->GetCamera());
+
+	// Render Scene
+	m_Scene->OnRender();
+
 }
 
 void ExampleLayer::OnEvent(Engine::Event& event)
