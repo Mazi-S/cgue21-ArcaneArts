@@ -61,7 +61,6 @@ void ExampleLayer::OnAttach()
 	// Load Shaders
 	Engine::ShaderLibrary::Load("TextureShader", "assets/shaders/Texture.glsl");
 	Engine::ShaderLibrary::Load("ColorShader", "assets/shaders/FlatColor.glsl");
-	Engine::ShaderLibrary::Load("SkyboxShader", "assets/shaders/Skybox.glsl");
 
 	// Create Materials
 	{
@@ -80,19 +79,21 @@ void ExampleLayer::OnAttach()
 		auto houseMaterial = Engine::Material::Create(Engine::MaterialProperties("HouseMaterial", { 0.5f, 0.5f, 0.5f }, "assets/textures/house.png"), Engine::ShaderLibrary::Get("TextureShader"));
 		auto forestMaterial = Engine::Material::Create(Engine::MaterialProperties("ForestMaterial", { 0.5f, 0.5f, 0.5f }, "assets/textures/forest.png"), Engine::ShaderLibrary::Get("TextureShader"));
 
+		/*
 		// Skybox
 		std::vector<std::string> faces
 		{
-			"assets/textures/skybox/right.jpg",
-			"assets/textures/skybox/left.jpg",
-			"assets/textures/skybox/top.jpg",
-			"assets/textures/skybox/bottom.jpg",
-			"assets/textures/skybox/front.jpg",
-			"assets/textures/skybox/back.jpg",
+			"assets/textures/skybox/right.png",
+			"assets/textures/skybox/left.png",
+			"assets/textures/skybox/top.png",
+			"assets/textures/skybox/bottom.png",
+			"assets/textures/skybox/front.png",
+			"assets/textures/skybox/back.png",
 		};
 		auto skyboxTexture = Engine::Texture::CreateCube(faces);
 		auto skyboxShader = Engine::ShaderLibrary::Get("SkyboxShader");
 		auto skyboxMaterial = Engine::TextureMaterial("SkyboxMaterial", { 1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f, 1.0f }, 1.0f, skyboxTexture, skyboxShader);
+		*/
 
 		Engine::MaterialLibrary::Add(redMaterial);
 		Engine::MaterialLibrary::Add(greenMaterial);
@@ -105,7 +106,7 @@ void ExampleLayer::OnAttach()
 		Engine::MaterialLibrary::Add(cloudMaterial);
 		Engine::MaterialLibrary::Add(terrainMaterial);
 		Engine::MaterialLibrary::Add(rockMaterial);
-		Engine::MaterialLibrary::Add(Engine::CreateRef<Engine::Material>(skyboxMaterial));
+		// Engine::MaterialLibrary::Add(Engine::CreateRef<Engine::Material>(skyboxMaterial));
 
 		Engine::MaterialLibrary::Add(Engine::Material::Create(Engine::MaterialProperties("MagicBall_Light", { 0.8f, 0.8f, 0.8f }), Engine::ShaderLibrary::Get("ColorShader")));
 		Engine::MaterialLibrary::Add(Engine::Material::Create(Engine::MaterialProperties("MagicBall_Fire", { 0.5f, 0.05f, 0.1f }, { 0.5f, 0.05f, 0.1f }, { 0.5f, 0.35f, 0.4f }, 5.0f), Engine::ShaderLibrary::Get("ColorShader")));
@@ -267,13 +268,16 @@ void ExampleLayer::OnAttach()
 			entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Cloud_" + std::to_string((rand() % 4) + 1)));
 		}
 
+		/*
 		glDepthFunc(GL_LEQUAL);
 		entity = m_Scene->CreateEntity();
 		entity.GetComponent<Engine::TransformComponent>().Translation = { 0.0f, 0.0f, 0.0f };
 		entity.GetComponent<Engine::TransformComponent>().Rotation = { 0.0f, 0.0f, 0.0f };
-		entity.GetComponent<Engine::TransformComponent>().Scale = { 6.0f, 6.0f, 6.0f };
+		entity.GetComponent<Engine::TransformComponent>().Scale = { 20.0f, 20.0f, 20.0f };
 		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("SkyboxMaterial"));
 		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Cube"));
+		glDepthFunc(GL_LEQUAL);
+		*/
 	}
 }
 
