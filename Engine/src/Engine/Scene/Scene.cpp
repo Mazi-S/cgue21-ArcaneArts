@@ -48,7 +48,7 @@ namespace Engine {
 		m_Registry.on_construct<RegidDynamicComponent>().connect<&Scene::AddRegidDynamic>(*this);
 		m_Registry.on_construct<RegidStaticComponent>().connect<&Scene::AddRegidStatic>(*this);
 
-		m_PxScene = Physics::CreateScene();
+		m_PxScene = PhysicsAPI::CreateScene();
 	}
 
 	Scene::~Scene()

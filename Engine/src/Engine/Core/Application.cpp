@@ -21,12 +21,12 @@ namespace Engine {
 		m_Window->SetEventCallback(EG_BIND_EVENT_FN(Application::OnEvent));
 
 		Renderer::Init();
-		Physics::Init();
+		PhysicsAPI::Init();
 	}
 
 	Application::~Application() {
 		Renderer::Shutdown();
-		Physics::Shutdown();
+		PhysicsAPI::Shutdown();
 	}
 
 	void Application::OnEvent(Event& e)

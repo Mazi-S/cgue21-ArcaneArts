@@ -3,6 +3,7 @@
 #include "Engine/Renderer/Buffer.h"
 #include "Engine/Renderer/VertexArray.h"
 #include "Platform/OpenGL/OpenGLMesh.h"
+#include "Engine/Physics/PhysicsMesh.h"
 #include "glm/glm.hpp"
 
 namespace Engine {
@@ -33,15 +34,17 @@ namespace Engine {
 		Mesh() = default;
 		Mesh(const std::string& name, std::vector<glm::vec3>& positions, std::vector<glm::vec3>& normals, std::vector<glm::vec2>& textureCoordinates, std::vector<Submesh>& submeshes);
 
-		//Ref<Physics::PxMesh> GetPxMesh();
 		
 		std::string GetName() { return m_Name; }
+
+		Ref<Physics::PxMesh> GetPxMesh() { return m_PxMesh; }
 		Ref<OpenGL::GlMesh> GetGlMesh() { return m_GlMesh; }
 
 		operator Ref<OpenGL::GlMesh>() { return m_GlMesh; }
 
 	private:
 		Ref<OpenGL::GlMesh> CreateGlMesh(bool positions, bool texcoords, bool normals, VertexBufferLayout layout);
+		Ref<Physics::PxMesh> CreatePxMesh();
 
 	private:
 		const std::string m_Name;
@@ -51,6 +54,7 @@ namespace Engine {
 		const std::vector<Submesh> m_Submeshes;
 
 		Ref<OpenGL::GlMesh> m_GlMesh;
+		Ref<Physics::PxMesh> m_PxMesh;
 	};
 
 	///////////////////////////////////////////////////////////////////////////////////////////////

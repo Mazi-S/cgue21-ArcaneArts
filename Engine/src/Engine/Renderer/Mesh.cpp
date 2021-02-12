@@ -17,6 +17,8 @@ namespace Engine {
 			{ ShaderDataType::Float2, "a_TexCoord" },
 			{ ShaderDataType::Float3, "a_Normals" }
 			});
+
+		m_PxMesh = CreatePxMesh();
 	}
 
 	Ref<OpenGL::GlMesh> Mesh::CreateGlMesh(bool positions, bool texcoords, bool normals, VertexBufferLayout layout)
@@ -58,6 +60,17 @@ namespace Engine {
 			mesh->AddSubmesh(sm);
 
 		return mesh;
+	}
+
+	Ref<Physics::PxMesh> Mesh::CreatePxMesh()
+	{
+		std::vector<uint32_t> indices;
+		for (auto& submeshe : m_Submeshes)
+			for (auto& face : submeshe.Faces)
+				for (uint16_t v = 0; v < face.vertices; v++)
+					indices.push_back(face.positionIndex[v]);
+
+		return CreateRef<Physics::PxMesh>(m_Positions, indices);
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////

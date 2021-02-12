@@ -23,7 +23,7 @@ void ExampleLayer::OnAttach()
 	// Load Meshes
 	{
 		Engine::MeshLibrary::Load("Cube", "assets/objects/cube.obj");
-		Engine::MeshLibrary::Load("Tree", "assets/objects/fallen_tree_1.obj");
+		Engine::MeshLibrary::Load("Tree", "assets/objects/oak_2.obj");
 		Engine::MeshLibrary::Load("M4A1", "assets/objects/m4a1.obj");
 		Engine::MeshLibrary::Load("Sphere", "assets/objects/sphere.obj");
 	}
@@ -71,26 +71,29 @@ void ExampleLayer::OnAttach()
 		entity = m_Scene->CreateEntity();
 		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("RedMaterial"));
 		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Cube"));
-		entity.AddComponent<Engine::RegidDynamicComponent>(Engine::Physics::CreateRegidDynamic());
+		entity.AddComponent<Engine::RegidDynamicComponent>(Engine::PhysicsAPI::CreateRegidDynamic());
 
 		entity = m_Scene->CreateEntity();
 		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("GreenMaterial"));
 		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Cube"));
-		entity.AddComponent<Engine::RegidDynamicComponent>(Engine::Physics::CreateRegidDynamic());
+		entity.AddComponent<Engine::RegidDynamicComponent>(Engine::PhysicsAPI::CreateRegidDynamic());
 
 
 		entity = m_Scene->CreateEntity();
 		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("BricksMaterial"));
 		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Cube"));
-		entity.AddComponent<Engine::RegidDynamicComponent>(Engine::Physics::CreateRegidDynamic());
+		entity.AddComponent<Engine::RegidDynamicComponent>(Engine::PhysicsAPI::CreateRegidDynamic());
 
 
 		entity = m_Scene->CreateEntity();
 		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("WoodFloorMaterial"));
-		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Cube"));
-		//entity.AddComponent<Engine::RegidStaticComponent>(Engine::Physics::CreateRigidStatic(Engine::MeshLibrary::Get("Tree"), { 0.0f, 0.0f, 0.0f }));
-		entity.AddComponent<Engine::RegidStaticComponent>(Engine::Physics::CreateRigidStatic(Engine::MeshLibrary::Get("Cube"), { 0.0f, 0.0f, 0.0f }));
-
+		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Tree"));
+		entity.GetComponent<Engine::TransformComponent>().Translation = { 0.0f, 0.0f, 0.0f };
+		glm::vec3 r{ 0, 0, 0};
+		glm::vec3 s{ 3, 1, 1};
+		entity.GetComponent<Engine::TransformComponent>().Rotation = r;
+		entity.GetComponent<Engine::TransformComponent>().Scale = s;
+		entity.AddComponent<Engine::RegidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(Engine::MeshLibrary::Get("Tree"), { 0.0f, 0.0f, 0.0f }, r, s));
 
 		entity = m_Scene->CreateEntity();
 		entity.GetComponent<Engine::TransformComponent>().Translation = { 0.0f, 0.0f, -15.0f };

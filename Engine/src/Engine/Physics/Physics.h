@@ -6,7 +6,7 @@
 
 namespace Engine {
 
-	class Physics
+	class PhysicsAPI
 	{
 	public:
 		static void Init();
@@ -16,7 +16,7 @@ namespace Engine {
 
 		static physx::PxRigidDynamic* CreateRegidDynamicSphere(glm::vec3 position, float radius);
 		static physx::PxRigidDynamic* CreateRegidDynamic();
-		static physx::PxRigidStatic* CreateRigidStatic(Ref<Mesh> mesh, glm::vec3 position);
+		static physx::PxRigidStatic* CreateRigidStatic(Ref<Mesh> mesh, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale);
 	private:
 
 	};
