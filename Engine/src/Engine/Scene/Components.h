@@ -8,6 +8,8 @@
 #include "Engine/Renderer/Material.h"
 #include "Engine/Scene/ScriptableEntity.h"
 
+#include "PxPhysicsAPI.h"
+
 namespace Engine {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -39,16 +41,26 @@ namespace Engine {
 	};
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	// Velocity ///////////////////////////////////////////////////////////////////////////////////
+	// Physics ////////////////////////////////////////////////////////////////////////////////////
 
-	struct VelocityComponent
+	struct RegidDynamicComponent
 	{
-		glm::vec3 Velocity = { 0.0f, 0.0f, 0.0f };
+		physx::PxRigidActor* Actor;
 
-		VelocityComponent() = default;
-		VelocityComponent(const VelocityComponent&) = default;
-		VelocityComponent(const glm::vec3& velocity)
-			: Velocity(velocity) { }
+		RegidDynamicComponent() = default;
+		RegidDynamicComponent(const RegidDynamicComponent&) = default;
+		RegidDynamicComponent(physx::PxRigidActor* actor)
+			: Actor(actor) { }
+	};
+
+	struct RegidStaticComponent
+	{
+		physx::PxRigidActor* Actor;
+
+		RegidStaticComponent() = default;
+		RegidStaticComponent(const RegidStaticComponent&) = default;
+		RegidStaticComponent(physx::PxRigidActor* actor)
+			: Actor(actor) { }
 	};
 
 	///////////////////////////////////////////////////////////////////////////////////////////////

@@ -26,6 +26,18 @@ namespace Engine {
 		System::Camera::SetViewportSize(registry, entity, m_ViewportWidth, m_ViewportHeight);
 	}
 
+	void Scene::AddRegidDynamic(entt::registry& registry, entt::entity entity)
+	{
+		auto& rdc = registry.get<RegidDynamicComponent>(entity);
+		m_PxScene->addActor(*rdc.Actor);
+	}
+
+	void Scene::AddRegidStatic(entt::registry& registry, entt::entity entity)
+	{
+		auto& rsc = registry.get<RegidStaticComponent>(entity);
+		m_PxScene->addActor(*rsc.Actor);
+	}
+
 	Scene::Scene()
 	{
 		m_ViewportWidth = Application::Get().GetWindow().GetWidth();
@@ -33,6 +45,10 @@ namespace Engine {
 
 		m_Registry.on_destroy<NativeScriptComponent>().connect<&UnbindScript>();
 		m_Registry.on_construct<CameraComponent>().connect<&Scene::InitCameraComponent>(*this);
+		m_Registry.on_construct<RegidDynamicComponent>().connect<&Scene::AddRegidDynamic>(*this);
+		m_Registry.on_construct<RegidStaticComponent>().connect<&Scene::AddRegidStatic>(*this);
+
+		m_PxScene = Physics::CreateScene();
 	}
 
 	Scene::~Scene()
@@ -66,7 +82,16 @@ namespace Engine {
 
 		m_Registry.view<NativeScriptComponent>().each([=](auto entity, auto& nsc) { if (nsc.Active) nsc.Instance->OnUpdate(ts); });
 		
-		System::Physics::OnUpdate(m_Registry, ts);
+		static float t = 0;
+		t += ts;
+		if (t > (1.0f / 60.0f))
+		{
+			t -= (1.0f / 60.0f);
+			m_PxScene->simulate(1.0f / 60.0f);
+			m_PxScene->fetchResults(true);
+
+			System::Physics::OnUpdate(m_Registry);
+		}
 	}
 
 	void Scene::OnRender()

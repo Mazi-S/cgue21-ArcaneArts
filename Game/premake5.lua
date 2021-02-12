@@ -18,7 +18,8 @@ project "Game"
 		"%{IncludeDir.spdlog}",
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.glm}",
-		"%{IncludeDir.entt}"
+		"%{IncludeDir.entt}",
+		"%{IncludeDir.physx}"
 	}
 
 	links {
@@ -34,6 +35,9 @@ project "Game"
 		symbols "on"
 
 	filter "configurations:Release"
-		defines "ENGINE_RELEASE"
+		defines	{
+			"ENGINE_RELEASE",
+			"NDEBUG"
+		}
 		runtime "Release"
 		optimize "on"

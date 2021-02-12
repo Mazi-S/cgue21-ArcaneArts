@@ -28,7 +28,7 @@ namespace Engine::OpenGL {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
-	void API::DrawIndexed(const Ref<VertexArray>& vertexArray, uint32_t indexCount)
+	void API::DrawIndexed(const Ref<Engine::VertexArray>& vertexArray, uint32_t indexCount)
 	{
 		glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, nullptr);
 	}

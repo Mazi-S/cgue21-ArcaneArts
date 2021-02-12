@@ -42,8 +42,9 @@ project "Engine"
 		"PhysX_64.lib",
 		"PhysXFoundation_64.lib",
 		"PhysXExtensions_static_64.lib",
+		"PhysXCooking_64.lib"
 	}
-
+	
 	defines	{
 		"GLFW_INCLUDE_NONE"
 	}
@@ -58,7 +59,10 @@ project "Engine"
 		libdirs { "%{LibDir.physx_debug}" }
 
 	filter "configurations:Release"
-		defines "ENGINE_RELEASE"
+		defines	{
+			"ENGINE_RELEASE",
+			"NDEBUG"
+		}
 		runtime "Release"
 		optimize "on"
 		libdirs { "%{LibDir.physx_release}" }

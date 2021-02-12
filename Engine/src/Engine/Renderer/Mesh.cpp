@@ -2,35 +2,62 @@
 #include "Mesh.h"
 #include "Engine/Util/ObjectLoader.h"
 
+#include <set>
+
 namespace Engine {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// Mesh ///////////////////////////////////////////////////////////////////////////////////////
 
-	Mesh::Mesh(const std::string& name, Ref<VertexBuffer> vertexBuffer)
-		: m_Name(name), m_VertexBuffer(vertexBuffer)
-	{ }
-
-	void Mesh::AddSubmesh(std::vector<uint32_t>& indices)
+	Mesh::Mesh(const std::string& name, std::vector<glm::vec3>& positions, std::vector<glm::vec3>& normals, std::vector<glm::vec2>& textureCoordinates, std::vector<Submesh>& submeshes)
+		: m_Name(name), m_Positions(positions), m_Normals(normals), m_TextureCoordinates(textureCoordinates), m_Submeshes(submeshes)
 	{
-		Ref<IndexBuffer> ib = IndexBuffer::Create(indices.data(), indices.size());
-		AddSubmesh(ib);
+		m_GlMesh = CreateGlMesh(true, true, true, {
+			{ ShaderDataType::Float3, "a_Position" },
+			{ ShaderDataType::Float2, "a_TexCoord" },
+			{ ShaderDataType::Float3, "a_Normals" }
+			});
 	}
 
-	void Mesh::AddSubmesh(const Ref<IndexBuffer>& indexBuffer)
+	Ref<OpenGL::GlMesh> Mesh::CreateGlMesh(bool positions, bool texcoords, bool normals, VertexBufferLayout layout)
 	{
-		auto subMesh = CreateRef<Submesh>(m_VertexBuffer, indexBuffer);
-		m_Submeshes.push_back(subMesh);
-	}
+		std::set<std::vector<uint32_t>> submeshIndices;
 
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	// Submesh ////////////////////////////////////////////////////////////////////////////////////
+		std::vector<float> vertices;
+		std::vector<uint32_t> indices;
+		uint32_t indexCount = 0;
+		for (auto& submeshe : m_Submeshes)
+		{
+			for (auto& face : submeshe.Faces)
+			{
+				for (uint16_t v = 0; v < face.vertices; v++)
+				{
+					const glm::vec3& p = m_Positions[face.positionIndex[v]];
+					const glm::vec2& t = m_TextureCoordinates[face.textureCoordinateIndex[v]];
+					const glm::vec3& n = m_Normals[face.normalIndex[v]];
 
-	Submesh::Submesh(const Ref<VertexBuffer>& vertexBuffer, const Ref<IndexBuffer>& indexBuffer)
-	{
-		m_VertexArray = VertexArray::Create();
-		m_VertexArray->AddVertexBuffer(vertexBuffer);
-		m_VertexArray->SetIndexBuffer(indexBuffer);
+					vertices.push_back(p.x);
+					vertices.push_back(p.y);
+					vertices.push_back(p.z);
+					vertices.push_back(t.x);
+					vertices.push_back(t.y);
+					vertices.push_back(n.x);
+					vertices.push_back(n.y);
+					vertices.push_back(n.z);
+
+					indices.push_back(indexCount++);
+				}
+			}
+			submeshIndices.insert(indices);
+			indices.clear();
+		}
+
+		Ref<OpenGL::GlMesh> mesh = CreateRef<OpenGL::GlMesh>(m_Name, vertices, layout);
+
+		for (auto sm : submeshIndices)
+			mesh->AddSubmesh(sm);
+
+		return mesh;
 	}
 
 	///////////////////////////////////////////////////////////////////////////////////////////////

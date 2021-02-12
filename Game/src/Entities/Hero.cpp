@@ -1,4 +1,5 @@
 #include "Hero.h"
+#include "Engine/Physics/Physics.h"
 
 void Hero::OnEvent(Engine::Event& e)
 {
@@ -94,8 +95,11 @@ void Hero::ThrowRight()
 	m_RightHand.RemoveComponent<Engine::ParentComponent>();
 
 	m_RightHand.GetComponent<Engine::NativeScriptComponent>().Active = true;
-	glm::vec4 velocity = glm::toMat4(glm::quat(tc.Rotation)) * glm::vec4{ 1.0f, 1.0f, -50.0f, 0.0 };
-	m_RightHand.AddComponent<Engine::VelocityComponent>(glm::vec3{ velocity.x, velocity.y, velocity.z });
+	glm::vec4 velocity = glm::toMat4(glm::quat(tc.Rotation)) * glm::vec4{ 1.0f, 1.0f, -10.0f, 0.0 };
+	auto actor = Engine::Physics::CreateRegidDynamicSphere(tc_rh.Translation, tc_rh.Scale.x);
+	actor->setLinearVelocity({ velocity.x, velocity.y, velocity.z });
+	actor->setMass(0.1f);
+	m_RightHand.AddComponent<Engine::RegidDynamicComponent>(actor);
 
 	m_RightHand = Engine::Entity();
 }

@@ -2,6 +2,8 @@
 #include "Engine/Core/Base.h"
 #include "Engine/Renderer/Buffer.h"
 #include "Engine/Renderer/VertexArray.h"
+#include "Platform/OpenGL/OpenGLMesh.h"
+#include "glm/glm.hpp"
 
 namespace Engine {
 
@@ -10,41 +12,45 @@ namespace Engine {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// Mesh ///////////////////////////////////////////////////////////////////////////////////////
 
+	struct Face;
+
+	struct Submesh
+	{
+		std::vector<Face> Faces;
+	};
+
+	struct Face
+	{
+		uint16_t vertices;
+		std::vector<uint32_t> positionIndex;
+		std::vector<uint32_t> normalIndex;
+		std::vector<uint32_t> textureCoordinateIndex;
+	};
+
 	class Mesh
 	{
 	public:
 		Mesh() = default;
-		Mesh(const std::string& name, Ref<VertexBuffer> vertexBuffer);
+		Mesh(const std::string& name, std::vector<glm::vec3>& positions, std::vector<glm::vec3>& normals, std::vector<glm::vec2>& textureCoordinates, std::vector<Submesh>& submeshes);
 
-		void AddSubmesh(std::vector<uint32_t>& indices);
-		void AddSubmesh(const Ref<IndexBuffer>& indexBuffer);
-
+		//Ref<Physics::PxMesh> GetPxMesh();
+		
 		std::string GetName() { return m_Name; }
+		Ref<OpenGL::GlMesh> GetGlMesh() { return m_GlMesh; }
 
-		const std::vector<Ref<Submesh>>& GetSubmeshes() const { return m_Submeshes; }
+		operator Ref<OpenGL::GlMesh>() { return m_GlMesh; }
+
+	private:
+		Ref<OpenGL::GlMesh> CreateGlMesh(bool positions, bool texcoords, bool normals, VertexBufferLayout layout);
 
 	private:
 		const std::string m_Name;
-		const Ref<VertexBuffer> m_VertexBuffer;
-		std::vector<Ref<Submesh>> m_Submeshes;
-	};
+		const std::vector<glm::vec3> m_Positions;
+		const std::vector<glm::vec3> m_Normals;
+		const std::vector<glm::vec2> m_TextureCoordinates;
+		const std::vector<Submesh> m_Submeshes;
 
-
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	// Submesh ////////////////////////////////////////////////////////////////////////////////////
-
-	class Submesh
-	{
-		friend class Mesh;
-
-	public:
-		Submesh() = default;
-		Submesh(const Ref<VertexBuffer>& vertexBuffer, const Ref<IndexBuffer>& indexBuffer);
-
-		Ref<VertexArray> GetVertexArray() { return m_VertexArray; }
-
-	private:
-		Ref<VertexArray> m_VertexArray;
+		Ref<OpenGL::GlMesh> m_GlMesh;
 	};
 
 	///////////////////////////////////////////////////////////////////////////////////////////////

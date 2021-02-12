@@ -73,7 +73,7 @@ namespace Engine {
 
 	void Renderer::Submit(const Ref<Mesh>& mesh, const Ref<Material>& material, const glm::mat4& transform)
 	{
-		for(auto& submesh : mesh->GetSubmeshes())
+		for(auto& submesh : mesh->GetGlMesh()->GetSubmeshes())
 			Submit(submesh->GetVertexArray(), material, transform);
 	}
 

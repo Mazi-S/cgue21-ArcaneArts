@@ -23,6 +23,7 @@ void ExampleLayer::OnAttach()
 	// Load Meshes
 	{
 		Engine::MeshLibrary::Load("Cube", "assets/objects/cube.obj");
+		Engine::MeshLibrary::Load("Tree", "assets/objects/fallen_tree_1.obj");
 		Engine::MeshLibrary::Load("M4A1", "assets/objects/m4a1.obj");
 		Engine::MeshLibrary::Load("Sphere", "assets/objects/sphere.obj");
 	}
@@ -59,7 +60,6 @@ void ExampleLayer::OnAttach()
 	// Hero
 	m_Hero = m_Scene->CreateEntity();
 	m_Hero.AddNativeScript<Hero>();
-	m_Hero.AddComponent<Engine::VelocityComponent>(glm::vec3{ 0.0f, -10.0f, 0.0f });
 	auto& ccc = m_Hero.AddComponent<Engine::CharacterControllerComponent>();
 	Engine::System::Util::Activate(ccc);
 
@@ -69,35 +69,31 @@ void ExampleLayer::OnAttach()
 	{
 		Engine::Entity entity;
 		entity = m_Scene->CreateEntity();
-		entity.GetComponent<Engine::TransformComponent>().Translation = { -2.0f, 0.0f, 0.0f };
-		entity.GetComponent<Engine::TransformComponent>().Rotation = { 0.2f, 0.4f, 0.1f };
-		entity.GetComponent<Engine::TransformComponent>().Scale = { 0.5f, 0.5f, 0.5f };
 		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("RedMaterial"));
 		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Cube"));
+		entity.AddComponent<Engine::RegidDynamicComponent>(Engine::Physics::CreateRegidDynamic());
 
 		entity = m_Scene->CreateEntity();
-		entity.GetComponent<Engine::TransformComponent>().Translation = { 2.0f, 0.0f, 0.0f };
-		entity.GetComponent<Engine::TransformComponent>().Rotation = { 0.5f, 0.4f, 0.2f };
-		entity.GetComponent<Engine::TransformComponent>().Scale = { 0.5f, 0.5f, 0.5f };
 		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("GreenMaterial"));
 		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Cube"));
+		entity.AddComponent<Engine::RegidDynamicComponent>(Engine::Physics::CreateRegidDynamic());
+
 
 		entity = m_Scene->CreateEntity();
-		entity.GetComponent<Engine::TransformComponent>().Translation = { -2.0f, 0.0f, -3.0f };
-		entity.GetComponent<Engine::TransformComponent>().Rotation = { 0.2f, 0.2f, 0.7f };
-		entity.GetComponent<Engine::TransformComponent>().Scale = { 0.5f, 0.5f, 0.5f };
 		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("BricksMaterial"));
 		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Cube"));
+		entity.AddComponent<Engine::RegidDynamicComponent>(Engine::Physics::CreateRegidDynamic());
+
 
 		entity = m_Scene->CreateEntity();
-		entity.GetComponent<Engine::TransformComponent>().Translation = { 2.0f, 0.0f, -3.0f };
-		entity.GetComponent<Engine::TransformComponent>().Rotation = { 0.7f, 0.5f, 0.9f };
-		entity.GetComponent<Engine::TransformComponent>().Scale = { 0.5f, 0.5f, 0.5f };
 		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("WoodFloorMaterial"));
 		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Cube"));
+		//entity.AddComponent<Engine::RegidStaticComponent>(Engine::Physics::CreateRigidStatic(Engine::MeshLibrary::Get("Tree"), { 0.0f, 0.0f, 0.0f }));
+		entity.AddComponent<Engine::RegidStaticComponent>(Engine::Physics::CreateRigidStatic(Engine::MeshLibrary::Get("Cube"), { 0.0f, 0.0f, 0.0f }));
+
 
 		entity = m_Scene->CreateEntity();
-		entity.GetComponent<Engine::TransformComponent>().Translation = { -0.0f, 2.0f, 2.0f };
+		entity.GetComponent<Engine::TransformComponent>().Translation = { 0.0f, 0.0f, -15.0f };
 		entity.GetComponent<Engine::TransformComponent>().Rotation = { 0.0f, 3.1f, 0.0f };
 		entity.GetComponent<Engine::TransformComponent>().Scale = { 0.1f, 0.1f, 0.1f };
 		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("RedMaterial"));
@@ -134,14 +130,12 @@ bool ExampleLayer::OnKeyPressed(Engine::KeyPressedEvent& event)
 	if (event.GetKeyCode() == Engine::Key::Escape)
 	{
 		Engine::System::Util::Deactivate(m_Hero.GetComponent<Engine::CharacterControllerComponent>());
-		m_Hero.GetComponent<Engine::VelocityComponent>().Velocity = glm::vec3{ 0.0f, 0.0f, 0.0f };
 	}
 
 
 	if (event.GetKeyCode() == Engine::Key::F1)
 	{
 		Engine::System::Util::Activate(m_Hero.GetComponent<Engine::CharacterControllerComponent>());
-		m_Hero.GetComponent<Engine::VelocityComponent>().Velocity = glm::vec3{ 0.0f, -10.0f, 0.0f };
 	}
 	return false;
 }

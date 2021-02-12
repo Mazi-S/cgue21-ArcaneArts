@@ -5,6 +5,6 @@
 
 namespace Engine::System::Physics {
 
-	void OnUpdate(entt::registry& registry, Timestep ts);
+	void OnUpdate(entt::registry& registry);
 
 }

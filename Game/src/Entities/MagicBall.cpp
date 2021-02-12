@@ -2,7 +2,7 @@
 
 void MagicBall::OnUpdate(Engine::Timestep ts)
 {
-	m_Lifetime -= ts;
+	//m_Lifetime -= ts;
 
 	if (m_Lifetime < 0.3f)
 	{

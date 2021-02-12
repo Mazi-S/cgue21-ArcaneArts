@@ -109,7 +109,7 @@ namespace Engine {
 
 	Ref<Mesh> ObjectLoader::LoadMesh(const std::string& name, const std::string& path)
 	{
-		std::set<Ref<IndexBuffer>> indexBuffers;
+		std::set<std::vector<uint32_t>> submeshIndices;
 
 		std::vector<float> vertices;
 		std::vector<uint32_t> indices;
@@ -130,66 +130,64 @@ namespace Engine {
 		auto& attrib = reader.GetAttrib();
 		auto& shapes = reader.GetShapes();
 
+		std::vector<glm::vec3> positions;
+		std::vector<glm::vec2> textureCoordinates;
+		std::vector<glm::vec3> normals;
+		std::vector<Submesh> submeshes;
+
+		for (size_t i = 0; i < attrib.vertices.size(); i += 3)
+		{
+			positions.push_back({
+				attrib.vertices[i + 0],
+				attrib.vertices[i + 1],
+				attrib.vertices[i + 2]
+			});
+		}
+
+		for (size_t i = 0; i < attrib.texcoords.size(); i += 2)
+		{
+			textureCoordinates.push_back({
+				attrib.texcoords[i + 0],
+				attrib.texcoords[i + 1],
+			});
+		}
+
+		for (size_t i = 0; i < attrib.normals.size(); i += 3)
+		{
+			normals.push_back({
+				attrib.normals[i + 0],
+				attrib.normals[i + 1],
+				attrib.normals[i + 2]
+			});
+		}
+
 		// Loop over shapes
-		uint32_t indexCount = 0;
 		for (size_t s = 0; s < shapes.size(); s++)
 		{
-			LOG_INFO("path: {}\t shapes: {}", path, shapes.size());
+			Submesh submesh;
+
 			// Loop over faces(polygon)
 			size_t index_offset = 0;
 			for (size_t f = 0; f < shapes[s].mesh.num_face_vertices.size(); f++)
 			{
-				int fv = shapes[s].mesh.num_face_vertices[f];
-				ASSERT(fv == 3, "ObjectLoader: Invalid number of vertices per face!");
+				Face face;
+				face.vertices = shapes[s].mesh.num_face_vertices[f];
 
 				// Loop over vertices in the face.
-				for (size_t v = 0; v < fv; v++)
+				for (size_t v = 0; v < face.vertices; v++)
 				{
-					// access to vertex
 					tinyobj::index_t idx = shapes[s].mesh.indices[index_offset + v];
-					tinyobj::real_t vx = attrib.vertices[3 * idx.vertex_index + 0];
-					tinyobj::real_t vy = attrib.vertices[3 * idx.vertex_index + 1];
-					tinyobj::real_t vz = attrib.vertices[3 * idx.vertex_index + 2];
-					tinyobj::real_t nx = attrib.normals[3 * idx.normal_index + 0];
-					tinyobj::real_t ny = attrib.normals[3 * idx.normal_index + 1];
-					tinyobj::real_t nz = attrib.normals[3 * idx.normal_index + 2];
-					tinyobj::real_t tx = attrib.texcoords[2 * idx.texcoord_index + 0];
-					tinyobj::real_t ty = attrib.texcoords[2 * idx.texcoord_index + 1];
-
-					vertices.push_back(vx);
-					vertices.push_back(vy);
-					vertices.push_back(vz);
-					vertices.push_back(tx);
-					vertices.push_back(ty);
-					vertices.push_back(nx);
-					vertices.push_back(ny);
-					vertices.push_back(nz);
-
-					indices.push_back(indexCount++);
+					face.positionIndex.push_back(idx.vertex_index);
+					face.textureCoordinateIndex.push_back(idx.texcoord_index);
+					face.normalIndex.push_back(idx.normal_index);
 				}
-				index_offset += fv;
-
+				index_offset += face.vertices;
+				submesh.Faces.push_back(face);
 			}
-
-			auto ib = IndexBuffer::Create(indices.data(), indices.size());
-			indices.clear();
-			indexBuffers.insert(ib);
+			submeshes.push_back(submesh);
 		}
 
-		Ref<VertexBuffer> vb = VertexBuffer::Create(vertices.data(), vertices.size() * sizeof(float));
-		vb->SetLayout({
-			{ ShaderDataType::Float3, "a_Position" },
-			{ ShaderDataType::Float2, "a_TexCoord" },
-			{ ShaderDataType::Float3, "a_Normals" }
-		});
-
-		Ref<Mesh> mesh = CreateRef<Mesh>(name, vb);
-		for (auto& ib : indexBuffers)
-		{
-			mesh->AddSubmesh(ib);
-		}
-
-		return mesh;
+		return CreateRef<Mesh>(name, positions, normals, textureCoordinates, submeshes);
 	}
 
 }
