@@ -68,18 +68,17 @@ namespace Engine {
 		return { entity, this };
 	}
 
-	Entity Scene::CreateMainCamera(Entity parent)
+	void Scene::DestroyEntity(Entity entity)
+	{
+		m_Registry.destroy(entity);
+	}
+
+	void Scene::SetMainCamera(Entity entity)
 	{
 		if (m_MainCamera != entt::null)
 			m_Registry.destroy(m_MainCamera);
 
-		m_MainCamera = Factory::CreateCamera(m_Registry, parent.m_EntityHandle);
-		return { m_MainCamera, this };
-	}
-
-	void Scene::DestroyEntity(Entity entity)
-	{
-		m_Registry.destroy(entity);
+		m_MainCamera = entity.m_EntityHandle;
 	}
 
 	void Scene::OnUpdate(Timestep ts)

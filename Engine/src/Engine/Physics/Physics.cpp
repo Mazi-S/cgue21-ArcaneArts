@@ -69,10 +69,10 @@ namespace Engine {
 
 		{
 			desc.position = physx::PxExtendedVec3(position.x, position.y, position.z);
-			desc.radius = 0.20f;
-			desc.height = 1.6f;
+			desc.radius = 0.2f;
+			desc.height = 1.8f;
 			desc.contactOffset = 0.05f;
-			desc.stepOffset = 0.01f;
+			desc.stepOffset = 0.25f;
 			desc.slopeLimit = cosf(glm::radians(25.0f));
 			desc.upDirection = physx::PxVec3(0, 1, 0);
 			desc.material = material;
@@ -121,12 +121,6 @@ namespace Engine {
 		sceneDescription.cpuDispatcher = s_TaskDispatcher;
 		sceneDescription.filterShader = physx::PxDefaultSimulationFilterShader;
 		physx::PxScene* scene = s_PhysicsSDK->createScene(sceneDescription);
-
-		// todo: just for testing
-			physx::PxMaterial* material = s_PhysicsSDK->createMaterial(0.5f, 0.5f, 0.6f);
-			physx::PxRigidStatic* groundPlane = physx::PxCreatePlane(*s_PhysicsSDK, physx::PxPlane(0, 1, 0, 0), *material);
-			scene->addActor(*groundPlane);
-
 		return scene;
 	}
 

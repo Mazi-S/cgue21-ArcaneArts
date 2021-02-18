@@ -1,13 +1,15 @@
 #include "Engine.h"
 
 #include "ExampleLayer.h"
+#include "PhysicsTest.h"
 
 class GameApp : public Engine::Application
 {
 public:
 	GameApp()
 	{
-		PushLayer(new ExampleLayer());
+		//PushLayer(new ExampleLayer());
+		PushLayer(new PhysicsTestLayer());
 	}
 
 	~GameApp()

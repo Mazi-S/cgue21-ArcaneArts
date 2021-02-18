@@ -25,8 +25,9 @@ namespace Engine {
 
 		// ECS
 		Entity CreateEntity(const std::string& name = std::string());
-		Entity CreateMainCamera(Entity parent);
 		void DestroyEntity(Entity entity);
+
+		void SetMainCamera(Entity entity);
 
 		void OnUpdate(Timestep ts);
 		void OnRender();
