@@ -60,6 +60,7 @@ void ExampleLayer::OnAttach()
 	// Hero
 	m_Hero = m_Scene->CreateEntity();
 	m_Hero.AddNativeScript<Hero>();
+	m_Hero.GetComponent<Engine::TransformComponent>().Translation = { 0.0f, 1.0f, 0.0f };
 	auto& ccc = m_Hero.AddComponent<Engine::CharacterControllerComponent>();
 	Engine::System::Util::Activate(ccc);
 
@@ -86,14 +87,15 @@ void ExampleLayer::OnAttach()
 
 
 		entity = m_Scene->CreateEntity();
-		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("WoodFloorMaterial"));
+		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("GreenMaterial"));
 		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Tree"));
-		entity.GetComponent<Engine::TransformComponent>().Translation = { 0.0f, 0.0f, 0.0f };
-		glm::vec3 r{ 0, 0, 0};
-		glm::vec3 s{ 3, 1, 1};
+		glm::vec3 t{ 0.424f, -0.014f, 5.174f };
+		glm::vec3 r{ 0, 2, 0};
+		glm::vec3 s{ .5, .5, .5 };
+		entity.GetComponent<Engine::TransformComponent>().Translation = t;
 		entity.GetComponent<Engine::TransformComponent>().Rotation = r;
 		entity.GetComponent<Engine::TransformComponent>().Scale = s;
-		entity.AddComponent<Engine::RegidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(Engine::MeshLibrary::Get("Tree"), { 0.0f, 0.0f, 0.0f }, r, s));
+		entity.AddComponent<Engine::RegidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(Engine::MeshLibrary::Get("Tree"), t, r, s));
 
 		entity = m_Scene->CreateEntity();
 		entity.GetComponent<Engine::TransformComponent>().Translation = { 0.0f, 0.0f, -15.0f };

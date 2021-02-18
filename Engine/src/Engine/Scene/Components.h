@@ -100,9 +100,14 @@ namespace Engine {
 	{
 		bool Active = false;
 
+		physx::PxController* Controller;
+
 		float TranslationSpeed = 7.0f;
 		float RotationSpeed = 0.003f;
+		float JumpHeight = 2;
+
 		float MouseX = 0, MouseY = 0;
+		float Jump = 0;
 
 		CharacterControllerComponent() = default;
 		CharacterControllerComponent(const CharacterControllerComponent&) = default;

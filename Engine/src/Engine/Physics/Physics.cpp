@@ -41,6 +41,8 @@ namespace Engine {
 		physx::PxRigidDynamic* actor = s_PhysicsSDK->createRigidDynamic(physx::PxTransform({ position.x, position.y, position.z }));
 		actor->attachShape(*shape);
 
+		shape->release();
+
 		return actor;
 	}
 
@@ -56,7 +58,28 @@ namespace Engine {
 		//s_Scene->addActor(*body);
 		//shape->release();
 
+
 		return body;
+	}
+
+	physx::PxController* PhysicsAPI::CreateController(physx::PxControllerManager* manager, glm::vec3 position)
+	{
+		static physx::PxMaterial* material = s_PhysicsSDK->createMaterial(0.5f, 0.5f, 0.6f);
+		physx::PxCapsuleControllerDesc desc;
+
+		{
+			desc.position = physx::PxExtendedVec3(position.x, position.y, position.z);
+			desc.radius = 0.20f;
+			desc.height = 1.6f;
+			desc.contactOffset = 0.05f;
+			desc.stepOffset = 0.01f;
+			desc.slopeLimit = cosf(glm::radians(25.0f));
+			desc.upDirection = physx::PxVec3(0, 1, 0);
+			desc.material = material;
+		}
+
+		physx::PxController* c = manager->createController(desc);
+		return c;
 	}
 
 	physx::PxRigidStatic* PhysicsAPI::CreateRigidStatic(Ref<Mesh> mesh, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale)
@@ -87,6 +110,7 @@ namespace Engine {
 		physx::PxTransform transform({ position.x, position.y, position.z }, Util::Math::ToQuaternion(rotation));
 		physx::PxRigidStatic* body = s_PhysicsSDK->createRigidStatic(transform);
 		body->attachShape(*shape);
+		shape->release();
 		return body;
 	}
 

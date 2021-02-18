@@ -42,7 +42,8 @@ project "Engine"
 		"PhysX_64.lib",
 		"PhysXFoundation_64.lib",
 		"PhysXExtensions_static_64.lib",
-		"PhysXCooking_64.lib"
+		"PhysXCooking_64.lib",
+		"PhysXCharacterKinematic_static_64.lib"
 	}
 	
 	defines	{

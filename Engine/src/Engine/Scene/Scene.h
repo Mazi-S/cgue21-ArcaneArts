@@ -41,6 +41,7 @@ namespace Engine {
 		bool OnKeyPressed(KeyPressedEvent& e);
 
 		void InitCameraComponent(entt::registry& registry, entt::entity entity);
+		void AddCharacterController(entt::registry& registry, entt::entity entity);
 		void AddRegidDynamic(entt::registry& registry, entt::entity entity);
 		void AddRegidStatic(entt::registry& registry, entt::entity entity);
 
@@ -49,6 +50,7 @@ namespace Engine {
 		entt::entity m_MainCamera = entt::null;
 
 		physx::PxScene* m_PxScene;
+		physx::PxControllerManager* m_PxControllerManager;
 
 		uint32_t m_ViewportWidth, m_ViewportHeight;
 

@@ -14,8 +14,13 @@ namespace Engine {
 
 		static physx::PxScene* CreateScene();
 
-		static physx::PxRigidDynamic* CreateRegidDynamicSphere(glm::vec3 position, float radius);
+		// todo: remove (just for testing)
 		static physx::PxRigidDynamic* CreateRegidDynamic();
+
+		static physx::PxController* CreateController(physx::PxControllerManager* manager, glm::vec3 position = { 0.0f, 0.0f, 0.0f });
+
+		// todo: kinemetic object (instead of dynamic); prevents tunneling 
+		static physx::PxRigidDynamic* CreateRegidDynamicSphere(glm::vec3 position, float radius);
 		static physx::PxRigidStatic* CreateRigidStatic(Ref<Mesh> mesh, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale);
 	private:
 

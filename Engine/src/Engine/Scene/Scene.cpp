@@ -26,6 +26,12 @@ namespace Engine {
 		System::Camera::SetViewportSize(registry, entity, m_ViewportWidth, m_ViewportHeight);
 	}
 
+	void Scene::AddCharacterController(entt::registry& registry, entt::entity entity)
+	{
+		auto& [tc, ccc] = registry.get<TransformComponent, CharacterControllerComponent>(entity);
+		ccc.Controller = PhysicsAPI::CreateController(m_PxControllerManager, tc.Translation);
+	}
+
 	void Scene::AddRegidDynamic(entt::registry& registry, entt::entity entity)
 	{
 		auto& rdc = registry.get<RegidDynamicComponent>(entity);
@@ -47,13 +53,14 @@ namespace Engine {
 		m_Registry.on_construct<CameraComponent>().connect<&Scene::InitCameraComponent>(*this);
 		m_Registry.on_construct<RegidDynamicComponent>().connect<&Scene::AddRegidDynamic>(*this);
 		m_Registry.on_construct<RegidStaticComponent>().connect<&Scene::AddRegidStatic>(*this);
+		m_Registry.on_construct<CharacterControllerComponent>().connect<&Scene::AddCharacterController>(*this);
 
 		m_PxScene = PhysicsAPI::CreateScene();
+		m_PxControllerManager = PxCreateControllerManager(*m_PxScene);
 	}
 
 	Scene::~Scene()
-	{
-	}
+	{ }
 
 	Entity Scene::CreateEntity(const std::string& name)
 	{

@@ -18,23 +18,35 @@ namespace Engine::System::CharacterController {
 			{
 				auto [currentMouseX, currentMouseY] = Engine::Input::GetMousePosition();
 				glm::vec4 move = { 0.0f, 0.0f, 0.0f, 1.0 };
-				if (Engine::Input::IsKeyPressed(Engine::Key::D))
-					move.x += ccc.TranslationSpeed * ts;
-				if (Engine::Input::IsKeyPressed(Engine::Key::A))
-					move.x -= ccc.TranslationSpeed * ts;
-				if (Engine::Input::IsKeyPressed(Engine::Key::S))
-					move.z += ccc.TranslationSpeed * ts;
-				if (Engine::Input::IsKeyPressed(Engine::Key::W))
-					move.z -= ccc.TranslationSpeed * ts;
-				if (Engine::Input::IsKeyPressed(Engine::Key::Space))
-					move.y += ccc.TranslationSpeed * ts;
+				float speed = 1.0f;
+				// crouching
 				if (Engine::Input::IsKeyPressed(Engine::Key::LeftControl))
-					move.y -= ccc.TranslationSpeed * ts;
+				{
+					// todo: set CharacterController size
+					speed = 0.5f;
+				}
+
+				// running
+				if (Engine::Input::IsKeyPressed(Engine::Key::LeftShift))
+					speed = 2.0f;
+
+				if (Engine::Input::IsKeyPressed(Engine::Key::D))
+					move.x += ccc.TranslationSpeed * speed * ts;
+				if (Engine::Input::IsKeyPressed(Engine::Key::A))
+					move.x -= ccc.TranslationSpeed * speed * ts;
+				if (Engine::Input::IsKeyPressed(Engine::Key::S))
+					move.z += ccc.TranslationSpeed * speed * ts;
+				if (Engine::Input::IsKeyPressed(Engine::Key::W))
+					move.z -= ccc.TranslationSpeed * speed * ts;
 
 				move = glm::toMat4(glm::quat({ 0.0f, tc.Rotation.y, 0.0f })) * move;
-				tc.Translation.x += move.x;
-				tc.Translation.y += move.y;
-				tc.Translation.z += move.z;
+
+				{ // todo: improve
+					float jump = ccc.JumpHeight * ts;
+					move += glm::vec4{ 0.0f, jump * ccc.Jump, 0.0f, 0.0f };
+					ccc.Jump = glm::max(ccc.Jump - jump, -2.0f);
+				}
+				physx::PxControllerCollisionFlags collisionFlags = ccc.Controller->move({ move.x, move.y, move.z } , 0.001f, ts, physx::PxControllerFilters());
 
 				// mouse
 				tc.Rotation.x -= (currentMouseY - ccc.MouseY) * (ccc.RotationSpeed);
@@ -55,7 +67,14 @@ namespace Engine::System::CharacterController {
 		{
 			if (event.GetKeyCode() == Engine::Key::Space)
 			{
-				view.get<TransformComponent>(e).Translation.x += 0.05f;
+				auto& ccc = view.get<CharacterControllerComponent>(e);
+				ccc.Jump = ccc.JumpHeight;
+			}
+
+			if (event.GetKeyCode() == Engine::Key::LeftControl)
+			{
+				auto& ccc = view.get<CharacterControllerComponent>(e);
+				ccc.Jump = -ccc.JumpHeight;
 			}
 		}
 
