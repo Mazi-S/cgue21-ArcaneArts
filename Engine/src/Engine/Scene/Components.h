@@ -106,10 +106,17 @@ namespace Engine {
 		float RotationSpeed = 0.003f;
 		float JumpHeight = 2;
 
+		
+		float Height; // total height of the character (including radius)
+		float Radius;
+		float CrouchHeight; // Height * CrouchHeight = crouching height
+
 		float MouseX = 0, MouseY = 0;
 		float Jump = 0;
+		bool Crouching = false;
 
-		CharacterControllerComponent() = default;
+		CharacterControllerComponent(float height, float radius, float crouchHeight)
+			: Height(height), Radius(radius), CrouchHeight(crouchHeight) { }
 		CharacterControllerComponent(const CharacterControllerComponent&) = default;
 	};
 

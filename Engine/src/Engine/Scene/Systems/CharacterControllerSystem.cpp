@@ -19,11 +19,21 @@ namespace Engine::System::CharacterController {
 				auto [currentMouseX, currentMouseY] = Engine::Input::GetMousePosition();
 				glm::vec4 move = { 0.0f, 0.0f, 0.0f, 1.0 };
 				float speed = 1.0f;
+
 				// crouching
 				if (Engine::Input::IsKeyPressed(Engine::Key::LeftControl))
 				{
-					// todo: set CharacterController size
+					if (!ccc.Crouching)
+					{
+						Crouch(registry, e);
+						ccc.Crouching = true;
+					}
+
 					speed = 0.5f;
+				}
+				else if (ccc.Crouching)
+				{
+					ccc.Crouching = !TryStandup(registry, e);
 				}
 
 				// running
@@ -79,6 +89,44 @@ namespace Engine::System::CharacterController {
 		}
 
 		return false;
+	}
+
+	void Crouch(entt::registry& registry, entt::entity character)
+	{
+		CharacterControllerComponent& ccc = registry.get<CharacterControllerComponent>(character);
+		ccc.Controller->resize((ccc.Height - ccc.Radius * 2.0f) * ccc.CrouchHeight);
+		
+		auto view = registry.view<CameraComponent, ParentComponent, TransformComponent>();
+		for (const entt::entity e : view)
+		{
+			auto& [cc, pc, tc] = view.get<CameraComponent, ParentComponent, TransformComponent>(e);
+			if (pc.Parent == character)
+			{
+				tc.Translation.y *= ccc.CrouchHeight;
+			}
+		}
+	}
+
+	bool TryStandup(entt::registry& registry, entt::entity character)
+	{
+		CharacterControllerComponent& ccc = registry.get<CharacterControllerComponent>(character);
+		// todo: check overlap
+		if (false)
+			return false;
+
+		ccc.Controller->resize((ccc.Height - ccc.Radius * 2.0f));
+
+		auto view = registry.view<CameraComponent, ParentComponent, TransformComponent>();
+		for (const entt::entity e : view)
+		{
+			auto& [cc, pc, tc] = view.get<CameraComponent, ParentComponent, TransformComponent>(e);
+			if (pc.Parent == character)
+			{
+				tc.Translation.y *= 1.0/ccc.CrouchHeight;
+			}
+		}
+
+		return true;
 	}
 
 }

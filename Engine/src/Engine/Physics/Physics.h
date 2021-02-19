@@ -14,10 +14,10 @@ namespace Engine {
 
 		static physx::PxScene* CreateScene();
 
-		// todo: remove (just for testing)
+		// todo: remove or fix (just for testing)
 		static physx::PxRigidDynamic* CreateRegidDynamic();
 
-		static physx::PxController* CreateController(physx::PxControllerManager* manager, glm::vec3 position = { 0.0f, 0.0f, 0.0f });
+		static physx::PxController* CreateController(physx::PxControllerManager* manager, float height = 1.0f, float radius = 0.5f, glm::vec3 position = { 0.0f, 0.0f, 0.0f });
 
 		// todo: kinemetic object (instead of dynamic); prevents tunneling 
 		static physx::PxRigidDynamic* CreateRegidDynamicSphere(glm::vec3 position, float radius);

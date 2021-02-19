@@ -42,7 +42,6 @@ namespace Engine {
 		actor->attachShape(*shape);
 
 		shape->release();
-
 		return actor;
 	}
 
@@ -62,17 +61,17 @@ namespace Engine {
 		return body;
 	}
 
-	physx::PxController* PhysicsAPI::CreateController(physx::PxControllerManager* manager, glm::vec3 position)
+	physx::PxController* PhysicsAPI::CreateController(physx::PxControllerManager* manager, float height, float radius, glm::vec3 position)
 	{
 		static physx::PxMaterial* material = s_PhysicsSDK->createMaterial(0.5f, 0.5f, 0.6f);
 		physx::PxCapsuleControllerDesc desc;
 
 		{
 			desc.position = physx::PxExtendedVec3(position.x, position.y, position.z);
-			desc.radius = 0.2f;
-			desc.height = 1.8f;
+			desc.radius = radius;
+			desc.height = height;
 			desc.contactOffset = 0.05f;
-			desc.stepOffset = 0.25f;
+			desc.stepOffset = 0.15f;
 			desc.slopeLimit = cosf(glm::radians(25.0f));
 			desc.upDirection = physx::PxVec3(0, 1, 0);
 			desc.material = material;

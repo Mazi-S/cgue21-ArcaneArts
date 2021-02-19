@@ -29,7 +29,7 @@ namespace Engine {
 	void Scene::AddCharacterController(entt::registry& registry, entt::entity entity)
 	{
 		auto& [tc, ccc] = registry.get<TransformComponent, CharacterControllerComponent>(entity);
-		ccc.Controller = PhysicsAPI::CreateController(m_PxControllerManager, tc.Translation);
+		ccc.Controller = PhysicsAPI::CreateController(m_PxControllerManager, ccc.Height - ccc.Radius * 2.0f, ccc.Radius, tc.Translation);
 	}
 
 	void Scene::AddRegidDynamic(entt::registry& registry, entt::entity entity)
