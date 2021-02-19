@@ -75,9 +75,6 @@ namespace Engine {
 
 	void Scene::SetMainCamera(Entity entity)
 	{
-		if (m_MainCamera != entt::null)
-			m_Registry.destroy(m_MainCamera);
-
 		m_MainCamera = entity.m_EntityHandle;
 	}
 

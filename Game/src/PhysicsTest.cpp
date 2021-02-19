@@ -97,6 +97,7 @@ void PhysicsTestLayer::InitScene()
 		entity.AddComponent<Engine::RegidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(Engine::MeshLibrary::Get("Cube"), t, r, s));
 	}
 
+	// stairs
 	for (int j = 0; j < 5; j++)
 	{
 		for (int i = 1; i <= 20; i++)
@@ -113,6 +114,36 @@ void PhysicsTestLayer::InitScene()
 			entity.GetComponent<Engine::TransformComponent>().Scale = s;
 			entity.AddComponent<Engine::RegidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(Engine::MeshLibrary::Get("Cube"), t, r, s));
 		}
+	}
+
+	for (int i = 1; i <= 20; i++)
+	{
+		glm::vec3 t{ 10.0f + 7.0f * i, 0.2f + 0.1f * i, .7f };
+		glm::vec3 r{ 0.0f, 0.0f, 0.0f };
+		glm::vec3 s{ 2.0f, 0.1f + 0.05f, 2.0f };
+
+		entity = m_Scene->CreateEntity();
+		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("BricksMaterial"));
+		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Cube"));
+		entity.GetComponent<Engine::TransformComponent>().Translation = t;
+		entity.GetComponent<Engine::TransformComponent>().Rotation = r;
+		entity.GetComponent<Engine::TransformComponent>().Scale = s;
+		entity.AddComponent<Engine::RegidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(Engine::MeshLibrary::Get("Cube"), t, r, s));
+	}
+
+	for (int i = 1; i <= 6; i++)
+	{
+		glm::vec3 t{ 20.0f, 0.0f, 1.0f + 10 * i };
+		glm::vec3 r{ 0.0f, 0.0f, 0.0f };
+		glm::vec3 s{ 35.0f, 0.5f, 2.0f };
+
+		entity = m_Scene->CreateEntity();
+		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("BricksMaterial"));
+		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Cube"));
+		entity.GetComponent<Engine::TransformComponent>().Translation = t;
+		entity.GetComponent<Engine::TransformComponent>().Rotation = r;
+		entity.GetComponent<Engine::TransformComponent>().Scale = s;
+		entity.AddComponent<Engine::RegidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(Engine::MeshLibrary::Get("Cube"), t, r, s));
 	}
 
 	entity = m_Scene->CreateEntity();
