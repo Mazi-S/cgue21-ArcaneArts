@@ -102,21 +102,19 @@ namespace Engine {
 
 		physx::PxController* Controller;
 
-		float TranslationSpeed = 7.0f;
-		float RotationSpeed = 0.003f;
-		float JumpHeight = 2;
+		float TranslationSpeed = 5.0f;
+		float RotationSpeed = 0.002f;
 
-		
-		float Height; // total height of the character (including radius)
+		float StandingHeight; // total height of the character (including radius)
+		float CrouchingHeight;
 		float Radius;
-		float CrouchHeight; // Height * CrouchHeight = crouching height
 
 		float MouseX = 0, MouseY = 0;
 		float Jump = 0;
 		bool Crouching = false;
 
-		CharacterControllerComponent(float height, float radius, float crouchHeight)
-			: Height(height), Radius(radius), CrouchHeight(crouchHeight) { }
+		CharacterControllerComponent(float standingHeight, float crouchingHeight, float radius)
+			: StandingHeight(standingHeight), CrouchingHeight(crouchingHeight), Radius(radius) { }
 		CharacterControllerComponent(const CharacterControllerComponent&) = default;
 	};
 

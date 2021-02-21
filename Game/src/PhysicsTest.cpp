@@ -48,7 +48,7 @@ void PhysicsTestLayer::OnAttach()
 	// Character
 	m_Character = m_Scene->CreateEntity();
 	m_Character.GetComponent<Engine::TransformComponent>().Translation = { 0.0f, 2.0f, 0.0f };
-	auto& ccc = m_Character.AddComponent<Engine::CharacterControllerComponent>(2.0f, 0.3f, 0.6f);
+	auto& ccc = m_Character.AddComponent<Engine::CharacterControllerComponent>(2.0f, 1.2f, 0.3f);
 	Engine::System::Util::Activate(ccc);
 
 	// Camera
@@ -118,9 +118,9 @@ void PhysicsTestLayer::InitScene()
 	// stairs
 	for (int j = 0; j < 5; j++)
 	{
-		for (int i = 0; i <= 20; i++)
+		for (int i = 0; i <= 15; i++)
 		{
-			glm::vec3 t{ -10.0f - 5.0f * j, (0.2f + 0.1f * j) * i, .7f * i };
+			glm::vec3 t{ -10.0f - 5.0f * j, (0.2f + 0.1f * j) * i, 1.2f * i };
 			glm::vec3 r{ 0.0f, 0.0f, 0.0f };
 			glm::vec3 s{ 2.0f, 0.1f + 0.05f * j, 2.0f };
 
@@ -151,7 +151,7 @@ void PhysicsTestLayer::InitScene()
 
 	for (int i = 0; i <= 6; i++)
 	{
-		glm::vec3 t{ 10.0f + 7.0f * i, 1.5f + 0.2f * i, 6.0f };
+		glm::vec3 t{ 10.0f + 7.0f * i, 1.5f + 0.2f * i, 18.0f };
 		glm::vec3 r{ 0.0f, 0.0f, 0.0f };
 		glm::vec3 s{ 2.0f, 0.5f, 2.0f };
 

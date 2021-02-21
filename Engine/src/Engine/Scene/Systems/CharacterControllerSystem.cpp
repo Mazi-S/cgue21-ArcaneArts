@@ -52,7 +52,7 @@ namespace Engine::System::CharacterController {
 				move = glm::toMat4(glm::quat({ 0.0f, tc.Rotation.y, 0.0f })) * move;
 
 				{ // todo: improve
-					float jump = ccc.JumpHeight * ts;
+					float jump = 8 * ts;
 					move += glm::vec4{ 0.0f, jump * ccc.Jump, 0.0f, 0.0f };
 					ccc.Jump = glm::max(ccc.Jump - jump, -2.0f);
 				}
@@ -78,13 +78,7 @@ namespace Engine::System::CharacterController {
 			if (event.GetKeyCode() == Engine::Key::Space)
 			{
 				auto& ccc = view.get<CharacterControllerComponent>(e);
-				ccc.Jump = ccc.JumpHeight;
-			}
-
-			if (event.GetKeyCode() == Engine::Key::LeftControl)
-			{
-				auto& ccc = view.get<CharacterControllerComponent>(e);
-				ccc.Jump = -ccc.JumpHeight;
+				TryJump(registry, e);
 			}
 		}
 
@@ -94,15 +88,16 @@ namespace Engine::System::CharacterController {
 	void Crouch(entt::registry& registry, entt::entity character)
 	{
 		CharacterControllerComponent& ccc = registry.get<CharacterControllerComponent>(character);
-		ccc.Controller->resize((ccc.Height - ccc.Radius * 2.0f) * ccc.CrouchHeight);
+		ccc.Controller->resize(ccc.CrouchingHeight - 2.0f * ccc.Radius);
 		
+		// reposition camera
 		auto view = registry.view<CameraComponent, ParentComponent, TransformComponent>();
 		for (const entt::entity e : view)
 		{
 			auto& [cc, pc, tc] = view.get<CameraComponent, ParentComponent, TransformComponent>(e);
 			if (pc.Parent == character)
 			{
-				tc.Translation.y *= ccc.CrouchHeight;
+				tc.Translation.y *= ccc.CrouchingHeight / ccc.StandingHeight;
 			}
 		}
 	}
@@ -110,22 +105,55 @@ namespace Engine::System::CharacterController {
 	bool TryStandup(entt::registry& registry, entt::entity character)
 	{
 		CharacterControllerComponent& ccc = registry.get<CharacterControllerComponent>(character);
-		// todo: check overlap
-		if (false)
+		
+		float dh = ccc.StandingHeight - ccc.CrouchingHeight - 2.0f * ccc.Radius;
+		physx::PxCapsuleGeometry geom(ccc.Radius, dh * 0.5f);
+
+		physx::PxExtendedVec3 position = ccc.Controller->getPosition();
+		physx::PxVec3 pos((float)position.x, (float)position.y + ccc.StandingHeight * .5f + ccc.Radius, (float)position.z);
+		physx::PxQuat orientation(physx::PxHalfPi, physx::PxVec3(0.0f, 0.0f, 1.0f));
+
+		physx::PxOverlapBuffer hit;
+
+		if (ccc.Controller->getScene()->overlap(geom, physx::PxTransform(pos, orientation), hit, 
+			physx::PxQueryFilterData(physx::PxQueryFlag::eANY_HIT | physx::PxQueryFlag::eSTATIC | physx::PxQueryFlag::eDYNAMIC)))
 			return false;
 
-		ccc.Controller->resize((ccc.Height - ccc.Radius * 2.0f));
+		ccc.Controller->resize(ccc.StandingHeight - 2.0f * ccc.Radius);
 
+		// reposition camera
 		auto view = registry.view<CameraComponent, ParentComponent, TransformComponent>();
 		for (const entt::entity e : view)
 		{
 			auto& [cc, pc, tc] = view.get<CameraComponent, ParentComponent, TransformComponent>(e);
 			if (pc.Parent == character)
 			{
-				tc.Translation.y *= 1.0/ccc.CrouchHeight;
+				tc.Translation.y *= ccc.StandingHeight / ccc.CrouchingHeight;
 			}
 		}
 
+		return true;
+	}
+
+	bool TryJump(entt::registry& registry, entt::entity character)
+	{
+		auto& ccc = registry.get<CharacterControllerComponent>(character);
+
+		physx::PxScene* scene = ccc.Controller->getScene();
+		float halfHeight = (ccc.Crouching ? ccc.CrouchingHeight : ccc.StandingHeight) * 0.5f;
+		physx::PxVec3 origin = physx::toVec3(ccc.Controller->getPosition());
+		physx::PxVec3 unitDir = { 0.0f, -1.0f, 0.0f };
+		float maxDist = halfHeight + 0.11f;
+
+		const uint32_t bufferSize = 256;
+		physx::PxRaycastHit hitBuffer[bufferSize];
+		physx::PxRaycastBuffer buf(hitBuffer, bufferSize);
+
+		bool status = scene->raycast(origin, unitDir, maxDist, buf);
+		if (buf.nbTouches < 2)
+			return false;
+
+		ccc.Jump = 2;
 		return true;
 	}
 

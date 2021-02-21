@@ -11,4 +11,5 @@ namespace Engine::System::CharacterController {
 
 	void Crouch(entt::registry& registry, entt::entity character);
 	bool TryStandup(entt::registry& registry, entt::entity character);
+	bool TryJump(entt::registry& registry, entt::entity character);
 }
