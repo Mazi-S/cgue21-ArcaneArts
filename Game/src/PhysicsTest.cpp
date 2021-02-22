@@ -67,8 +67,6 @@ void PhysicsTestLayer::OnDetach()
 
 void PhysicsTestLayer::OnUpdate(Engine::Timestep ts)
 {
-	LOG_TRACE("frame time: {}", ts);
-
 	// Update here
 	m_Scene->OnUpdate(ts);
 
@@ -80,6 +78,24 @@ void PhysicsTestLayer::OnUpdate(Engine::Timestep ts)
 void PhysicsTestLayer::OnEvent(Engine::Event& event)
 {
 	m_Scene->OnEvent(event);
+
+	Engine::EventHandler eventHandler(event);
+	eventHandler.Handle<Engine::KeyPressedEvent>(EG_BIND_EVENT_FN(PhysicsTestLayer::OnKeyPressed));
+}
+
+bool PhysicsTestLayer::OnKeyPressed(Engine::KeyPressedEvent& event)
+{
+	if (event.GetKeyCode() == Engine::Key::Escape)
+	{
+		Engine::System::Util::Deactivate(m_Character.GetComponent<Engine::CharacterControllerComponent>());
+	}
+
+
+	if (event.GetKeyCode() == Engine::Key::F1)
+	{
+		Engine::System::Util::Activate(m_Character.GetComponent<Engine::CharacterControllerComponent>());
+	}
+	return false;
 }
 
 void PhysicsTestLayer::InitScene()
@@ -178,44 +194,4 @@ void PhysicsTestLayer::InitScene()
 		entity.GetComponent<Engine::TransformComponent>().Scale = s;
 		entity.AddComponent<Engine::RegidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(Engine::MeshLibrary::Get("Cube"), t, r, s));
 	}
-
-#ifdef false
-	{
-		entity = m_Scene->CreateEntity();
-		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("RedMaterial"));
-		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Cube"));
-		entity.AddComponent<Engine::RegidDynamicComponent>(Engine::PhysicsAPI::CreateRegidDynamic());
-
-		entity = m_Scene->CreateEntity();
-		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("GreenMaterial"));
-		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Cube"));
-		entity.AddComponent<Engine::RegidDynamicComponent>(Engine::PhysicsAPI::CreateRegidDynamic());
-
-		entity = m_Scene->CreateEntity();
-		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("BricksMaterial"));
-		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Cube"));
-		entity.AddComponent<Engine::RegidDynamicComponent>(Engine::PhysicsAPI::CreateRegidDynamic());
-
-		entity = m_Scene->CreateEntity();
-		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("BricksMaterial"));
-		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Cube"));
-		entity.AddComponent<Engine::RegidDynamicComponent>(Engine::PhysicsAPI::CreateRegidDynamic());
-
-		entity = m_Scene->CreateEntity();
-		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("BricksMaterial"));
-		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Cube"));
-		entity.AddComponent<Engine::RegidDynamicComponent>(Engine::PhysicsAPI::CreateRegidDynamic());
-	}
-
-	entity = m_Scene->CreateEntity();
-	entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("GreenMaterial"));
-	entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Tree"));
-	glm::vec3 t{ 0.424f, -0.014f, 55.174f };
-	glm::vec3 r{ 0, 2, 0 };
-	glm::vec3 s{ .5, .5, .5 };
-	entity.GetComponent<Engine::TransformComponent>().Translation = t;
-	entity.GetComponent<Engine::TransformComponent>().Rotation = r;
-	entity.GetComponent<Engine::TransformComponent>().Scale = s;
-	entity.AddComponent<Engine::RegidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(Engine::MeshLibrary::Get("Tree"), t, r, s));
-#endif // false
 }

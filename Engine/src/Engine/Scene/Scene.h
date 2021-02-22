@@ -8,6 +8,7 @@
 #include "Engine/Core/Application.h"
 
 #include "Engine/Physics/Physics.h"
+#include "Engine/Physics/PhysicsScene.h"
 #include "Engine/Renderer/Camera.h"
 
 #include <glm/glm.hpp>
@@ -50,8 +51,7 @@ namespace Engine {
 		entt::registry m_Registry;
 		entt::entity m_MainCamera = entt::null;
 
-		physx::PxScene* m_PxScene;
-		physx::PxControllerManager* m_PxControllerManager;
+		Physics::PsScene* m_PhysicsScene;
 
 		uint32_t m_ViewportWidth, m_ViewportHeight;
 

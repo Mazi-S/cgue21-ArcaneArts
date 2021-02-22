@@ -33,6 +33,13 @@ namespace Engine {
 		s_Foundation->release();
 	}
 
+	physx::PxRigidDynamic* PhysicsAPI::CreateRegidKinemeticSphere(glm::vec3 position, float radius, glm::vec3 direction)
+	{
+		physx::PxRigidDynamic* kinemeticActor = PhysicsAPI::CreateRegidDynamicSphere(position, radius);
+
+		return nullptr;
+	}
+
 	physx::PxRigidDynamic* PhysicsAPI::CreateRegidDynamicSphere(glm::vec3 position, float radius)
 	{
 		static physx::PxMaterial* material = s_PhysicsSDK->createMaterial(0.5f, 0.5f, 0.6f);

@@ -37,3 +37,5 @@
 
 // Physics
 #include "Engine/Physics/Physics.h"
+#include "Engine/Physics/PhysicsMesh.h"
+#include "Engine/Physics/PhysicsScene.h"

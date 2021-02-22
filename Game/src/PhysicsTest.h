@@ -13,6 +13,8 @@ public:
 
 	virtual void OnEvent(Engine::Event& event) override;
 
+	bool OnKeyPressed(Engine::KeyPressedEvent& event);
+
 private:
 	void InitScene();
 

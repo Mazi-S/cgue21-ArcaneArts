@@ -29,19 +29,19 @@ namespace Engine {
 	void Scene::AddCharacterController(entt::registry& registry, entt::entity entity)
 	{
 		auto& [tc, ccc] = registry.get<TransformComponent, CharacterControllerComponent>(entity);
-		ccc.Controller = PhysicsAPI::CreateController(m_PxControllerManager, ccc.StandingHeight - 2.0f * ccc.Radius, ccc.Radius, tc.Translation);
+		ccc.Controller = m_PhysicsScene->CreateController(ccc.StandingHeight - 2.0f * ccc.Radius, ccc.Radius, tc.Translation);
 	}
 
 	void Scene::AddRegidDynamic(entt::registry& registry, entt::entity entity)
 	{
 		auto& rdc = registry.get<RegidDynamicComponent>(entity);
-		m_PxScene->addActor(*rdc.Actor);
+		m_PhysicsScene->AddActor(rdc.Actor);
 	}
 
 	void Scene::AddRegidStatic(entt::registry& registry, entt::entity entity)
 	{
 		auto& rsc = registry.get<RegidStaticComponent>(entity);
-		m_PxScene->addActor(*rsc.Actor);
+		m_PhysicsScene->AddActor(rsc.Actor);
 	}
 
 	Scene::Scene()
@@ -54,13 +54,14 @@ namespace Engine {
 		m_Registry.on_construct<RegidDynamicComponent>().connect<&Scene::AddRegidDynamic>(*this);
 		m_Registry.on_construct<RegidStaticComponent>().connect<&Scene::AddRegidStatic>(*this);
 		m_Registry.on_construct<CharacterControllerComponent>().connect<&Scene::AddCharacterController>(*this);
-
-		m_PxScene = PhysicsAPI::CreateScene();
-		m_PxControllerManager = PxCreateControllerManager(*m_PxScene);
+	
+		m_PhysicsScene = new Physics::PsScene();
 	}
 
 	Scene::~Scene()
-	{ }
+	{
+		delete m_PhysicsScene;
+	}
 
 	Entity Scene::CreateEntity(const std::string& name)
 	{
@@ -90,8 +91,7 @@ namespace Engine {
 		if (t > (1.0f / 60.0f))
 		{
 			t -= (1.0f / 60.0f);
-			m_PxScene->simulate(1.0f / 60.0f);
-			m_PxScene->fetchResults(true);
+			m_PhysicsScene->Simulate(1.0f / 60.0f);
 
 			System::Physics::OnUpdate(m_Registry);
 		}
