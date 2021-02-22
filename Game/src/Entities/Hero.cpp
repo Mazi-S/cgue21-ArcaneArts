@@ -64,7 +64,7 @@ void Hero::CreateMagicBall(MagicBallType type)
 		ball.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Sphere"));
 		ball.AddNativeScript<MagicBall>();
 		ball.GetComponent<Engine::NativeScriptComponent>().Active = false;
-		tc.Translation = { 0.5f, -0.2f, -1.0f }; // right hand
+		tc.Translation = { 0.4f, 0.69f, -1.0f }; // right hand
 		m_RightHand = ball;
 		break;
 	case MagicBallType::Water:
@@ -72,14 +72,14 @@ void Hero::CreateMagicBall(MagicBallType type)
 		ball.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Sphere"));
 		ball.AddNativeScript<MagicBall>();
 		ball.GetComponent<Engine::NativeScriptComponent>().Active = false;
-		tc.Translation = { 0.5f, -0.2f, -1.0f }; // right hand
+		tc.Translation = { 0.42f, 0.68f, -1.0f }; // right hand
 		m_RightHand = ball;
 		break;
 	case MagicBallType::Light:
 		ball.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("MagicBall_Light"));
 		ball.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Sphere"));
 		ball.AddComponent<Engine::PointLightComponent>(glm::vec3{0.8f, 0.97f, 0.99f}, 1.0f, 0.4f, 0.1f);
-		tc.Translation = { -0.5f, -0.2f, -1.0f }; // left hand
+		tc.Translation = { -0.5f, 0.65f, -1.0f }; // left hand
 		m_LeftHand = ball;
 		break;
 	}

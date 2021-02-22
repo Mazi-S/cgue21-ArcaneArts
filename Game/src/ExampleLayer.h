@@ -17,6 +17,7 @@ public:
 
 private:
 	Engine::Ref<Engine::Scene> m_Scene;
+	Engine::Ref<Engine::Skybox> m_Skybox;
 
 	Engine::Entity m_Hero;
 };

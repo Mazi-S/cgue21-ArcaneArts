@@ -21,6 +21,7 @@ namespace Engine {
 		virtual const std::string& GetPath() const = 0;
 
 		static Ref<Texture> Create(const std::string& filepath);
+		static Ref<Texture> CreateCube(const std::vector<std::string> faces);
 	};
 
 
