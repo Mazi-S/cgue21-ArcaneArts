@@ -36,12 +36,30 @@ namespace Engine {
 	{
 		auto& rdc = registry.get<RegidDynamicComponent>(entity);
 		m_PhysicsScene->AddActor(rdc.Actor);
+
+		auto* kc = registry.try_get<KinematicComponent>(entity);
+		if (kc != nullptr)
+			PhysicsAPI::SetKinematic(rdc.Actor, true);
 	}
 
 	void Scene::AddRegidStatic(entt::registry& registry, entt::entity entity)
 	{
 		auto& rsc = registry.get<RegidStaticComponent>(entity);
 		m_PhysicsScene->AddActor(rsc.Actor);
+	}
+
+	void Scene::AddKinematicComponent(entt::registry& registry, entt::entity entity)
+	{
+		auto* rdc = registry.try_get<RegidDynamicComponent>(entity);
+		if (rdc != nullptr)
+			PhysicsAPI::SetKinematic(rdc->Actor, true);
+	}
+
+	void Scene::RemoveKinematicComponent(entt::registry& registry, entt::entity entity)
+	{
+		auto* rdc = registry.try_get<RegidDynamicComponent>(entity);
+		if (rdc != nullptr)
+			PhysicsAPI::SetKinematic(rdc->Actor, false);
 	}
 
 	Scene::Scene()
@@ -54,6 +72,9 @@ namespace Engine {
 		m_Registry.on_construct<RegidDynamicComponent>().connect<&Scene::AddRegidDynamic>(*this);
 		m_Registry.on_construct<RegidStaticComponent>().connect<&Scene::AddRegidStatic>(*this);
 		m_Registry.on_construct<CharacterControllerComponent>().connect<&Scene::AddCharacterController>(*this);
+
+		m_Registry.on_construct<KinematicComponent>().connect<&Scene::AddKinematicComponent>(*this);
+		m_Registry.on_destroy<KinematicComponent>().connect<&Scene::RemoveKinematicComponent>(*this);
 	
 		m_PhysicsScene = new Physics::PsScene();
 	}
@@ -83,8 +104,10 @@ namespace Engine {
 	{
 		// Update
 		System::CharacterController::OnUpdate(m_Registry, ts);
+		System::Physics::OnUpdateKinematic(m_Registry, ts);
 
 		m_Registry.view<NativeScriptComponent>().each([=](auto entity, auto& nsc) { if (nsc.Active) nsc.Instance->OnUpdate(ts); });
+
 		
 		static float t = 0;
 		t += ts;

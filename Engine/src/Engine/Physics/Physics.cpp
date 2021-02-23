@@ -33,13 +33,6 @@ namespace Engine {
 		s_Foundation->release();
 	}
 
-	physx::PxRigidDynamic* PhysicsAPI::CreateRegidKinemeticSphere(glm::vec3 position, float radius, glm::vec3 direction)
-	{
-		physx::PxRigidDynamic* kinemeticActor = PhysicsAPI::CreateRegidDynamicSphere(position, radius);
-
-		return nullptr;
-	}
-
 	physx::PxRigidDynamic* PhysicsAPI::CreateRegidDynamicSphere(glm::vec3 position, float radius)
 	{
 		static physx::PxMaterial* material = s_PhysicsSDK->createMaterial(0.5f, 0.5f, 0.6f);
@@ -50,22 +43,6 @@ namespace Engine {
 
 		shape->release();
 		return actor;
-	}
-
-	physx::PxRigidDynamic* PhysicsAPI::CreateRegidDynamic()
-	{
-		static physx::PxMaterial* material = s_PhysicsSDK->createMaterial(0.5f, 0.5f, 0.6f);
-		static physx::PxShape* shape = s_PhysicsSDK->createShape(physx::PxBoxGeometry(1, 1, 1), *material);
-		physx::PxTransform transform((rand() % 10) / 10.0f, rand() % 50, -25);
-		
-		physx::PxRigidDynamic* body = s_PhysicsSDK->createRigidDynamic(transform);
-		body->attachShape(*shape);
-		//physx::PxRigidBodyExt::updateMassAndInertia(*body, 10.0f);
-		//s_Scene->addActor(*body);
-		//shape->release();
-
-
-		return body;
 	}
 
 	physx::PxController* PhysicsAPI::CreateController(physx::PxControllerManager* manager, float height, float radius, glm::vec3 position)
@@ -128,6 +105,11 @@ namespace Engine {
 
 		physx::PxTriangleMesh* triangleMesh = s_Cooking->createTriangleMesh(meshDesc, s_PhysicsSDK->getPhysicsInsertionCallback());
 		return triangleMesh;
+	}
+
+	void PhysicsAPI::SetKinematic(physx::PxRigidDynamic* actor, bool kinematic)
+	{
+		actor->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, kinematic);
 	}
 
 	physx::PxScene* PhysicsAPI::CreateScene()

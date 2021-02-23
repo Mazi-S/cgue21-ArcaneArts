@@ -14,17 +14,14 @@ namespace Engine {
 
 		static physx::PxScene* CreateScene();
 
-		// todo: remove or fix (just for testing)
-		static physx::PxRigidDynamic* CreateRegidDynamic();
-
 		static physx::PxController* CreateController(physx::PxControllerManager* manager, float height = 1.0f, float radius = 0.5f, glm::vec3 position = { 0.0f, 0.0f, 0.0f });
 
-		static physx::PxRigidDynamic* CreateRegidKinemeticSphere(glm::vec3 position, float radius, glm::vec3 direction);
 		static physx::PxRigidDynamic* CreateRegidDynamicSphere(glm::vec3 position, float radius);
 		static physx::PxRigidStatic* CreateRigidStatic(Ref<Mesh> mesh, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale);
 
 		static physx::PxTriangleMesh* CreateTriangleMesh(Physics::PsMesh* mesh);
+
+		static void SetKinematic(physx::PxRigidDynamic* actor, bool kinematic);
 	private:
 	};
-
 }

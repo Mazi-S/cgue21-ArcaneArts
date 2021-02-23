@@ -49,6 +49,10 @@ namespace Engine {
 		void AddRegidDynamic(entt::registry& registry, entt::entity entity);
 		void AddRegidStatic(entt::registry& registry, entt::entity entity);
 
+		void AddKinematicComponent(entt::registry& registry, entt::entity entity);
+		void RemoveKinematicComponent(entt::registry& registry, entt::entity entity);
+
+
 	private:
 		entt::registry m_Registry;
 		entt::entity m_MainCamera = entt::null;

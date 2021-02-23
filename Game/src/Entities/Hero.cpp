@@ -95,11 +95,11 @@ void Hero::ThrowRight()
 	m_RightHand.RemoveComponent<Engine::ParentComponent>();
 
 	m_RightHand.GetComponent<Engine::NativeScriptComponent>().Active = true;
-	glm::vec4 velocity = glm::toMat4(glm::quat(tc.Rotation)) * glm::vec4{ 1.0f, 1.0f, -30.0f, 0.0 };
+	glm::vec4 velocity = glm::toMat4(glm::quat(tc.Rotation)) * glm::vec4{ 0.0f, 0.0f, -28.0f, 0.0 };
+	
 	auto actor = Engine::PhysicsAPI::CreateRegidDynamicSphere(tc_rh.Translation, tc_rh.Scale.x);
-	actor->setLinearVelocity({ velocity.x, velocity.y, velocity.z });
-	actor->setMass(0.5f);
 	m_RightHand.AddComponent<Engine::RegidDynamicComponent>(actor);
+	m_RightHand.AddComponent<Engine::KinematicComponent>(glm::vec3{ velocity.x, velocity.y, velocity.z });
 
 	m_RightHand = Engine::Entity();
 }

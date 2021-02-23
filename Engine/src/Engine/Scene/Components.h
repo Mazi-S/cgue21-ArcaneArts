@@ -45,11 +45,11 @@ namespace Engine {
 
 	struct RegidDynamicComponent
 	{
-		physx::PxRigidActor* Actor;
+		physx::PxRigidDynamic* Actor;
 
 		RegidDynamicComponent() = default;
 		RegidDynamicComponent(const RegidDynamicComponent&) = default;
-		RegidDynamicComponent(physx::PxRigidActor* actor)
+		RegidDynamicComponent(physx::PxRigidDynamic* actor)
 			: Actor(actor) { }
 	};
 
@@ -61,6 +61,16 @@ namespace Engine {
 		RegidStaticComponent(const RegidStaticComponent&) = default;
 		RegidStaticComponent(physx::PxRigidActor* actor)
 			: Actor(actor) { }
+	};
+
+	struct KinematicComponent
+	{
+		// movement per second
+		glm::vec3 Movement;
+
+		KinematicComponent(const KinematicComponent&) = default;
+		KinematicComponent(glm::vec3 movement = { 0.0f, 0.0f, 0.0f })
+			: Movement(movement) { }
 	};
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
