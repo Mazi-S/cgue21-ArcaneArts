@@ -22,8 +22,9 @@ namespace Engine {
 		static physx::PxRigidDynamic* CreateRegidKinemeticSphere(glm::vec3 position, float radius, glm::vec3 direction);
 		static physx::PxRigidDynamic* CreateRegidDynamicSphere(glm::vec3 position, float radius);
 		static physx::PxRigidStatic* CreateRigidStatic(Ref<Mesh> mesh, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale);
-	private:
 
+		static physx::PxTriangleMesh* CreateTriangleMesh(Physics::PsMesh* mesh);
+	private:
 	};
 
 }

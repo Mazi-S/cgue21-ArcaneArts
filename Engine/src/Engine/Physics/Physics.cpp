@@ -92,22 +92,12 @@ namespace Engine {
 	{
 		static physx::PxMaterial* material = s_PhysicsSDK->createMaterial(0.5f, 0.5f, 0.6f);
 
-		Ref<Physics::PxMesh> pxMesh = mesh->GetPxMesh();
-		const std::vector<uint32_t> indices = pxMesh->Indices();
-		const std::vector<glm::vec3> vertices = pxMesh->Vertices();
+		Ref<Physics::PsMesh> psMesh = mesh->GetPsMesh();
 
-		physx::PxTriangleMeshDesc meshDesc;
-		meshDesc.points.count = pxMesh->VertexCount();
-		meshDesc.points.stride = sizeof(physx::PxVec3);
-		meshDesc.points.data = vertices.data();
+		if (!psMesh->HasPxTriangleMesh())
+			psMesh->InitPxTriangleMesh();
 
-		meshDesc.triangles.count = pxMesh->FaceCount();
-		meshDesc.triangles.stride = 3 * sizeof(uint32_t);
-		meshDesc.triangles.data = indices.data();
-
-		ASSERT(s_Cooking->validateTriangleMesh(meshDesc), "Invalid triangle mesh!");
-
-		physx::PxTriangleMesh* triMesh = s_Cooking->createTriangleMesh(meshDesc, s_PhysicsSDK->getPhysicsInsertionCallback());
+		physx::PxTriangleMesh* triMesh = psMesh->GetPxTriangleMesh();
 
 		physx::PxTriangleMeshGeometry geometry = physx::PxTriangleMeshGeometry(triMesh);
 		geometry.scale = physx::PxVec3({ scale.x, scale.y, scale.z });
@@ -118,6 +108,26 @@ namespace Engine {
 		body->attachShape(*shape);
 		shape->release();
 		return body;
+	}
+
+	physx::PxTriangleMesh* PhysicsAPI::CreateTriangleMesh(Physics::PsMesh* mesh)
+	{
+		const std::vector<uint32_t> indices = mesh->Indices();
+		const std::vector<glm::vec3> vertices = mesh->Vertices();
+
+		physx::PxTriangleMeshDesc meshDesc;
+		meshDesc.points.count = mesh->VertexCount();
+		meshDesc.points.stride = sizeof(physx::PxVec3);
+		meshDesc.points.data = vertices.data();
+
+		meshDesc.triangles.count = mesh->FaceCount();
+		meshDesc.triangles.stride = 3 * sizeof(uint32_t);
+		meshDesc.triangles.data = indices.data();
+
+		ASSERT(s_Cooking->validateTriangleMesh(meshDesc), "Invalid triangle mesh!");
+
+		physx::PxTriangleMesh* triangleMesh = s_Cooking->createTriangleMesh(meshDesc, s_PhysicsSDK->getPhysicsInsertionCallback());
+		return triangleMesh;
 	}
 
 	physx::PxScene* PhysicsAPI::CreateScene()

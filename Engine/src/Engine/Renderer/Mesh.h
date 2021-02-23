@@ -37,14 +37,14 @@ namespace Engine {
 		
 		std::string GetName() { return m_Name; }
 
-		Ref<Physics::PxMesh> GetPxMesh() { return m_PxMesh; }
+		Ref<Physics::PsMesh> GetPsMesh() { return m_PxMesh; }
 		Ref<OpenGL::GlMesh> GetGlMesh() { return m_GlMesh; }
 
 		operator Ref<OpenGL::GlMesh>() { return m_GlMesh; }
 
 	private:
 		Ref<OpenGL::GlMesh> CreateGlMesh(bool positions, bool texcoords, bool normals, VertexBufferLayout layout);
-		Ref<Physics::PxMesh> CreatePxMesh();
+		Ref<Physics::PsMesh> CreatePsMesh();
 
 	private:
 		const std::string m_Name;
@@ -54,7 +54,7 @@ namespace Engine {
 		const std::vector<Submesh> m_Submeshes;
 
 		Ref<OpenGL::GlMesh> m_GlMesh;
-		Ref<Physics::PxMesh> m_PxMesh;
+		Ref<Physics::PsMesh> m_PxMesh;
 	};
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
