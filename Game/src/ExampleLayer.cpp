@@ -29,6 +29,7 @@ void ExampleLayer::OnAttach()
 		Engine::MeshLibrary::Load("House", "assets/objects/house.obj");
 		Engine::MeshLibrary::Load("Terrain", "assets/objects/terrain.obj");
 		Engine::MeshLibrary::Load("Knight", "assets/objects/knight.obj");
+		Engine::MeshLibrary::Load("Pedestal", "assets/objects/pedestal.obj");
 
 		// Forest
 		Engine::MeshLibrary::Load("Log", "assets/objects/forest/log.obj");
@@ -74,6 +75,7 @@ void ExampleLayer::OnAttach()
 		auto cloudMaterial = Engine::Material::Create(Engine::MaterialProperties("CloudMaterial", { 0.56f, 0.77f, 1.0f }), Engine::ShaderLibrary::Get("ColorShader"));
 		auto terrainMaterial = Engine::Material::Create(Engine::MaterialProperties("TerrainMaterial", { 0.26f, 0.33f, 0.0f }), Engine::ShaderLibrary::Get("ColorShader"));
 		auto rockMaterial = Engine::Material::Create(Engine::MaterialProperties("RockMaterial", { 0.5f, 0.5f, 0.5f }), Engine::ShaderLibrary::Get("ColorShader"));
+		auto pedestalMaterial = Engine::Material::Create(Engine::MaterialProperties("PedestalMaterial", { 0.21f, 0.15f, 0.09f }), Engine::ShaderLibrary::Get("ColorShader"));
 
 		// Textures
 		auto bricksMaterial = Engine::Material::Create(Engine::MaterialProperties("BricksMaterial", { 0.1f, 0.1f, 0.1f }, { 0.6f, 0.6f, 0.6f }, { 0.2f, 0.2f, 0.2f }, 2.0f, "assets/textures/Bricks.jpg"), Engine::ShaderLibrary::Get("TextureShader"));
@@ -93,6 +95,7 @@ void ExampleLayer::OnAttach()
 		Engine::MaterialLibrary::Add(cloudMaterial);
 		Engine::MaterialLibrary::Add(terrainMaterial);
 		Engine::MaterialLibrary::Add(rockMaterial);
+		Engine::MaterialLibrary::Add(pedestalMaterial);
 
 		Engine::MaterialLibrary::Add(Engine::Material::Create(Engine::MaterialProperties("MagicBall_Light", { 0.8f, 0.8f, 0.8f }), Engine::ShaderLibrary::Get("ColorShader")));
 		Engine::MaterialLibrary::Add(Engine::Material::Create(Engine::MaterialProperties("MagicBall_Fire", { 0.5f, 0.05f, 0.1f }, { 0.5f, 0.05f, 0.1f }, { 0.5f, 0.35f, 0.4f }, 5.0f), Engine::ShaderLibrary::Get("ColorShader")));
@@ -109,7 +112,7 @@ void ExampleLayer::OnAttach()
 
 	// Hero
 	m_Hero = m_Scene->CreateEntity();
-	m_Hero.GetComponent<Engine::TransformComponent>().Translation = { 0.0f, 12.0f, 0.0f };
+	m_Hero.GetComponent<Engine::TransformComponent>().Translation = { 0.0f, 8.0f, 10.0f };
 	m_Hero.AddNativeScript<Hero>();
 	auto& ccc = m_Hero.AddComponent<Engine::CharacterControllerComponent>(2.0f, 1.2f, 0.3f);
 	Engine::System::Util::Activate(ccc);
@@ -160,7 +163,6 @@ void ExampleLayer::OnAttach()
 			entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("MonsterMaterial"));
 			entity.AddComponent<Engine::MeshComponent>(mesh);
 			entity.AddComponent<Engine::RegidDynamicComponent>(Engine::PhysicsAPI::CreateRegidDynamicSphere(t, 1.0f));
-			entity.AddComponent<Engine::KinematicComponent>(glm::vec3(1.0f, 0.0f, 0.0f));
 		}
 
 		{
@@ -179,6 +181,20 @@ void ExampleLayer::OnAttach()
 
 		{
 			entity = m_Scene->CreateEntity();
+			auto& mesh = Engine::MeshLibrary::Get("Pedestal");
+			glm::vec3 t{ 0.0f, 0.0f, 0.0f };
+			glm::vec3 r{ 0.0f, 0.0f, 0.0f };
+			glm::vec3 s{ 1.0f, 1.0f, 1.0f };
+			entity.GetComponent<Engine::TransformComponent>().Translation = t;
+			entity.GetComponent<Engine::TransformComponent>().Rotation = r;
+			entity.GetComponent<Engine::TransformComponent>().Scale = s;
+			entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("PedestalMaterial"));
+			entity.AddComponent<Engine::MeshComponent>(mesh);
+			entity.AddComponent<Engine::RegidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(mesh, t, r, s));
+		}
+
+		{
+			entity = m_Scene->CreateEntity();
 			auto& mesh = Engine::MeshLibrary::Get("Terrain");
 			glm::vec3 t{ 0.0f, -0.45f, 0.0f };
 			glm::vec3 r{ 0.0f, 0.0f, 0.0f };
@@ -191,7 +207,9 @@ void ExampleLayer::OnAttach()
 			entity.AddComponent<Engine::RegidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(mesh, t, r, s));
 		}
 
-		srand(6);
+		// Seed
+		srand(187);
+
 		// Forest
 		for (size_t i = 0; i < 50; i++)
 		{
