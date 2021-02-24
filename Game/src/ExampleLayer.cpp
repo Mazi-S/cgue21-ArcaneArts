@@ -28,6 +28,7 @@ void ExampleLayer::OnAttach()
 		Engine::MeshLibrary::Load("Monster", "assets/objects/monster.obj");
 		Engine::MeshLibrary::Load("House", "assets/objects/house.obj");
 		Engine::MeshLibrary::Load("Terrain", "assets/objects/terrain.obj");
+		Engine::MeshLibrary::Load("Knight", "assets/objects/knight.obj");
 
 		// Forest
 		Engine::MeshLibrary::Load("Log", "assets/objects/forest/log.obj");
@@ -127,12 +128,7 @@ void ExampleLayer::OnAttach()
 	{
 		Engine::Entity entity;
 
-		entity = m_Scene->CreateEntity();
-		entity.GetComponent<Engine::TransformComponent>().Translation = { -0.0f, 2.0f, 2.0f };
-		entity.GetComponent<Engine::TransformComponent>().Rotation = { 0.0f, 0.0f, 0.0f };
-		entity.GetComponent<Engine::TransformComponent>().Scale = { 1.0f, 1.0f, 1.0f };
-		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("MonsterMaterial"));
-		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Monster"));
+
 
 		// right hand
 		entity = m_Scene->CreateEntity();
@@ -152,7 +148,20 @@ void ExampleLayer::OnAttach()
 		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Hand"));
 		entity.AddComponent<Engine::ParentComponent>(m_Hero);
 
-
+		{
+			entity = m_Scene->CreateEntity();
+			auto& mesh = Engine::MeshLibrary::Get("Monster");
+			glm::vec3 t{ -0.0f, 20.0f, 2.0f };
+			glm::vec3 r{ 0.0f, 0.0f, 0.0f };
+			glm::vec3 s{ 1.0f, 1.0f, 1.0f };
+			entity.GetComponent<Engine::TransformComponent>().Translation = t;
+			entity.GetComponent<Engine::TransformComponent>().Rotation = r;
+			entity.GetComponent<Engine::TransformComponent>().Scale = s;
+			entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("MonsterMaterial"));
+			entity.AddComponent<Engine::MeshComponent>(mesh);
+			entity.AddComponent<Engine::RegidDynamicComponent>(Engine::PhysicsAPI::CreateRegidDynamicSphere(t, 1.0f));
+			entity.AddComponent<Engine::KinematicComponent>(glm::vec3(1.0f, 0.0f, 0.0f));
+		}
 
 		{
 			entity = m_Scene->CreateEntity();
@@ -182,6 +191,7 @@ void ExampleLayer::OnAttach()
 			entity.AddComponent<Engine::RegidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(mesh, t, r, s));
 		}
 
+		srand(6);
 		// Forest
 		for (size_t i = 0; i < 50; i++)
 		{
