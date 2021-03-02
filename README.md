@@ -2,7 +2,7 @@
 
 ## Cloning
 To fetch all submodules, use the `--recursive` parameter:  
-``git clone --recursive https://github.com/Mazi-S/ArcaneArts``
+``git clone --recursive https://github.com/Mazi-S/cgue21-ArcaneArts``
 
 To manually clone the necessary submodules, use:  
 ``git submodule update --init``
