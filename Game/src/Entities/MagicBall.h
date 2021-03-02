@@ -12,7 +12,7 @@ enum class MagicBallType
 class MagicBall : public Engine::ScriptableEntity
 {
 public:
-	MagicBall(Engine::Entity entity, float lifetime = 3.0f)
+	MagicBall(Engine::Entity entity, float lifetime = 1.0f)
 		: ScriptableEntity(entity), m_Lifetime(lifetime)
 	{ }
 

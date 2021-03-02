@@ -45,12 +45,20 @@ namespace Engine {
 		bool OnKeyPressed(KeyPressedEvent& e);
 
 		void InitCameraComponent(entt::registry& registry, entt::entity entity);
-		void AddCharacterController(entt::registry& registry, entt::entity entity);
-		void AddRegidDynamic(entt::registry& registry, entt::entity entity);
-		void AddRegidStatic(entt::registry& registry, entt::entity entity);
 
-		void AddKinematicComponent(entt::registry& registry, entt::entity entity);
-		void RemoveKinematicComponent(entt::registry& registry, entt::entity entity);
+		// physx
+		void AddCharacterController(entt::registry& registry, entt::entity entity);
+
+		void AddRigidDynamic(entt::registry& registry, entt::entity entity);
+		void RemoveRigidDynamic(entt::registry& registry, entt::entity entity);
+		void AddRigidStatic(entt::registry& registry, entt::entity entity);
+		void RemoveRigidStatic(entt::registry& registry, entt::entity entity);
+		void AddRigidKinemetic(entt::registry& registry, entt::entity entity);
+		void RemoveRigidKinemetic(entt::registry& registry, entt::entity entity);
+
+
+		void AddKinematicMovementComponent(entt::registry& registry, entt::entity entity);
+		void RemoveKinematicMovementComponent(entt::registry& registry, entt::entity entity);
 
 
 	private:

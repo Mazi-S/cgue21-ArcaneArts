@@ -154,7 +154,7 @@ void ExampleLayer::OnAttach()
 		{
 			entity = m_Scene->CreateEntity();
 			auto& mesh = Engine::MeshLibrary::Get("Monster");
-			glm::vec3 t{ -0.0f, 20.0f, 2.0f };
+			glm::vec3 t{ -0.0f, 1.5f, 2.0f };
 			glm::vec3 r{ 0.0f, 0.0f, 0.0f };
 			glm::vec3 s{ 1.0f, 1.0f, 1.0f };
 			entity.GetComponent<Engine::TransformComponent>().Translation = t;
@@ -162,7 +162,8 @@ void ExampleLayer::OnAttach()
 			entity.GetComponent<Engine::TransformComponent>().Scale = s;
 			entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("MonsterMaterial"));
 			entity.AddComponent<Engine::MeshComponent>(mesh);
-			entity.AddComponent<Engine::RegidDynamicComponent>(Engine::PhysicsAPI::CreateRegidDynamicSphere(t, 1.0f));
+			entity.AddComponent<Engine::RigidKinematicComponent>(Engine::PhysicsAPI::CreateKinematic(mesh, t, r, s));
+			entity.AddComponent<Engine::KinematicMovementComponent>(glm::vec3{ 0,0,1 });
 		}
 
 		{
@@ -176,7 +177,7 @@ void ExampleLayer::OnAttach()
 			entity.GetComponent<Engine::TransformComponent>().Scale = s;
 			entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("HouseMaterial"));
 			entity.AddComponent<Engine::MeshComponent>(mesh);
-			entity.AddComponent<Engine::RegidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(mesh, t, r, s));
+			entity.AddComponent<Engine::RigidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(mesh, t, r, s));
 		}
 
 		{
@@ -190,7 +191,7 @@ void ExampleLayer::OnAttach()
 			entity.GetComponent<Engine::TransformComponent>().Scale = s;
 			entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("PedestalMaterial"));
 			entity.AddComponent<Engine::MeshComponent>(mesh);
-			entity.AddComponent<Engine::RegidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(mesh, t, r, s));
+			entity.AddComponent<Engine::RigidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(mesh, t, r, s));
 		}
 
 		{
@@ -204,7 +205,7 @@ void ExampleLayer::OnAttach()
 			entity.GetComponent<Engine::TransformComponent>().Scale = s;
 			entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("TerrainMaterial"));
 			entity.AddComponent<Engine::MeshComponent>(mesh);
-			entity.AddComponent<Engine::RegidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(mesh, t, r, s));
+			entity.AddComponent<Engine::RigidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(mesh, t, r, s));
 		}
 
 		// Seed
@@ -223,7 +224,7 @@ void ExampleLayer::OnAttach()
 			entity.GetComponent<Engine::TransformComponent>().Scale = s;
 			entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("ForestMaterial"));
 			entity.AddComponent<Engine::MeshComponent>(mesh);
-			entity.AddComponent<Engine::RegidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(mesh, t, r, s));
+			entity.AddComponent<Engine::RigidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(mesh, t, r, s));
 		}
 		for (size_t i = 0; i < 10; i++)
 		{
@@ -237,7 +238,7 @@ void ExampleLayer::OnAttach()
 			entity.GetComponent<Engine::TransformComponent>().Scale = s;
 			entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("ForestMaterial"));
 			entity.AddComponent<Engine::MeshComponent>(mesh);
-			entity.AddComponent<Engine::RegidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(mesh, t, r, s));
+			entity.AddComponent<Engine::RigidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(mesh, t, r, s));
 		}
 		for (size_t i = 0; i < 10; i++)
 		{
@@ -251,7 +252,7 @@ void ExampleLayer::OnAttach()
 			entity.GetComponent<Engine::TransformComponent>().Scale = s;
 			entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("ForestMaterial"));
 			entity.AddComponent<Engine::MeshComponent>(mesh);
-			entity.AddComponent<Engine::RegidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(mesh, t, r, s));
+			entity.AddComponent<Engine::RigidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(mesh, t, r, s));
 		}
 		for (size_t i = 0; i < 10; i++)
 		{
@@ -265,7 +266,7 @@ void ExampleLayer::OnAttach()
 			entity.GetComponent<Engine::TransformComponent>().Scale = s;
 			entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("ForestMaterial"));
 			entity.AddComponent<Engine::MeshComponent>(mesh);
-			entity.AddComponent<Engine::RegidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(mesh, t, r, s));
+			entity.AddComponent<Engine::RigidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(mesh, t, r, s));
 		}
 		for (size_t i = 0; i < 10; i++)
 		{
@@ -279,7 +280,7 @@ void ExampleLayer::OnAttach()
 			entity.GetComponent<Engine::TransformComponent>().Scale = s;
 			entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("ForestMaterial"));
 			entity.AddComponent<Engine::MeshComponent>(mesh);
-			entity.AddComponent<Engine::RegidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(mesh, t, r, s));
+			entity.AddComponent<Engine::RigidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(mesh, t, r, s));
 		}
 		for (size_t i = 0; i < 30; i++)
 		{
@@ -293,7 +294,7 @@ void ExampleLayer::OnAttach()
 			entity.GetComponent<Engine::TransformComponent>().Scale = s;
 			entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("RockMaterial"));
 			entity.AddComponent<Engine::MeshComponent>(mesh);
-			entity.AddComponent<Engine::RegidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(mesh, t, r, s));
+			entity.AddComponent<Engine::RigidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(mesh, t, r, s));
 		}
 
 		// Clouds

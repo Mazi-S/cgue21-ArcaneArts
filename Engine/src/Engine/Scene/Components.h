@@ -43,35 +43,46 @@ namespace Engine {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// Physics ////////////////////////////////////////////////////////////////////////////////////
 
-	struct RegidDynamicComponent
+	struct RigidDynamicComponent
 	{
 		physx::PxRigidDynamic* Actor;
 
-		RegidDynamicComponent() = default;
-		RegidDynamicComponent(const RegidDynamicComponent&) = default;
-		RegidDynamicComponent(physx::PxRigidDynamic* actor)
+		RigidDynamicComponent() = default;
+		RigidDynamicComponent(const RigidDynamicComponent&) = default;
+		RigidDynamicComponent(physx::PxRigidDynamic* actor)
 			: Actor(actor) { }
 	};
 
-	struct RegidStaticComponent
-	{
-		physx::PxRigidActor* Actor;
-
-		RegidStaticComponent() = default;
-		RegidStaticComponent(const RegidStaticComponent&) = default;
-		RegidStaticComponent(physx::PxRigidActor* actor)
-			: Actor(actor) { }
-	};
-
-	struct KinematicComponent
+	struct KinematicMovementComponent
 	{
 		// movement per second
 		glm::vec3 Movement;
 
-		KinematicComponent(const KinematicComponent&) = default;
-		KinematicComponent(glm::vec3 movement = { 0.0f, 0.0f, 0.0f })
+		KinematicMovementComponent(const KinematicMovementComponent&) = default;
+		KinematicMovementComponent(glm::vec3 movement = { 0.0f, 0.0f, 0.0f })
 			: Movement(movement) { }
 	};
+
+	struct RigidStaticComponent
+	{
+		physx::PxRigidActor* Actor;
+
+		RigidStaticComponent() = default;
+		RigidStaticComponent(const RigidStaticComponent&) = default;
+		RigidStaticComponent(physx::PxRigidActor* actor)
+			: Actor(actor) { }
+	};
+
+	struct RigidKinematicComponent
+	{
+		physx::PxRigidDynamic* Actor;
+
+		RigidKinematicComponent() = default;
+		RigidKinematicComponent(const RigidKinematicComponent&) = default;
+		RigidKinematicComponent(physx::PxRigidDynamic* actor)
+			: Actor(actor) { }
+	};
+
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// Mesh ///////////////////////////////////////////////////////////////////////////////////////

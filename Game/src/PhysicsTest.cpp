@@ -113,7 +113,7 @@ void PhysicsTestLayer::InitScene()
 		entity.GetComponent<Engine::TransformComponent>().Translation = t;
 		entity.GetComponent<Engine::TransformComponent>().Rotation = r;
 		entity.GetComponent<Engine::TransformComponent>().Scale = s;
-		entity.AddComponent<Engine::RegidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(Engine::MeshLibrary::Get("Cube"), t, r, s));
+		entity.AddComponent<Engine::RigidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(Engine::MeshLibrary::Get("Cube"), t, r, s));
 	}
 
 	{
@@ -128,7 +128,7 @@ void PhysicsTestLayer::InitScene()
 		entity.GetComponent<Engine::TransformComponent>().Translation = t;
 		entity.GetComponent<Engine::TransformComponent>().Rotation = r;
 		entity.GetComponent<Engine::TransformComponent>().Scale = s;
-		entity.AddComponent<Engine::RegidDynamicComponent>(Engine::PhysicsAPI::CreateRegidDynamicSphere(t, 1.0f));
+		entity.AddComponent<Engine::RigidDynamicComponent>(Engine::PhysicsAPI::CreateRigidDynamicSphere(t, 1.0f));
 	}
 
 	// stairs
@@ -146,7 +146,7 @@ void PhysicsTestLayer::InitScene()
 			entity.GetComponent<Engine::TransformComponent>().Translation = t;
 			entity.GetComponent<Engine::TransformComponent>().Rotation = r;
 			entity.GetComponent<Engine::TransformComponent>().Scale = s;
-			entity.AddComponent<Engine::RegidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(Engine::MeshLibrary::Get("Cube"), t, r, s));
+			entity.AddComponent<Engine::RigidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(Engine::MeshLibrary::Get("Cube"), t, r, s));
 		}
 	}
 
@@ -162,7 +162,7 @@ void PhysicsTestLayer::InitScene()
 		entity.GetComponent<Engine::TransformComponent>().Translation = t;
 		entity.GetComponent<Engine::TransformComponent>().Rotation = r;
 		entity.GetComponent<Engine::TransformComponent>().Scale = s;
-		entity.AddComponent<Engine::RegidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(Engine::MeshLibrary::Get("Cube"), t, r, s));
+		entity.AddComponent<Engine::RigidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(Engine::MeshLibrary::Get("Cube"), t, r, s));
 	}
 
 	for (int i = 0; i <= 6; i++)
@@ -177,7 +177,7 @@ void PhysicsTestLayer::InitScene()
 		entity.GetComponent<Engine::TransformComponent>().Translation = t;
 		entity.GetComponent<Engine::TransformComponent>().Rotation = r;
 		entity.GetComponent<Engine::TransformComponent>().Scale = s;
-		entity.AddComponent<Engine::RegidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(Engine::MeshLibrary::Get("Cube"), t, r, s));
+		entity.AddComponent<Engine::RigidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(Engine::MeshLibrary::Get("Cube"), t, r, s));
 	}
 
 	for (int i = 1; i <= 8; i++)
@@ -192,6 +192,6 @@ void PhysicsTestLayer::InitScene()
 		entity.GetComponent<Engine::TransformComponent>().Translation = t;
 		entity.GetComponent<Engine::TransformComponent>().Rotation = r;
 		entity.GetComponent<Engine::TransformComponent>().Scale = s;
-		entity.AddComponent<Engine::RegidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(Engine::MeshLibrary::Get("Cube"), t, r, s));
+		entity.AddComponent<Engine::RigidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(Engine::MeshLibrary::Get("Cube"), t, r, s));
 	}
 }

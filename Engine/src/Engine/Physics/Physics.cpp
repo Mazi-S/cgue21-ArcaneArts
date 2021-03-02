@@ -33,12 +33,36 @@ namespace Engine {
 		s_Foundation->release();
 	}
 
-	physx::PxRigidDynamic* PhysicsAPI::CreateRegidDynamicSphere(glm::vec3 position, float radius)
+	physx::PxRigidDynamic* PhysicsAPI::CreateRigidDynamicSphere(glm::vec3 position, float radius)
 	{
 		static physx::PxMaterial* material = s_PhysicsSDK->createMaterial(0.5f, 0.5f, 0.6f);
 		physx::PxShape* shape = s_PhysicsSDK->createShape(physx::PxSphereGeometry(radius), *material);
 
 		physx::PxRigidDynamic* actor = s_PhysicsSDK->createRigidDynamic(physx::PxTransform({ position.x, position.y, position.z }));
+		actor->attachShape(*shape);
+
+		shape->release();
+		return actor;
+	}
+
+	physx::PxRigidDynamic* PhysicsAPI::CreateKinematic(Ref<Mesh> mesh, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale)
+	{
+		static physx::PxMaterial* material = s_PhysicsSDK->createMaterial(0.5f, 0.5f, 0.6f);
+
+		physx::PxRigidDynamic* actor = s_PhysicsSDK->createRigidDynamic(physx::PxTransform({ position.x, position.y, position.z }));
+		actor->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, true);
+
+		Ref<Physics::PsMesh> psMesh = mesh->GetPsMesh();
+
+		if (!psMesh->HasPxTriangleMesh())
+			psMesh->InitPxTriangleMesh();
+
+		physx::PxTriangleMesh* triMesh = psMesh->GetPxTriangleMesh();
+
+		physx::PxTriangleMeshGeometry geometry = physx::PxTriangleMeshGeometry(triMesh);
+		geometry.scale = physx::PxVec3({ scale.x, scale.y, scale.z });
+		physx::PxShape* shape = s_PhysicsSDK->createShape(geometry, *material);
+
 		actor->attachShape(*shape);
 
 		shape->release();

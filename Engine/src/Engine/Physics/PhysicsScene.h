@@ -14,6 +14,7 @@ namespace Engine::Physics {
 		void Simulate(float elapsedTime);
 
 		void AddActor(physx::PxActor* actor);
+		void RemoveActor(physx::PxActor* actor);
 		physx::PxController* CreateController(float height, float radius, glm::vec3 position);
 
 	private:

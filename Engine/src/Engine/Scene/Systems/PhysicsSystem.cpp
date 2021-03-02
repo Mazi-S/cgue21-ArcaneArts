@@ -9,13 +9,25 @@ namespace Engine::System::Physics {
 
 	void OnUpdateKinematic(entt::registry& registry, Timestep ts)
 	{
-		auto view = registry.view<RegidDynamicComponent, KinematicComponent, TransformComponent>();
-		for (const entt::entity e : view)
 		{
-			auto& [rdc, kc, tc] = view.get<RegidDynamicComponent, KinematicComponent, TransformComponent>(e);
+			auto view = registry.view<RigidDynamicComponent, KinematicMovementComponent, TransformComponent>();
+			for (const entt::entity e : view)
+			{
+				auto& [rdc, kc, tc] = view.get<RigidDynamicComponent, KinematicMovementComponent, TransformComponent>(e);
 
-			tc.Translation += kc.Movement * float(ts);
-			rdc.Actor->setKinematicTarget({ tc.Translation.x, tc.Translation.y, tc.Translation.z });
+				tc.Translation += kc.Movement * float(ts);
+				rdc.Actor->setKinematicTarget({ tc.Translation.x, tc.Translation.y, tc.Translation.z });
+			}
+		}
+		{
+			auto view = registry.view<RigidKinematicComponent, KinematicMovementComponent, TransformComponent>();
+			for (const entt::entity e : view)
+			{
+				auto& [rkc, kc, tc] = view.get<RigidKinematicComponent, KinematicMovementComponent, TransformComponent>(e);
+
+				tc.Translation += kc.Movement * float(ts);
+				rkc.Actor->setKinematicTarget({ tc.Translation.x, tc.Translation.y, tc.Translation.z });
+			}
 		}
 	}
 
@@ -23,10 +35,10 @@ namespace Engine::System::Physics {
 	{
 		// Update Regid Dynamic
 		{
-			auto view = registry.view<RegidDynamicComponent, TransformComponent>();
+			auto view = registry.view<RigidDynamicComponent, TransformComponent>();
 			for (const entt::entity e : view)
 			{
-				auto& [rdc, tc] = view.get<RegidDynamicComponent, TransformComponent>(e);
+				auto& [rdc, tc] = view.get<RigidDynamicComponent, TransformComponent>(e);
 
 				physx::PxTransform t = rdc.Actor->getGlobalPose();
 				tc.Translation = { t.p.x, t.p.y, t.p.z };

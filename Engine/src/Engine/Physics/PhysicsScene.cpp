@@ -21,6 +21,11 @@ namespace Engine::Physics {
 		m_PxScene->addActor(*actor);
 	}
 
+	void PsScene::RemoveActor(physx::PxActor* actor)
+	{
+		m_PxScene->removeActor(*actor);
+	}
+
 	physx::PxController* PsScene::CreateController(float h, float r, glm::vec3 pos)
 	{
 		return PhysicsAPI::CreateController(m_PxControllerManager, h, r, pos);

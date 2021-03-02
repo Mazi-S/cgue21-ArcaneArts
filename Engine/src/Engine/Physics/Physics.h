@@ -16,7 +16,8 @@ namespace Engine {
 
 		static physx::PxController* CreateController(physx::PxControllerManager* manager, float height = 1.0f, float radius = 0.5f, glm::vec3 position = { 0.0f, 0.0f, 0.0f });
 
-		static physx::PxRigidDynamic* CreateRegidDynamicSphere(glm::vec3 position, float radius);
+		static physx::PxRigidDynamic* CreateRigidDynamicSphere(glm::vec3 position, float radius);
+		static physx::PxRigidDynamic* CreateKinematic(Ref<Mesh> mesh, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale);
 		static physx::PxRigidStatic* CreateRigidStatic(Ref<Mesh> mesh, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale);
 
 		static physx::PxTriangleMesh* CreateTriangleMesh(Physics::PsMesh* mesh);
