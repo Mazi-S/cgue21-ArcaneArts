@@ -43,16 +43,6 @@ namespace Engine {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// Physics ////////////////////////////////////////////////////////////////////////////////////
 
-	struct RigidDynamicComponent
-	{
-		physx::PxRigidDynamic* Actor;
-
-		RigidDynamicComponent() = default;
-		RigidDynamicComponent(const RigidDynamicComponent&) = default;
-		RigidDynamicComponent(physx::PxRigidDynamic* actor)
-			: Actor(actor) { }
-	};
-
 	struct KinematicMovementComponent
 	{
 		// movement per second
@@ -63,24 +53,56 @@ namespace Engine {
 			: Movement(movement) { }
 	};
 
-	struct RigidStaticComponent
+	struct RigidComponent
 	{
 		physx::PxRigidActor* Actor;
 
-		RigidStaticComponent() = default;
-		RigidStaticComponent(const RigidStaticComponent&) = default;
-		RigidStaticComponent(physx::PxRigidActor* actor)
+		RigidComponent(const RigidComponent&) = default;
+		RigidComponent(physx::PxRigidActor* actor)
 			: Actor(actor) { }
 	};
 
-	struct RigidKinematicComponent
+	struct RigidDynamicComponent
 	{
 		physx::PxRigidDynamic* Actor;
 
-		RigidKinematicComponent() = default;
-		RigidKinematicComponent(const RigidKinematicComponent&) = default;
-		RigidKinematicComponent(physx::PxRigidDynamic* actor)
+		RigidDynamicComponent(const RigidDynamicComponent&) = default;
+		RigidDynamicComponent(physx::PxRigidDynamic* actor)
 			: Actor(actor) { }
+	};
+
+	struct ShapeComponent
+	{
+		physx::PxShape* Shape;
+
+		ShapeComponent(const ShapeComponent&) = default;
+		ShapeComponent(physx::PxShape* shape)
+			: Shape(shape) { }
+	};
+
+	struct KinematicComponent
+	{
+		uint16_t temp = 0; // todo: fix
+
+		KinematicComponent() = default;
+		KinematicComponent(const KinematicComponent&) = default;
+	};
+
+	struct TriggerComponent
+	{
+		uint16_t temp = 0; // todo: fix
+
+		TriggerComponent() = default;
+		TriggerComponent(const TriggerComponent&) = default;
+	};
+
+	struct HitComponent
+	{
+		entt::entity Other;
+
+		HitComponent(const HitComponent&) = default;
+		HitComponent(entt::entity other)
+			: Other(other) { }
 	};
 
 

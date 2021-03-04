@@ -7,30 +7,7 @@
 
 namespace Engine::System::Physics {
 
-	void OnUpdateKinematic(entt::registry& registry, Timestep ts)
-	{
-		{
-			auto view = registry.view<RigidDynamicComponent, KinematicMovementComponent, TransformComponent>();
-			for (const entt::entity e : view)
-			{
-				auto& [rdc, kc, tc] = view.get<RigidDynamicComponent, KinematicMovementComponent, TransformComponent>(e);
-
-				tc.Translation += kc.Movement * float(ts);
-				rdc.Actor->setKinematicTarget({ tc.Translation.x, tc.Translation.y, tc.Translation.z });
-			}
-		}
-		{
-			auto view = registry.view<RigidKinematicComponent, KinematicMovementComponent, TransformComponent>();
-			for (const entt::entity e : view)
-			{
-				auto& [rkc, kc, tc] = view.get<RigidKinematicComponent, KinematicMovementComponent, TransformComponent>(e);
-
-				tc.Translation += kc.Movement * float(ts);
-				rkc.Actor->setKinematicTarget({ tc.Translation.x, tc.Translation.y, tc.Translation.z });
-			}
-		}
-	}
-
+	
 	void OnUpdate(entt::registry& registry)
 	{
 		// Update Regid Dynamic
@@ -58,6 +35,19 @@ namespace Engine::System::Physics {
 			}
 		}
 	}
+
+	void OnUpdateKinematic(entt::registry& registry, Timestep ts)
+	{
+		auto view = registry.view<RigidDynamicComponent, KinematicComponent, KinematicMovementComponent, TransformComponent>();
+		for (const entt::entity e : view)
+		{
+			auto& [rdc, kmc, tc] = view.get<RigidDynamicComponent, KinematicMovementComponent, TransformComponent>(e);
+
+			tc.Translation += kmc.Movement * float(ts);
+			rdc.Actor->setKinematicTarget({ tc.Translation.x, tc.Translation.y, tc.Translation.z });
+		}
+	}
+
 
 }
 

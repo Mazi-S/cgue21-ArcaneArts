@@ -102,18 +102,24 @@ void PhysicsTestLayer::InitScene()
 {
 	Engine::Entity entity;
 
+	auto& cubeMesh = Engine::MeshLibrary::Get("Cube");
+
 	// ground
 	{
 		entity = m_Scene->CreateEntity();
+
 		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("GrayMaterial"));
-		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Cube"));
+		entity.AddComponent<Engine::MeshComponent>(cubeMesh);
 		glm::vec3 t{ 0.0f, -0.1f, 0.0f };
 		glm::vec3 r{ 0.0f, 0.0f, 0.0f };
 		glm::vec3 s{ 200.0f, .1f, 200.0f };
 		entity.GetComponent<Engine::TransformComponent>().Translation = t;
 		entity.GetComponent<Engine::TransformComponent>().Rotation = r;
 		entity.GetComponent<Engine::TransformComponent>().Scale = s;
-		entity.AddComponent<Engine::RigidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(Engine::MeshLibrary::Get("Cube"), t, r, s));
+		auto actor = Engine::PhysicsAPI::CreateRigidStatic(t, r);
+		auto shape = Engine::PhysicsAPI::CreateShape(cubeMesh, s);
+		entity.AddComponent<Engine::RigidComponent>(actor);
+		entity.AddComponent<Engine::ShapeComponent>(shape);
 	}
 
 	{
@@ -128,7 +134,10 @@ void PhysicsTestLayer::InitScene()
 		entity.GetComponent<Engine::TransformComponent>().Translation = t;
 		entity.GetComponent<Engine::TransformComponent>().Rotation = r;
 		entity.GetComponent<Engine::TransformComponent>().Scale = s;
-		entity.AddComponent<Engine::RigidDynamicComponent>(Engine::PhysicsAPI::CreateRigidDynamicSphere(t, 1.0f));
+		auto actor = Engine::PhysicsAPI::CreateRigidDynamic(t, r);
+		auto shape = Engine::PhysicsAPI::CreateSphereShape(1.0f);
+		entity.AddComponent<Engine::RigidDynamicComponent>(actor);
+		entity.AddComponent<Engine::ShapeComponent>(shape);
 	}
 
 	// stairs
@@ -142,11 +151,14 @@ void PhysicsTestLayer::InitScene()
 
 			entity = m_Scene->CreateEntity();
 			entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("BricksMaterial"));
-			entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Cube"));
+			entity.AddComponent<Engine::MeshComponent>(cubeMesh);
 			entity.GetComponent<Engine::TransformComponent>().Translation = t;
 			entity.GetComponent<Engine::TransformComponent>().Rotation = r;
 			entity.GetComponent<Engine::TransformComponent>().Scale = s;
-			entity.AddComponent<Engine::RigidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(Engine::MeshLibrary::Get("Cube"), t, r, s));
+			auto actor = Engine::PhysicsAPI::CreateRigidStatic(t, r);
+			auto shape = Engine::PhysicsAPI::CreateShape(cubeMesh, s);
+			entity.AddComponent<Engine::RigidComponent>(actor);
+			entity.AddComponent<Engine::ShapeComponent>(shape);
 		}
 	}
 
@@ -158,11 +170,14 @@ void PhysicsTestLayer::InitScene()
 
 		entity = m_Scene->CreateEntity();
 		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("BricksMaterial"));
-		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Cube"));
+		entity.AddComponent<Engine::MeshComponent>(cubeMesh);
 		entity.GetComponent<Engine::TransformComponent>().Translation = t;
 		entity.GetComponent<Engine::TransformComponent>().Rotation = r;
 		entity.GetComponent<Engine::TransformComponent>().Scale = s;
-		entity.AddComponent<Engine::RigidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(Engine::MeshLibrary::Get("Cube"), t, r, s));
+		auto actor = Engine::PhysicsAPI::CreateRigidStatic(t, r);
+		auto shape = Engine::PhysicsAPI::CreateShape(cubeMesh, s);
+		entity.AddComponent<Engine::RigidComponent>(actor);
+		entity.AddComponent<Engine::ShapeComponent>(shape);
 	}
 
 	for (int i = 0; i <= 6; i++)
@@ -173,11 +188,14 @@ void PhysicsTestLayer::InitScene()
 
 		entity = m_Scene->CreateEntity();
 		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("BricksMaterial"));
-		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Cube"));
+		entity.AddComponent<Engine::MeshComponent>(cubeMesh);
 		entity.GetComponent<Engine::TransformComponent>().Translation = t;
 		entity.GetComponent<Engine::TransformComponent>().Rotation = r;
 		entity.GetComponent<Engine::TransformComponent>().Scale = s;
-		entity.AddComponent<Engine::RigidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(Engine::MeshLibrary::Get("Cube"), t, r, s));
+		auto actor = Engine::PhysicsAPI::CreateRigidStatic(t, r);
+		auto shape = Engine::PhysicsAPI::CreateShape(cubeMesh, s);
+		entity.AddComponent<Engine::RigidComponent>(actor);
+		entity.AddComponent<Engine::ShapeComponent>(shape);
 	}
 
 	for (int i = 1; i <= 8; i++)
@@ -188,10 +206,13 @@ void PhysicsTestLayer::InitScene()
 	
 		entity = m_Scene->CreateEntity();
 		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("BricksMaterial"));
-		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Cube"));
+		entity.AddComponent<Engine::MeshComponent>(cubeMesh);
 		entity.GetComponent<Engine::TransformComponent>().Translation = t;
 		entity.GetComponent<Engine::TransformComponent>().Rotation = r;
 		entity.GetComponent<Engine::TransformComponent>().Scale = s;
-		entity.AddComponent<Engine::RigidStaticComponent>(Engine::PhysicsAPI::CreateRigidStatic(Engine::MeshLibrary::Get("Cube"), t, r, s));
+		auto actor = Engine::PhysicsAPI::CreateRigidStatic(t, r);
+		auto shape = Engine::PhysicsAPI::CreateShape(cubeMesh, s);
+		entity.AddComponent<Engine::RigidComponent>(actor);
+		entity.AddComponent<Engine::ShapeComponent>(shape);
 	}
 }

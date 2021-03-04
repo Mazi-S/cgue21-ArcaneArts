@@ -21,6 +21,11 @@ namespace Engine {
 		registry.get<NativeScriptComponent>(entity).Unbind();
 	}
 
+	void Scene::TriggerHit(entt::entity triggerEntity, entt::entity otherEntity)
+	{
+		m_Registry.emplace_or_replace<HitComponent>(triggerEntity, otherEntity);
+	}
+
 	void Scene::InitCameraComponent(entt::registry& registry, entt::entity entity)
 	{
 		System::Camera::SetViewportSize(registry, entity, m_ViewportWidth, m_ViewportHeight);
@@ -32,58 +37,93 @@ namespace Engine {
 		ccc.Controller = m_PhysicsScene->CreateController(ccc.StandingHeight - 2.0f * ccc.Radius, ccc.Radius, tc.Translation);
 	}
 
-	void Scene::AddRigidDynamic(entt::registry& registry, entt::entity entity)
+	void Scene::AddRigidComponent(entt::registry& registry, entt::entity entity)
+	{
+		auto& rc = registry.get<RigidComponent>(entity);
+		m_PhysicsScene->AddActor(rc.Actor, entity);
+	}
+
+	void Scene::RemoveRigidComponent(entt::registry& registry, entt::entity entity)
+	{
+		auto& rc = registry.get<RigidComponent>(entity);
+		m_PhysicsScene->RemoveActor(rc.Actor);
+	}
+
+	void Scene::AddRigidDynamicComponent(entt::registry& registry, entt::entity entity)
 	{
 		auto& rdc = registry.get<RigidDynamicComponent>(entity);
-		m_PhysicsScene->AddActor(rdc.Actor);
-
-		auto* kc = registry.try_get<KinematicMovementComponent>(entity);
-		if (kc != nullptr)
-			PhysicsAPI::SetKinematic(rdc.Actor, true);
+		m_PhysicsScene->AddActor(rdc.Actor, entity);
 	}
 
-	void Scene::RemoveRigidDynamic(entt::registry& registry, entt::entity entity)
+	void Scene::RemoveRigidDynamicComponent(entt::registry& registry, entt::entity entity)
 	{
-		auto& rsc = registry.get<RigidDynamicComponent>(entity);
-		m_PhysicsScene->RemoveActor(rsc.Actor);
+		auto& rdc = registry.get<RigidDynamicComponent>(entity);
+		m_PhysicsScene->RemoveActor(rdc.Actor);
 	}
 
-	void Scene::AddRigidStatic(entt::registry& registry, entt::entity entity)
+	void Scene::AddTriggerComponent(entt::registry& registry, entt::entity entity)
 	{
-		auto& rsc = registry.get<RigidStaticComponent>(entity);
-		m_PhysicsScene->AddActor(rsc.Actor);
+		auto* sc = registry.try_get<ShapeComponent>(entity);
+		
+		ASSERT(sc != nullptr, "Entity has no ShapeComponent!");
+
+		PhysicsAPI::SetSimulation(sc->Shape, false);
+		PhysicsAPI::SetTrigger(sc->Shape, true);
 	}
 
-	void Scene::RemoveRigidStatic(entt::registry& registry, entt::entity entity)
+	void Scene::RemoveTriggerComponent(entt::registry& registry, entt::entity entity)
 	{
-		auto& rsc = registry.get<RigidStaticComponent>(entity);
-		m_PhysicsScene->RemoveActor(rsc.Actor);
+		auto* sc = registry.try_get<ShapeComponent>(entity);
+		if (sc != nullptr)
+		{
+			PhysicsAPI::SetTrigger(sc->Shape, false);
+			PhysicsAPI::SetSimulation(sc->Shape, true);
+		}
+
 	}
 
-	void Scene::AddRigidKinemetic(entt::registry& registry, entt::entity entity)
+	void Scene::AddKinematicComponent(entt::registry& registry, entt::entity entity)
 	{
-		auto& rkc = registry.get<RigidKinematicComponent>(entity);
-		m_PhysicsScene->AddActor(rkc.Actor);
-	}
-
-	void Scene::RemoveRigidKinemetic(entt::registry& registry, entt::entity entity)
-	{
-		auto& rkc = registry.get<RigidKinematicComponent>(entity);
-		m_PhysicsScene->RemoveActor(rkc.Actor);
-	}
-
-	void Scene::AddKinematicMovementComponent(entt::registry& registry, entt::entity entity)
-	{
+		// RigidDynamicComponent
 		auto* rdc = registry.try_get<RigidDynamicComponent>(entity);
 		if (rdc != nullptr)
 			PhysicsAPI::SetKinematic(rdc->Actor, true);
 	}
 
-	void Scene::RemoveKinematicMovementComponent(entt::registry& registry, entt::entity entity)
+	void Scene::RemoveKinematicComponent(entt::registry& registry, entt::entity entity)
 	{
+		// RigidDynamicComponent
 		auto* rdc = registry.try_get<RigidDynamicComponent>(entity);
 		if (rdc != nullptr)
 			PhysicsAPI::SetKinematic(rdc->Actor, false);
+	}
+
+	void Scene::AddShapeComponent(entt::registry& registry, entt::entity entity)
+	{
+		auto sc = registry.get<ShapeComponent>(entity);
+
+		auto* rc = registry.try_get<RigidComponent>(entity);
+		if (rc != nullptr)
+			rc->Actor->attachShape(*sc.Shape);
+		
+		auto* rdc = registry.try_get<RigidDynamicComponent>(entity);
+		if (rdc != nullptr)
+			rdc->Actor->attachShape(*sc.Shape);
+	}
+
+	void Scene::RemoveShapeComponent(entt::registry& registry, entt::entity entity)
+	{
+		auto sc = registry.get<ShapeComponent>(entity);
+
+		auto* rc = registry.try_get<RigidComponent>(entity);
+		if (rc != nullptr)
+			rc->Actor->detachShape(*sc.Shape);
+
+		auto* rdc = registry.try_get<RigidDynamicComponent>(entity);
+		if (rdc != nullptr)
+			rdc->Actor->detachShape(*sc.Shape);
+
+		sc.Shape->release();
 	}
 
 	Scene::Scene()
@@ -92,19 +132,26 @@ namespace Engine {
 		m_ViewportHeight = Application::Get().GetWindow().GetHeight();
 
 		m_Registry.on_destroy<NativeScriptComponent>().connect<&UnbindScript>();
-		m_Registry.on_construct<CameraComponent>().connect<&Scene::InitCameraComponent>(*this);
-		m_Registry.on_construct<RigidDynamicComponent>().connect<&Scene::AddRigidDynamic>(*this);
-		m_Registry.on_construct<RigidStaticComponent>().connect<&Scene::AddRigidStatic>(*this);
-		m_Registry.on_construct<RigidKinematicComponent>().connect<&Scene::AddRigidKinemetic>(*this);
 		m_Registry.on_construct<CharacterControllerComponent>().connect<&Scene::AddCharacterController>(*this);
+		m_Registry.on_construct<CameraComponent>().connect<&Scene::InitCameraComponent>(*this);
 
-		m_Registry.on_construct<KinematicMovementComponent>().connect<&Scene::AddKinematicMovementComponent>(*this);
-		m_Registry.on_destroy<KinematicMovementComponent>().connect<&Scene::RemoveKinematicMovementComponent>(*this);
-		m_Registry.on_destroy<RigidDynamicComponent>().connect<&Scene::RemoveRigidDynamic>(*this);
-		m_Registry.on_destroy<RigidStaticComponent>().connect<&Scene::RemoveRigidStatic>(*this);
-		m_Registry.on_destroy<RigidKinematicComponent>().connect<&Scene::RemoveRigidKinemetic>(*this);
-	
+		m_Registry.on_construct<RigidComponent>().connect<&Scene::AddRigidComponent>(*this);
+		m_Registry.on_destroy<RigidComponent>().connect<&Scene::RemoveRigidComponent>(*this);
+
+		m_Registry.on_construct<RigidDynamicComponent>().connect<&Scene::AddRigidDynamicComponent>(*this);
+		m_Registry.on_destroy<RigidDynamicComponent>().connect<&Scene::RemoveRigidDynamicComponent>(*this);
+
+		m_Registry.on_construct<TriggerComponent>().connect<&Scene::AddTriggerComponent>(*this);
+		m_Registry.on_destroy<TriggerComponent>().connect<&Scene::RemoveTriggerComponent>(*this);
+
+		m_Registry.on_construct<KinematicComponent>().connect<&Scene::AddKinematicComponent>(*this);
+		m_Registry.on_destroy<KinematicComponent>().connect<&Scene::RemoveKinematicComponent>(*this);
+
+		m_Registry.on_construct<ShapeComponent>().connect<&Scene::AddShapeComponent>(*this);
+		m_Registry.on_destroy<ShapeComponent>().connect<&Scene::RemoveShapeComponent>(*this);
+
 		m_PhysicsScene = new Physics::PsScene();
+		m_PhysicsScene->SetTriggerCallback(std::bind(&Scene::TriggerHit, this, std::placeholders::_1, std::placeholders::_2));
 	}
 
 	Scene::~Scene()
@@ -135,7 +182,6 @@ namespace Engine {
 		System::Physics::OnUpdateKinematic(m_Registry, ts);
 
 		m_Registry.view<NativeScriptComponent>().each([=](auto entity, auto& nsc) { if (nsc.Active) nsc.Instance->OnUpdate(ts); });
-
 		
 		static float t = 0;
 		t += ts;

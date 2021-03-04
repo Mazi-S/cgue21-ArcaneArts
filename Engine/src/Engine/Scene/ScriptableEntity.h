@@ -13,21 +13,33 @@ namespace Engine {
 	public:
 		virtual ~ScriptableEntity() = default;
 
+		template <typename T, typename... Args>
+		T& AddComponent(Args&&... args)
+		{
+			return m_Entity.AddComponent(args);
+		}
+
 		template<typename T>
 		T& GetComponent()
 		{
 			return m_Entity.GetComponent<T>();
 		}
 
-		void Destroy()
+		template <typename T>
+		bool HasComponent()
 		{
-			m_Entity.Destroy();
+			return m_Entity.HasComponent<T>();
 		}
 
 		template<typename T>
 		void RemoveComponent()
 		{
 			m_Entity.RemoveComponent<T>();
+		}
+
+		void Destroy()
+		{
+			m_Entity.Destroy();
 		}
 
 		virtual void OnCreate() {}

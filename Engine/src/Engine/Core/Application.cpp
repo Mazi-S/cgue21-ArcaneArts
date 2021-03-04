@@ -5,7 +5,7 @@
 #include "Platform/Platform.h"
 
 #include "Engine/Renderer/Renderer.h"
-#include "Engine/Physics/Physics.h"
+#include "Engine/Physics/PhysicsAPI.h"
 
 namespace Engine {
 

@@ -1,5 +1,5 @@
 #include "egpch.h"
-#include "Physics.h"
+#include "PhysicsAPI.h"
 #include "Engine/Util/Math.h"
 
 physx::PxDefaultAllocator s_AllocatorCallback;
@@ -33,42 +33,6 @@ namespace Engine {
 		s_Foundation->release();
 	}
 
-	physx::PxRigidDynamic* PhysicsAPI::CreateRigidDynamicSphere(glm::vec3 position, float radius)
-	{
-		static physx::PxMaterial* material = s_PhysicsSDK->createMaterial(0.5f, 0.5f, 0.6f);
-		physx::PxShape* shape = s_PhysicsSDK->createShape(physx::PxSphereGeometry(radius), *material);
-
-		physx::PxRigidDynamic* actor = s_PhysicsSDK->createRigidDynamic(physx::PxTransform({ position.x, position.y, position.z }));
-		actor->attachShape(*shape);
-
-		shape->release();
-		return actor;
-	}
-
-	physx::PxRigidDynamic* PhysicsAPI::CreateKinematic(Ref<Mesh> mesh, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale)
-	{
-		static physx::PxMaterial* material = s_PhysicsSDK->createMaterial(0.5f, 0.5f, 0.6f);
-
-		physx::PxRigidDynamic* actor = s_PhysicsSDK->createRigidDynamic(physx::PxTransform({ position.x, position.y, position.z }));
-		actor->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, true);
-
-		Ref<Physics::PsMesh> psMesh = mesh->GetPsMesh();
-
-		if (!psMesh->HasPxTriangleMesh())
-			psMesh->InitPxTriangleMesh();
-
-		physx::PxTriangleMesh* triMesh = psMesh->GetPxTriangleMesh();
-
-		physx::PxTriangleMeshGeometry geometry = physx::PxTriangleMeshGeometry(triMesh);
-		geometry.scale = physx::PxVec3({ scale.x, scale.y, scale.z });
-		physx::PxShape* shape = s_PhysicsSDK->createShape(geometry, *material);
-
-		actor->attachShape(*shape);
-
-		shape->release();
-		return actor;
-	}
-
 	physx::PxController* PhysicsAPI::CreateController(physx::PxControllerManager* manager, float height, float radius, glm::vec3 position)
 	{
 		static physx::PxMaterial* material = s_PhysicsSDK->createMaterial(0.5f, 0.5f, 0.6f);
@@ -89,7 +53,28 @@ namespace Engine {
 		return c;
 	}
 
-	physx::PxRigidStatic* PhysicsAPI::CreateRigidStatic(Ref<Mesh> mesh, glm::vec3 position, glm::vec3 rotation, glm::vec3 scale)
+	physx::PxRigidDynamic* PhysicsAPI::CreateRigidDynamic(glm::vec3 position, glm::vec3 rotation)
+	{
+		physx::PxTransform transform({ position.x, position.y, position.z }, Util::Math::ToQuaternion(rotation));
+		physx::PxRigidDynamic* body = s_PhysicsSDK->createRigidDynamic(transform);
+		return body;
+	}
+
+	physx::PxRigidStatic* PhysicsAPI::CreateRigidStatic(glm::vec3 position, glm::vec3 rotation)
+	{
+		physx::PxTransform transform({ position.x, position.y, position.z }, Util::Math::ToQuaternion(rotation));
+		physx::PxRigidStatic* body = s_PhysicsSDK->createRigidStatic(transform);
+		return body;
+	}
+
+	physx::PxShape* PhysicsAPI::CreateSphereShape(float radius)
+	{
+		static physx::PxMaterial* material = s_PhysicsSDK->createMaterial(0.5f, 0.5f, 0.6f);
+		physx::PxShape* shape = s_PhysicsSDK->createShape(physx::PxSphereGeometry(radius), *material, true);
+		return shape;
+	}
+
+	physx::PxShape* PhysicsAPI::CreateShape(Ref<Mesh> mesh, glm::vec3 scale)
 	{
 		static physx::PxMaterial* material = s_PhysicsSDK->createMaterial(0.5f, 0.5f, 0.6f);
 
@@ -102,13 +87,9 @@ namespace Engine {
 
 		physx::PxTriangleMeshGeometry geometry = physx::PxTriangleMeshGeometry(triMesh);
 		geometry.scale = physx::PxVec3({ scale.x, scale.y, scale.z });
-		physx::PxShape* shape = s_PhysicsSDK->createShape(geometry, *material);
+		physx::PxShape* shape = s_PhysicsSDK->createShape(geometry, *material, true);
 
-		physx::PxTransform transform({ position.x, position.y, position.z }, Util::Math::ToQuaternion(rotation));
-		physx::PxRigidStatic* body = s_PhysicsSDK->createRigidStatic(transform);
-		body->attachShape(*shape);
-		shape->release();
-		return body;
+		return shape;
 	}
 
 	physx::PxTriangleMesh* PhysicsAPI::CreateTriangleMesh(Physics::PsMesh* mesh)
@@ -134,6 +115,16 @@ namespace Engine {
 	void PhysicsAPI::SetKinematic(physx::PxRigidDynamic* actor, bool kinematic)
 	{
 		actor->setRigidBodyFlag(physx::PxRigidBodyFlag::eKINEMATIC, kinematic);
+	}
+
+	void PhysicsAPI::SetTrigger(physx::PxShape* shape, bool trigger)
+	{
+		shape->setFlag(physx::PxShapeFlag::eTRIGGER_SHAPE, trigger);
+	}
+
+	void PhysicsAPI::SetSimulation(physx::PxShape* shape, bool simulation)
+	{
+		shape->setFlag(physx::PxShapeFlag::eSIMULATION_SHAPE, simulation);
 	}
 
 	physx::PxScene* PhysicsAPI::CreateScene()

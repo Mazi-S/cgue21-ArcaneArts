@@ -8,7 +8,7 @@
 #include "Engine/Core/Application.h"
 #include "Engine/Renderer/Camera.h"
 
-#include "Engine/Physics/Physics.h"
+#include "Engine/Physics/PhysicsAPI.h"
 #include "Engine/Physics/PhysicsScene.h"
 #include "Engine/Renderer/Camera.h"
 
@@ -46,21 +46,25 @@ namespace Engine {
 
 		void InitCameraComponent(entt::registry& registry, entt::entity entity);
 
+		void TriggerHit(entt::entity triggerEntity, entt::entity otherEntity);
+
 		// physx
 		void AddCharacterController(entt::registry& registry, entt::entity entity);
 
-		void AddRigidDynamic(entt::registry& registry, entt::entity entity);
-		void RemoveRigidDynamic(entt::registry& registry, entt::entity entity);
-		void AddRigidStatic(entt::registry& registry, entt::entity entity);
-		void RemoveRigidStatic(entt::registry& registry, entt::entity entity);
-		void AddRigidKinemetic(entt::registry& registry, entt::entity entity);
-		void RemoveRigidKinemetic(entt::registry& registry, entt::entity entity);
+		void AddRigidComponent(entt::registry& registry, entt::entity entity);
+		void RemoveRigidComponent(entt::registry& registry, entt::entity entity);
+		
+		void AddRigidDynamicComponent(entt::registry& registry, entt::entity entity);
+		void RemoveRigidDynamicComponent(entt::registry& registry, entt::entity entity);
 
+		void AddTriggerComponent(entt::registry& registry, entt::entity entity);
+		void RemoveTriggerComponent(entt::registry& registry, entt::entity entity);
 
-		void AddKinematicMovementComponent(entt::registry& registry, entt::entity entity);
-		void RemoveKinematicMovementComponent(entt::registry& registry, entt::entity entity);
-
-
+		void AddKinematicComponent(entt::registry& registry, entt::entity entity);
+		void RemoveKinematicComponent(entt::registry& registry, entt::entity entity);
+		
+		void AddShapeComponent(entt::registry& registry, entt::entity entity);
+		void RemoveShapeComponent(entt::registry& registry, entt::entity entity);
 	private:
 		entt::registry m_Registry;
 		entt::entity m_MainCamera = entt::null;
