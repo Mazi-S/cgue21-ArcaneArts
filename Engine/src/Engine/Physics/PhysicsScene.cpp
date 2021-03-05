@@ -51,7 +51,6 @@ namespace Engine::Physics {
 			entt::entity otherEntity = m_Entities[pairs[i].otherActor];
 
 			m_TriggerCallback(triggerEntity, otherEntity);
-			LOG_INFO("onTrigger");
 		}
 	}
 

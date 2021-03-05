@@ -12,9 +12,10 @@ void MagicBall::OnUpdate(Engine::Timestep ts)
 
 	if (HasComponent<Engine::HitComponent>())
 	{
-		auto& tshc = GetComponent<Engine::HitComponent>();
-		Engine::Entity hitEntity(tshc.Other, m_Scene);
-		hitEntity.Destroy();
+		auto& hc = GetComponent<Engine::HitComponent>();
+		Engine::Entity hitEntity(hc.Other, m_Scene);
+		if (hitEntity.HasComponent<Engine::MonsterComponent>())
+			hitEntity.AddComponent<Engine::MagicBallHitComponent>();
 		Destroy();
 		return;
 	}

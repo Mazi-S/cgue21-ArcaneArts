@@ -6,6 +6,7 @@
 
 #include "Entities/Hero.h"
 #include "Entities/MagicBall.h"
+#include "Entities/Monster.h"
 
 #include <glad/glad.h>
 #include <glm/gtc/matrix_transform.hpp>
@@ -166,6 +167,9 @@ void ExampleLayer::OnAttach()
 			entity.AddComponent<Engine::KinematicComponent>();
 			entity.AddComponent<Engine::ShapeComponent>(shape);
 			entity.AddComponent<Engine::KinematicMovementComponent>(glm::vec3{ 0,0,1 });
+			entity.AddComponent<Engine::MonsterComponent>();
+			entity.AddNativeScript<Monster>();
+
 		}
 
 		{
