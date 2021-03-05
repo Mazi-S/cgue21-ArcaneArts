@@ -13,7 +13,14 @@ void Monster::OnUpdate(Engine::Timestep ts)
 	for (const entt::entity e : view)
 		character = Engine::Entity(e, m_Scene);
 
-	//AddComponent<Engine::KinematicMovementComponent>(glm::vec3());
+	auto characterTransformComponent = character.GetComponent<Engine::TransformComponent>();
+	auto monsterTransformComponent = GetComponent<Engine::TransformComponent>();
+	
+
+	if (HasComponent<Engine::KinematicMovementComponent>()) {
+		RemoveComponent<Engine::KinematicMovementComponent>();
+		AddComponent<Engine::KinematicMovementComponent>(glm::normalize(characterTransformComponent.Translation - monsterTransformComponent.Translation) * 2.0f);
+	}
 
 	if (m_Hitpoints <= 0.0f)
 	{

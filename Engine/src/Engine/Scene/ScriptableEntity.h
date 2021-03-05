@@ -16,7 +16,7 @@ namespace Engine {
 		template <typename T, typename... Args>
 		T& AddComponent(Args&&... args)
 		{
-			return m_Entity.AddComponent(args);
+			return m_Entity.AddComponent<T>(std::forward<Args>(args)...);
 		}
 
 		template<typename T>
