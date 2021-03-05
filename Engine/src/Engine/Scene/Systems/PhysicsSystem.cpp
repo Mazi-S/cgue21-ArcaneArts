@@ -44,7 +44,10 @@ namespace Engine::System::Physics {
 			auto& [rdc, kmc, tc] = view.get<RigidDynamicComponent, KinematicMovementComponent, TransformComponent>(e);
 
 			tc.Translation += kmc.Movement * float(ts);
-			rdc.Actor->setKinematicTarget({ tc.Translation.x, tc.Translation.y, tc.Translation.z });
+			tc.Rotation = kmc.Rotation;
+
+			physx::PxTransform transform({ tc.Translation.x, tc.Translation.y, tc.Translation.z }, Util::Math::ToQuaternion(tc.Rotation));
+			rdc.Actor->setKinematicTarget(transform);
 		}
 	}
 
