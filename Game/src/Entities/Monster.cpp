@@ -20,7 +20,7 @@ void Monster::OnUpdate(Engine::Timestep ts)
 	}
 
 	glm::vec3 movement = glm::normalize(characterTransformComponent.Translation - monsterTransformComponent.Translation) * 2.0f;
-	glm::vec3 rotation = { 0.0f, 0.0f, 0.0f }; // todo: compute rotation (in radians) in Euler angles
+	glm::quat rotation = glm::quatLookAt(glm::normalize(-movement), {0,1,0});
 
 	AddComponent<Engine::KinematicMovementComponent>(movement, rotation);
 

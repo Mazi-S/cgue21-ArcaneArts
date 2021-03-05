@@ -47,10 +47,10 @@ namespace Engine {
 	{
 		// movement per second
 		glm::vec3 Movement;
-		glm::vec3 Rotation;
+		glm::quat Rotation;
 
 		KinematicMovementComponent(const KinematicMovementComponent&) = default;
-		KinematicMovementComponent(glm::vec3 movement = { 0.0f, 0.0f, 0.0f }, glm::vec3 rotation = { 0.0f, 0.0f, 0.0f })
+		KinematicMovementComponent(glm::vec3 movement = { 0.0f, 0.0f, 0.0f }, glm::quat rotation = { 1.0f, 0.0f, 0.0f, 0.0f })
 			: Movement(movement), Rotation(rotation) { }
 	};
 
