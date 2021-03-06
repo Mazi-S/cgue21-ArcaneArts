@@ -11,6 +11,5 @@ namespace Engine {
 
 		void Draw(Camera camera);
 	private:
-		unsigned int cubeVAO, cubeVBO, skyboxVAO, skyboxVBO, cubemapTexture;
 	};
 }

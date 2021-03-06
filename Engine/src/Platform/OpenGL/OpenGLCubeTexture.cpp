@@ -1,58 +1,39 @@
 #include "egpch.h"
 #include "OpenGLCubeTexture.h"
 
-#include <fstream>
-
 #include <glm/gtc/type_ptr.hpp>
-
+#include <glad/glad.h>
 #include <stb_image.h>
-
-namespace Engine {
-
-	Ref<Texture> Texture::CreateCube(const std::vector<std::string> faces)
-	{
-		return CreateRef<OpenGL::CubeTexture>(faces);
-	}
-
-}
 
 namespace Engine::OpenGL {
 
-	static const std::string NameFromFilepath(const std::string& filepath)
+	GlCubeTexture::GlCubeTexture(const std::string& name, std::vector<std::string> paths)
+		: m_Name(name), m_Paths(paths)
 	{
-		auto lastSlash = filepath.find_last_of("/\\");
-		lastSlash = lastSlash == std::string::npos ? 0 : lastSlash + 1;
-		auto lastDot = filepath.rfind('.');
-		auto count = lastDot == std::string::npos ? filepath.size() - lastSlash : lastDot - lastSlash;
-		return filepath.substr(lastSlash, count);
-	}
-	CubeTexture::CubeTexture(std::vector<std::string> faces)
-		: m_Name(NameFromFilepath(faces[0])), m_Path(faces[0])
-	{
-		LoadCubemap(faces);
+		LoadCubemap();
 	}
 
-	CubeTexture::~CubeTexture()
+	GlCubeTexture::~GlCubeTexture()
 	{
 		glDeleteTextures(1, &m_TextureID);
 	}
 
-	void CubeTexture::Bind(uint32_t slot) const
+	void GlCubeTexture::Bind(uint32_t slot) const
 	{
-		glBindTextureUnit(GL_TEXTURE_CUBE_MAP, m_TextureID);
+		glBindTextureUnit(slot, m_TextureID);
 	}
 
-	bool CubeTexture::LoadCubemap(std::vector<std::string> faces)
+	bool GlCubeTexture::LoadCubemap()
 	{
 		stbi_set_flip_vertically_on_load(1);
 		glGenTextures(1, &m_TextureID);
 		glBindTexture(GL_TEXTURE_CUBE_MAP, m_TextureID);
 
 		int width, height, channels;
-		for (unsigned int i = 0; i < faces.size(); i++)
+		for (unsigned int i = 0; i < m_Paths.size(); i++)
 		{
-			LOG_TRACE("Loading texture file {} ...", faces[i]);
-			unsigned char* data = stbi_load(faces[i].c_str(), &width, &height, &channels, 0);
+			LOG_TRACE("Loading texture file {} ...", m_Paths[i]);
+			unsigned char* data = stbi_load(m_Paths[i].c_str(), &width, &height, &channels, 0);
 
 			m_Width = width;
 			m_Height = height;

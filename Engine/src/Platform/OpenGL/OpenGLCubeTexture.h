@@ -1,29 +1,27 @@
 #pragma once
 
-#include "Engine/Renderer/Texture.h"
-
 #include <glm/glm.hpp>
 #include <glad/glad.h>
 
 namespace Engine::OpenGL {
 
-	class CubeTexture : public Engine::Texture
+	class GlCubeTexture
 	{
 	public:
-		CubeTexture(std::vector<std::string> faces);
-		virtual ~CubeTexture();
+		GlCubeTexture(const std::string& name, std::vector<std::string> paths);
+		virtual ~GlCubeTexture();
 
-		virtual void Bind(uint32_t slot) const override;
-		virtual const std::string& GetName() const override { return m_Name; }
-		virtual const std::string& GetPath() const override { return m_Path; }
+		virtual void Bind(uint32_t slot = 0) const;
+		virtual const std::string& GetName() const { return m_Name; }
+		virtual const std::vector<std::string>& GetPath() const { return m_Paths; }
 
 	private:
-		bool LoadCubemap(const std::vector<std::string> faces);
+		bool LoadCubemap();
 
 	private:
 		std::uint32_t m_TextureID;
 		std::string m_Name;
-		std::string m_Path;
+		std::vector<std::string> m_Paths;
 
 		uint32_t m_Width, m_Height;
 		GLenum m_InternalFormat, m_DataFormat;
