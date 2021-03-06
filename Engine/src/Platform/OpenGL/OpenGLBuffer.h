@@ -1,39 +1,45 @@
 #pragma once
-#include "Engine/Renderer/Buffer.h"
+#include "OpenGLBufferLayout.h"
 
 namespace Engine::OpenGL {
 
-	class VertexBuffer : public Engine::VertexBuffer
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// VertexBuffer //////////////////////////////////////////////////////////////////////////////
+
+	class GlVertexBuffer
 	{
 	public:
-		VertexBuffer(uint32_t size);
-		VertexBuffer(float* vertices, uint32_t size);
-		VertexBuffer(const void* vertices, uint32_t size);
-		virtual ~VertexBuffer();
+		GlVertexBuffer(uint32_t size);
+		GlVertexBuffer(float* vertices, uint32_t size);
+		GlVertexBuffer(const void* vertices, uint32_t size);
+		virtual ~GlVertexBuffer();
 
-		virtual void Bind() const override;
-		virtual void Unbind() const override;
+		virtual void Bind() const;
+		virtual void Unbind() const;
 
-		virtual void SetData(const void* data, uint32_t size) override;
+		virtual void SetData(const void* data, uint32_t size, uint32_t offset = 0);
 
-		virtual const VertexBufferLayout& GetLayout() const override { return m_Layout; }
-		virtual void SetLayout(const VertexBufferLayout& layout) override { m_Layout = layout; }
+		virtual const GlVertexBufferLayout& GetLayout() const { return m_Layout; }
+		virtual void SetLayout(const GlVertexBufferLayout& layout) { m_Layout = layout; }
 
 	private:
 		uint32_t m_RendererID;
-		VertexBufferLayout m_Layout;
+		GlVertexBufferLayout m_Layout;
 	};
 
-	class IndexBuffer : public Engine::IndexBuffer
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	// Index Buffer ///////////////////////////////////////////////////////////////////////////////
+
+	class GlIndexBuffer
 	{
 	public:
-		IndexBuffer(uint32_t* indices, uint32_t count);
-		virtual ~IndexBuffer();
+		GlIndexBuffer(uint32_t* indices, uint32_t count);
+		virtual ~GlIndexBuffer();
 
-		virtual void Bind() const override;
-		virtual void Unbind() const override;
+		virtual void Bind() const;
+		virtual void Unbind() const;
 
-		virtual uint32_t GetCount() const override { return m_Count; }
+		virtual uint32_t GetCount() const { return m_Count; }
 
 	private:
 		uint32_t m_RendererID;

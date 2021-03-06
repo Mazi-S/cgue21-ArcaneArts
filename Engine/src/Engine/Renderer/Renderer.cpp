@@ -2,28 +2,28 @@
 #include "Renderer.h"
 
 #include "Platform/OpenGL/OpenGLAPI.h"
-#include "glm/gtc/type_ptr.hpp"
+#include "Platform/OpenGL/OpenGLUniformBuffer.h"
+#include <glm/gtc/type_ptr.hpp>
 
 namespace Engine {
 
-	Ref<UniformBuffer> Renderer::s_SceneUB;
+	Ref<OpenGL::GlUniformBuffer> Renderer::s_SceneUB;
 
 	void Renderer::Init()
 	{
 		OpenGL::API::Init();
-		s_SceneUB = UniformBuffer::Create(4 * 4 * 10, {
-			{ShaderDataType::Mat4, "ViewProjection", 0},
-			{ShaderDataType::Float3, "CameraPosition", 4 * 4 * 4},
-
-			{ShaderDataType::Float3, "DirectionalLight_Direction", 4 * 4 * 5},
-			{ShaderDataType::Float3, "DirectionalLight_Color", 4 * 4 * 6},
-
-			{ShaderDataType::Float3, "PointLight_Position", 4 * 4 * 7},
-			{ShaderDataType::Float3, "PointLight_Color", 4 * 4 * 8},
-			{ShaderDataType::Float, "PointLight_Constant", 4 * 4 * 8 + 4 * 3},
-			{ShaderDataType::Float, "PointLight_Linear", 4 * 4 * 9},
-			{ShaderDataType::Float, "PointLight_Quadratic", 4 * 4 * 9 + 4 * 1}
+		OpenGL::GlUniformBufferLayout_std140 layout(4 * 4 * 10, {
+			{OpenGL::GlShaderDataType::Mat4, "ViewProjection", 0},
+			{OpenGL::GlShaderDataType::Float3, "CameraPosition", 4 * 4 * 4},
+			{OpenGL::GlShaderDataType::Float3, "DirectionalLight_Direction", 4 * 4 * 5},
+			{OpenGL::GlShaderDataType::Float3, "DirectionalLight_Color", 4 * 4 * 6},
+			{OpenGL::GlShaderDataType::Float3, "PointLight_Position", 4 * 4 * 7},
+			{OpenGL::GlShaderDataType::Float3, "PointLight_Color", 4 * 4 * 8},
+			{OpenGL::GlShaderDataType::Float, "PointLight_Constant", 4 * 4 * 8 + 4 * 3},
+			{OpenGL::GlShaderDataType::Float, "PointLight_Linear", 4 * 4 * 9},
+			{OpenGL::GlShaderDataType::Float, "PointLight_Quadratic", 4 * 4 * 9 + 4 * 1}
 		});
+		s_SceneUB = CreateRef<OpenGL::GlUniformBuffer>(layout);
 	}
 
 	void Renderer::Shutdown()
@@ -54,7 +54,7 @@ namespace Engine {
 		s_SceneUB->SetData(&pointLight.Quadratic, "PointLight_Quadratic");
 	}
 
-	void Renderer::Submit(const Ref<VertexArray>& vertexArray, const Ref<Material>& material, const glm::mat4& transform)
+	void Renderer::Submit(const Ref<OpenGL::GlVertexArray>& vertexArray, const Ref<Material>& material, const glm::mat4& transform)
 	{
 		// once per material
 		material->Bind();

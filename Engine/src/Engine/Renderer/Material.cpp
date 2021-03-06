@@ -25,12 +25,13 @@ namespace Engine {
 	Material::Material(const std::string& name, const glm::vec3& ambient, const glm::vec3& diffuse, const glm::vec3& specular, float shininess, const Ref<Shader>& shader)
 		: m_Name(name), m_Ambient(ambient), m_Diffuse(diffuse), m_Specular(specular), m_Shininess(shininess), m_Shader(shader)
 	{
-		m_MaterialUB = UniformBuffer::Create(4 * 4 * 3, {
-			{ShaderDataType::Float3, "Ambient", 0},
-			{ShaderDataType::Float3, "Diffuse", 4 * 4},
-			{ShaderDataType::Float3, "Specular", 4 * 4 * 2},
-			{ShaderDataType::Float, "Shininess", 4 * 4 * 2 + 4 * 3},
+		OpenGL::GlUniformBufferLayout_std140 layout(4 * 4 * 3, {
+			{OpenGL::GlShaderDataType::Float3, "Ambient", 0},
+			{OpenGL::GlShaderDataType::Float3, "Diffuse", 4 * 4},
+			{OpenGL::GlShaderDataType::Float3, "Specular", 4 * 4 * 2},
+			{OpenGL::GlShaderDataType::Float, "Shininess", 4 * 4 * 2 + 4 * 3},
 		});
+		m_MaterialUB = CreateRef<OpenGL::GlUniformBuffer>(layout);
 
 		m_MaterialUB->SetData(glm::value_ptr(m_Ambient), "Ambient");
 		m_MaterialUB->SetData(glm::value_ptr(m_Diffuse), "Diffuse");
@@ -45,7 +46,7 @@ namespace Engine {
 		Set("MaterialData", m_MaterialUB);
 	}
 
-	void Material::Set(const std::string& name, const Ref<UniformBuffer>& uniformBuffer)
+	void Material::Set(const std::string& name, const Ref<OpenGL::GlUniformBuffer>& uniformBuffer)
 	{
 		uniformBuffer->Bind(m_BindingPoint);
 		m_Shader->SetBlockBinding(name, m_BindingPoint);

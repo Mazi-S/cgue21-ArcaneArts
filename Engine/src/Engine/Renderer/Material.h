@@ -1,8 +1,9 @@
 #pragma once
 
 #include "Shader.h"
-#include "UniformBuffer.h"
 #include "Texture.h"
+
+#include "Platform/OpenGL/OpenGLUniformBuffer.h"
 
 namespace Engine {
 
@@ -34,7 +35,7 @@ namespace Engine {
 		Ref<Shader> GetShader() { return m_Shader; }
 
 		virtual void Bind();
-		virtual void Set(const std::string& name, const Ref<UniformBuffer>& uniformBuffer);
+		virtual void Set(const std::string& name, const Ref<OpenGL::GlUniformBuffer>& uniformBuffer);
 
 		const std::string& GetName() const { return m_Name; };
 
@@ -45,7 +46,7 @@ namespace Engine {
 		uint16_t m_BindingPoint = 0;
 
 		Ref<Shader> m_Shader;
-		Ref<UniformBuffer> m_MaterialUB;
+		Ref<OpenGL::GlUniformBuffer> m_MaterialUB;
 
 		// Properties
 		glm::vec3 m_Ambient;

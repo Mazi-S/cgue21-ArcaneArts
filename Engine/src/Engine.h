@@ -18,17 +18,17 @@
 
 // Renderer
 #include "Engine/Renderer/Shader.h"
-#include "Engine/Renderer/Buffer.h"
-#include "Engine/Renderer/VertexArray.h"
 #include "Engine/Renderer/Material.h"
 #include "Engine/Renderer/Mesh.h"
-
 #include "Engine/Renderer/Renderer.h"
-#include "Platform/OpenGL/OpenGLAPI.h"
-
 #include "Engine/Renderer/Camera.h"
 
 #include "Engine/Renderer/Skybox.h"
+
+// OpenGL
+#include "Platform/OpenGL/OpenGLAPI.h"
+#include "Platform/OpenGL/OpenGLBuffer.h"
+#include "Platform/OpenGL/OpenGLVertexArray.h"
 
 // Scene
 #include "Engine/Scene/Scene.h"

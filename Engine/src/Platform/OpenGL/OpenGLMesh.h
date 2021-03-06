@@ -14,7 +14,7 @@ namespace Engine::OpenGL {
 	{
 	public:
 		GlMesh() = default;
-		GlMesh(const std::string& name, std::vector<float>& vertices, VertexBufferLayout& layout);
+		GlMesh(const std::string& name, std::vector<float>& vertices, GlVertexBufferLayout& layout);
 
 		void AddSubmesh(std::vector<uint32_t> & indices);
 
@@ -24,14 +24,14 @@ namespace Engine::OpenGL {
 	private:
 		const std::string m_Name;
 
-		Ref<Engine::VertexBuffer> m_VertexBuffer;
-		VertexBufferLayout m_Layout;
+		Ref<GlVertexBuffer> m_VertexBuffer;
+		GlVertexBufferLayout m_Layout;
 		std::vector<Ref<Submesh>> m_Submeshes;
 	};
 
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
-	// Submesh ////////////////////////////////////////////////////////////////////////////////////
+	// Sub-mesh ///////////////////////////////////////////////////////////////////////////////////
 
 	class Submesh
 	{
@@ -39,12 +39,12 @@ namespace Engine::OpenGL {
 
 	public:
 		Submesh() = default;
-		Submesh(const Ref<Engine::VertexBuffer>& vertexBuffer, const Ref<Engine::IndexBuffer>& indexBuffer);
+		Submesh(const Ref<GlVertexBuffer>& vertexBuffer, const Ref<GlIndexBuffer>& indexBuffer);
 
-		Ref<Engine::VertexArray> GetVertexArray() { return m_VertexArray; }
+		Ref<GlVertexArray> GetVertexArray() { return m_VertexArray; }
 
 	private:
-		Ref<Engine::VertexArray> m_VertexArray;
+		Ref<GlVertexArray> m_VertexArray;
 	};
 }
 

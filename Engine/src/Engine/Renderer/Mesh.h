@@ -1,7 +1,5 @@
 #pragma once
 #include "Engine/Core/Base.h"
-#include "Engine/Renderer/Buffer.h"
-#include "Engine/Renderer/VertexArray.h"
 #include "Platform/OpenGL/OpenGLMesh.h"
 #include "Engine/Physics/PhysicsMesh.h"
 #include "glm/glm.hpp"
@@ -43,7 +41,7 @@ namespace Engine {
 		operator Ref<OpenGL::GlMesh>() { return m_GlMesh; }
 
 	private:
-		Ref<OpenGL::GlMesh> CreateGlMesh(bool positions, bool texcoords, bool normals, VertexBufferLayout layout);
+		Ref<OpenGL::GlMesh> CreateGlMesh(bool positions, bool texcoords, bool normals, OpenGL::GlVertexBufferLayout layout);
 		Ref<Physics::PsMesh> CreatePsMesh();
 
 	private:

@@ -4,9 +4,11 @@
 #include "Engine/Renderer/Shader.h"
 #include "Engine/Renderer/Texture.h"
 #include "Engine/Renderer/Mesh.h"
-#include "Engine/Renderer/VertexArray.h"
 #include "Engine/Renderer/Camera.h"
 #include "Engine/Renderer/Light.h"
+
+#include "Platform/OpenGL/OpenGLVertexArray.h"
+#include "Platform/OpenGL/OpenGLUniformBuffer.h"
 
 namespace Engine {
 
@@ -21,12 +23,12 @@ namespace Engine {
 		static void BeginScene(const Camera& camera, const DirectionalLight& directionalLight = DirectionalLight(), const PointLight& pointLight = PointLight());
 		static void EndScene() {};
 
-		static void Submit(const Ref<VertexArray>& vertexArray, const Ref<Material>& material, const glm::mat4& transform = glm::mat4(1.0f));
+		static void Submit(const Ref<OpenGL::GlVertexArray>& vertexArray, const Ref<Material>& material, const glm::mat4& transform = glm::mat4(1.0f));
 		static void Submit(const Ref<Mesh>& mesh, const Ref<Material>& material, const glm::mat4& transform = glm::mat4(1.0f));
 
 	private:
 		// shared over all shaders
-		static Ref<UniformBuffer> s_SceneUB;
+		static Ref<OpenGL::GlUniformBuffer> s_SceneUB;
 	};
 
 }

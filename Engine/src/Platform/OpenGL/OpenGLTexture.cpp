@@ -50,7 +50,7 @@ namespace Engine::OpenGL {
 		int width, height, channels;
 		unsigned char* data = stbi_load(path.c_str(), &width, &height, &channels, 0);
 
-		ASSERT(data, "Faild to load texture!");
+		ASSERT(data, "Failed to load texture!");
 
 		m_Width = width;
 		m_Height = height;

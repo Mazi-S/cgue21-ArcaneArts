@@ -13,15 +13,15 @@ namespace Engine {
 		: m_Name(name), m_Positions(positions), m_Normals(normals), m_TextureCoordinates(textureCoordinates), m_Submeshes(submeshes)
 	{
 		m_GlMesh = CreateGlMesh(true, true, true, {
-			{ ShaderDataType::Float3, "a_Position" },
-			{ ShaderDataType::Float2, "a_TexCoord" },
-			{ ShaderDataType::Float3, "a_Normals" }
-			});
+			{ OpenGL::GlShaderDataType::Float3, "a_Position" },
+			{ OpenGL::GlShaderDataType::Float2, "a_TexCoord" },
+			{ OpenGL::GlShaderDataType::Float3, "a_Normals" }
+		});
 
 		m_PxMesh = CreatePsMesh();
 	}
 
-	Ref<OpenGL::GlMesh> Mesh::CreateGlMesh(bool positions, bool texcoords, bool normals, VertexBufferLayout layout)
+	Ref<OpenGL::GlMesh> Mesh::CreateGlMesh(bool positions, bool texcoords, bool normals, OpenGL::GlVertexBufferLayout layout)
 	{
 		std::set<std::vector<uint32_t>> submeshIndices;
 
@@ -38,14 +38,23 @@ namespace Engine {
 					const glm::vec2& t = m_TextureCoordinates[face.textureCoordinateIndex[v]];
 					const glm::vec3& n = m_Normals[face.normalIndex[v]];
 
-					vertices.push_back(p.x);
-					vertices.push_back(p.y);
-					vertices.push_back(p.z);
-					vertices.push_back(t.x);
-					vertices.push_back(t.y);
-					vertices.push_back(n.x);
-					vertices.push_back(n.y);
-					vertices.push_back(n.z);
+					if (positions)
+					{
+						vertices.push_back(p.x);
+						vertices.push_back(p.y);
+						vertices.push_back(p.z);
+					}
+					if (texcoords)
+					{
+						vertices.push_back(t.x);
+						vertices.push_back(t.y);
+					}
+					if (normals)
+					{
+						vertices.push_back(n.x);
+						vertices.push_back(n.y);
+						vertices.push_back(n.z);
+					}
 
 					indices.push_back(indexCount++);
 				}

@@ -1,7 +1,6 @@
 #include "egpch.h"
 #include "OpenGLBuffer.h"
 
-
 #include <glad/glad.h>
 
 namespace Engine::OpenGL {
@@ -9,70 +8,71 @@ namespace Engine::OpenGL {
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	// VertexBuffer //////////////////////////////////////////////////////////////////////////////////
 
-	VertexBuffer::VertexBuffer(uint32_t size)
+	GlVertexBuffer::GlVertexBuffer(uint32_t size)
 	{
 		glCreateBuffers(1, &m_RendererID);
 		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
 		glBufferData(GL_ARRAY_BUFFER, size, nullptr, GL_DYNAMIC_DRAW);
 	}
 
-	VertexBuffer::VertexBuffer(float* vertices, uint32_t size)
+	GlVertexBuffer::GlVertexBuffer(float* vertices, uint32_t size)
 	{
 		glCreateBuffers(1, &m_RendererID);
 		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
 		glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
 	}
 
-	VertexBuffer::VertexBuffer(const void* vertices, uint32_t size)
+	GlVertexBuffer::GlVertexBuffer(const void* vertices, uint32_t size)
 	{
 		glCreateBuffers(1, &m_RendererID);
 		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
 		glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
 	}
 
-	VertexBuffer::~VertexBuffer()
+	GlVertexBuffer::~GlVertexBuffer()
 	{
 		glDeleteBuffers(1, &m_RendererID);
 	}
 
-	void VertexBuffer::Bind() const
+	void GlVertexBuffer::Bind() const
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
 	}
 
-	void VertexBuffer::Unbind() const
+	void GlVertexBuffer::Unbind() const
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 	}
 
-	void VertexBuffer::SetData(const void* data, uint32_t size)
+	void GlVertexBuffer::SetData(const void* data, uint32_t size, uint32_t offset)
 	{
 		glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
-		glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
+		glBufferSubData(GL_ARRAY_BUFFER, offset, size, data);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////
 	// IndexBuffer ///////////////////////////////////////////////////////////////////////////////////
 
-	IndexBuffer::IndexBuffer(uint32_t* indices, uint32_t count) : m_Count(count)
+	GlIndexBuffer::GlIndexBuffer(uint32_t* indices, uint32_t count) : m_Count(count)
 	{
 		glCreateBuffers(1, &m_RendererID);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, count * sizeof(uint32_t), indices, GL_STATIC_DRAW);
 	}
 
-	IndexBuffer::~IndexBuffer()
+	GlIndexBuffer::~GlIndexBuffer()
 	{
 		glDeleteBuffers(1, &m_RendererID);
 	}
 
-	void IndexBuffer::Bind() const
+	void GlIndexBuffer::Bind() const
 	{
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_RendererID);
 	}
 
-	void IndexBuffer::Unbind() const
+	void GlIndexBuffer::Unbind() const
 	{
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	}
+
 }

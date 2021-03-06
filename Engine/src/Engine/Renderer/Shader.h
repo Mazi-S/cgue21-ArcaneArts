@@ -1,8 +1,6 @@
 #pragma once
 #include "Engine/Core/Base.h"
 
-#include "Engine/Renderer/Buffer.h"
-
 #include <string>
 #include <glm/glm.hpp>
 #include <unordered_map>
