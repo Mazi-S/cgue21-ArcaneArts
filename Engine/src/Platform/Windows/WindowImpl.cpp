@@ -5,7 +5,7 @@
 #include "Engine/Events/KeyEvent.h"
 #include "Engine/Events/MouseEvent.h"
 
-#include "Platform/OpenGL/Context.h"
+#include "Platform/OpenGL/OpenGLContext.h"
 
 static bool s_GLFWInitialized = false;
 
@@ -71,7 +71,7 @@ namespace Engine {
 
 		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
 
-		m_Context = new OpenGL::Context(m_Window);
+		m_Context = new OpenGL::GlContext(m_Window);
 		m_Context->Init();
 
 		glfwSetWindowUserPointer(m_Window, &m_Data);

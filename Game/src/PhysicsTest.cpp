@@ -23,19 +23,20 @@ void PhysicsTestLayer::OnAttach()
 		Engine::ShaderLibrary::Load("ColorShader", "assets/shaders/FlatColor.glsl");
 	}
 
+	// Load Textures
+	{
+		Engine::TextureLibrary::LoadTexture2D("Bricks", "assets/textures/Bricks.jpg");
+		Engine::TextureLibrary::LoadTexture2D("WoodFloor", "assets/textures/WoodFloor.jpg");
+	}
+
 	// Create Materials
 	{
-		auto grayMaterial = Engine::Material::Create(Engine::MaterialProperties("GrayMaterial", { 0.2f, 0.2f, 0.2f }, 2.0f), Engine::ShaderLibrary::Get("ColorShader"));
-		auto redMaterial = Engine::Material::Create(Engine::MaterialProperties("RedMaterial", { 0.2f, 0.01f, 0.05f }, { 0.7f, 0.05f, 0.1f }, { 0.5f, 0.2f, 0.4f }, 2.0f), Engine::ShaderLibrary::Get("ColorShader"));
-		auto greenMaterial = Engine::Material::Create(Engine::MaterialProperties("GreenMaterial", { 0.1f, 0.3f, 0.05f }), Engine::ShaderLibrary::Get("ColorShader"));
-		auto bricksMaterial = Engine::Material::Create(Engine::MaterialProperties("BricksMaterial", { 0.1f, 0.1f, 0.1f }, { 0.6f, 0.6f, 0.6f }, { 0.2f, 0.2f, 0.2f }, 2.0f, "assets/textures/Bricks.jpg"), Engine::ShaderLibrary::Get("TextureShader"));
-		auto woodFloorMaterial = Engine::Material::Create(Engine::MaterialProperties("WoodFloorMaterial", { 1.0f, 1.0f, 1.0f }, "assets/textures/WoodFloor.jpg"), Engine::ShaderLibrary::Get("TextureShader"));
-
-		Engine::MaterialLibrary::Add(grayMaterial);
-		Engine::MaterialLibrary::Add(redMaterial);
-		Engine::MaterialLibrary::Add(greenMaterial);
-		Engine::MaterialLibrary::Add(bricksMaterial);
-		Engine::MaterialLibrary::Add(woodFloorMaterial);
+		Engine::MaterialLibrary::Create(Engine::MaterialProperties("RedMaterial", { 0.2f, 0.01f, 0.05f }, { 0.7f, 0.05f, 0.1f }, { 0.5f, 0.2f, 0.4f }, 2.0f), Engine::ShaderLibrary::Get("ColorShader"));
+		Engine::MaterialLibrary::Create(Engine::MaterialProperties("GreenMaterial", { 0.1f, 0.3f, 0.05f }, { 0.05f, 0.2f, 0.00f }, { 0.0f, 0.0f, 0.0f }), Engine::ShaderLibrary::Get("ColorShader"));
+		Engine::MaterialLibrary::Create(Engine::MaterialProperties("GrayMaterial", { 0.2f, 0.2f, 0.2f }, { 0.1f, 0.1f, 0.1f }, { 0.1f, 0.1f, 0.1f }, 2.0f), Engine::ShaderLibrary::Get("ColorShader"));
+		Engine::MaterialLibrary::Create(Engine::MaterialProperties("RedMaterial", { 0.2f, 0.01f, 0.05f }, { 0.7f, 0.05f, 0.1f }, { 0.5f, 0.2f, 0.4f }, 2.0f), Engine::ShaderLibrary::Get("ColorShader"));
+		Engine::MaterialLibrary::Create(Engine::MaterialProperties("BricksMaterial", { 0.1f, 0.1f, 0.1f }, { 0.6f, 0.6f, 0.6f }, { 0.2f, 0.2f, 0.2f }, 2.0f), Engine::TextureLibrary::GetTexture2D("Bricks"), Engine::ShaderLibrary::Get("TextureShader"));
+		Engine::MaterialLibrary::Create(Engine::MaterialProperties("WoodFloorMaterial", { 0.1f, 0.1f, 0.1f }, { 0.6f, 0.6f, 0.6f }, { 0.2f, 0.2f, 0.2f }, 2.0f), Engine::TextureLibrary::GetTexture2D("WoodFloor"), Engine::ShaderLibrary::Get("TextureShader"));
 	}
 
 	// Create Scene

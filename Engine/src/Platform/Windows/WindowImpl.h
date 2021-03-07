@@ -1,6 +1,6 @@
 #pragma once
 #include "Engine/Core/Window.h"
-#include "Engine/Renderer/RenderContext.h"
+#include "Platform/OpenGL/OpenGLContext.h"
 #include <GLFW/glfw3.h>
 
 namespace Engine {
@@ -32,7 +32,7 @@ namespace Engine {
 
 	private:
 		GLFWwindow* m_Window;
-		RenderContext* m_Context;
+		OpenGL::GlContext* m_Context;
 
 		struct WindowData
 		{

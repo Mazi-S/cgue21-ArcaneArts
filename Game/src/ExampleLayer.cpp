@@ -1,7 +1,6 @@
 #include "ExampleLayer.h"
 
 #include <Engine/Events/KeyEvent.h>
-#include <Engine/Renderer/Texture.h>
 #include <Engine/Util/ObjectLoader.h>
 
 #include "Entities/Hero.h"
@@ -67,41 +66,33 @@ void ExampleLayer::OnAttach()
 		Engine::ShaderLibrary::Load("ColorShader", "assets/shaders/FlatColor.glsl");
 	}
 
+	// Load Textures
+	{
+		Engine::TextureLibrary::LoadTexture2D("Bricks", "assets/textures/Bricks.jpg");
+		Engine::TextureLibrary::LoadTexture2D("WoodFloor", "assets/textures/WoodFloor.jpg");
+		Engine::TextureLibrary::LoadTexture2D("Monster", "assets/textures/monster.png");
+		Engine::TextureLibrary::LoadTexture2D("House", "assets/textures/house.png");
+		Engine::TextureLibrary::LoadTexture2D("Forest", "assets/textures/forest.png");
+	}
+
 	// Create Materials
 	{
 		// Colors
-		auto redMaterial = Engine::Material::Create(Engine::MaterialProperties("RedMaterial", { 0.2f, 0.01f, 0.05f }, { 0.7f, 0.05f, 0.1f }, { 0.5f, 0.2f, 0.4f }, 2.0f), Engine::ShaderLibrary::Get("ColorShader"));
-		auto greenMaterial = Engine::Material::Create(Engine::MaterialProperties("GreenMaterial", { 0.1f, 0.3f, 0.05f }), Engine::ShaderLibrary::Get("ColorShader"));
-		auto skinMaterial = Engine::Material::Create(Engine::MaterialProperties("SkinMaterial", { 1.0f, 0.8f, 0.6f }), Engine::ShaderLibrary::Get("ColorShader"));
-		auto cloudMaterial = Engine::Material::Create(Engine::MaterialProperties("CloudMaterial", { 0.56f, 0.77f, 1.0f }), Engine::ShaderLibrary::Get("ColorShader"));
-		auto terrainMaterial = Engine::Material::Create(Engine::MaterialProperties("TerrainMaterial", { 0.26f, 0.33f, 0.0f }), Engine::ShaderLibrary::Get("ColorShader"));
-		auto rockMaterial = Engine::Material::Create(Engine::MaterialProperties("RockMaterial", { 0.5f, 0.5f, 0.5f }), Engine::ShaderLibrary::Get("ColorShader"));
-		auto pedestalMaterial = Engine::Material::Create(Engine::MaterialProperties("PedestalMaterial", { 0.21f, 0.15f, 0.09f }), Engine::ShaderLibrary::Get("ColorShader"));
+		Engine::MaterialLibrary::Create(Engine::MaterialProperties("RedMaterial", { 0.2f, 0.01f, 0.05f }, { 0.7f, 0.05f, 0.1f }, { 0.5f, 0.2f, 0.4f }, 2.0f), Engine::ShaderLibrary::Get("ColorShader"));
+		Engine::MaterialLibrary::Create(Engine::MaterialProperties("SkinMaterial", { 0.2f, 0.15f, 0.1f }, { 0.4f, 0.2f, 0.2f }, { 0.1f, 0.1f, 0.1f }, 2.0f), Engine::ShaderLibrary::Get("ColorShader"));
+		Engine::MaterialLibrary::Create(Engine::MaterialProperties("CloudMaterial", { 0.56f, 0.77f, 1.0f }, { 0.46f, 0.67f, 0.9f }, { 0.36f, 0.57f, 0.8f }), Engine::ShaderLibrary::Get("ColorShader"));
+		Engine::MaterialLibrary::Create(Engine::MaterialProperties("TerrainMaterial", { 0.06f, 0.13f, 0.0f }, { 0.36f, 0.43f, 0.0f }, { 0.16f, 0.23f, 0.0f }), Engine::ShaderLibrary::Get("ColorShader"));
+		Engine::MaterialLibrary::Create(Engine::MaterialProperties("RockMaterial", { 0.5f, 0.5f, 0.5f }, { 0.4f, 0.4f, 0.4f }, { 0.3f, 0.3f, 0.3f }), Engine::ShaderLibrary::Get("ColorShader"));
+		Engine::MaterialLibrary::Create(Engine::MaterialProperties("PedestalMaterial", { 0.11f, 0.05f, 0.02f }, { 0.21f, 0.15f, 0.09f }, { 0.31f, 0.25f, 0.19f }), Engine::ShaderLibrary::Get("ColorShader"));
 
 		// Textures
-		auto bricksMaterial = Engine::Material::Create(Engine::MaterialProperties("BricksMaterial", { 0.1f, 0.1f, 0.1f }, { 0.6f, 0.6f, 0.6f }, { 0.2f, 0.2f, 0.2f }, 2.0f, "assets/textures/Bricks.jpg"), Engine::ShaderLibrary::Get("TextureShader"));
-		auto woodFloorMaterial = Engine::Material::Create(Engine::MaterialProperties("WoodFloorMaterial", { 1.0f, 1.0f, 1.0f }, "assets/textures/WoodFloor.jpg"), Engine::ShaderLibrary::Get("TextureShader"));
-		auto monsterMaterial = Engine::Material::Create(Engine::MaterialProperties("MonsterMaterial", { 0.5f, 0.5f, 0.5f }, "assets/textures/monster.png"), Engine::ShaderLibrary::Get("TextureShader"));
-		auto houseMaterial = Engine::Material::Create(Engine::MaterialProperties("HouseMaterial", { 0.5f, 0.5f, 0.5f }, "assets/textures/house.png"), Engine::ShaderLibrary::Get("TextureShader"));
-		auto forestMaterial = Engine::Material::Create(Engine::MaterialProperties("ForestMaterial", { 0.5f, 0.5f, 0.5f }, "assets/textures/forest.png"), Engine::ShaderLibrary::Get("TextureShader"));
+		Engine::MaterialLibrary::Create(Engine::MaterialProperties("MonsterMaterial", { 0.1f, 0.1f, 0.1f }, { 0.6f, 0.6f, 0.6f }, { 0.2f, 0.2f, 0.2f }, 2.0f), Engine::TextureLibrary::GetTexture2D("Monster"), Engine::ShaderLibrary::Get("TextureShader"));
+		Engine::MaterialLibrary::Create(Engine::MaterialProperties("HouseMaterial", { 0.1f, 0.1f, 0.1f }, { 0.6f, 0.6f, 0.6f }, { 0.2f, 0.2f, 0.2f }, 2.0f), Engine::TextureLibrary::GetTexture2D("House"), Engine::ShaderLibrary::Get("TextureShader"));
+		Engine::MaterialLibrary::Create(Engine::MaterialProperties("ForestMaterial", { 0.1f, 0.1f, 0.1f }, { 0.6f, 0.6f, 0.6f }, { 0.2f, 0.2f, 0.2f }, 2.0f), Engine::TextureLibrary::GetTexture2D("Forest"), Engine::ShaderLibrary::Get("TextureShader"));
 
-		Engine::MaterialLibrary::Add(redMaterial);
-		Engine::MaterialLibrary::Add(greenMaterial);
-		Engine::MaterialLibrary::Add(bricksMaterial);
-		Engine::MaterialLibrary::Add(woodFloorMaterial);
-		Engine::MaterialLibrary::Add(skinMaterial);
-		Engine::MaterialLibrary::Add(monsterMaterial);
-		Engine::MaterialLibrary::Add(houseMaterial);
-		Engine::MaterialLibrary::Add(forestMaterial);
-		Engine::MaterialLibrary::Add(cloudMaterial);
-		Engine::MaterialLibrary::Add(terrainMaterial);
-		Engine::MaterialLibrary::Add(rockMaterial);
-		Engine::MaterialLibrary::Add(pedestalMaterial);
-
-		Engine::MaterialLibrary::Add(Engine::Material::Create(Engine::MaterialProperties("MagicBall_Light", { 0.8f, 0.8f, 0.8f }), Engine::ShaderLibrary::Get("ColorShader")));
-		Engine::MaterialLibrary::Add(Engine::Material::Create(Engine::MaterialProperties("MagicBall_Fire", { 0.5f, 0.05f, 0.1f }, { 0.5f, 0.05f, 0.1f }, { 0.5f, 0.35f, 0.4f }, 5.0f), Engine::ShaderLibrary::Get("ColorShader")));
-		Engine::MaterialLibrary::Add(Engine::Material::Create(Engine::MaterialProperties("MagicBall_Water", { 0.1f, 0.05f, 0.5f }, { 0.1f, 0.05f, 0.5f }, { 0.4f, 0.35f, 0.5f }, 5.0f), Engine::ShaderLibrary::Get("ColorShader")));
-		Engine::MaterialLibrary::Add(Engine::Material::Create(Engine::MaterialProperties("MagicBallRed", { 0.55f, 0.15f, 0.2f }), Engine::ShaderLibrary::Get("ColorShader")));
+		Engine::MaterialLibrary::Create(Engine::MaterialProperties("MagicBall_Light", { 0.9f, 0.9f, 0.9f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }), Engine::ShaderLibrary::Get("ColorShader"));
+		Engine::MaterialLibrary::Create(Engine::MaterialProperties("MagicBall_Fire", { 0.5f, 0.05f, 0.1f }, { 0.5f, 0.05f, 0.1f }, { 0.5f, 0.35f, 0.4f }, 5.0f), Engine::ShaderLibrary::Get("ColorShader"));
+		Engine::MaterialLibrary::Create(Engine::MaterialProperties("MagicBall_Water", { 0.1f, 0.05f, 0.5f }, { 0.1f, 0.05f, 0.5f }, { 0.4f, 0.35f, 0.5f }, 5.0f), Engine::ShaderLibrary::Get("ColorShader"));
 	}
 	
 	// Create Scene

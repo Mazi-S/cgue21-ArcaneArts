@@ -68,7 +68,7 @@ void main() {
 	vec3 viewDir = normalize(u_CameraPosition - v_Position);
 
 	// ambient
-	vec3 resultAmbient = u_Ambient * vec3(0.3f, 0.3f, 0.3f);
+	vec3 resultAmbient = u_Ambient;
 
 	vec3 result = resultAmbient;
 

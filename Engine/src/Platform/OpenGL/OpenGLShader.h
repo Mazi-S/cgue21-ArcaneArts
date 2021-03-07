@@ -1,34 +1,33 @@
 #pragma once
 
-#include "Engine/Renderer/Shader.h"
 #include "glm/glm.hpp"
 
 typedef unsigned int GLenum;
 
 namespace Engine::OpenGL {
 
-	class Shader : public Engine::Shader
+	class GlShader
 	{
 	public:
-		Shader(const std::string& filepath);
-		Shader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc);
-		virtual ~Shader();
+		GlShader(const std::string& name, const std::string& filepath);
+		GlShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc);
+		virtual ~GlShader();
 
-		virtual void Bind() const override;
-		virtual void Unbind() const override;
+		virtual void Bind() const;
+		virtual void Unbind() const;
 
-		virtual void SetBlockBinding(const std::string& name, uint32_t bindingPoint) override;
+		virtual void SetBlockBinding(const std::string& name, uint32_t bindingPoint);
 
-		virtual void SetInt(const std::string& name, int value) override;
-		virtual void SetIntArray(const std::string& name, int* values, uint32_t count) override;
-		virtual void SetFloat(const std::string& name, float value) override;
-		virtual void SetFloat2(const std::string& name, const glm::vec2& values) override;
-		virtual void SetFloat3(const std::string& name, const glm::vec3& values) override;
-		virtual void SetFloat4(const std::string& name, const glm::vec4& values) override;
-		virtual void SetMat3(const std::string& name, const glm::mat3& matrix) override;
-		virtual void SetMat4(const std::string& name, const glm::mat4& matrix) override;
+		virtual void SetInt(const std::string& name, int value);
+		virtual void SetIntArray(const std::string& name, int* values, uint32_t count);
+		virtual void SetFloat(const std::string& name, float value);
+		virtual void SetFloat2(const std::string& name, const glm::vec2& values);
+		virtual void SetFloat3(const std::string& name, const glm::vec3& values);
+		virtual void SetFloat4(const std::string& name, const glm::vec4& values);
+		virtual void SetMat3(const std::string& name, const glm::mat3& matrix);
+		virtual void SetMat4(const std::string& name, const glm::mat4& matrix);
 
-		virtual const std::string& GetName() const override { return m_Name; }
+		virtual const std::string& GetName() const { return m_Name; }
 
 	private:
 		std::string ReadFile(const std::string& filepath);
@@ -37,6 +36,7 @@ namespace Engine::OpenGL {
 
 	private:
 		const std::string m_Name;
+		const std::string m_Path;
 		uint32_t m_RendererID;
 	};
 

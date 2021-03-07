@@ -6,20 +6,6 @@
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
 
-namespace Engine {
-
-	Ref<Shader> Shader::Create(const std::string& filepath)
-	{
-		return CreateRef<OpenGL::Shader>(filepath);
-	}
-	
-	Ref<Shader> Shader::Create(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
-	{
-		return CreateRef<OpenGL::Shader>(name, vertexSrc, fragmentSrc);
-	}
-
-}
-
 namespace Engine::OpenGL {
 
 	static GLenum ShaderTypeFromString(const std::string& type)
@@ -33,24 +19,15 @@ namespace Engine::OpenGL {
 		return 0;
 	}
 
-	static const std::string NameFromFilepath(const std::string& filepath)
-	{
-		auto lastSlash = filepath.find_last_of("/\\");
-		lastSlash = lastSlash == std::string::npos ? 0 : lastSlash + 1;
-		auto lastDot = filepath.rfind('.');
-		auto count = lastDot == std::string::npos ? filepath.size() - lastSlash : lastDot - lastSlash;
-		return filepath.substr(lastSlash, count);
-	}
-
-	Shader::Shader(const std::string& filepath)
-		: m_Name(NameFromFilepath(filepath))
+	GlShader::GlShader(const std::string& name, const std::string& filepath)
+		: m_Name(name), m_Path(filepath)
 	{
 		std::string source = ReadFile(filepath);
 		auto shaderSources = PreProcess(source);
 		Compile(shaderSources);
 	}
 
-	Shader::Shader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
+	GlShader::GlShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
 		: m_Name(name)
 	{
 		std::unordered_map<GLenum, std::string> sources;
@@ -59,85 +36,85 @@ namespace Engine::OpenGL {
 		Compile(sources);
 	}
 
-	Shader::~Shader()
+	GlShader::~GlShader()
 	{
 		glDeleteProgram(m_RendererID);
 	}
 
-	void Shader::Bind() const
+	void GlShader::Bind() const
 	{
 		glUseProgram(m_RendererID);
 	}
 
-	void Shader::Unbind() const
+	void GlShader::Unbind() const
 	{
 		glUseProgram(0);
 	}
 
-	void Shader::SetBlockBinding(const std::string& name, uint32_t bindingPoint)
+	void GlShader::SetBlockBinding(const std::string& name, uint32_t bindingPoint)
 	{
 		GLint blockIndex = glGetUniformBlockIndex(m_RendererID, name.c_str());
 		ASSERT(blockIndex != GL_INVALID_INDEX, "'" + name + "' does not correspond to an active uniform block in this shader!", name);
 		glUniformBlockBinding(m_RendererID, blockIndex, bindingPoint);
 	}
 
-	void Shader::SetInt(const std::string& name, int value)
+	void GlShader::SetInt(const std::string& name, int value)
 	{
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 		ASSERT(location != -1, "'" + name + "' does not correspond to an active uniform variable in this shader!", name);
 		glUniform1i(location, value);
 	}
 
-	void Shader::SetIntArray(const std::string& name, int* values, uint32_t count)
+	void GlShader::SetIntArray(const std::string& name, int* values, uint32_t count)
 	{
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 		ASSERT(location != -1, "'" + name + "' does not correspond to an active uniform variable in this shader!", name);
 		glUniform1iv(location, count, values);
 	}
 
-	void Shader::SetFloat(const std::string& name, float value)
+	void GlShader::SetFloat(const std::string& name, float value)
 	{
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 		ASSERT(location != -1, "'" + name + "' does not correspond to an active uniform variable in this shader!", name);
 		glUniform1f(location, value);
 	}
 
-	void Shader::SetFloat2(const std::string& name, const glm::vec2& values)
+	void GlShader::SetFloat2(const std::string& name, const glm::vec2& values)
 	{
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 		ASSERT(location != -1, "'" + name + "' does not correspond to an active uniform variable in this shader!", name);
 		glUniform2fv(location, 1, glm::value_ptr(values));
 	}
 
-	void Shader::SetFloat3(const std::string& name, const glm::vec3& values)
+	void GlShader::SetFloat3(const std::string& name, const glm::vec3& values)
 	{
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 		ASSERT(location != -1, "'" + name + "' does not correspond to an active uniform variable in this shader!", name);
 		glUniform3fv(location, 1, glm::value_ptr(values));
 	}
 
-	void Shader::SetFloat4(const std::string& name, const glm::vec4& values)
+	void GlShader::SetFloat4(const std::string& name, const glm::vec4& values)
 	{
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 		ASSERT(location != -1, "'" + name + "' does not correspond to an active uniform variable in this shader!", name);
 		glUniform4fv(location, 1, glm::value_ptr(values));
 	}
 
-	void Shader::SetMat3(const std::string& name, const glm::mat3& matrix)
+	void GlShader::SetMat3(const std::string& name, const glm::mat3& matrix)
 	{
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 		ASSERT(location != -1, "'" + name + "' does not correspond to an active uniform variable in this shader!", name);
 		glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 	}
 
-	void Shader::SetMat4(const std::string& name, const glm::mat4& matrix)
+	void GlShader::SetMat4(const std::string& name, const glm::mat4& matrix)
 	{
 		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
 		ASSERT(location != -1, "'" + name + "' does not correspond to an active uniform variable in this shader!", name);
 		glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(matrix));
 	}
 
-	std::string Shader::ReadFile(const std::string& filepath)
+	std::string GlShader::ReadFile(const std::string& filepath)
 	{
 		std::string result;
 		std::ifstream in(filepath, std::ios::in | std::ios::binary);
@@ -164,7 +141,7 @@ namespace Engine::OpenGL {
 		return result;
 	}
 
-	std::unordered_map<GLenum, std::string> Shader::PreProcess(const std::string& source)
+	std::unordered_map<GLenum, std::string> GlShader::PreProcess(const std::string& source)
 	{
 		std::unordered_map<GLenum, std::string> shaderSources;
 
@@ -189,7 +166,7 @@ namespace Engine::OpenGL {
 		return shaderSources;
 	}
 
-	void Shader::Compile(std::unordered_map<GLenum, std::string> shaderSources)
+	void GlShader::Compile(std::unordered_map<GLenum, std::string> shaderSources)
 	{
 		m_RendererID = 0;
 

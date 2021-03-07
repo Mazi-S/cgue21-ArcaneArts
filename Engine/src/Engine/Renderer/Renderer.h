@@ -1,12 +1,11 @@
 #pragma once
 
 #include "Engine/Renderer/Material.h"
-#include "Engine/Renderer/Shader.h"
-#include "Engine/Renderer/Texture.h"
 #include "Engine/Renderer/Mesh.h"
 #include "Engine/Renderer/Camera.h"
 #include "Engine/Renderer/Light.h"
 
+#include "Platform/OpenGL/OpenGLShader.h"
 #include "Platform/OpenGL/OpenGLVertexArray.h"
 #include "Platform/OpenGL/OpenGLUniformBuffer.h"
 

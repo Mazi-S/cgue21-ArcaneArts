@@ -1,8 +1,8 @@
 #include "egpch.h"
 #include "Skybox.h"
-#include "Shader.h"
+#include "ShaderLibrary.h"
 #include "Mesh.h"
-#include "Texture.h"
+#include "TextureLibrary.h"
 
 #include <glad/glad.h>
 #include <glm/gtc/matrix_transform.hpp>
@@ -26,7 +26,7 @@ namespace Engine {
             "assets/textures/skybox/back.jpg",
         };
 
-        Engine::TextureLibrary::LoadCube("Skybox", faces);
+        Engine::TextureLibrary::LoadCubeTexture("Skybox", faces);
     }
 
     Skybox::~Skybox()
@@ -51,7 +51,7 @@ namespace Engine {
         cubemapShader->SetMat4("u_Projection", projection);
 
         meshKnight->GetSubmeshes()[0]->GetVertexArray()->Bind();
-        Engine::TextureLibrary::GetCube("Skybox")->Bind();
+        Engine::TextureLibrary::GetCubeTexture("Skybox")->Bind();
         glDrawArrays(GL_TRIANGLES, 0, meshKnight->GetSubmeshes()[0]->GetVertexArray()->GetIndexBuffer()->GetCount());
         glBindVertexArray(0);
 
@@ -65,7 +65,7 @@ namespace Engine {
         skyboxShader->SetMat4("u_Projection", projection);
 
         meshSkybox->GetSubmeshes()[0]->GetVertexArray()->Bind();
-        Engine::TextureLibrary::GetCube("Skybox")->Bind();
+        Engine::TextureLibrary::GetCubeTexture("Skybox")->Bind();
         glDrawArrays(GL_TRIANGLES, 0, meshSkybox->GetSubmeshes()[0]->GetVertexArray()->GetIndexBuffer()->GetCount());
         glBindVertexArray(0);
         glDepthFunc(GL_LESS);

@@ -1,7 +1,6 @@
 #include "HudLayer.h"
 
 #include <Engine/Events/KeyEvent.h>
-#include <Engine/Renderer/Texture.h>
 #include <Engine/Util/ObjectLoader.h>
 
 #include <glad/glad.h>

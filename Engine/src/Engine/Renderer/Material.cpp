@@ -7,23 +7,15 @@ namespace Engine {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// MaterialProperties /////////////////////////////////////////////////////////////////////////
 
-	MaterialProperties::MaterialProperties(const std::string& name, const glm::vec3& color, float shininess)
-		: MaterialProperties(name, color, color, color, shininess)
-	{ }
-
-	MaterialProperties::MaterialProperties(const std::string & name, const glm::vec3 & color, const std::string & colorTex_path, float shininess)
-		: MaterialProperties(name, color, color, color, shininess, colorTex_path)
-	{ }
-
-	MaterialProperties::MaterialProperties(const std::string & name, const glm::vec3 & ambient, const glm::vec3 & diffuse, const glm::vec3 & specular, float shininess, const std::string & colorTex_path)
-		: Name(name), Ambient(ambient), Diffuse(diffuse), Specular(specular), Shininess(shininess), ColorTex_path(colorTex_path)
+	MaterialProperties::MaterialProperties(const std::string & name, const glm::vec3 & ambient, const glm::vec3 & diffuse, const glm::vec3 & specular, float shininess)
+		: Name(name), Ambient(ambient), Diffuse(diffuse), Specular(specular), Shininess(shininess)
 	{ }
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// Material ///////////////////////////////////////////////////////////////////////////////////
 
-	Material::Material(const std::string& name, const glm::vec3& ambient, const glm::vec3& diffuse, const glm::vec3& specular, float shininess, const Ref<Shader>& shader)
-		: m_Name(name), m_Ambient(ambient), m_Diffuse(diffuse), m_Specular(specular), m_Shininess(shininess), m_Shader(shader)
+	Material::Material(const MaterialProperties& prop, const Ref<OpenGL::GlShader>& shader)
+		: m_Name(prop.Name), m_Ambient(prop.Ambient), m_Diffuse(prop.Diffuse), m_Specular(prop.Specular), m_Shininess(prop.Shininess), m_Shader(shader)
 	{
 		OpenGL::GlUniformBufferLayout_std140 layout(4 * 4 * 3, {
 			{OpenGL::GlShaderDataType::Float3, "Ambient", 0},
@@ -53,27 +45,11 @@ namespace Engine {
 		m_BindingPoint++;
 	}
 
-	Ref<Material> Material::Create(const MaterialProperties& props, const Ref<Shader>& shader)
-	{
-		if (props.ColorTex_path != "")
-		{
-			Ref<Texture> colorTex;
-			if (TextureLibrary::ContainsPath(props.ColorTex_path))
-				colorTex = TextureLibrary::GetByPath(props.ColorTex_path);
-			else
-				colorTex = TextureLibrary::Load(props.ColorTex_path);
-			
-			return CreateRef<TextureMaterial>(props.Name, props.Ambient, props.Diffuse, props.Specular, props.Shininess, colorTex, shader);
-		}
-
-		return CreateRef<Material>(props.Name, props.Ambient, props.Diffuse, props.Specular, props.Shininess, shader);
-	}
-
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// TextureMaterial ////////////////////////////////////////////////////////////////////////////
 
-	TextureMaterial::TextureMaterial(const std::string& name, const glm::vec3& ambient, const glm::vec3& diffuse, const glm::vec3& specular, float shininess, const Ref<Texture>& colorTex, const Ref<Shader>& shader)
-		: Material(name, ambient, diffuse, specular, shininess, shader), m_ColorTexture(colorTex)
+	TextureMaterial::TextureMaterial(const MaterialProperties& properties, const Ref<OpenGL::GlTexture2D>& colorTex, const Ref<OpenGL::GlShader>& shader)
+		: Material(properties, shader), m_ColorTexture(colorTex)
 	{ }
 
 	void TextureMaterial::Bind()
@@ -91,23 +67,36 @@ namespace Engine {
 	void MaterialLibrary::Add(const Ref<Material>& material)
 	{
 		auto& name = material->GetName();
-		ASSERT(!Exists(name), "Shader already exists!");
+		Add(name, material);
+	}
+
+	void MaterialLibrary::Add(const std::string& name, const Ref<Material>& material)
+	{
+		ASSERT(!Contains(name), "Shader already exists!");
 		s_Materials[name] = material;
 	}
 
-	void MaterialLibrary::Add(const std::vector<Ref<Material>>& materials)
+	Ref<Material> MaterialLibrary::Create(const MaterialProperties& properties, const Ref<OpenGL::GlShader>& shader)
 	{
-		for (auto& material : materials)
-			Add(material);
+		Ref<Material> material = CreateRef<Material>(properties, shader);
+		s_Materials[material->GetName()] = material;
+		return material;
+	}
+
+	Ref<TextureMaterial> MaterialLibrary::Create(const MaterialProperties& properties, const Ref<OpenGL::GlTexture2D>& colorTex, const Ref<OpenGL::GlShader>& shader)
+	{
+		Ref<TextureMaterial> material = CreateRef<TextureMaterial>(properties, colorTex, shader);
+		s_Materials[material->GetName()] = material;
+		return material;
 	}
 
 	Ref<Material> MaterialLibrary::Get(const std::string& name)
 	{
-		ASSERT(Exists(name), "Material not found!");
+		ASSERT(Contains(name), "Material not found!");
 		return s_Materials[name];
 	}
 
-	bool MaterialLibrary::Exists(const std::string& name)
+	bool MaterialLibrary::Contains(const std::string& name)
 	{
 		return s_Materials.find(name) != s_Materials.end();
 	}
