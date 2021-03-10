@@ -11,6 +11,7 @@ namespace Engine::OpenGL {
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		glEnable(GL_DEPTH_TEST);
+		glDepthFunc(GL_LEQUAL);
 
 		glEnable(GL_CULL_FACE);
 		glCullFace(GL_BACK);
@@ -31,14 +32,14 @@ namespace Engine::OpenGL {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
-	void API::CullBackFaces()
+	void API::CullFaces(Face face)
 	{
-		glCullFace(GL_BACK);
+		glCullFace(uint32_t(face));
 	}
 
-	void API::CullFrontFaces()
+	void API::DepthFunc(DepthFunction func)
 	{
-		glCullFace(GL_FRONT);
+		glDepthFunc(uint32_t(func));
 	}
 
 	void API::DrawIndexed(const Ref<OpenGL::GlVertexArray>& vertexArray, uint32_t indexCount)

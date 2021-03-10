@@ -137,7 +137,7 @@ namespace Engine {
 
 		s_ShadowMapFB->Bind();
 		OpenGL::API::Clear();
-		OpenGL::API::CullFrontFaces();
+		OpenGL::API::CullFaces(OpenGL::Face::Front);
 
 		s_ShadowMapShader->Bind();
 		for (const auto& vertexArray : s_DepthQueue)
@@ -151,7 +151,7 @@ namespace Engine {
 		}
 		s_ShadowMapFB->Unbind();
 
-		OpenGL::API::CullBackFaces();
+		OpenGL::API::CullFaces();
 		OpenGL::API::SetViewport(0, 0, Application::Get().GetWindow().GetWidth(), Application::Get().GetWindow().GetHeight());
 	}
 
