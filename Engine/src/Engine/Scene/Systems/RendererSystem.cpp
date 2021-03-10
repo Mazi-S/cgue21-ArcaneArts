@@ -10,11 +10,25 @@ namespace Engine::System::Renderer {
 
 	void Submit(entt::registry& registry)
 	{
-		auto view = registry.view<TransformComponent, MaterialComponent, MeshComponent>();
-		for (auto entity : view)
+
+		// objects with shadows
 		{
-			auto [material, mesh] = view.get<MaterialComponent, MeshComponent>(entity);
-			Engine::Renderer::Submit(mesh, material, Util::Transform(registry, entity));
+			auto view = registry.view<TransformComponent, MaterialComponent, MeshComponent, ShadowComponent>();
+			for (auto entity : view)
+			{
+				auto [material, mesh] = view.get<MaterialComponent, MeshComponent>(entity);
+				Engine::Renderer::Submit(mesh, material, Util::Transform(registry, entity), true);
+			}
+		}
+
+		// objects without shadows
+		{
+			auto view = registry.view<TransformComponent, MaterialComponent, MeshComponent>(entt::exclude<ShadowComponent>);
+			for (auto entity : view)
+			{
+				auto [material, mesh] = view.get<MaterialComponent, MeshComponent>(entity);
+				Engine::Renderer::Submit(mesh, material, Util::Transform(registry, entity), false);
+			}
 		}
 	}
 

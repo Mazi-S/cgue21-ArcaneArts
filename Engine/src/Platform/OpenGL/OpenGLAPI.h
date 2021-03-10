@@ -14,8 +14,11 @@ namespace Engine::OpenGL {
 
 		static void SetClearColor(const glm::vec4 & color);
 		static void Clear();
+		static void CullBackFaces();
+		static void CullFrontFaces();
 
 		static void DrawIndexed(const Ref<OpenGL::GlVertexArray>& vertexArray, uint32_t indexCount);
+		static void DrawIndexed(const OpenGL::GlVertexArray* vertexArray, uint32_t indexCount);
 	};
 
 }

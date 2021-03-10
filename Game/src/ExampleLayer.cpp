@@ -78,17 +78,16 @@ void ExampleLayer::OnAttach()
 	// Create Materials
 	{
 		// Colors
-		Engine::MaterialLibrary::Create(Engine::MaterialProperties("RedMaterial", { 0.2f, 0.01f, 0.05f }, { 0.7f, 0.05f, 0.1f }, { 0.5f, 0.2f, 0.4f }, 2.0f), Engine::ShaderLibrary::Get("ColorShader"));
 		Engine::MaterialLibrary::Create(Engine::MaterialProperties("SkinMaterial", { 0.2f, 0.15f, 0.1f }, { 0.4f, 0.2f, 0.2f }, { 0.1f, 0.1f, 0.1f }, 2.0f), Engine::ShaderLibrary::Get("ColorShader"));
 		Engine::MaterialLibrary::Create(Engine::MaterialProperties("CloudMaterial", { 0.56f, 0.77f, 1.0f }, { 0.46f, 0.67f, 0.9f }, { 0.36f, 0.57f, 0.8f }), Engine::ShaderLibrary::Get("ColorShader"));
-		Engine::MaterialLibrary::Create(Engine::MaterialProperties("TerrainMaterial", { 0.06f, 0.13f, 0.0f }, { 0.36f, 0.43f, 0.0f }, { 0.16f, 0.23f, 0.0f }), Engine::ShaderLibrary::Get("ColorShader"));
-		Engine::MaterialLibrary::Create(Engine::MaterialProperties("RockMaterial", { 0.5f, 0.5f, 0.5f }, { 0.4f, 0.4f, 0.4f }, { 0.3f, 0.3f, 0.3f }), Engine::ShaderLibrary::Get("ColorShader"));
+		Engine::MaterialLibrary::Create(Engine::MaterialProperties("TerrainMaterial", { 0.06f, 0.1f, 0.0f }, { 0.20f, 0.32f, 0.0f }, { 0.06f, 0.12f, 0.0f }), Engine::ShaderLibrary::Get("ColorShader"));
+		Engine::MaterialLibrary::Create(Engine::MaterialProperties("RockMaterial", { 0.1f, 0.1f, 0.1f }, { 0.4f, 0.4f, 0.4f }, { 0.3f, 0.3f, 0.3f }), Engine::ShaderLibrary::Get("ColorShader"));
 		Engine::MaterialLibrary::Create(Engine::MaterialProperties("PedestalMaterial", { 0.11f, 0.05f, 0.02f }, { 0.21f, 0.15f, 0.09f }, { 0.31f, 0.25f, 0.19f }), Engine::ShaderLibrary::Get("ColorShader"));
 
 		// Textures
 		Engine::MaterialLibrary::Create(Engine::MaterialProperties("MonsterMaterial", { 0.1f, 0.1f, 0.1f }, { 0.6f, 0.6f, 0.6f }, { 0.2f, 0.2f, 0.2f }, 2.0f), Engine::TextureLibrary::GetTexture2D("Monster"), Engine::ShaderLibrary::Get("TextureShader"));
 		Engine::MaterialLibrary::Create(Engine::MaterialProperties("HouseMaterial", { 0.1f, 0.1f, 0.1f }, { 0.6f, 0.6f, 0.6f }, { 0.2f, 0.2f, 0.2f }, 2.0f), Engine::TextureLibrary::GetTexture2D("House"), Engine::ShaderLibrary::Get("TextureShader"));
-		Engine::MaterialLibrary::Create(Engine::MaterialProperties("ForestMaterial", { 0.1f, 0.1f, 0.1f }, { 0.6f, 0.6f, 0.6f }, { 0.2f, 0.2f, 0.2f }, 2.0f), Engine::TextureLibrary::GetTexture2D("Forest"), Engine::ShaderLibrary::Get("TextureShader"));
+		Engine::MaterialLibrary::Create(Engine::MaterialProperties("ForestMaterial", { 0.1f, 0.1f, 0.1f }, { 0.45f, 0.45f, 0.45f }, { 0.25f, 0.25f, 0.25f }, 2.0f), Engine::TextureLibrary::GetTexture2D("Forest"), Engine::ShaderLibrary::Get("TextureShader"));
 
 		Engine::MaterialLibrary::Create(Engine::MaterialProperties("MagicBall_Light", { 0.9f, 0.9f, 0.9f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }), Engine::ShaderLibrary::Get("ColorShader"));
 		Engine::MaterialLibrary::Create(Engine::MaterialProperties("MagicBall_Fire", { 0.5f, 0.05f, 0.1f }, { 0.5f, 0.05f, 0.1f }, { 0.5f, 0.35f, 0.4f }, 5.0f), Engine::ShaderLibrary::Get("ColorShader"));
@@ -100,7 +99,7 @@ void ExampleLayer::OnAttach()
 
 	// light
 	auto directionalLight = m_Scene->CreateEntity();
-	directionalLight.AddComponent<Engine::DirectionalLightComponent>(glm::vec3{ 0.0f, -1.0f, 0.3f }, glm::vec3{ 0.5f, 0.5f, 0.5f } );
+	directionalLight.AddComponent<Engine::DirectionalLightComponent>(glm::vec3{ 0.0f, -1.0f, 0.8f }, glm::vec3{ 0.3f, 0.3f, 0.3f } );
 
 	// Hero
 	m_Hero = m_Scene->CreateEntity();
@@ -144,13 +143,14 @@ void ExampleLayer::OnAttach()
 		{
 			entity = m_Scene->CreateEntity();
 			auto& mesh = Engine::MeshLibrary::Get("Monster");
-			glm::vec3 t{ -0.0f, 5.5f, 2.0f };
+			glm::vec3 t{ -0.0f, 5.5f, 52.0f };
 			glm::vec3 r{ 0.0f, 0.0f, 0.0f };
 			glm::vec3 s{ 1.0f, 1.0f, 1.0f };
 			entity.GetComponent<Engine::TransformComponent>().Translation = t;
 			entity.GetComponent<Engine::TransformComponent>().Rotation = r;
 			entity.GetComponent<Engine::TransformComponent>().Scale = s;
 			entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("MonsterMaterial"));
+			entity.AddComponent<Engine::ShadowComponent>();
 			entity.AddComponent<Engine::MeshComponent>(mesh);
 			auto actor = Engine::PhysicsAPI::CreateRigidDynamic(t, r);
 			auto shape = Engine::PhysicsAPI::CreateShape(mesh, s);
@@ -173,6 +173,7 @@ void ExampleLayer::OnAttach()
 			entity.GetComponent<Engine::TransformComponent>().Rotation = r;
 			entity.GetComponent<Engine::TransformComponent>().Scale = s;
 			entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("HouseMaterial"));
+			entity.AddComponent<Engine::ShadowComponent>();
 			entity.AddComponent<Engine::MeshComponent>(mesh);
 			auto actor = Engine::PhysicsAPI::CreateRigidStatic(t, r);
 			auto shape = Engine::PhysicsAPI::CreateShape(mesh, s);
@@ -190,6 +191,7 @@ void ExampleLayer::OnAttach()
 			entity.GetComponent<Engine::TransformComponent>().Rotation = r;
 			entity.GetComponent<Engine::TransformComponent>().Scale = s;
 			entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("PedestalMaterial"));
+			entity.AddComponent<Engine::ShadowComponent>();
 			entity.AddComponent<Engine::MeshComponent>(mesh);
 			auto actor = Engine::PhysicsAPI::CreateRigidStatic(t, r);
 			auto shape = Engine::PhysicsAPI::CreateShape(mesh, s);
@@ -222,13 +224,14 @@ void ExampleLayer::OnAttach()
 		{
 			entity = m_Scene->CreateEntity();
 			auto& mesh = Engine::MeshLibrary::Get("Spruce_" + std::to_string((rand() % 3) + 1));
-			glm::vec3 t{ (rand() % 100) - 50, 0.0f, (rand() % 100) - 50 };
+			glm::vec3 t{ (rand() % 100) - 50, -1.0f, (rand() % 100) - 50 };
 			glm::vec3 r{ 0.0f, 0.0f, 0.0f };
 			glm::vec3 s{ 1.0f, 1.0f, 1.0f };
 			entity.GetComponent<Engine::TransformComponent>().Translation = t;
 			entity.GetComponent<Engine::TransformComponent>().Rotation = r;
 			entity.GetComponent<Engine::TransformComponent>().Scale = s;
 			entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("ForestMaterial"));
+			entity.AddComponent<Engine::ShadowComponent>();
 			entity.AddComponent<Engine::MeshComponent>(mesh);
 			auto actor = Engine::PhysicsAPI::CreateRigidStatic(t, r);
 			auto shape = Engine::PhysicsAPI::CreateShape(mesh, s);
@@ -239,13 +242,14 @@ void ExampleLayer::OnAttach()
 		{
 			entity = m_Scene->CreateEntity();
 			auto& mesh = Engine::MeshLibrary::Get("Oak_" + std::to_string((rand() % 2) + 1));
-			glm::vec3 t{ (rand() % 100) - 50, 0.0f, (rand() % 100) - 50 };
+			glm::vec3 t{ (rand() % 100) - 50, -1.0f, (rand() % 100) - 50 };
 			glm::vec3 r{ 0.0f, 0.0f, 0.0f };
 			glm::vec3 s{ 1.0f, 1.0f, 1.0f };
 			entity.GetComponent<Engine::TransformComponent>().Translation = t;
 			entity.GetComponent<Engine::TransformComponent>().Rotation = r;
 			entity.GetComponent<Engine::TransformComponent>().Scale = s;
 			entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("ForestMaterial"));
+			entity.AddComponent<Engine::ShadowComponent>();
 			entity.AddComponent<Engine::MeshComponent>(mesh);
 			auto actor = Engine::PhysicsAPI::CreateRigidStatic(t, r);
 			auto shape = Engine::PhysicsAPI::CreateShape(mesh, s);
@@ -256,13 +260,14 @@ void ExampleLayer::OnAttach()
 		{
 			entity = m_Scene->CreateEntity();
 			auto& mesh = Engine::MeshLibrary::Get("Spruce_Small_" + std::to_string((rand() % 2) + 1));
-			glm::vec3 t{ (rand() % 100) - 50, 0.0f, (rand() % 100) - 50 };
+			glm::vec3 t{ (rand() % 100) - 50, -1.0f, (rand() % 100) - 50 };
 			glm::vec3 r{ 0.0f, 0.0f, 0.0f };
 			glm::vec3 s{ 1.0f, 1.0f, 1.0f };
 			entity.GetComponent<Engine::TransformComponent>().Translation = t;
 			entity.GetComponent<Engine::TransformComponent>().Rotation = r;
 			entity.GetComponent<Engine::TransformComponent>().Scale = s;
 			entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("ForestMaterial"));
+			entity.AddComponent<Engine::ShadowComponent>();
 			entity.AddComponent<Engine::MeshComponent>(mesh);
 			auto actor = Engine::PhysicsAPI::CreateRigidStatic(t, r);
 			auto shape = Engine::PhysicsAPI::CreateShape(mesh, s);
@@ -280,6 +285,7 @@ void ExampleLayer::OnAttach()
 			entity.GetComponent<Engine::TransformComponent>().Rotation = r;
 			entity.GetComponent<Engine::TransformComponent>().Scale = s;
 			entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("ForestMaterial"));
+			entity.AddComponent<Engine::ShadowComponent>();
 			entity.AddComponent<Engine::MeshComponent>(mesh);
 			auto actor = Engine::PhysicsAPI::CreateRigidStatic(t, r);
 			auto shape = Engine::PhysicsAPI::CreateShape(mesh, s);
@@ -297,6 +303,7 @@ void ExampleLayer::OnAttach()
 			entity.GetComponent<Engine::TransformComponent>().Rotation = r;
 			entity.GetComponent<Engine::TransformComponent>().Scale = s;
 			entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("ForestMaterial"));
+			entity.AddComponent<Engine::ShadowComponent>();
 			entity.AddComponent<Engine::MeshComponent>(mesh);
 			auto actor = Engine::PhysicsAPI::CreateRigidStatic(t, r);
 			auto shape = Engine::PhysicsAPI::CreateShape(mesh, s);
@@ -314,6 +321,7 @@ void ExampleLayer::OnAttach()
 			entity.GetComponent<Engine::TransformComponent>().Rotation = r;
 			entity.GetComponent<Engine::TransformComponent>().Scale = s;
 			entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("RockMaterial"));
+			entity.AddComponent<Engine::ShadowComponent>();
 			entity.AddComponent<Engine::MeshComponent>(mesh);
 			auto actor = Engine::PhysicsAPI::CreateRigidStatic(t, r);
 			auto shape = Engine::PhysicsAPI::CreateShape(mesh, s);
@@ -348,7 +356,9 @@ void ExampleLayer::OnUpdate(Engine::Timestep ts)
 	Engine::OpenGL::API::Clear();
 
 	// Render Skybox and CubeMap
+	Engine::OpenGL::API::CullFrontFaces();
 	m_Skybox->Draw(m_Scene->GetCamera());
+	Engine::OpenGL::API::CullBackFaces();
 
 	// Render Scene
 	m_Scene->OnRender();

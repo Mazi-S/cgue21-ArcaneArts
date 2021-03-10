@@ -8,11 +8,20 @@
 namespace Engine {
 
 	Ref<OpenGL::GlUniformBuffer> Renderer::s_SceneUB;
+	Ref<OpenGL::GlFramebuffer> Renderer::s_ShadowMapFB;
+	Ref<OpenGL::GlShader> Renderer::s_ShadowMapShader;
+
+	SceneData Renderer::s_SceneData;
+
+	std::map<Material*, std::set<RenderableObject, RenderableObject>> Renderer::s_RenderQueue;
+	std::map<OpenGL::GlVertexArray*, std::set<RenderableObject, RenderableObject>> Renderer::s_DepthQueue;
+	std::set<Ref<Material>> Renderer::s_Materials;
+	std::set<Ref<OpenGL::GlVertexArray>> Renderer::s_VertexArrays;
 
 	void Renderer::Init()
 	{
 		OpenGL::API::Init();
-		OpenGL::GlUniformBufferLayout_std140 layout(4 * 4 * 10, {
+		OpenGL::GlUniformBufferLayout_std140 layout(4 * 4 * 14, {
 			{OpenGL::GlShaderDataType::Mat4, "ViewProjection", 0},
 			{OpenGL::GlShaderDataType::Float3, "CameraPosition", 4 * 4 * 4},
 			{OpenGL::GlShaderDataType::Float3, "DirectionalLight_Direction", 4 * 4 * 5},
@@ -24,6 +33,14 @@ namespace Engine {
 			{OpenGL::GlShaderDataType::Float, "PointLight_Quadratic", 4 * 4 * 9 + 4 * 1}
 		});
 		s_SceneUB = CreateRef<OpenGL::GlUniformBuffer>(layout);
+
+		// Shadow Map
+		s_ShadowMapShader = CreateRef<OpenGL::GlShader>("ShadowMapShader", "assets/shaders/ShadowMap.glsl");
+
+		OpenGL::GlFramebufferSpecification spec;
+		spec.Height = 1024 * 5;
+		spec.Width  = 1024 * 5;
+		s_ShadowMapFB = CreateRef<OpenGL::GlFramebuffer>(spec);
 	}
 
 	void Renderer::Shutdown()
@@ -37,6 +54,8 @@ namespace Engine {
 
 	void Renderer::BeginScene(const Camera& camera, const DirectionalLight& directionalLight, const PointLight& pointLight)
 	{
+		// todo: set SceneData here; set UB data Render();
+
 		glm::mat4 viewProjectionMatrix = camera.Projection * glm::inverse(camera.Transform);
 		s_SceneUB->SetData(glm::value_ptr(viewProjectionMatrix), "ViewProjection");
 
@@ -52,29 +71,88 @@ namespace Engine {
 		s_SceneUB->SetData(&pointLight.Constant, "PointLight_Constant");
 		s_SceneUB->SetData(&pointLight.Linear, "PointLight_Linear");
 		s_SceneUB->SetData(&pointLight.Quadratic, "PointLight_Quadratic");
+
+		// SceneData
+		s_SceneData.DirectionalLight = directionalLight;
+		s_SceneData.DepthProjectionMatrix = glm::ortho<float>(-50, 50, -50, 50, -50, 50);
+		s_SceneData.DepthViewMatrix = glm::lookAt(cameraPos - directionalLight.Direction, cameraPos, glm::vec3(0, 1, 0));
 	}
 
-	void Renderer::Submit(const Ref<OpenGL::GlVertexArray>& vertexArray, const Ref<Material>& material, const glm::mat4& transform)
+	void Renderer::EndScene()
 	{
-		// once per material
-		material->Bind();
-		material->Set("SceneData", s_SceneUB);
+		UpdateShadowMap();
+		Render();
 
-		auto& shader = material->GetShader();
-
-		// once per object
-		shader->SetMat4("u_Transform", transform);
-		glm::mat4 normalMatrix = glm::mat3(glm::transpose(glm::inverse(transform)));
-		shader->SetMat3("u_NormalMatrix", normalMatrix);
-
-		vertexArray->Bind();
-		OpenGL::API::DrawIndexed(vertexArray, vertexArray->GetIndexBuffer()->GetCount());
+		s_Materials.clear();
+		s_VertexArrays.clear();
+		s_RenderQueue.clear();
+		s_DepthQueue.clear();
 	}
 
-	void Renderer::Submit(const Ref<Mesh>& mesh, const Ref<Material>& material, const glm::mat4& transform)
+	void Renderer::Submit(const Ref<OpenGL::GlVertexArray>& vertexArray, const Ref<Material>& material, const glm::mat4& transform, bool shadow)
+	{
+		s_Materials.insert(material);
+		s_VertexArrays.insert(vertexArray);
+		s_RenderQueue[material.get()].insert(RenderableObject(material.get(), vertexArray.get(), transform));
+
+		if (shadow)
+			s_DepthQueue[vertexArray.get()].insert(RenderableObject(material.get(), vertexArray.get(), transform));
+	}
+
+	void Renderer::Submit(const Ref<Mesh>& mesh, const Ref<Material>& material, const glm::mat4& transform, bool shadow)
 	{
 		for(auto& submesh : mesh->GetGlMesh()->GetSubmeshes())
-			Submit(submesh->GetVertexArray(), material, transform);
+			Submit(submesh->GetVertexArray(), material, transform, shadow);
+	}
+
+	void Renderer::Render()
+	{
+		glm::mat4 lightSpaceMatrix = s_SceneData.DepthProjectionMatrix * s_SceneData.DepthViewMatrix;
+		for (const auto& material : s_RenderQueue)
+		{
+			material.first->Bind();
+			material.first->Set("SceneData", s_SceneUB);
+
+			auto& shader = material.first->GetShader();
+			glBindTextureUnit(2, s_ShadowMapFB->GetDepthAttachmentRendererID());
+			shader->SetInt("u_ShadowMap", 2);
+
+			for (const auto& obj : material.second)
+			{
+				shader->SetMat4("u_Transform", obj.Transform);
+				glm::mat4 normalMatrix = glm::mat3(glm::transpose(glm::inverse(obj.Transform)));
+				shader->SetMat3("u_NormalMatrix", normalMatrix);
+
+				shader->SetMat4("u_LightSpaceMatrix", lightSpaceMatrix * obj.Transform);
+
+				obj.VertexArray->Bind();
+				OpenGL::API::DrawIndexed(obj.VertexArray, obj.VertexArray->GetIndexBuffer()->GetCount());
+			}
+		}
+	}
+
+	void Renderer::UpdateShadowMap()
+	{
+		glm::mat4 depthVP = s_SceneData.DepthProjectionMatrix * s_SceneData.DepthViewMatrix;
+
+		s_ShadowMapFB->Bind();
+		OpenGL::API::Clear();
+		OpenGL::API::CullFrontFaces();
+
+		s_ShadowMapShader->Bind();
+		for (const auto& vertexArray : s_DepthQueue)
+		{
+			vertexArray.first->Bind();
+			for (const auto& obj : vertexArray.second)
+			{
+				s_ShadowMapShader->SetMat4("u_DepthMVP", depthVP * obj.Transform);
+				OpenGL::API::DrawIndexed(obj.VertexArray, obj.VertexArray->GetIndexBuffer()->GetCount());
+			}
+		}
+		s_ShadowMapFB->Unbind();
+
+		OpenGL::API::CullBackFaces();
+		OpenGL::API::SetViewport(0, 0, Application::Get().GetWindow().GetWidth(), Application::Get().GetWindow().GetHeight());
 	}
 
 }

@@ -48,7 +48,7 @@ namespace Engine {
 
 		void TriggerHit(entt::entity triggerEntity, entt::entity otherEntity);
 
-		// physx
+		// PhysX
 		void AddCharacterController(entt::registry& registry, entt::entity entity);
 
 		void AddRigidComponent(entt::registry& registry, entt::entity entity);

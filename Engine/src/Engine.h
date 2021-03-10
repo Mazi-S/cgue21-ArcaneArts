@@ -29,6 +29,7 @@
 // OpenGL
 #include "Platform/OpenGL/OpenGLAPI.h"
 #include "Platform/OpenGL/OpenGLBuffer.h"
+#include "Platform/OpenGL/OpenGLFramebuffer.h"
 #include "Platform/OpenGL/OpenGLVertexArray.h"
 
 // Scene

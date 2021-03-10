@@ -7,12 +7,12 @@
 #include "Systems.h"
 #include "Factories.h"
 
+#include "Entity.h"
+
+// Renderer
 #include "Engine/Renderer/Renderer.h"
 #include "Engine/Renderer/Camera.h"
 #include "Engine/Renderer/Light.h"
-#include "Engine/Scene/Entity.h"
-
-#include <glm/glm.hpp>
 
 namespace Engine {
 
@@ -178,8 +178,8 @@ namespace Engine {
 	void Scene::OnUpdate(Timestep ts)
 	{
 		// Update
-		System::CharacterController::OnUpdate(m_Registry, ts);
 		System::Physics::OnUpdateKinematic(m_Registry, ts);
+		System::CharacterController::OnUpdate(m_Registry, ts);
 
 		m_Registry.view<NativeScriptComponent>().each([=](auto entity, auto& nsc) { if (nsc.Active) nsc.Instance->OnUpdate(ts); });
 		

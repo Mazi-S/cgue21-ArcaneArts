@@ -11,6 +11,9 @@ namespace Engine::OpenGL {
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		glEnable(GL_DEPTH_TEST);
+
+		glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
 	}
 
 	void API::SetViewport(uint32_t x, uint32_t y, uint32_t width, uint32_t height)
@@ -28,7 +31,22 @@ namespace Engine::OpenGL {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 
+	void API::CullBackFaces()
+	{
+		glCullFace(GL_BACK);
+	}
+
+	void API::CullFrontFaces()
+	{
+		glCullFace(GL_FRONT);
+	}
+
 	void API::DrawIndexed(const Ref<OpenGL::GlVertexArray>& vertexArray, uint32_t indexCount)
+	{
+		glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, nullptr);
+	}
+
+	void API::DrawIndexed(const OpenGL::GlVertexArray* vertexArray, uint32_t indexCount)
 	{
 		glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, nullptr);
 	}
