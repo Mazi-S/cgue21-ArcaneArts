@@ -19,7 +19,11 @@ namespace Engine {
 
 	struct SceneData
 	{
+		Camera Camera;
+		glm::vec3 CameraPos;
+
 		DirectionalLight DirectionalLight;
+		PointLight PointLight;
 		glm::mat4 DepthViewMatrix;
 		glm::mat4 DepthProjectionMatrix;
 	};

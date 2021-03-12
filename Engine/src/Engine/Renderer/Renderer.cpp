@@ -37,9 +37,19 @@ namespace Engine {
 		// Shadow Map
 		s_ShadowMapShader = CreateRef<OpenGL::GlShader>("ShadowMapShader", "assets/shaders/ShadowMap.glsl");
 
-		OpenGL::GlFramebufferSpecification spec;
+		OpenGL::FramebufferSpecification spec;
 		spec.Height = 1024 * 5;
 		spec.Width  = 1024 * 5;
+		spec.DepthAttachment.Attach = true;
+		spec.DepthAttachment.Internalformat = GL_DEPTH_COMPONENT;
+		spec.DepthAttachment.Format = GL_DEPTH_COMPONENT;
+		spec.DepthAttachment.Type = GL_FLOAT;
+		spec.DepthAttachment.Wrap_S = GL_CLAMP_TO_BORDER;
+		spec.DepthAttachment.Wrap_T = GL_CLAMP_TO_BORDER;
+		spec.DepthAttachment.Border = { 1.0f, 1.0f, 1.0f, 1.0f };
+		spec.DepthAttachment.Min_Filter = GL_NEAREST;
+		spec.DepthAttachment.Mag_Filter = GL_NEAREST;
+
 		s_ShadowMapFB = CreateRef<OpenGL::GlFramebuffer>(spec);
 	}
 
@@ -54,28 +64,14 @@ namespace Engine {
 
 	void Renderer::BeginScene(const Camera& camera, const DirectionalLight& directionalLight, const PointLight& pointLight)
 	{
-		// todo: set SceneData here; set UB data Render();
-
-		glm::mat4 viewProjectionMatrix = camera.Projection * glm::inverse(camera.Transform);
-		s_SceneUB->SetData(glm::value_ptr(viewProjectionMatrix), "ViewProjection");
-
-		glm::vec3 cameraPos = { camera.Transform[3][0], camera.Transform[3][1], camera.Transform[3][2] };
-		s_SceneUB->SetData(glm::value_ptr(cameraPos), "CameraPosition");
-
-		// Lights
-		s_SceneUB->SetData(glm::value_ptr(directionalLight.Direction), "DirectionalLight_Direction");
-		s_SceneUB->SetData(glm::value_ptr(directionalLight.Color), "DirectionalLight_Color");
-
-		s_SceneUB->SetData(glm::value_ptr(pointLight.Position), "PointLight_Position");
-		s_SceneUB->SetData(glm::value_ptr(pointLight.Color), "PointLight_Color");
-		s_SceneUB->SetData(&pointLight.Constant, "PointLight_Constant");
-		s_SceneUB->SetData(&pointLight.Linear, "PointLight_Linear");
-		s_SceneUB->SetData(&pointLight.Quadratic, "PointLight_Quadratic");
-
 		// SceneData
+		s_SceneData.Camera = camera;
+		s_SceneData.CameraPos = { s_SceneData.Camera.Transform[3][0], s_SceneData.Camera.Transform[3][1], s_SceneData.Camera.Transform[3][2] };
+
 		s_SceneData.DirectionalLight = directionalLight;
+		s_SceneData.PointLight = pointLight;
 		s_SceneData.DepthProjectionMatrix = glm::ortho<float>(-50, 50, -50, 50, -50, 50);
-		s_SceneData.DepthViewMatrix = glm::lookAt(cameraPos - directionalLight.Direction, cameraPos, glm::vec3(0, 1, 0));
+		s_SceneData.DepthViewMatrix = glm::lookAt(s_SceneData.CameraPos - directionalLight.Direction, s_SceneData.CameraPos, glm::vec3(0, 1, 0));
 	}
 
 	void Renderer::EndScene()
@@ -107,6 +103,22 @@ namespace Engine {
 
 	void Renderer::Render()
 	{
+		// Update SceneUB
+		glm::mat4 viewProjectionMatrix = s_SceneData.Camera.Projection * glm::inverse(s_SceneData.Camera.Transform);
+		s_SceneUB->SetData(glm::value_ptr(viewProjectionMatrix), "ViewProjection");
+		s_SceneUB->SetData(glm::value_ptr(s_SceneData.CameraPos), "CameraPosition");
+
+		// Lights
+		s_SceneUB->SetData(glm::value_ptr(s_SceneData.DirectionalLight.Direction), "DirectionalLight_Direction");
+		s_SceneUB->SetData(glm::value_ptr(s_SceneData.DirectionalLight.Color), "DirectionalLight_Color");
+
+		s_SceneUB->SetData(glm::value_ptr(s_SceneData.PointLight.Position), "PointLight_Position");
+		s_SceneUB->SetData(glm::value_ptr(s_SceneData.PointLight.Color), "PointLight_Color");
+		s_SceneUB->SetData(&s_SceneData.PointLight.Constant, "PointLight_Constant");
+		s_SceneUB->SetData(&s_SceneData.PointLight.Linear, "PointLight_Linear");
+		s_SceneUB->SetData(&s_SceneData.PointLight.Quadratic, "PointLight_Quadratic");
+
+
 		glm::mat4 lightSpaceMatrix = s_SceneData.DepthProjectionMatrix * s_SceneData.DepthViewMatrix;
 		for (const auto& material : s_RenderQueue)
 		{
@@ -114,7 +126,7 @@ namespace Engine {
 			material.first->Set("SceneData", s_SceneUB);
 
 			auto& shader = material.first->GetShader();
-			glBindTextureUnit(2, s_ShadowMapFB->GetDepthAttachmentRendererID());
+			s_ShadowMapFB->GetDepthAttachment()->Bind(2);
 			shader->SetInt("u_ShadowMap", 2);
 
 			for (const auto& obj : material.second)

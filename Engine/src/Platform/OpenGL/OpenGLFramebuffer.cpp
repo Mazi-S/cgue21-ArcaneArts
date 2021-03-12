@@ -1,11 +1,12 @@
 #include "egpch.h"
 #include "OpenGLFramebuffer.h"
+
 #include <glad/glad.h>
 
 // Temporary: query max. value
 static const uint32_t s_MaxFramebufferSize = 8000;
 
-Engine::OpenGL::GlFramebuffer::GlFramebuffer(const GlFramebufferSpecification& spec)
+Engine::OpenGL::GlFramebuffer::GlFramebuffer(const FramebufferSpecification& spec)
 	: m_Specification(spec)
 {
 	Init();
@@ -49,26 +50,57 @@ void Engine::OpenGL::GlFramebuffer::Init()
 	glCreateFramebuffers(1, &m_RendererID);
 	glBindFramebuffer(GL_FRAMEBUFFER, m_RendererID);
 
-	// depth buffer
-	glCreateTextures(GL_TEXTURE_2D, 1, &m_DepthAttachment);
-	glBindTexture(GL_TEXTURE_2D, m_DepthAttachment);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_DEPTH_COMPONENT, m_Specification.Width, m_Specification.Height, 0, GL_DEPTH_COMPONENT, GL_FLOAT, nullptr);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	//glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-	float borderColor[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-	glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
-
-
-	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_DepthAttachment, 0);
-	
 	// color buffer
-	glDrawBuffer(GL_NONE);
-	glReadBuffer(GL_NONE);
+	if (m_Specification.ColorAttachment)
+	{
+		Texture2DSpecification colorSpec;
+		colorSpec.Width = m_Specification.Width;
+		colorSpec.Height = m_Specification.Height;
+
+		colorSpec.Internalformat = m_Specification.DepthAttachment.Internalformat;
+		colorSpec.Format = m_Specification.DepthAttachment.Format;
+		colorSpec.Type = m_Specification.DepthAttachment.Type;
+
+		colorSpec.Wrap_S = m_Specification.DepthAttachment.Wrap_S;
+		colorSpec.Wrap_T = m_Specification.DepthAttachment.Wrap_T;
+		colorSpec.Border = m_Specification.DepthAttachment.Border;
+
+		colorSpec.Min_Filter = m_Specification.DepthAttachment.Min_Filter;
+		colorSpec.Mag_Filter = m_Specification.DepthAttachment.Mag_Filter;
+
+		colorSpec.Mipmaps = false;
+
+		m_DepthAttachment = CreateRef<GlTexture2D>("ColorAttachment", colorSpec);
+	}
+	else
+	{
+		glDrawBuffer(GL_NONE);
+		glReadBuffer(GL_NONE);
+	}
+
+	if (m_Specification.DepthAttachment)
+	{
+		Texture2DSpecification depthSpec;
+		depthSpec.Width = m_Specification.Width;
+		depthSpec.Height = m_Specification.Height;
+
+		depthSpec.Internalformat = m_Specification.DepthAttachment.Internalformat;
+		depthSpec.Format = m_Specification.DepthAttachment.Format;
+		depthSpec.Type = m_Specification.DepthAttachment.Type;
+
+		depthSpec.Wrap_S = m_Specification.DepthAttachment.Wrap_S;
+		depthSpec.Wrap_T = m_Specification.DepthAttachment.Wrap_T;
+		depthSpec.Border = m_Specification.DepthAttachment.Border;
+
+		depthSpec.Min_Filter = m_Specification.DepthAttachment.Min_Filter;
+		depthSpec.Mag_Filter = m_Specification.DepthAttachment.Mag_Filter;
+
+		depthSpec.Mipmaps = false;
+
+		m_DepthAttachment = CreateRef<GlTexture2D>("DepthAttachment", depthSpec);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_DepthAttachment->m_TextureID, 0);
+	}
+
 	ASSERT(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE, "Frame buffer is incomplete!");
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
@@ -77,6 +109,6 @@ void Engine::OpenGL::GlFramebuffer::Init()
 void Engine::OpenGL::GlFramebuffer::Destroy()
 {
 	glDeleteFramebuffers(1, &m_RendererID);
-	glDeleteTextures(1, &m_ColorAttachment);
-	glDeleteTextures(1, &m_DepthAttachment);
+	m_ColorAttachment = nullptr;
+	m_DepthAttachment = nullptr;
 }

@@ -1,7 +1,6 @@
 #pragma once
 
 #include <glm/glm.hpp>
-#include <glad/glad.h>
 
 namespace Engine::OpenGL {
 
@@ -24,7 +23,7 @@ namespace Engine::OpenGL {
 		std::vector<std::string> m_Paths;
 
 		uint32_t m_Width, m_Height;
-		GLenum m_InternalFormat, m_DataFormat;
+		uint32_t m_InternalFormat, m_DataFormat;
 	};
 
 }

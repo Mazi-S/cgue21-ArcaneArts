@@ -356,9 +356,7 @@ void ExampleLayer::OnUpdate(Engine::Timestep ts)
 	Engine::OpenGL::API::Clear();
 
 	// Render Skybox and CubeMap
-	Engine::OpenGL::API::CullFrontFaces();
 	m_Skybox->Draw(m_Scene->GetCamera());
-	Engine::OpenGL::API::CullBackFaces();
 
 	// Render Scene
 	m_Scene->OnRender();
