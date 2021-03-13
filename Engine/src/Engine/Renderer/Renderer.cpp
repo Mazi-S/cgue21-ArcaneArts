@@ -4,6 +4,7 @@
 #include "Platform/OpenGL/OpenGLAPI.h"
 #include "Platform/OpenGL/OpenGLUniformBuffer.h"
 #include <glm/gtc/type_ptr.hpp>
+#include <glad/glad.h>
 
 namespace Engine {
 

@@ -5,10 +5,12 @@
 
 #include "Entities/Hero.h"
 #include "Entities/MagicBall.h"
-#include "Entities/Monster.h"
+#include "Entities/MonsterBig.h"
+#include "Entities/MonsterSmall.h"
 
 #include <glad/glad.h>
 #include <glm/gtc/matrix_transform.hpp>
+
 
 ExampleLayer::ExampleLayer()
 	: Layer("Example")
@@ -70,7 +72,8 @@ void ExampleLayer::OnAttach()
 	{
 		Engine::TextureLibrary::LoadTexture2D("Bricks", "assets/textures/Bricks.jpg");
 		Engine::TextureLibrary::LoadTexture2D("WoodFloor", "assets/textures/WoodFloor.jpg");
-		Engine::TextureLibrary::LoadTexture2D("Monster", "assets/textures/monster.png");
+		Engine::TextureLibrary::LoadTexture2D("MonsterBig", "assets/textures/monster-big.png");
+		Engine::TextureLibrary::LoadTexture2D("MonsterSmall", "assets/textures/monster-small.png");
 		Engine::TextureLibrary::LoadTexture2D("House", "assets/textures/house.png");
 		Engine::TextureLibrary::LoadTexture2D("Forest", "assets/textures/forest.png");
 	}
@@ -85,7 +88,8 @@ void ExampleLayer::OnAttach()
 		Engine::MaterialLibrary::Create(Engine::MaterialProperties("PedestalMaterial", { 0.11f, 0.05f, 0.02f }, { 0.21f, 0.15f, 0.09f }, { 0.31f, 0.25f, 0.19f }), Engine::ShaderLibrary::Get("ColorShader"));
 
 		// Textures
-		Engine::MaterialLibrary::Create(Engine::MaterialProperties("MonsterMaterial", { 0.1f, 0.1f, 0.1f }, { 0.6f, 0.6f, 0.6f }, { 0.2f, 0.2f, 0.2f }, 2.0f), Engine::TextureLibrary::GetTexture2D("Monster"), Engine::ShaderLibrary::Get("TextureShader"));
+		Engine::MaterialLibrary::Create(Engine::MaterialProperties("MonsterBigMaterial", { 0.1f, 0.1f, 0.1f }, { 0.6f, 0.6f, 0.6f }, { 0.2f, 0.2f, 0.2f }, 2.0f), Engine::TextureLibrary::GetTexture2D("MonsterBig"), Engine::ShaderLibrary::Get("TextureShader"));
+		Engine::MaterialLibrary::Create(Engine::MaterialProperties("MonsterSmallMaterial", { 0.1f, 0.1f, 0.1f }, { 0.6f, 0.6f, 0.6f }, { 0.2f, 0.2f, 0.2f }, 2.0f), Engine::TextureLibrary::GetTexture2D("MonsterSmall"), Engine::ShaderLibrary::Get("TextureShader"));
 		Engine::MaterialLibrary::Create(Engine::MaterialProperties("HouseMaterial", { 0.1f, 0.1f, 0.1f }, { 0.6f, 0.6f, 0.6f }, { 0.2f, 0.2f, 0.2f }, 2.0f), Engine::TextureLibrary::GetTexture2D("House"), Engine::ShaderLibrary::Get("TextureShader"));
 		Engine::MaterialLibrary::Create(Engine::MaterialProperties("ForestMaterial", { 0.1f, 0.1f, 0.1f }, { 0.45f, 0.45f, 0.45f }, { 0.25f, 0.25f, 0.25f }, 2.0f), Engine::TextureLibrary::GetTexture2D("Forest"), Engine::ShaderLibrary::Get("TextureShader"));
 
@@ -118,6 +122,9 @@ void ExampleLayer::OnAttach()
 	// Skybox
 	m_Skybox = Engine::CreateRef<Engine::Skybox>();
 
+	// Seed
+	srand(187);
+
 	// Add objects to the Scene
 	{
 		Engine::Entity entity;
@@ -140,27 +147,54 @@ void ExampleLayer::OnAttach()
 		entity.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Hand"));
 		entity.AddComponent<Engine::ParentComponent>(m_Hero);
 
+		// Monster
 		{
-			entity = m_Scene->CreateEntity();
-			auto& mesh = Engine::MeshLibrary::Get("Monster");
-			glm::vec3 t{ -0.0f, 5.5f, 52.0f };
-			glm::vec3 r{ 0.0f, 0.0f, 0.0f };
-			glm::vec3 s{ 1.0f, 1.0f, 1.0f };
-			entity.GetComponent<Engine::TransformComponent>().Translation = t;
-			entity.GetComponent<Engine::TransformComponent>().Rotation = r;
-			entity.GetComponent<Engine::TransformComponent>().Scale = s;
-			entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("MonsterMaterial"));
-			entity.AddComponent<Engine::ShadowComponent>();
-			entity.AddComponent<Engine::MeshComponent>(mesh);
-			auto actor = Engine::PhysicsAPI::CreateRigidDynamic(t, r);
-			auto shape = Engine::PhysicsAPI::CreateShape(mesh, s);
-			entity.AddComponent<Engine::RigidDynamicComponent>(actor);
-			entity.AddComponent<Engine::KinematicComponent>();
-			entity.AddComponent<Engine::ShapeComponent>(shape);
-			entity.AddComponent<Engine::KinematicMovementComponent>(glm::vec3{ 0,0,1 });
-			entity.AddComponent<Engine::MonsterComponent>();
-			entity.AddNativeScript<Monster>();
-
+			// Big Monsters
+			for (size_t i = 0; i < 3; i++)
+			{
+				entity = m_Scene->CreateEntity();
+				auto& mesh = Engine::MeshLibrary::Get("Monster");
+				glm::vec3 t{ (rand() % 100) - 50, 5.5f, (rand() % 100) - 50 };
+				glm::vec3 r{ 0.0f, 0.0f, 0.0f };
+				glm::vec3 s{ 1.0f, 1.0f, 1.0f };
+				entity.GetComponent<Engine::TransformComponent>().Translation = t;
+				entity.GetComponent<Engine::TransformComponent>().Rotation = r;
+				entity.GetComponent<Engine::TransformComponent>().Scale = s;
+				entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("MonsterBigMaterial"));
+				entity.AddComponent<Engine::ShadowComponent>();
+				entity.AddComponent<Engine::MeshComponent>(mesh);
+				auto actor = Engine::PhysicsAPI::CreateRigidDynamic(t, r);
+				auto shape = Engine::PhysicsAPI::CreateShape(mesh, s);
+				entity.AddComponent<Engine::RigidDynamicComponent>(actor);
+				entity.AddComponent<Engine::KinematicComponent>();
+				entity.AddComponent<Engine::ShapeComponent>(shape);
+				entity.AddComponent<Engine::KinematicMovementComponent>(glm::vec3{ 0,0,1 });
+				entity.AddComponent<Engine::MonsterComponent>();
+				entity.AddNativeScript<MonsterBig>();
+			}
+			// Small Monsters
+			for (size_t i = 0; i < 10; i++)
+			{
+				entity = m_Scene->CreateEntity();
+				auto& mesh = Engine::MeshLibrary::Get("Monster");
+				glm::vec3 t{ (rand() % 100) - 50, 5.5f, (rand() % 100) - 50 };
+				glm::vec3 r{ 0.0f, 0.0f, 0.0f };
+				glm::vec3 s{ 0.5f, 0.5f, 0.5f };
+				entity.GetComponent<Engine::TransformComponent>().Translation = t;
+				entity.GetComponent<Engine::TransformComponent>().Rotation = r;
+				entity.GetComponent<Engine::TransformComponent>().Scale = s;
+				entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("MonsterSmallMaterial"));
+				entity.AddComponent<Engine::ShadowComponent>();
+				entity.AddComponent<Engine::MeshComponent>(mesh);
+				auto actor = Engine::PhysicsAPI::CreateRigidDynamic(t, r);
+				auto shape = Engine::PhysicsAPI::CreateShape(mesh, s);
+				entity.AddComponent<Engine::RigidDynamicComponent>(actor);
+				entity.AddComponent<Engine::KinematicComponent>();
+				entity.AddComponent<Engine::ShapeComponent>(shape);
+				entity.AddComponent<Engine::KinematicMovementComponent>(glm::vec3{ 0,0,1 });
+				entity.AddComponent<Engine::MonsterComponent>();
+				entity.AddNativeScript<MonsterSmall>();
+			}
 		}
 
 		{
@@ -215,9 +249,6 @@ void ExampleLayer::OnAttach()
 			entity.AddComponent<Engine::RigidComponent>(actor);
 			entity.AddComponent<Engine::ShapeComponent>(shape);
 		}
-
-		// Seed
-		srand(187);
 
 		// Forest
 		for (size_t i = 0; i < 50; i++)

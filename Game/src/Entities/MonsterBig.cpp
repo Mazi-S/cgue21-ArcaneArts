@@ -1,6 +1,6 @@
-#include "Monster.h"
+#include "MonsterBig.h"
 
-void Monster::OnUpdate(Engine::Timestep ts)
+void MonsterBig::OnUpdate(Engine::Timestep ts)
 {
 	if (HasComponent<Engine::MagicBallHitComponent>())
 	{
