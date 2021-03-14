@@ -23,6 +23,5 @@ Engine::Application* Engine::CreateApplication() {
 
 int main() {
 	Engine::Scope<GameApp> app = Engine::CreateScope<GameApp>();
-
 	app->Run();
 }

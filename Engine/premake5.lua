@@ -20,6 +20,7 @@ project "Engine"
 		"dependencies/tinyobjloader/**.h",
 		"dependencies/tinyobjloader/**.cpp",
 		"dependencies/physx/include/**.h",
+		"dependencies/irrklang/**.h"
 	}
 
 	includedirs {
@@ -31,7 +32,8 @@ project "Engine"
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.entt}",
 		"%{IncludeDir.tinyobjloader}",
-		"%{IncludeDir.physx}"
+		"%{IncludeDir.physx}",
+		"%{IncludeDir.irrklang}"
 	}
 
 	links {
@@ -43,7 +45,8 @@ project "Engine"
 		"PhysXFoundation_64.lib",
 		"PhysXExtensions_static_64.lib",
 		"PhysXCooking_64.lib",
-		"PhysXCharacterKinematic_static_64.lib"
+		"PhysXCharacterKinematic_static_64.lib",
+		"irrKlang.lib"
 	}
 	
 	defines	{
@@ -57,7 +60,7 @@ project "Engine"
 		defines "ENGINE_DEBUG"
 		runtime "Debug"
 		symbols "on"
-		libdirs { "%{LibDir.physx_debug}" }
+		libdirs { "%{LibDir.physx_debug}",  "%{LibDir.irrklang}"}
 
 	filter "configurations:Release"
 		defines	{
@@ -66,4 +69,4 @@ project "Engine"
 		}
 		runtime "Release"
 		optimize "on"
-		libdirs { "%{LibDir.physx_release}" }
+		libdirs { "%{LibDir.physx_release}, %{LibDir.irrklang}" }

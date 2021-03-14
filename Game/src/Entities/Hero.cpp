@@ -1,5 +1,10 @@
 #include "Hero.h"
 #include "Engine/Physics/PhysicsAPI.h"
+#include <irrklang/irrKlang.h>
+
+auto soundEngine = irrklang::createIrrKlangDevice();
+irrklang::ISoundSource* shootSound = soundEngine->addSoundSourceFromFile("assets/sounds/fireball-shoot.wav");
+irrklang::ISoundSource* lightSound = soundEngine->addSoundSourceFromFile("assets/sounds/light.wav");
 
 void Hero::OnEvent(Engine::Event& e)
 {
@@ -52,6 +57,7 @@ void Hero::UseRightHand()
 
 void Hero::CreateMagicBall(MagicBallType type)
 {
+	
 	Engine::Entity ball = m_Scene->CreateEntity("MagicBall");
 	ball.AddComponent<Engine::ParentComponent>(m_EntityHandle);
 	auto& tc = ball.GetComponent<Engine::TransformComponent>();
@@ -60,6 +66,7 @@ void Hero::CreateMagicBall(MagicBallType type)
 	switch (type)
 	{
 	case MagicBallType::Fire:
+		// soundEngine->play2D("assets/sounds/fireball-cast.wav");
 		ball.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("MagicBall_Fire"));
 		ball.AddComponent<Engine::ShadowComponent>();
 		ball.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Sphere"));
@@ -78,6 +85,8 @@ void Hero::CreateMagicBall(MagicBallType type)
 		m_RightHand = ball;
 		break;
 	case MagicBallType::Light:
+		lightSound->setDefaultVolume(0.5f);
+		soundEngine->play2D(lightSound);
 		ball.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("MagicBall_Light"));
 		ball.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Sphere"));
 		ball.AddComponent<Engine::PointLightComponent>(glm::vec3{0.8f, 0.97f, 0.99f}, 0.4f, 0.1f, 0.05f);
@@ -89,6 +98,9 @@ void Hero::CreateMagicBall(MagicBallType type)
 
 void Hero::ThrowRight()
 {
+	shootSound->setDefaultVolume(0.1f);
+	soundEngine->play2D(shootSound);
+
 	auto& tc = GetComponent<Engine::TransformComponent>();
 	auto& tc_rh = m_RightHand.GetComponent<Engine::TransformComponent>();
 	tc_rh.Translation = Engine::System::Util::Transform(tc, tc_rh.Translation);

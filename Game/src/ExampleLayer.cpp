@@ -11,6 +11,7 @@
 #include <glad/glad.h>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include <irrklang/irrKlang.h>
 
 ExampleLayer::ExampleLayer()
 	: Layer("Example")
@@ -97,7 +98,14 @@ void ExampleLayer::OnAttach()
 		Engine::MaterialLibrary::Create(Engine::MaterialProperties("MagicBall_Fire", { 0.5f, 0.05f, 0.1f }, { 0.5f, 0.05f, 0.1f }, { 0.5f, 0.35f, 0.4f }, 5.0f), Engine::ShaderLibrary::Get("ColorShader"));
 		Engine::MaterialLibrary::Create(Engine::MaterialProperties("MagicBall_Water", { 0.1f, 0.05f, 0.5f }, { 0.1f, 0.05f, 0.5f }, { 0.4f, 0.35f, 0.5f }, 5.0f), Engine::ShaderLibrary::Get("ColorShader"));
 	}
+
+	// Load Sound
+	auto soundEngine = irrklang::createIrrKlangDevice(); 
+	irrklang::ISoundSource* forestSound = soundEngine->addSoundSourceFromFile("assets/sounds/forest.wav");
+	forestSound->setDefaultVolume(0.1f);
+	soundEngine->play2D(forestSound, true);
 	
+
 	// Create Scene
 	m_Scene = Engine::CreateRef<Engine::Scene>();
 
@@ -170,7 +178,7 @@ void ExampleLayer::OnAttach()
 				entity.AddComponent<Engine::ShapeComponent>(shape);
 				entity.AddComponent<Engine::KinematicMovementComponent>(glm::vec3{ 0,0,1 });
 				entity.AddComponent<Engine::MonsterComponent>();
-				entity.AddNativeScript<MonsterBig>();
+				//entity.AddNativeScript<MonsterBig>();
 			}
 			// Small Monsters
 			for (size_t i = 0; i < 10; i++)
@@ -193,7 +201,7 @@ void ExampleLayer::OnAttach()
 				entity.AddComponent<Engine::ShapeComponent>(shape);
 				entity.AddComponent<Engine::KinematicMovementComponent>(glm::vec3{ 0,0,1 });
 				entity.AddComponent<Engine::MonsterComponent>();
-				entity.AddNativeScript<MonsterSmall>();
+				//entity.AddNativeScript<MonsterSmall>();
 			}
 		}
 
@@ -380,6 +388,7 @@ void ExampleLayer::OnDetach()
 
 void ExampleLayer::OnUpdate(Engine::Timestep ts)
 {
+
 	// Update here
 	m_Scene->OnUpdate(ts);
 
