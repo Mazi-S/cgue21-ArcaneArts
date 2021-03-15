@@ -80,7 +80,7 @@ void ExampleLayer::OnAttach()
 	// Load Sounds
 	{
 		Engine::SoundLibrary::Load("FireballShoot", "assets/sounds/fireball-shoot.wav", 0.1f);
-		Engine::SoundLibrary::Load("FireballCast", "assets/sounds/fireball-cast.wav");
+		Engine::SoundLibrary::Load("FireballCast", "assets/sounds/fireball-cast.wav", 0.3f);
 		Engine::SoundLibrary::Load("Forest", "assets/sounds/forest.wav", 0.1f);
 		Engine::SoundLibrary::Load("Light", "assets/sounds/light.wav", 0.4f);
 		Engine::SoundLibrary::Load("Walk", "assets/sounds/walk.wav");
