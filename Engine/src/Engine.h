@@ -26,6 +26,10 @@
 
 #include "Engine/Renderer/Skybox.h"
 
+// Audio
+#include "Engine/Audio/SoundEngine.h"
+#include "Engine/Audio/SoundLibrary.h"
+
 // OpenGL
 #include "Platform/OpenGL/OpenGLAPI.h"
 #include "Platform/OpenGL/OpenGLBuffer.h"

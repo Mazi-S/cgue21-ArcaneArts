@@ -11,8 +11,6 @@
 #include <glad/glad.h>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include <irrklang/irrKlang.h>
-
 ExampleLayer::ExampleLayer()
 	: Layer("Example")
 {
@@ -79,6 +77,15 @@ void ExampleLayer::OnAttach()
 		Engine::TextureLibrary::LoadTexture2D("Forest", "assets/textures/forest.png");
 	}
 
+	// Load Sounds
+	{
+		Engine::SoundLibrary::Load("FireballShoot", "assets/sounds/fireball-shoot.wav", 0.1f);
+		Engine::SoundLibrary::Load("FireballCast", "assets/sounds/fireball-cast.wav");
+		Engine::SoundLibrary::Load("Forest", "assets/sounds/forest.wav", 0.1f);
+		Engine::SoundLibrary::Load("Light", "assets/sounds/light.wav", 0.4f);
+		Engine::SoundLibrary::Load("Walk", "assets/sounds/walk.wav");
+	}
+
 	// Create Materials
 	{
 		// Colors
@@ -99,11 +106,8 @@ void ExampleLayer::OnAttach()
 		Engine::MaterialLibrary::Create(Engine::MaterialProperties("MagicBall_Water", { 0.1f, 0.05f, 0.5f }, { 0.1f, 0.05f, 0.5f }, { 0.4f, 0.35f, 0.5f }, 5.0f), Engine::ShaderLibrary::Get("ColorShader"));
 	}
 
-	// Load Sound
-	auto soundEngine = irrklang::createIrrKlangDevice(); 
-	irrklang::ISoundSource* forestSound = soundEngine->addSoundSourceFromFile("assets/sounds/forest.wav");
-	forestSound->setDefaultVolume(0.1f);
-	soundEngine->play2D(forestSound, true);
+	// Background Sound
+	Engine::SoundEngine::Get()->play2D(Engine::SoundLibrary::Get("Forest"), true);
 	
 
 	// Create Scene

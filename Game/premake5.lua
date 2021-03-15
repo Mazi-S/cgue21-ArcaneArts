@@ -19,7 +19,8 @@ project "Game"
 		"%{IncludeDir.Glad}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.entt}",
-		"%{IncludeDir.physx}"
+		"%{IncludeDir.physx}",
+		"%{IncludeDir.irrklang}"
 	}
 
 	links {

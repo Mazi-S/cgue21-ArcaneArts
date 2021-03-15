@@ -69,4 +69,4 @@ project "Engine"
 		}
 		runtime "Release"
 		optimize "on"
-		libdirs { "%{LibDir.physx_release}, %{LibDir.irrklang}" }
+		libdirs { "%{LibDir.physx_release}", "%{LibDir.irrklang}" }
