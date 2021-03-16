@@ -10,9 +10,9 @@ void MagicBall::OnUpdate(Engine::Timestep ts)
 		return;
 	}
 
-	if (HasComponent<Engine::HitComponent>())
+	if (HasComponent<Engine::Component::Physics::HitComponent>())
 	{
-		auto& hc = GetComponent<Engine::HitComponent>();
+		auto& hc = GetComponent<Engine::Component::Physics::HitComponent>();
 		Engine::Entity hitEntity(hc.Other, m_Scene);
 		if (hitEntity.HasComponent<Engine::MonsterComponent>())
 			hitEntity.AddComponent<Engine::MagicBallHitComponent>();

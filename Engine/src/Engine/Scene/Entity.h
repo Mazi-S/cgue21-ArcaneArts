@@ -27,8 +27,8 @@ namespace Engine {
 		template <typename T, typename... Args>
 		void AddNativeScript(Args&&... args)
 		{
-			ASSERT(!HasComponent<NativeScriptComponent>(), "Entity already has a native script!");
-			NativeScriptComponent& nsc = m_Scene->m_Registry.emplace<NativeScriptComponent>(m_EntityHandle);
+			ASSERT(!HasComponent<Component::Core::NativeScriptComponent>(), "Entity already has a native script!");
+			Component::Core::NativeScriptComponent& nsc = m_Scene->m_Registry.emplace<Component::Core::NativeScriptComponent>(m_EntityHandle);
 			nsc.Bind<T>(Entity(m_EntityHandle, m_Scene), std::forward<Args>(args)...);
 		}
 

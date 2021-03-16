@@ -12,10 +12,10 @@ namespace Engine::System::Physics {
 	{
 		// Update Regid Dynamic
 		{
-			auto view = registry.view<RigidDynamicComponent, TransformComponent>();
+			auto view = registry.view<Component::Physics::RigidDynamicComponent, Component::Core::TransformComponent>();
 			for (const entt::entity e : view)
 			{
-				auto& [rdc, tc] = view.get<RigidDynamicComponent, TransformComponent>(e);
+				auto& [rdc, tc] = view.get<Component::Physics::RigidDynamicComponent, Component::Core::TransformComponent>(e);
 
 				physx::PxTransform t = rdc.Actor->getGlobalPose();
 				tc.Translation = { t.p.x, t.p.y, t.p.z };
@@ -25,10 +25,10 @@ namespace Engine::System::Physics {
 
 		// Update Character Controller
 		{
-			auto view = registry.view<CharacterControllerComponent, TransformComponent>();
+			auto view = registry.view<Component::Physics::CharacterControllerComponent, Component::Core::TransformComponent>();
 			for (const entt::entity e : view)
 			{
-				auto& [ccc, tc] = view.get<CharacterControllerComponent, TransformComponent>(e);
+				auto& [ccc, tc] = view.get<Component::Physics::CharacterControllerComponent, Component::Core::TransformComponent>(e);
 
 				const physx::PxExtendedVec3& pos = ccc.Controller->getPosition();
 				tc.Translation = { pos.x, pos.y, pos.z };
@@ -38,10 +38,10 @@ namespace Engine::System::Physics {
 
 	void OnUpdateKinematic(entt::registry& registry, Timestep ts)
 	{
-		auto view = registry.view<RigidDynamicComponent, KinematicComponent, KinematicMovementComponent, TransformComponent>();
+		auto view = registry.view<Component::Physics::RigidDynamicComponent, Component::Physics::KinematicComponent, Component::Physics::KinematicMovementComponent, Component::Core::TransformComponent>();
 		for (const entt::entity e : view)
 		{
-			auto& [rdc, kmc, tc] = view.get<RigidDynamicComponent, KinematicMovementComponent, TransformComponent>(e);
+			auto& [rdc, kmc, tc] = view.get<Component::Physics::RigidDynamicComponent, Component::Physics::KinematicMovementComponent, Component::Core::TransformComponent>(e);
 
 			tc.Translation += kmc.Movement * float(ts);
 

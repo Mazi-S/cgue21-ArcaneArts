@@ -13,20 +13,20 @@ namespace Engine::System::Renderer {
 
 		// objects with shadows
 		{
-			auto view = registry.view<TransformComponent, MaterialComponent, MeshComponent, ShadowComponent>();
+			auto view = registry.view<Component::Core::TransformComponent, Component::Renderer::MaterialComponent, Component::Renderer::MeshComponent, Component::Renderer::ShadowComponent>();
 			for (auto entity : view)
 			{
-				auto [material, mesh] = view.get<MaterialComponent, MeshComponent>(entity);
+				auto [material, mesh] = view.get<Component::Renderer::MaterialComponent, Component::Renderer::MeshComponent>(entity);
 				Engine::Renderer::Submit(mesh, material, Util::Transform(registry, entity), true);
 			}
 		}
 
 		// objects without shadows
 		{
-			auto view = registry.view<TransformComponent, MaterialComponent, MeshComponent>(entt::exclude<ShadowComponent>);
+			auto view = registry.view<Component::Core::TransformComponent, Component::Renderer::MaterialComponent, Component::Renderer::MeshComponent>(entt::exclude<Component::Renderer::ShadowComponent>);
 			for (auto entity : view)
 			{
-				auto [material, mesh] = view.get<MaterialComponent, MeshComponent>(entity);
+				auto [material, mesh] = view.get<Component::Renderer::MaterialComponent, Component::Renderer::MeshComponent>(entity);
 				Engine::Renderer::Submit(mesh, material, Util::Transform(registry, entity), false);
 			}
 		}

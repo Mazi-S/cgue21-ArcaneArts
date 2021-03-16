@@ -7,13 +7,13 @@
 
 namespace Engine::System::Util {
 
-	glm::mat4 Transform(const TransformComponent& tc);
-	glm::vec3 Transform(const TransformComponent& tc, glm::vec3 v3);
+	glm::mat4 Transform(const Component::Core::TransformComponent& tc);
+	glm::vec3 Transform(const Component::Core::TransformComponent& tc, glm::vec3 v3);
 	glm::mat4 Transform(entt::registry& registry, entt::entity entity);
 
 	glm::vec3 Position(entt::registry& registry, entt::entity entity);
 
-	void RecalculateProjection(CameraComponent& cc);
-	void Activate(CharacterControllerComponent& ccc);
-	void Deactivate(CharacterControllerComponent& ccc);
+	void RecalculateProjection(Component::Renderer::CameraComponent& cc);
+	void Activate(Component::Physics::CharacterControllerComponent& ccc);
+	void Deactivate(Component::Physics::CharacterControllerComponent& ccc);
 }

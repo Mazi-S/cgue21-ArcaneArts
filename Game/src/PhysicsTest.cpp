@@ -1,5 +1,7 @@
 #include "PhysicsTest.h"
 
+using namespace Engine;
+
 PhysicsTestLayer::PhysicsTestLayer()
 	: Layer("Physics")
 {
@@ -8,53 +10,53 @@ PhysicsTestLayer::PhysicsTestLayer()
 void PhysicsTestLayer::OnAttach()
 {
 	// Init here
-	Engine::OpenGL::API::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+	OpenGL::API::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
 
 	// Load Meshes
 	{
-		Engine::MeshLibrary::Load("Cube", "assets/objects/cube.obj");
-		Engine::MeshLibrary::Load("Tree", "assets/objects/oak_2.obj");
-		Engine::MeshLibrary::Load("Sphere", "assets/objects/sphere.obj");
-		Engine::MeshLibrary::Load("Terrain", "assets/objects/terrain.obj");
+		MeshLibrary::Load("Cube", "assets/objects/cube.obj");
+		MeshLibrary::Load("Tree", "assets/objects/oak_2.obj");
+		MeshLibrary::Load("Sphere", "assets/objects/sphere.obj");
+		MeshLibrary::Load("Terrain", "assets/objects/terrain.obj");
 	}
 
 	// Load Shaders
 	{
-		Engine::ShaderLibrary::Load("TextureShader", "assets/shaders/Texture.glsl");
-		Engine::ShaderLibrary::Load("ColorShader", "assets/shaders/FlatColor.glsl");
+		ShaderLibrary::Load("TextureShader", "assets/shaders/Texture.glsl");
+		ShaderLibrary::Load("ColorShader", "assets/shaders/FlatColor.glsl");
 	}
 
 	// Load Textures
 	{
-		Engine::TextureLibrary::LoadTexture2D("Bricks", "assets/textures/Bricks.jpg");
-		Engine::TextureLibrary::LoadTexture2D("WoodFloor", "assets/textures/WoodFloor.jpg");
+		TextureLibrary::LoadTexture2D("Bricks", "assets/textures/Bricks.jpg");
+		TextureLibrary::LoadTexture2D("WoodFloor", "assets/textures/WoodFloor.jpg");
 	}
 
 	// Create Materials
 	{
-		Engine::MaterialLibrary::Create(Engine::MaterialProperties("GreenMaterial",     { 0.1f, 0.3f, 0.1f },		{ 0.3f, 0.9f, 0.3f },		{ 0.0f, 0.0f, 0.0f },	2.0f), Engine::ShaderLibrary::Get("ColorShader"));
-		Engine::MaterialLibrary::Create(Engine::MaterialProperties("GroundMaterial",      { 0.2f, 0.2f, 0.2f },		{ 0.8f, 0.8f, 0.8f },		{ 0.1f, 0.1f, 0.1f },	2.0f), Engine::ShaderLibrary::Get("ColorShader"));
-		Engine::MaterialLibrary::Create(Engine::MaterialProperties("BricksMaterial",    { 0.1f, 0.1f, 0.1f },		{ 0.6f, 0.6f, 0.6f },		{ 0.2f, 0.2f, 0.2f },	2.0f), Engine::TextureLibrary::GetTexture2D("Bricks"), Engine::ShaderLibrary::Get("TextureShader"));
+		MaterialLibrary::Create(MaterialProperties("GreenMaterial",     { 0.1f, 0.3f, 0.1f },		{ 0.3f, 0.9f, 0.3f },		{ 0.0f, 0.0f, 0.0f },	2.0f), ShaderLibrary::Get("ColorShader"));
+		MaterialLibrary::Create(MaterialProperties("GroundMaterial",      { 0.2f, 0.2f, 0.2f },		{ 0.8f, 0.8f, 0.8f },		{ 0.1f, 0.1f, 0.1f },	2.0f), ShaderLibrary::Get("ColorShader"));
+		MaterialLibrary::Create(MaterialProperties("BricksMaterial",    { 0.1f, 0.1f, 0.1f },		{ 0.6f, 0.6f, 0.6f },		{ 0.2f, 0.2f, 0.2f },	2.0f), TextureLibrary::GetTexture2D("Bricks"), ShaderLibrary::Get("TextureShader"));
 	}
 
 	// Create Scene
-	m_Scene = Engine::CreateRef<Engine::Scene>();
+	m_Scene = CreateRef<Scene>();
 
 	// Light
 	auto directionalLight = m_Scene->CreateEntity();
-	directionalLight.AddComponent<Engine::DirectionalLightComponent>(glm::vec3{ 0.6f, -1.0f, 0.8f }, glm::vec3{ 0.8f, 0.8f, 0.8f });
+	directionalLight.AddComponent<Component::Renderer::DirectionalLightComponent>(glm::vec3{ 0.6f, -1.0f, 0.8f }, glm::vec3{ 0.8f, 0.8f, 0.8f });
 
 	// Character
 	m_Character = m_Scene->CreateEntity();
-	m_Character.GetComponent<Engine::TransformComponent>().Translation = { 0.0f, 5.0f, 0.0f };
-	auto& ccc = m_Character.AddComponent<Engine::CharacterControllerComponent>(2.0f, 1.2f, 0.3f);
-	Engine::System::Util::Activate(ccc);
+	m_Character.GetComponent<Component::Core::TransformComponent>().Translation = { 0.0f, 5.0f, 0.0f };
+	auto& ccc = m_Character.AddComponent<Component::Physics::CharacterControllerComponent>(2.0f, 1.2f, 0.3f);
+	System::Util::Activate(ccc);
 
 	// Camera
-	Engine::Entity camera = m_Scene->CreateEntity();
-	camera.GetComponent<Engine::TransformComponent>().Translation = { 0.0f, 0.9f, 0.0f };
-	camera.AddComponent<Engine::CameraComponent>();
-	camera.AddComponent<Engine::ParentComponent>(m_Character);
+	Entity camera = m_Scene->CreateEntity();
+	camera.GetComponent<Component::Core::TransformComponent>().Translation = { 0.0f, 0.9f, 0.0f };
+	camera.AddComponent<Component::Renderer::CameraComponent>();
+	camera.AddComponent<Component::Core::ParentComponent>(m_Character);
 	m_Scene->SetMainCamera(camera);
 
 	InitScene();
@@ -64,46 +66,46 @@ void PhysicsTestLayer::OnDetach()
 {
 }
 
-void PhysicsTestLayer::OnUpdate(Engine::Timestep ts)
+void PhysicsTestLayer::OnUpdate(Timestep ts)
 {
 	// Update here
 	m_Scene->OnUpdate(ts);
 
 	// Render here
-	Engine::OpenGL::API::Clear();
+	OpenGL::API::Clear();
 	m_Scene->OnRender();
 }
 
-void PhysicsTestLayer::OnEvent(Engine::Event& event)
+void PhysicsTestLayer::OnEvent(Event& event)
 {
 	m_Scene->OnEvent(event);
 
-	Engine::EventHandler eventHandler(event);
-	eventHandler.Handle<Engine::KeyPressedEvent>(EG_BIND_EVENT_FN(PhysicsTestLayer::OnKeyPressed));
+	EventHandler eventHandler(event);
+	eventHandler.Handle<KeyPressedEvent>(EG_BIND_EVENT_FN(PhysicsTestLayer::OnKeyPressed));
 }
 
-bool PhysicsTestLayer::OnKeyPressed(Engine::KeyPressedEvent& event)
+bool PhysicsTestLayer::OnKeyPressed(KeyPressedEvent& event)
 {
-	if (event.GetKeyCode() == Engine::Key::Escape)
+	if (event.GetKeyCode() == Key::Escape)
 	{
-		Engine::System::Util::Deactivate(m_Character.GetComponent<Engine::CharacterControllerComponent>());
+		System::Util::Deactivate(m_Character.GetComponent<Component::Physics::CharacterControllerComponent>());
 	}
 
 
-	if (event.GetKeyCode() == Engine::Key::F1)
+	if (event.GetKeyCode() == Key::F1)
 	{
-		Engine::System::Util::Activate(m_Character.GetComponent<Engine::CharacterControllerComponent>());
+		System::Util::Activate(m_Character.GetComponent<Component::Physics::CharacterControllerComponent>());
 	}
 	return false;
 }
 
 void PhysicsTestLayer::InitScene()
 {
-	Engine::Entity entity;
+	Entity entity;
 
-	auto& cubeMesh = Engine::MeshLibrary::Get("Cube");
-	auto& sphereMesh = Engine::MeshLibrary::Get("Sphere");
-	auto& treeMesh = Engine::MeshLibrary::Get("Tree");
+	auto& cubeMesh = MeshLibrary::Get("Cube");
+	auto& sphereMesh = MeshLibrary::Get("Sphere");
+	auto& treeMesh = MeshLibrary::Get("Tree");
 
 	{
 		glm::vec3 t{ 24.0f, 5.0f, 35.0f };
@@ -111,11 +113,11 @@ void PhysicsTestLayer::InitScene()
 		glm::vec3 s{ 5.0f, 5.0f, 5.0f };
 
 		entity = m_Scene->CreateEntity();
-		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("GreenMaterial"));
-		entity.AddComponent<Engine::MeshComponent>(sphereMesh);
-		entity.GetComponent<Engine::TransformComponent>().Translation = t;
-		entity.GetComponent<Engine::TransformComponent>().Rotation = r;
-		entity.GetComponent<Engine::TransformComponent>().Scale = s;
+		entity.AddComponent<Component::Renderer::MaterialComponent>(MaterialLibrary::Get("GreenMaterial"));
+		entity.AddComponent<Component::Renderer::MeshComponent>(sphereMesh);
+		entity.GetComponent<Component::Core::TransformComponent>().Translation = t;
+		entity.GetComponent<Component::Core::TransformComponent>().Rotation = r;
+		entity.GetComponent<Component::Core::TransformComponent>().Scale = s;
 	}
 
 	{
@@ -124,11 +126,11 @@ void PhysicsTestLayer::InitScene()
 		glm::vec3 s{ 3.0f, 10.0f, 0.5f };
 
 		entity = m_Scene->CreateEntity();
-		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("GreenMaterial"));
-		entity.AddComponent<Engine::MeshComponent>(cubeMesh);
-		entity.GetComponent<Engine::TransformComponent>().Translation = t;
-		entity.GetComponent<Engine::TransformComponent>().Rotation = r;
-		entity.GetComponent<Engine::TransformComponent>().Scale = s;
+		entity.AddComponent<Component::Renderer::MaterialComponent>(MaterialLibrary::Get("GreenMaterial"));
+		entity.AddComponent<Component::Renderer::MeshComponent>(cubeMesh);
+		entity.GetComponent<Component::Core::TransformComponent>().Translation = t;
+		entity.GetComponent<Component::Core::TransformComponent>().Rotation = r;
+		entity.GetComponent<Component::Core::TransformComponent>().Scale = s;
 	}
 
 	{
@@ -137,11 +139,11 @@ void PhysicsTestLayer::InitScene()
 		glm::vec3 s{ 0.2f, 10.0f, 0.2f };
 
 		entity = m_Scene->CreateEntity();
-		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("GreenMaterial"));
-		entity.AddComponent<Engine::MeshComponent>(cubeMesh);
-		entity.GetComponent<Engine::TransformComponent>().Translation = t;
-		entity.GetComponent<Engine::TransformComponent>().Rotation = r;
-		entity.GetComponent<Engine::TransformComponent>().Scale = s;
+		entity.AddComponent<Component::Renderer::MaterialComponent>(MaterialLibrary::Get("GreenMaterial"));
+		entity.AddComponent<Component::Renderer::MeshComponent>(cubeMesh);
+		entity.GetComponent<Component::Core::TransformComponent>().Translation = t;
+		entity.GetComponent<Component::Core::TransformComponent>().Rotation = r;
+		entity.GetComponent<Component::Core::TransformComponent>().Scale = s;
 	}
 
 	// ground
@@ -150,54 +152,54 @@ void PhysicsTestLayer::InitScene()
 	{
 		entity = m_Scene->CreateEntity();
 
-		auto mesh = Engine::MeshLibrary::Get("Terrain");
-		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("GroundMaterial"));
-		entity.AddComponent<Engine::MeshComponent>(mesh);
+		auto mesh = MeshLibrary::Get("Terrain");
+		entity.AddComponent<Component::Renderer::MaterialComponent>(MaterialLibrary::Get("GroundMaterial"));
+		entity.AddComponent<Component::Renderer::MeshComponent>(mesh);
 		glm::vec3 t{ 0.0f, 0.0f, 0.0f };
 		glm::vec3 r{ 0.0f, 0.0f, 0.0f };
 		glm::vec3 s{ 1.0f, 1.0f, 1.0f };
-		entity.GetComponent<Engine::TransformComponent>().Translation = t;
-		entity.GetComponent<Engine::TransformComponent>().Rotation = r;
-		entity.GetComponent<Engine::TransformComponent>().Scale = s;
-		auto actor = Engine::PhysicsAPI::CreateRigidStatic(t, r);
-		auto shape = Engine::PhysicsAPI::CreateShape(mesh, s);
-		entity.AddComponent<Engine::RigidComponent>(actor);
-		entity.AddComponent<Engine::ShapeComponent>(shape);
+		entity.GetComponent<Component::Core::TransformComponent>().Translation = t;
+		entity.GetComponent<Component::Core::TransformComponent>().Rotation = r;
+		entity.GetComponent<Component::Core::TransformComponent>().Scale = s;
+		auto actor = PhysicsAPI::CreateRigidStatic(t, r);
+		auto shape = PhysicsAPI::CreateShape(mesh, s);
+		entity.AddComponent<Component::Physics::RigidComponent>(actor);
+		entity.AddComponent<Component::Physics::ShapeComponent>(shape);
 	}
 	else
 	{
 		entity = m_Scene->CreateEntity();
 
-		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("GroundMaterial"));
-		entity.AddComponent<Engine::MeshComponent>(cubeMesh);
+		entity.AddComponent<Component::Renderer::MaterialComponent>(MaterialLibrary::Get("GroundMaterial"));
+		entity.AddComponent<Component::Renderer::MeshComponent>(cubeMesh);
 		glm::vec3 t{ 0.0f, -0.4f, 0.0f };
 		glm::vec3 r{ 0.0f, 0.0f, 0.0f };
 		glm::vec3 s{ 200.0f, .8f, 200.0f };
-		entity.GetComponent<Engine::TransformComponent>().Translation = t;
-		entity.GetComponent<Engine::TransformComponent>().Rotation = r;
-		entity.GetComponent<Engine::TransformComponent>().Scale = s;
-		auto actor = Engine::PhysicsAPI::CreateRigidStatic(t, r);
-		auto shape = Engine::PhysicsAPI::CreateShape(cubeMesh, s);
-		entity.AddComponent<Engine::RigidComponent>(actor);
-		entity.AddComponent<Engine::ShapeComponent>(shape);
+		entity.GetComponent<Component::Core::TransformComponent>().Translation = t;
+		entity.GetComponent<Component::Core::TransformComponent>().Rotation = r;
+		entity.GetComponent<Component::Core::TransformComponent>().Scale = s;
+		auto actor = PhysicsAPI::CreateRigidStatic(t, r);
+		auto shape = PhysicsAPI::CreateShape(cubeMesh, s);
+		entity.AddComponent<Component::Physics::RigidComponent>(actor);
+		entity.AddComponent<Component::Physics::ShapeComponent>(shape);
 	}
 
 	{
 		entity = m_Scene->CreateEntity();
-		auto& mesh = Engine::MeshLibrary::Get("Sphere");
-		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("GreenMaterial"));
-		entity.AddComponent<Engine::MeshComponent>(mesh);
+		auto& mesh = MeshLibrary::Get("Sphere");
+		entity.AddComponent<Component::Renderer::MaterialComponent>(MaterialLibrary::Get("GreenMaterial"));
+		entity.AddComponent<Component::Renderer::MeshComponent>(mesh);
 
 		glm::vec3 t{ 0.0f, 3.0f, -5.0f };
 		glm::vec3 r{ 0.0f, 0.0f, 0.0f };
 		glm::vec3 s{ 1.0f, 1.0f, 1.0f };
-		entity.GetComponent<Engine::TransformComponent>().Translation = t;
-		entity.GetComponent<Engine::TransformComponent>().Rotation = r;
-		entity.GetComponent<Engine::TransformComponent>().Scale = s;
-		auto actor = Engine::PhysicsAPI::CreateRigidDynamic(t, r);
-		auto shape = Engine::PhysicsAPI::CreateSphereShape(1.0f);
-		entity.AddComponent<Engine::RigidDynamicComponent>(actor);
-		entity.AddComponent<Engine::ShapeComponent>(shape);
+		entity.GetComponent<Component::Core::TransformComponent>().Translation = t;
+		entity.GetComponent<Component::Core::TransformComponent>().Rotation = r;
+		entity.GetComponent<Component::Core::TransformComponent>().Scale = s;
+		auto actor = PhysicsAPI::CreateRigidDynamic(t, r);
+		auto shape = PhysicsAPI::CreateSphereShape(1.0f);
+		entity.AddComponent<Component::Physics::RigidDynamicComponent>(actor);
+		entity.AddComponent<Component::Physics::ShapeComponent>(shape);
 	}
 
 	// stairs
@@ -210,15 +212,15 @@ void PhysicsTestLayer::InitScene()
 			glm::vec3 s{ 2.0f, 0.1f + 0.05f * j, 2.0f };
 
 			entity = m_Scene->CreateEntity();
-			entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("BricksMaterial"));
-			entity.AddComponent<Engine::MeshComponent>(cubeMesh);
-			entity.GetComponent<Engine::TransformComponent>().Translation = t;
-			entity.GetComponent<Engine::TransformComponent>().Rotation = r;
-			entity.GetComponent<Engine::TransformComponent>().Scale = s;
-			auto actor = Engine::PhysicsAPI::CreateRigidStatic(t, r);
-			auto shape = Engine::PhysicsAPI::CreateShape(cubeMesh, s);
-			entity.AddComponent<Engine::RigidComponent>(actor);
-			entity.AddComponent<Engine::ShapeComponent>(shape);
+			entity.AddComponent<Component::Renderer::MaterialComponent>(MaterialLibrary::Get("BricksMaterial"));
+			entity.AddComponent<Component::Renderer::MeshComponent>(cubeMesh);
+			entity.GetComponent<Component::Core::TransformComponent>().Translation = t;
+			entity.GetComponent<Component::Core::TransformComponent>().Rotation = r;
+			entity.GetComponent<Component::Core::TransformComponent>().Scale = s;
+			auto actor = PhysicsAPI::CreateRigidStatic(t, r);
+			auto shape = PhysicsAPI::CreateShape(cubeMesh, s);
+			entity.AddComponent<Component::Physics::RigidComponent>(actor);
+			entity.AddComponent<Component::Physics::ShapeComponent>(shape);
 		}
 	}
 
@@ -229,15 +231,15 @@ void PhysicsTestLayer::InitScene()
 		glm::vec3 s{ 2.0f, 1.0f, 2.0f };
 
 		entity = m_Scene->CreateEntity();
-		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("BricksMaterial"));
-		entity.AddComponent<Engine::MeshComponent>(cubeMesh);
-		entity.GetComponent<Engine::TransformComponent>().Translation = t;
-		entity.GetComponent<Engine::TransformComponent>().Rotation = r;
-		entity.GetComponent<Engine::TransformComponent>().Scale = s;
-		auto actor = Engine::PhysicsAPI::CreateRigidStatic(t, r);
-		auto shape = Engine::PhysicsAPI::CreateShape(cubeMesh, s);
-		entity.AddComponent<Engine::RigidComponent>(actor);
-		entity.AddComponent<Engine::ShapeComponent>(shape);
+		entity.AddComponent<Component::Renderer::MaterialComponent>(MaterialLibrary::Get("BricksMaterial"));
+		entity.AddComponent<Component::Renderer::MeshComponent>(cubeMesh);
+		entity.GetComponent<Component::Core::TransformComponent>().Translation = t;
+		entity.GetComponent<Component::Core::TransformComponent>().Rotation = r;
+		entity.GetComponent<Component::Core::TransformComponent>().Scale = s;
+		auto actor = PhysicsAPI::CreateRigidStatic(t, r);
+		auto shape = PhysicsAPI::CreateShape(cubeMesh, s);
+		entity.AddComponent<Component::Physics::RigidComponent>(actor);
+		entity.AddComponent<Component::Physics::ShapeComponent>(shape);
 	}
 
 	for (int i = 0; i <= 6; i++)
@@ -247,15 +249,15 @@ void PhysicsTestLayer::InitScene()
 		glm::vec3 s{ 2.0f, 0.5f, 2.0f };
 
 		entity = m_Scene->CreateEntity();
-		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("BricksMaterial"));
-		entity.AddComponent<Engine::MeshComponent>(cubeMesh);
-		entity.GetComponent<Engine::TransformComponent>().Translation = t;
-		entity.GetComponent<Engine::TransformComponent>().Rotation = r;
-		entity.GetComponent<Engine::TransformComponent>().Scale = s;
-		auto actor = Engine::PhysicsAPI::CreateRigidStatic(t, r);
-		auto shape = Engine::PhysicsAPI::CreateShape(cubeMesh, s);
-		entity.AddComponent<Engine::RigidComponent>(actor);
-		entity.AddComponent<Engine::ShapeComponent>(shape);
+		entity.AddComponent<Component::Renderer::MaterialComponent>(MaterialLibrary::Get("BricksMaterial"));
+		entity.AddComponent<Component::Renderer::MeshComponent>(cubeMesh);
+		entity.GetComponent<Component::Core::TransformComponent>().Translation = t;
+		entity.GetComponent<Component::Core::TransformComponent>().Rotation = r;
+		entity.GetComponent<Component::Core::TransformComponent>().Scale = s;
+		auto actor = PhysicsAPI::CreateRigidStatic(t, r);
+		auto shape = PhysicsAPI::CreateShape(cubeMesh, s);
+		entity.AddComponent<Component::Physics::RigidComponent>(actor);
+		entity.AddComponent<Component::Physics::ShapeComponent>(shape);
 	}
 
 	for (int i = 1; i <= 8; i++)
@@ -265,14 +267,14 @@ void PhysicsTestLayer::InitScene()
 		glm::vec3 s{ 2.0f, 0.5f, 15.0f };
 	
 		entity = m_Scene->CreateEntity();
-		entity.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("BricksMaterial"));
-		entity.AddComponent<Engine::MeshComponent>(cubeMesh);
-		entity.GetComponent<Engine::TransformComponent>().Translation = t;
-		entity.GetComponent<Engine::TransformComponent>().Rotation = r;
-		entity.GetComponent<Engine::TransformComponent>().Scale = s;
-		auto actor = Engine::PhysicsAPI::CreateRigidStatic(t, r);
-		auto shape = Engine::PhysicsAPI::CreateShape(cubeMesh, s);
-		entity.AddComponent<Engine::RigidComponent>(actor);
-		entity.AddComponent<Engine::ShapeComponent>(shape);
+		entity.AddComponent<Component::Renderer::MaterialComponent>(MaterialLibrary::Get("BricksMaterial"));
+		entity.AddComponent<Component::Renderer::MeshComponent>(cubeMesh);
+		entity.GetComponent<Component::Core::TransformComponent>().Translation = t;
+		entity.GetComponent<Component::Core::TransformComponent>().Rotation = r;
+		entity.GetComponent<Component::Core::TransformComponent>().Scale = s;
+		auto actor = PhysicsAPI::CreateRigidStatic(t, r);
+		auto shape = PhysicsAPI::CreateShape(cubeMesh, s);
+		entity.AddComponent<Component::Physics::RigidComponent>(actor);
+		entity.AddComponent<Component::Physics::ShapeComponent>(shape);
 	}
 }

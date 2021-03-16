@@ -54,8 +54,8 @@ void Hero::CreateMagicBall(MagicBallType type)
 {
 	
 	Engine::Entity ball = m_Scene->CreateEntity("MagicBall");
-	ball.AddComponent<Engine::ParentComponent>(m_EntityHandle);
-	auto& tc = ball.GetComponent<Engine::TransformComponent>();
+	ball.AddComponent<Engine::Component::Core::ParentComponent>(m_EntityHandle);
+	auto& tc = ball.GetComponent<Engine::Component::Core::TransformComponent>();
 	tc.Scale = { 0.1f, 0.1f, 0.1f };
 
 	switch (type)
@@ -63,29 +63,29 @@ void Hero::CreateMagicBall(MagicBallType type)
 	case MagicBallType::Fire:
 		// Engine::SoundEngine::Get()->play2D(Engine::SoundLibrary::Get("FireballCast"));
 
-		ball.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("MagicBall_Fire"));
-		ball.AddComponent<Engine::ShadowComponent>();
-		ball.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Sphere"));
+		ball.AddComponent<Engine::Component::Renderer::MaterialComponent>(Engine::MaterialLibrary::Get("MagicBall_Fire"));
+		ball.AddComponent<Engine::Component::Renderer::ShadowComponent>();
+		ball.AddComponent<Engine::Component::Renderer::MeshComponent>(Engine::MeshLibrary::Get("Sphere"));
 		ball.AddNativeScript<MagicBall>();
-		ball.GetComponent<Engine::NativeScriptComponent>().Active = false;
+		ball.GetComponent<Engine::Component::Core::NativeScriptComponent>().Active = false;
 		tc.Translation = { 0.4f, 0.69f, -1.0f }; // right hand
 		m_RightHand = ball;
 		break;
 	case MagicBallType::Water:
-		ball.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("MagicBall_Water"));
-		ball.AddComponent<Engine::ShadowComponent>();
-		ball.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Sphere"));
+		ball.AddComponent<Engine::Component::Renderer::MaterialComponent>(Engine::MaterialLibrary::Get("MagicBall_Water"));
+		ball.AddComponent<Engine::Component::Renderer::ShadowComponent>();
+		ball.AddComponent<Engine::Component::Renderer::MeshComponent>(Engine::MeshLibrary::Get("Sphere"));
 		ball.AddNativeScript<MagicBall>();
-		ball.GetComponent<Engine::NativeScriptComponent>().Active = false;
+		ball.GetComponent<Engine::Component::Core::NativeScriptComponent>().Active = false;
 		tc.Translation = { 0.42f, 0.68f, -1.0f }; // right hand
 		m_RightHand = ball;
 		break;
 	case MagicBallType::Light:
 		Engine::SoundEngine::Get()->play2D(Engine::SoundLibrary::Get("Light"));
 
-		ball.AddComponent<Engine::MaterialComponent>(Engine::MaterialLibrary::Get("MagicBall_Light"));
-		ball.AddComponent<Engine::MeshComponent>(Engine::MeshLibrary::Get("Sphere"));
-		ball.AddComponent<Engine::PointLightComponent>(glm::vec3{0.8f, 0.97f, 0.99f}, 0.4f, 0.1f, 0.05f);
+		ball.AddComponent<Engine::Component::Renderer::MaterialComponent>(Engine::MaterialLibrary::Get("MagicBall_Light"));
+		ball.AddComponent<Engine::Component::Renderer::MeshComponent>(Engine::MeshLibrary::Get("Sphere"));
+		ball.AddComponent<Engine::Component::Renderer::PointLightComponent>(glm::vec3{0.8f, 0.97f, 0.99f}, 0.4f, 0.1f, 0.05f);
 		tc.Translation = { -0.5f, 0.65f, -1.0f }; // left hand
 		m_LeftHand = ball;
 		break;
@@ -96,23 +96,23 @@ void Hero::ThrowRight()
 {
 	Engine::SoundEngine::Get()->play2D(Engine::SoundLibrary::Get("FireballShoot"));
 
-	auto& tc = GetComponent<Engine::TransformComponent>();
-	auto& tc_rh = m_RightHand.GetComponent<Engine::TransformComponent>();
+	auto& tc = GetComponent<Engine::Component::Core::TransformComponent>();
+	auto& tc_rh = m_RightHand.GetComponent<Engine::Component::Core::TransformComponent>();
 	tc_rh.Translation = Engine::System::Util::Transform(tc, tc_rh.Translation);
 	tc_rh.Rotation += tc.Rotation;
 	tc_rh.Scale *= tc.Scale;
-	m_RightHand.RemoveComponent<Engine::ParentComponent>();
+	m_RightHand.RemoveComponent<Engine::Component::Core::ParentComponent>();
 
-	m_RightHand.GetComponent<Engine::NativeScriptComponent>().Active = true;
+	m_RightHand.GetComponent<Engine::Component::Core::NativeScriptComponent>().Active = true;
 	glm::vec4 velocity = glm::toMat4(glm::quat(tc.Rotation)) * glm::vec4{ 0.0f, 0.0f, -28.0f, 0.0 };
 	
 	auto actor = Engine::PhysicsAPI::CreateRigidDynamic(tc_rh.Translation);
-	m_RightHand.AddComponent<Engine::RigidDynamicComponent>(actor);
+	m_RightHand.AddComponent<Engine::Component::Physics::RigidDynamicComponent>(actor);
 	physx::PxShape* shape = Engine::PhysicsAPI::CreateSphereShape(tc_rh.Scale.x);
-	m_RightHand.AddComponent<Engine::ShapeComponent>(shape);
-	m_RightHand.AddComponent<Engine::TriggerComponent>();
-	m_RightHand.AddComponent<Engine::KinematicComponent>();
-	m_RightHand.AddComponent<Engine::KinematicMovementComponent>(glm::vec3{ velocity.x, velocity.y, velocity.z });
+	m_RightHand.AddComponent<Engine::Component::Physics::ShapeComponent>(shape);
+	m_RightHand.AddComponent<Engine::Component::Physics::TriggerComponent>();
+	m_RightHand.AddComponent<Engine::Component::Physics::KinematicComponent>();
+	m_RightHand.AddComponent<Engine::Component::Physics::KinematicMovementComponent>(glm::vec3{ velocity.x, velocity.y, velocity.z });
 	m_RightHand = Engine::Entity();
 }
 

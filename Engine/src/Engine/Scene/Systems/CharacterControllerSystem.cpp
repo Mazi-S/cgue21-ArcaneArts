@@ -10,10 +10,10 @@ namespace Engine::System::CharacterController {
 
 	void OnUpdate(entt::registry& registry, Timestep ts)
 	{
-		auto view = registry.view<CharacterControllerComponent, TransformComponent>();
+		auto view = registry.view<Component::Physics::CharacterControllerComponent, Component::Core::TransformComponent>();
 		for (const entt::entity e : view)
 		{
-			auto& [ccc, tc] = view.get<CharacterControllerComponent, TransformComponent>(e);
+			auto& [ccc, tc] = view.get<Component::Physics::CharacterControllerComponent, Component::Core::TransformComponent>(e);
 			if (ccc.Active)
 			{
 				auto [currentMouseX, currentMouseY] = Engine::Input::GetMousePosition();
@@ -72,12 +72,12 @@ namespace Engine::System::CharacterController {
 
 	bool OnKeyPressed(entt::registry& registry, Engine::KeyPressedEvent& event)
 	{
-		auto view = registry.view<CharacterControllerComponent, TransformComponent>();
+		auto view = registry.view<Component::Physics::CharacterControllerComponent, Component::Core::TransformComponent>();
 		for (const entt::entity e : view)
 		{
 			if (event.GetKeyCode() == Engine::Key::Space)
 			{
-				auto& ccc = view.get<CharacterControllerComponent>(e);
+				auto& ccc = view.get<Component::Physics::CharacterControllerComponent>(e);
 				TryJump(registry, e);
 			}
 		}
@@ -87,14 +87,14 @@ namespace Engine::System::CharacterController {
 
 	void Crouch(entt::registry& registry, entt::entity character)
 	{
-		CharacterControllerComponent& ccc = registry.get<CharacterControllerComponent>(character);
+		Component::Physics::CharacterControllerComponent& ccc = registry.get<Component::Physics::CharacterControllerComponent>(character);
 		ccc.Controller->resize(ccc.CrouchingHeight - 2.0f * ccc.Radius);
 		
 		// reposition camera
-		auto view = registry.view<CameraComponent, ParentComponent, TransformComponent>();
+		auto view = registry.view<Component::Renderer::CameraComponent, Component::Core::ParentComponent, Component::Core::TransformComponent>();
 		for (const entt::entity e : view)
 		{
-			auto& [cc, pc, tc] = view.get<CameraComponent, ParentComponent, TransformComponent>(e);
+			auto& [cc, pc, tc] = view.get<Component::Renderer::CameraComponent, Component::Core::ParentComponent, Component::Core::TransformComponent>(e);
 			if (pc.Parent == character)
 			{
 				tc.Translation.y *= ccc.CrouchingHeight / ccc.StandingHeight;
@@ -104,7 +104,7 @@ namespace Engine::System::CharacterController {
 
 	bool TryStandup(entt::registry& registry, entt::entity character)
 	{
-		CharacterControllerComponent& ccc = registry.get<CharacterControllerComponent>(character);
+		Component::Physics::CharacterControllerComponent& ccc = registry.get<Component::Physics::CharacterControllerComponent>(character);
 		
 		float dh = ccc.StandingHeight - ccc.CrouchingHeight - 2.0f * ccc.Radius;
 		physx::PxCapsuleGeometry geom(ccc.Radius, dh * 0.5f);
@@ -122,10 +122,10 @@ namespace Engine::System::CharacterController {
 		ccc.Controller->resize(ccc.StandingHeight - 2.0f * ccc.Radius);
 
 		// reposition camera
-		auto view = registry.view<CameraComponent, ParentComponent, TransformComponent>();
+		auto view = registry.view<Component::Renderer::CameraComponent, Component::Core::ParentComponent, Component::Core::TransformComponent>();
 		for (const entt::entity e : view)
 		{
-			auto& [cc, pc, tc] = view.get<CameraComponent, ParentComponent, TransformComponent>(e);
+			auto& [cc, pc, tc] = view.get<Component::Renderer::CameraComponent, Component::Core::ParentComponent, Component::Core::TransformComponent>(e);
 			if (pc.Parent == character)
 			{
 				tc.Translation.y *= ccc.StandingHeight / ccc.CrouchingHeight;
@@ -137,7 +137,7 @@ namespace Engine::System::CharacterController {
 
 	bool TryJump(entt::registry& registry, entt::entity character)
 	{
-		auto& ccc = registry.get<CharacterControllerComponent>(character);
+		auto& ccc = registry.get<Component::Physics::CharacterControllerComponent>(character);
 
 		physx::PxScene* scene = ccc.Controller->getScene();
 		float halfHeight = (ccc.Crouching ? ccc.CrouchingHeight : ccc.StandingHeight) * 0.5f;
