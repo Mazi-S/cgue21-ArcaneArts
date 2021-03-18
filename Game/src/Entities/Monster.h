@@ -2,10 +2,10 @@
 
 #include "Engine.h"
 
-class MonsterBig : public Engine::ScriptableEntity
+class Monster : public Engine::ScriptableEntity
 {
 public:
-	MonsterBig(Engine::Entity entity) : ScriptableEntity(entity)
+	Monster(Engine::Entity entity) : ScriptableEntity(entity)
 	{ }
 
 	virtual void OnUpdate(Engine::Timestep ts) override;

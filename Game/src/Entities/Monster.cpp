@@ -5,7 +5,7 @@ using TransformComponent			= Engine::Component::Core::TransformComponent;
 using KinematicMovementComponent	= Engine::Component::Physics::KinematicMovementComponent;
 using CharacterControllerComponent	= Engine::Component::Physics::CharacterControllerComponent;
 
-void MonsterBig::OnUpdate(Engine::Timestep ts)
+void Monster::OnUpdate(Engine::Timestep ts)
 {
 	if (!HasComponent<MonsterComponent>())
 		return;
@@ -23,7 +23,7 @@ void MonsterBig::OnUpdate(Engine::Timestep ts)
 	Engine::Entity character{ *view.begin(), m_Scene };
 	auto characterTransformComponent = character.GetComponent<TransformComponent>();
 	auto monsterTransformComponent = GetComponent<TransformComponent>();
-	glm::vec3 movement = glm::normalize(characterTransformComponent.Translation - monsterTransformComponent.Translation) * 2.0f;
+	glm::vec3 movement = glm::normalize(characterTransformComponent.Translation - monsterTransformComponent.Translation) * monsterComp.Speed;
 	glm::quat rotation = glm::quatLookAt(glm::normalize(-movement), {0,1,0});
 	EmplaceOrReplace<KinematicMovementComponent>(movement, rotation);
 }

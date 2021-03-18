@@ -14,6 +14,9 @@
 #include "Engine/Renderer/Camera.h"
 #include "Engine/Renderer/Light.h"
 
+// Audio
+#include "Engine/Audio/SoundEngine.h"
+
 namespace Engine {
 
 	static void UnbindScript(entt::registry& registry, entt::entity entity)
@@ -126,6 +129,32 @@ namespace Engine {
 		sc.Shape->release();
 	}
 
+	void Scene::AddSound2DComponent(entt::registry& registry, entt::entity entity)
+	{
+		auto& sound2DComp = registry.get<Component::Audio::Sound2DComponent>(entity);
+		sound2DComp.Sound = Engine::SoundEngine::Play2D(sound2DComp.SoundSource, sound2DComp.Loop, false, true);
+	}
+
+	void Scene::RemoveSound2DComponent(entt::registry& registry, entt::entity entity)
+	{
+		auto& sound2DComp = registry.get<Component::Audio::Sound2DComponent>(entity);
+		sound2DComp.Sound->stop();
+		sound2DComp.Sound->drop();
+	}
+
+	void Scene::AddSound3DComponent(entt::registry& registry, entt::entity entity)
+	{
+		auto& [sound3DComp, transformComp]= registry.get<Component::Audio::Sound3DComponent, Component::Core::TransformComponent>(entity);
+		sound3DComp.Sound = Engine::SoundEngine::Play3D(sound3DComp.SoundSource, transformComp.Translation, sound3DComp.Loop, false, true);
+	}
+
+	void Scene::RemoveSound3DComponent(entt::registry& registry, entt::entity entity)
+	{
+		auto& sound3DComp = registry.get<Component::Audio::Sound3DComponent>(entity);
+		sound3DComp.Sound->stop();
+		sound3DComp.Sound->drop();
+	}
+
 	Scene::Scene()
 	{
 		m_ViewportWidth = Application::Get().GetWindow().GetWidth();
@@ -149,6 +178,12 @@ namespace Engine {
 
 		m_Registry.on_construct<Component::Physics::ShapeComponent>().connect<&Scene::AddShapeComponent>(*this);
 		m_Registry.on_destroy<Component::Physics::ShapeComponent>().connect<&Scene::RemoveShapeComponent>(*this);
+
+		m_Registry.on_construct<Component::Audio::Sound2DComponent>().connect<&Scene::AddSound2DComponent>(*this);
+		m_Registry.on_destroy<Component::Audio::Sound2DComponent>().connect<&Scene::RemoveSound2DComponent>(*this);
+
+		m_Registry.on_construct<Component::Audio::Sound3DComponent>().connect<&Scene::AddSound3DComponent>(*this);
+		m_Registry.on_destroy<Component::Audio::Sound3DComponent>().connect<&Scene::RemoveSound3DComponent>(*this);
 
 		m_PhysicsScene = new Physics::PsScene();
 		m_PhysicsScene->SetTriggerCallback(std::bind(&Scene::TriggerHit, this, std::placeholders::_1, std::placeholders::_2));
@@ -180,6 +215,7 @@ namespace Engine {
 		// Update
 		System::Physics::OnUpdateKinematic(m_Registry, ts);
 		System::CharacterController::OnUpdate(m_Registry, ts);
+		System::Audio::OnUpdate(m_Registry);
 
 		m_Registry.view<Component::Core::NativeScriptComponent>().each([=](auto entity, auto& nsc) { if (nsc.Active) nsc.Instance->OnUpdate(ts); });
 		

@@ -20,4 +20,6 @@ private:
 	Engine::Ref<Engine::Skybox> m_Skybox;
 
 	Engine::Entity m_Hero;
+
+	bool m_Menu = false;
 };

@@ -6,10 +6,11 @@ struct MonsterComponent
 {
 	float Hitpoints;
 	float Damage;
+	float Speed;
 	float HitRange;
 
-	MonsterComponent(float hitpoints = 100.0f, float damge = 20.0f, float hitRange = 1.0f)
-		: Hitpoints(hitpoints), Damage(damge), HitRange(hitRange) { }
+	MonsterComponent(float hitpoints = 100.0f, float damge = 20.0f, float speed = 2.0, float hitRange = 1.0f)
+		: Hitpoints(hitpoints), Damage(damge), Speed(speed), HitRange(hitRange) { }
 	MonsterComponent(const MonsterComponent&) = default;
 };
 

@@ -65,6 +65,12 @@ namespace Engine {
 		
 		void AddShapeComponent(entt::registry& registry, entt::entity entity);
 		void RemoveShapeComponent(entt::registry& registry, entt::entity entity);
+
+		void AddSound2DComponent(entt::registry& registry, entt::entity entity);
+		void RemoveSound2DComponent(entt::registry& registry, entt::entity entity);
+
+		void AddSound3DComponent(entt::registry& registry, entt::entity entity);
+		void RemoveSound3DComponent(entt::registry& registry, entt::entity entity);
 	private:
 		entt::registry m_Registry;
 		entt::entity m_MainCamera = entt::null;

@@ -2,6 +2,7 @@
 #include "Components/GameComponents.h"
 
 using HitComponent = Engine::Component::Physics::HitComponent;
+using TransformComponent = Engine::Component::Core::TransformComponent;
 
 void MagicBall::OnUpdate(Engine::Timestep ts)
 {
@@ -19,6 +20,13 @@ void MagicBall::OnUpdate(Engine::Timestep ts)
 		{
 			hitEntity.GetComponent<MonsterComponent>().Hitpoints -= magicBallComp.Damage;
 		}
+
+		if (magicBallComp.ImpactSound != nullptr)
+		{
+			auto& transformComp = GetComponent<TransformComponent>();
+			Engine::SoundEngine::Play3D(magicBallComp.ImpactSound, transformComp.Translation);
+		}
+
 		Destroy();
 		return;
 	}

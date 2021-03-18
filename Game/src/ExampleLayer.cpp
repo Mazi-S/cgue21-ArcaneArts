@@ -107,10 +107,6 @@ void ExampleLayer::OnAttach()
 		Engine::MaterialLibrary::Create(Engine::MaterialProperties("MagicBall_Water", { 0.1f, 0.05f, 0.5f }, { 0.1f, 0.05f, 0.5f }, { 0.4f, 0.35f, 0.5f }, 5.0f), Engine::ShaderLibrary::Get("ColorShader"));
 	}
 
-	// Background Sound
-	Engine::SoundEngine::Get()->play2D(Engine::SoundLibrary::Get("Forest"), true);
-	
-
 	// Create Scene
 	m_Scene = Engine::CreateRef<Engine::Scene>();
 
@@ -120,6 +116,7 @@ void ExampleLayer::OnAttach()
 
 	// Hero
 	m_Hero = m_Scene->CreateEntity();
+	m_Hero.AddComponent<Engine::Component::Audio::ListenerComponent>();
 	m_Hero.GetComponent<Engine::Component::Core::TransformComponent>().Translation = { 0.0f, 8.0f, 10.0f };
 	m_Hero.AddNativeScript<Hero>();
 	auto& ccc = m_Hero.AddComponent<Engine::Component::Physics::CharacterControllerComponent>(2.0f, 1.2f, 0.3f);
@@ -160,6 +157,10 @@ void ExampleLayer::OnAttach()
 		entity.AddComponent<Engine::Component::Renderer::MeshComponent>(Engine::MeshLibrary::Get("Hand"));
 		entity.AddComponent<Engine::Component::Core::ParentComponent>(m_Hero);
 
+		// Background Sound
+		entity = m_Scene->CreateEntity("Background Sound");
+		entity.AddComponent<Engine::Component::Audio::Sound2DComponent>(Engine::SoundLibrary::Get("Forest"), true);
+
 		// Monster
 		{
 			// Big Monsters
@@ -183,10 +184,10 @@ void ExampleLayer::OnAttach()
 				entity.AddComponent<Engine::Component::Physics::ShapeComponent>(shape);
 				entity.AddComponent<Engine::Component::Physics::KinematicMovementComponent>(glm::vec3{ 0,0,1 });
 				entity.AddComponent<MonsterComponent>();
-				entity.AddNativeScript<MonsterBig>();
+				entity.AddNativeScript<Monster>();
 			}
 			// Small Monsters
-			for (size_t i = 0; i < 10; i++)
+			for (size_t i = 0; i < 7; i++)
 			{
 				entity = m_Scene->CreateEntity();
 				auto& mesh = Engine::MeshLibrary::Get("Monster");
@@ -205,11 +206,12 @@ void ExampleLayer::OnAttach()
 				entity.AddComponent<Engine::Component::Physics::KinematicComponent>();
 				entity.AddComponent<Engine::Component::Physics::ShapeComponent>(shape);
 				entity.AddComponent<Engine::Component::Physics::KinematicMovementComponent>(glm::vec3{ 0,0,1 });
-				entity.AddComponent<MonsterComponent>(35.0f);
-				entity.AddNativeScript<MonsterBig>();
+				entity.AddComponent<MonsterComponent>(35.0f, 10.0f, 4.5f);
+				entity.AddNativeScript<Monster>();
 			}
 		}
 
+		// House
 		{
 			entity = m_Scene->CreateEntity();
 			auto& mesh = Engine::MeshLibrary::Get("House");
@@ -228,6 +230,7 @@ void ExampleLayer::OnAttach()
 			entity.AddComponent<Engine::Component::Physics::ShapeComponent>(shape);
 		}
 
+		// Pedestal
 		{
 			entity = m_Scene->CreateEntity();
 			auto& mesh = Engine::MeshLibrary::Get("Pedestal");
@@ -246,6 +249,7 @@ void ExampleLayer::OnAttach()
 			entity.AddComponent<Engine::Component::Physics::ShapeComponent>(shape);
 		}
 
+		// Terrain
 		{
 			entity = m_Scene->CreateEntity();
 			auto& mesh = Engine::MeshLibrary::Get("Terrain");
@@ -420,13 +424,16 @@ bool ExampleLayer::OnKeyPressed(Engine::KeyPressedEvent& event)
 {
 	if (event.GetKeyCode() == Engine::Key::Escape)
 	{
-		Engine::System::Util::Deactivate(m_Hero.GetComponent<Engine::Component::Physics::CharacterControllerComponent>());
-	}
-
-
-	if (event.GetKeyCode() == Engine::Key::F1)
-	{
-		Engine::System::Util::Activate(m_Hero.GetComponent<Engine::Component::Physics::CharacterControllerComponent>());
+		if (m_Menu)
+		{
+			Engine::System::Util::Activate(m_Hero.GetComponent<Engine::Component::Physics::CharacterControllerComponent>());
+			m_Menu = false;
+		}
+		else
+		{
+			Engine::System::Util::Deactivate(m_Hero.GetComponent<Engine::Component::Physics::CharacterControllerComponent>());
+			m_Menu = true;
+		}
 	}
 	return false;
 }

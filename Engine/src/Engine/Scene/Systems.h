@@ -5,4 +5,5 @@
 #include "Systems/RendererSystem.h"
 #include "Systems/LightSystem.h"
 #include "Systems/PhysicsSystem.h"
+#include "Systems/AudioSystem.h"
 #include "Systems/Util.h"
