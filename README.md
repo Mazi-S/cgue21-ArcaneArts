@@ -11,5 +11,23 @@ To manually clone the necessary submodules, use:
 To generate the project files, run: `scripts/GenerateProjects.bat`
 
 ## Resources & Tutorials
+### Libraries
+* [entt](https://github.com/skypjack/entt) (entity-component-system)
+
+* [physx](https://github.com/NVIDIAGameWorks/PhysX) (physics library)
+  * [User Guide](https://gameworksdocs.nvidia.com/PhysX/4.1/documentation/physxguide/Index.html)
+  * [API Reference](https://gameworksdocs.nvidia.com/PhysX/4.1/documentation/physxapi/files/index.html)
+
+* [irrklang](https://www.ambiera.com/irrklang/index.html) (sound library)
+  * [documentation](https://www.ambiera.com/irrklang/docu/index.html)
+
+* [GLFW](https://github.com/glfw/glfw)
+* [Glad](https://github.com/Dav1dde/glad)
+* [glm](https://github.com/g-truc/glm)
+* [spdlog](https://github.com/gabime/spdlog) (logging library)
+* [stb](https://github.com/nothings/stb) (image loader)
+* [tinyobjloader](https://github.com/tinyobjloader/tinyobjloader) (obj loader)
+
+### Tutorials
 > [Uniform Buffers](https://www.lighthouse3d.com/tutorials/glsl-tutorial/uniform-blocks/)  
 > [Textures](https://learnopengl.com/Getting-started/Textures)
