@@ -14,6 +14,7 @@ project "Game"
 
 	includedirs {
 		"%{wks.location}/Engine/src",
+		"%{wks.location}/Game/src",
 		"%{wks.location}/Engine/dependencies",
 		"%{IncludeDir.spdlog}",
 		"%{IncludeDir.Glad}",

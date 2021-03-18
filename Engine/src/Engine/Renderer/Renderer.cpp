@@ -2,7 +2,6 @@
 #include "Renderer.h"
 
 #include "Platform/OpenGL/OpenGLAPI.h"
-#include "Platform/OpenGL/OpenGLUniformBuffer.h"
 #include <glm/gtc/type_ptr.hpp>
 #include <glad/glad.h>
 
@@ -96,9 +95,9 @@ namespace Engine {
 			s_DepthQueue[vertexArray.get()].insert(RenderableObject(material.get(), vertexArray.get(), transform));
 	}
 
-	void Renderer::Submit(const Ref<Mesh>& mesh, const Ref<Material>& material, const glm::mat4& transform, bool shadow)
+	void Renderer::Submit(const Ref<OpenGL::GlMesh>& mesh, const Ref<Material>& material, const glm::mat4& transform, bool shadow)
 	{
-		for(auto& submesh : mesh->GetGlMesh()->GetSubmeshes())
+		for(auto& submesh : mesh->GetSubmeshes())
 			Submit(submesh->GetVertexArray(), material, transform, shadow);
 	}
 

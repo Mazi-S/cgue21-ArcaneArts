@@ -5,8 +5,9 @@
 
 #include "Entities/Hero.h"
 #include "Entities/MagicBall.h"
-#include "Entities/MonsterBig.h"
-#include "Entities/MonsterSmall.h"
+#include "Entities/Monster.h"
+
+#include "Components/GameComponents.h"
 
 #include <glad/glad.h>
 #include <glm/gtc/matrix_transform.hpp>
@@ -82,7 +83,7 @@ void ExampleLayer::OnAttach()
 		Engine::SoundLibrary::Load("FireballShoot", "assets/sounds/fireball-shoot.wav", 0.1f);
 		Engine::SoundLibrary::Load("FireballCast", "assets/sounds/fireball-cast.wav", 0.3f);
 		Engine::SoundLibrary::Load("Forest", "assets/sounds/forest.wav", 0.1f);
-		Engine::SoundLibrary::Load("Light", "assets/sounds/light.wav", 0.4f);
+		Engine::SoundLibrary::Load("LightCast", "assets/sounds/light.wav", 0.4f);
 		Engine::SoundLibrary::Load("Walk", "assets/sounds/walk.wav");
 	}
 
@@ -181,8 +182,8 @@ void ExampleLayer::OnAttach()
 				entity.AddComponent<Engine::Component::Physics::KinematicComponent>();
 				entity.AddComponent<Engine::Component::Physics::ShapeComponent>(shape);
 				entity.AddComponent<Engine::Component::Physics::KinematicMovementComponent>(glm::vec3{ 0,0,1 });
-				entity.AddComponent<Engine::MonsterComponent>();
-				//entity.AddNativeScript<MonsterBig>();
+				entity.AddComponent<MonsterComponent>();
+				entity.AddNativeScript<MonsterBig>();
 			}
 			// Small Monsters
 			for (size_t i = 0; i < 10; i++)
@@ -204,8 +205,8 @@ void ExampleLayer::OnAttach()
 				entity.AddComponent<Engine::Component::Physics::KinematicComponent>();
 				entity.AddComponent<Engine::Component::Physics::ShapeComponent>(shape);
 				entity.AddComponent<Engine::Component::Physics::KinematicMovementComponent>(glm::vec3{ 0,0,1 });
-				entity.AddComponent<Engine::MonsterComponent>();
-				//entity.AddNativeScript<MonsterSmall>();
+				entity.AddComponent<MonsterComponent>(35.0f);
+				entity.AddNativeScript<MonsterBig>();
 			}
 		}
 

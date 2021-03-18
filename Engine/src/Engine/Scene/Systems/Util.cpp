@@ -6,6 +6,23 @@
 
 namespace Engine::System::Util {
 
+	void MakeIndependent(entt::registry& registry, entt::entity entity)
+	{
+		auto* parentComp = registry.try_get<Component::Core::ParentComponent>(entity);
+
+		if (parentComp == nullptr) return;
+
+		auto& transformComp = registry.get<Component::Core::TransformComponent>(entity);
+
+		auto& transformComp_parent = registry.get<Component::Core::TransformComponent>(parentComp->Parent);
+		
+		transformComp.Rotation += transformComp_parent.Rotation;
+		transformComp.Scale *= transformComp_parent.Scale;
+		transformComp.Translation = Engine::System::Util::Transform(transformComp_parent, transformComp.Translation);
+		
+		registry.remove<Engine::Component::Core::ParentComponent>(entity);
+	}
+
 	glm::mat4 Transform(const Component::Core::TransformComponent& tc)
 	{
 		return glm::translate(glm::mat4(1.0f), tc.Translation)

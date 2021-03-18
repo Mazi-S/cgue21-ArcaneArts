@@ -32,6 +32,12 @@ namespace Engine {
 			nsc.Bind<T>(Entity(m_EntityHandle, m_Scene), std::forward<Args>(args)...);
 		}
 
+		template <typename T, typename... Args>
+		T& EmplaceOrReplace(Args&&... args)
+		{
+			return m_Scene->m_Registry.emplace_or_replace<T>(m_EntityHandle, std::forward<Args>(args)...);
+		}
+
 		template <typename T>
 		T& GetComponent()
 		{

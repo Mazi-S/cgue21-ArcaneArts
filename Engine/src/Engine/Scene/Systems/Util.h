@@ -7,6 +7,8 @@
 
 namespace Engine::System::Util {
 
+	void MakeIndependent(entt::registry& registry, entt::entity entity);
+
 	glm::mat4 Transform(const Component::Core::TransformComponent& tc);
 	glm::vec3 Transform(const Component::Core::TransformComponent& tc, glm::vec3 v3);
 	glm::mat4 Transform(entt::registry& registry, entt::entity entity);

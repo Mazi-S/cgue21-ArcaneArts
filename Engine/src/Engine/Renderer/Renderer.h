@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Material.h"
-#include "Mesh.h"
 #include "Camera.h"
 #include "Light.h"
 #include "RenderableObject.h"
@@ -10,6 +9,7 @@
 #include "Platform/OpenGL/OpenGLVertexArray.h"
 #include "Platform/OpenGL/OpenGLUniformBuffer.h"
 #include "Platform/OpenGL/OpenGLFramebuffer.h"
+#include "Platform/OpenGL/OpenGLMesh.h"
 
 #include <map>
 #include <set>
@@ -40,7 +40,7 @@ namespace Engine {
 		static void EndScene();
 
 		static void Submit(const Ref<OpenGL::GlVertexArray>& vertexArray, const Ref<Material>& material, const glm::mat4& transform, bool shadow);
-		static void Submit(const Ref<Mesh>& mesh, const Ref<Material>& material, const glm::mat4& transform, bool shadow);
+		static void Submit(const Ref<OpenGL::GlMesh>& mesh, const Ref<Material>& material, const glm::mat4& transform, bool shadow);
 
 	private:
 		static void Render();

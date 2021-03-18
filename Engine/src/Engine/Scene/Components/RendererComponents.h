@@ -3,19 +3,22 @@
 #include "Engine/Renderer/Mesh.h"
 #include "Engine/Renderer/Material.h"
 
+#include "Platform/OpenGL/OpenGLMesh.h"
+
 namespace Engine::Component::Renderer {
 
 	struct MeshComponent
 	{
-		// TODO: swap to GlMesh
-		Ref<Engine::Mesh> Mesh;
+		Ref<OpenGL::GlMesh> Mesh;
 
-		operator Ref<Engine::Mesh>() { return Mesh; }
+		operator Ref<OpenGL::GlMesh>() { return Mesh; }
 
 		MeshComponent() = default;
 		MeshComponent(const MeshComponent&) = default;
-		MeshComponent(Ref<Engine::Mesh> mesh)
+		MeshComponent(Ref<OpenGL::GlMesh> mesh)
 			: Mesh(mesh) { }
+		MeshComponent(const Ref<Engine::Mesh>& mesh)
+			: Mesh(mesh->GetGlMesh()) { }
 	};
 
 	struct MaterialComponent

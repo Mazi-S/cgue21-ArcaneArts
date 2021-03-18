@@ -19,6 +19,12 @@ namespace Engine {
 			return m_Entity.AddComponent<T>(std::forward<Args>(args)...);
 		}
 
+		template <typename T, typename... Args>
+		T& EmplaceOrReplace(Args&&... args)
+		{
+			return m_Entity.EmplaceOrReplace<T>(std::forward<Args>(args)...);
+		}
+
 		template<typename T>
 		T& GetComponent()
 		{

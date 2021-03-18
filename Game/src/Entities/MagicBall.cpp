@@ -1,21 +1,31 @@
 #include "MagicBall.h"
+#include "Components/GameComponents.h"
+
+using HitComponent = Engine::Component::Physics::HitComponent;
 
 void MagicBall::OnUpdate(Engine::Timestep ts)
 {
-	m_Lifetime -= ts;
+	if (!HasComponent<MagicBallComponent>())
+		return;
 
-	if (m_Lifetime < 0.0f)
+	auto& magicBallComp = GetComponent<MagicBallComponent>();
+
+	if (HasComponent<HitComponent>())
 	{
+		auto& hitComp = GetComponent<HitComponent>();
+		Engine::Entity hitEntity(hitComp.Other, m_Scene);
+
+		if (hitEntity.HasComponent<MonsterComponent>())
+		{
+			hitEntity.GetComponent<MonsterComponent>().Hitpoints -= magicBallComp.Damage;
+		}
 		Destroy();
 		return;
 	}
 
-	if (HasComponent<Engine::Component::Physics::HitComponent>())
+	magicBallComp.Lifetime -= ts;
+	if (magicBallComp.Lifetime < 0.0f)
 	{
-		auto& hc = GetComponent<Engine::Component::Physics::HitComponent>();
-		Engine::Entity hitEntity(hc.Other, m_Scene);
-		if (hitEntity.HasComponent<Engine::MonsterComponent>())
-			hitEntity.AddComponent<Engine::MagicBallHitComponent>();
 		Destroy();
 		return;
 	}

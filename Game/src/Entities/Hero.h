@@ -17,16 +17,15 @@ private:
 	void UseLeftHand();
 	void UseRightHand();
 
-	void CreateMagicBall(MagicBallType type);
-	void ThrowLeft();
-	void ThrowRight();
+	Engine::Entity CreateMagicBall(MagicBallType type, glm::vec3 offset);
+	void Throw(Engine::Entity item);
 	void DropLeft();
 	void DropRight();
 
 private:
-	MagicBallType m_AktiveSpell = MagicBallType::Fire;
+	MagicBallType m_ActiveSpell = MagicBallType::Fire;
 
-	Engine::Entity m_LeftHand; // Pasive Spells
-	Engine::Entity m_RightHand; // Aktive Spells
+	Engine::Entity m_LeftHand; // Passive Spells
+	Engine::Entity m_RightHand; // Active Spells
 };
 

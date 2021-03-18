@@ -1,5 +1,21 @@
 #include "Hero.h"
 #include "Engine/Physics/PhysicsAPI.h"
+#include "Components/GameComponents.h"
+
+using TransformComponent			= Engine::Component::Core::TransformComponent;
+using NativeScriptComponent			= Engine::Component::Core::NativeScriptComponent;
+using ParentComponent				= Engine::Component::Core::ParentComponent;
+
+using RigidDynamicComponent			= Engine::Component::Physics::RigidDynamicComponent;
+using ShapeComponent				= Engine::Component::Physics::ShapeComponent;
+using TriggerComponent				= Engine::Component::Physics::TriggerComponent;
+using KinematicComponent			= Engine::Component::Physics::KinematicComponent;
+using KinematicMovementComponent	= Engine::Component::Physics::KinematicMovementComponent;
+
+using MaterialComponent				= Engine::Component::Renderer::MaterialComponent;
+using ShadowComponent				= Engine::Component::Renderer::ShadowComponent;
+using PointLightComponent			= Engine::Component::Renderer::PointLightComponent;
+using MeshComponent					= Engine::Component::Renderer::MeshComponent;
 
 void Hero::OnEvent(Engine::Event& e)
 {
@@ -21,15 +37,19 @@ bool Hero::OnMouseButtonPressed(Engine::MouseButtonPressedEvent& e)
 
 bool Hero::OnMouseScrolled(Engine::MouseScrolledEvent& e)
 {
-	if (m_AktiveSpell == MagicBallType::Fire)
-		m_AktiveSpell = MagicBallType::Water;
-	else
-		m_AktiveSpell = MagicBallType::Fire;
+	switch (m_ActiveSpell)
+	{
+	case MagicBallType::Fire:
+		m_ActiveSpell = MagicBallType::Water;
+		break;
+	default:
+		m_ActiveSpell = MagicBallType::Fire;
+	}
 
 	if (m_RightHand)
 		DropRight();
 
-	CreateMagicBall(m_AktiveSpell);
+	m_RightHand = CreateMagicBall(m_ActiveSpell, { 0.42f, 0.68f, -1.0f });
 
 	return false;
 }
@@ -39,81 +59,59 @@ void Hero::UseLeftHand()
 	if (m_LeftHand)
 		DropLeft();
 	else
-		CreateMagicBall(MagicBallType::Light);
+		m_LeftHand = CreateMagicBall(MagicBallType::Light, { -0.5f, 0.65f, -1.0f });
 }
 
 void Hero::UseRightHand()
 {
 	if (m_RightHand)
-		ThrowRight();
+	{
+		Throw(m_RightHand);
+		m_RightHand = Engine::Entity();
+	}
 	else
-		CreateMagicBall(m_AktiveSpell);
+		m_RightHand = CreateMagicBall(m_ActiveSpell, { 0.42f, 0.68f, -1.0f });
 }
 
-void Hero::CreateMagicBall(MagicBallType type)
+Engine::Entity Hero::CreateMagicBall(MagicBallType type, glm::vec3 offset)
 {
-	
 	Engine::Entity ball = m_Scene->CreateEntity("MagicBall");
-	ball.AddComponent<Engine::Component::Core::ParentComponent>(m_EntityHandle);
-	auto& tc = ball.GetComponent<Engine::Component::Core::TransformComponent>();
-	tc.Scale = { 0.1f, 0.1f, 0.1f };
+	auto& transformComp = ball.GetComponent<TransformComponent>();
+
+	transformComp.Scale = { 0.1f, 0.1f, 0.1f };
+	transformComp.Translation = offset;
+
+	ball.AddComponent<ParentComponent>(m_EntityHandle);
+	ball.AddComponent<MeshComponent>(Engine::MeshLibrary::Get("Sphere"));
 
 	switch (type)
 	{
+	case MagicBallType::Light:
+		ball.AddComponent<MaterialComponent>(Engine::MaterialLibrary::Get("MagicBall_Light"));
+		ball.AddComponent<PointLightComponent>(glm::vec3{ 0.85f, 0.7f, 0.7f }, 0.4f, 0.1f, 0.05f);
+		ball.AddComponent<MagicBallComponent>(Engine::SoundLibrary::Get("LightCast"), nullptr, nullptr);
+		break;
 	case MagicBallType::Fire:
-		// Engine::SoundEngine::Get()->play2D(Engine::SoundLibrary::Get("FireballCast"));
-
-		ball.AddComponent<Engine::Component::Renderer::MaterialComponent>(Engine::MaterialLibrary::Get("MagicBall_Fire"));
-		ball.AddComponent<Engine::Component::Renderer::ShadowComponent>();
-		ball.AddComponent<Engine::Component::Renderer::MeshComponent>(Engine::MeshLibrary::Get("Sphere"));
+		ball.AddComponent<ShadowComponent>();
+		ball.AddComponent<MaterialComponent>(Engine::MaterialLibrary::Get("MagicBall_Fire"));
 		ball.AddNativeScript<MagicBall>();
-		ball.GetComponent<Engine::Component::Core::NativeScriptComponent>().Active = false;
-		tc.Translation = { 0.4f, 0.69f, -1.0f }; // right hand
-		m_RightHand = ball;
+		ball.AddComponent<MagicBallComponent>(Engine::SoundLibrary::Get("FireballCast"), Engine::SoundLibrary::Get("FireballShoot"), nullptr);
+		ball.GetComponent<NativeScriptComponent>().Active = false;
 		break;
 	case MagicBallType::Water:
-		ball.AddComponent<Engine::Component::Renderer::MaterialComponent>(Engine::MaterialLibrary::Get("MagicBall_Water"));
-		ball.AddComponent<Engine::Component::Renderer::ShadowComponent>();
-		ball.AddComponent<Engine::Component::Renderer::MeshComponent>(Engine::MeshLibrary::Get("Sphere"));
+		ball.AddComponent<ShadowComponent>();
+		ball.AddComponent<MaterialComponent>(Engine::MaterialLibrary::Get("MagicBall_Water"));
 		ball.AddNativeScript<MagicBall>();
-		ball.GetComponent<Engine::Component::Core::NativeScriptComponent>().Active = false;
-		tc.Translation = { 0.42f, 0.68f, -1.0f }; // right hand
-		m_RightHand = ball;
-		break;
-	case MagicBallType::Light:
-		Engine::SoundEngine::Get()->play2D(Engine::SoundLibrary::Get("Light"));
-
-		ball.AddComponent<Engine::Component::Renderer::MaterialComponent>(Engine::MaterialLibrary::Get("MagicBall_Light"));
-		ball.AddComponent<Engine::Component::Renderer::MeshComponent>(Engine::MeshLibrary::Get("Sphere"));
-		ball.AddComponent<Engine::Component::Renderer::PointLightComponent>(glm::vec3{0.8f, 0.97f, 0.99f}, 0.4f, 0.1f, 0.05f);
-		tc.Translation = { -0.5f, 0.65f, -1.0f }; // left hand
-		m_LeftHand = ball;
+		ball.AddComponent<MagicBallComponent>();
+		ball.GetComponent<NativeScriptComponent>().Active = false;
 		break;
 	}
-}
 
-void Hero::ThrowRight()
-{
-	Engine::SoundEngine::Get()->play2D(Engine::SoundLibrary::Get("FireballShoot"));
+	auto& magicBallComp = ball.GetComponent<MagicBallComponent>();
+	if(magicBallComp.CastSound != nullptr)
+		Engine::SoundEngine::Get()->play2D(magicBallComp.CastSound);
 
-	auto& tc = GetComponent<Engine::Component::Core::TransformComponent>();
-	auto& tc_rh = m_RightHand.GetComponent<Engine::Component::Core::TransformComponent>();
-	tc_rh.Translation = Engine::System::Util::Transform(tc, tc_rh.Translation);
-	tc_rh.Rotation += tc.Rotation;
-	tc_rh.Scale *= tc.Scale;
-	m_RightHand.RemoveComponent<Engine::Component::Core::ParentComponent>();
-
-	m_RightHand.GetComponent<Engine::Component::Core::NativeScriptComponent>().Active = true;
-	glm::vec4 velocity = glm::toMat4(glm::quat(tc.Rotation)) * glm::vec4{ 0.0f, 0.0f, -28.0f, 0.0 };
-	
-	auto actor = Engine::PhysicsAPI::CreateRigidDynamic(tc_rh.Translation);
-	m_RightHand.AddComponent<Engine::Component::Physics::RigidDynamicComponent>(actor);
-	physx::PxShape* shape = Engine::PhysicsAPI::CreateSphereShape(tc_rh.Scale.x);
-	m_RightHand.AddComponent<Engine::Component::Physics::ShapeComponent>(shape);
-	m_RightHand.AddComponent<Engine::Component::Physics::TriggerComponent>();
-	m_RightHand.AddComponent<Engine::Component::Physics::KinematicComponent>();
-	m_RightHand.AddComponent<Engine::Component::Physics::KinematicMovementComponent>(glm::vec3{ velocity.x, velocity.y, velocity.z });
-	m_RightHand = Engine::Entity();
+	return ball;
 }
 
 void Hero::DropLeft()
@@ -128,3 +126,29 @@ void Hero::DropRight()
 	m_RightHand = Engine::Entity();
 }
 
+void Hero::Throw(Engine::Entity ball)
+{
+	Engine::System::Util::MakeIndependent(m_RegistryHandle, ball);
+
+	auto& transformComp = GetComponent<TransformComponent>();
+	auto& transformComp_ball = ball.GetComponent<TransformComponent>();
+	auto& magicBallComp = ball.GetComponent<MagicBallComponent>();
+
+	if(magicBallComp.ThrowSound != nullptr)
+		Engine::SoundEngine::Get()->play2D(magicBallComp.ThrowSound);
+	
+	glm::vec4 velocity = glm::toMat4(glm::quat(transformComp.Rotation)) * glm::vec4{ 0.0f, 0.0f, -28.0f, 0.0 };
+	
+	auto* actor = Engine::PhysicsAPI::CreateRigidDynamic(transformComp_ball.Translation);
+	auto* shape = Engine::PhysicsAPI::CreateSphereShape(transformComp_ball.Scale.x);
+	shape->setContactOffset(0.1f);
+
+	ball.AddComponent<RigidDynamicComponent>(actor);
+	ball.AddComponent<ShapeComponent>(shape);
+
+	ball.AddComponent<TriggerComponent>();
+	ball.AddComponent<KinematicComponent>();
+	ball.AddComponent<KinematicMovementComponent>(glm::vec3{ velocity.x, velocity.y, velocity.z });
+	
+	ball.GetComponent<NativeScriptComponent>().Active = true;
+}

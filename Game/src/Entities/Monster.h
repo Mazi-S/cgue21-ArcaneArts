@@ -10,8 +10,5 @@ public:
 
 	virtual void OnUpdate(Engine::Timestep ts) override;
 
-private:
-
-	float m_Hitpoints = 100.0f;
 };
 
