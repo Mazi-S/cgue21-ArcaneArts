@@ -16,6 +16,8 @@ HudLayer::HudLayer()
 
 void HudLayer::OnAttach()
 {
+	this->SetHitpoints(100);
+
 	float width = Engine::Application::Get().GetWindow().GetWidth();
 	float height = Engine::Application::Get().GetWindow().GetHeight();
 	m_Camera.Projection = glm::ortho(-(width / 2.0f), width / 2.0f, -(height / 2.0f), height / 2.0f, 10.0f, -10.0f );
@@ -29,9 +31,9 @@ void HudLayer::OnAttach()
 	crosshair.AddComponent<Engine::Component::Renderer2D::SpriteRendererTextureComponent>(Engine::TextureLibrary::GetTexture2D("Crosshair"));
 
 	Engine::Entity temp{ Engine::Factory::CreateEntity(m_Registry, "temp"), &m_Registry };
-	temp.GetComponent<Engine::Component::Core::TransformComponent>().Scale = { 100, 20, 1 };
-	temp.GetComponent<Engine::Component::Core::TransformComponent>().Translation = { 20, 50, 0 };
-	temp.AddComponent<Engine::Component::Renderer2D::SpriteRendererComponent>(glm::vec4(0, 1, 1, 0.4));
+	temp.GetComponent<Engine::Component::Core::TransformComponent>().Scale = { 5*m_Hitpoints, 20, 1 };
+	temp.GetComponent<Engine::Component::Core::TransformComponent>().Translation = { -500, 500, 0 };
+	temp.AddComponent<Engine::Component::Renderer2D::SpriteRendererComponent>(glm::vec4(0, 1, 1, 0.6));
 }
 
 void HudLayer::OnDetach()

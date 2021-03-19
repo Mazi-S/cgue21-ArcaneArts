@@ -15,8 +15,15 @@ public:
 
 	bool OnWindowResize(Engine::WindowResizeEvent& event);
 
+	void SetHitpoints(float hp) {
+		m_Hitpoints = hp;
+	}
+		
+
 private:
 	entt::registry m_Registry;
 
 	Engine::Camera m_Camera;
+
+	float m_Hitpoints;
 };

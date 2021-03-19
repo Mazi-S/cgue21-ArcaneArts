@@ -14,8 +14,19 @@ void Monster::OnUpdate(Engine::Timestep ts)
 
 	if (monsterComp.Hitpoints <= 0.0f)
 	{
+		if (monsterComp.DeathSound != nullptr)
+		{
+			auto& transformComp = GetComponent<TransformComponent>();
+			Engine::SoundEngine::Play3D(monsterComp.DeathSound, transformComp.Translation);
+		}
 		Destroy();
 		return;
+	}
+
+	if (monsterComp.LiveSound != nullptr)
+	{
+		auto& transformComp = GetComponent<TransformComponent>();
+		//Engine::SoundEngine::Play3D(monsterComp.LiveSound, transformComp.Translation, true);
 	}
 
 	auto view = m_RegistryHandle->view<CharacterControllerComponent, TransformComponent>();

@@ -88,6 +88,8 @@ void ExampleLayer::OnAttach()
 		Engine::SoundLibrary::Load("Walk", "assets/sounds/walk.wav");
 		Engine::SoundLibrary::Load("Thunder", "assets/sounds/thunder.wav", 1.0f);
 		Engine::SoundLibrary::Load("Impact", "assets/sounds/impact.wav", 0.4f);
+		Engine::SoundLibrary::Load("Monster", "assets/sounds/monster.wav", 0.4f);
+		Engine::SoundLibrary::Load("MonsterDying", "assets/sounds/monster-dying.wav", 1.0f);
 	}
 
 	// Create Materials
@@ -186,7 +188,7 @@ void ExampleLayer::OnAttach()
 				entity.AddComponent<Engine::Component::Physics::KinematicComponent>();
 				entity.AddComponent<Engine::Component::Physics::ShapeComponent>(shape);
 				entity.AddComponent<Engine::Component::Physics::KinematicMovementComponent>(glm::vec3{ 0,0,1 });
-				entity.AddComponent<MonsterComponent>();
+				entity.AddComponent<MonsterComponent>(Engine::SoundLibrary::Get("Monster"), Engine::SoundLibrary::Get("MonsterDying"));
 				entity.AddNativeScript<Monster>();
 			}
 			// Small Monsters
@@ -209,7 +211,7 @@ void ExampleLayer::OnAttach()
 				entity.AddComponent<Engine::Component::Physics::KinematicComponent>();
 				entity.AddComponent<Engine::Component::Physics::ShapeComponent>(shape);
 				entity.AddComponent<Engine::Component::Physics::KinematicMovementComponent>(glm::vec3{ 0,0,1 });
-				entity.AddComponent<MonsterComponent>(35.0f, 10.0f, 4.5f);
+				entity.AddComponent<MonsterComponent>(Engine::SoundLibrary::Get("Monster"), Engine::SoundLibrary::Get("MonsterDying"), 35.0f, 10.0f, 4.5f);
 				entity.AddNativeScript<Monster>();
 			}
 		}

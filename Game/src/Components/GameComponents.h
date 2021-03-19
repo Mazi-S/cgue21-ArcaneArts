@@ -9,8 +9,13 @@ struct MonsterComponent
 	float Speed;
 	float HitRange;
 
-	MonsterComponent(float hitpoints = 100.0f, float damge = 20.0f, float speed = 2.0, float hitRange = 1.0f)
-		: Hitpoints(hitpoints), Damage(damge), Speed(speed), HitRange(hitRange) { }
+	irrklang::ISoundSource* LiveSound = nullptr;
+	irrklang::ISoundSource* DeathSound = nullptr;
+
+	MonsterComponent(irrklang::ISoundSource* liveSound, irrklang::ISoundSource* deathSound, 
+		float hitpoints = 100.0f, float damge = 20.0f, float speed = 2.0, float hitRange = 1.0f)
+		: LiveSound(liveSound), DeathSound(deathSound), Hitpoints(hitpoints), Damage(damge), Speed(speed), HitRange(hitRange) { }
+
 	MonsterComponent(const MonsterComponent&) = default;
 };
 
