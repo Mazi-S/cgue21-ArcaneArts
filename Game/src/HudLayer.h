@@ -16,6 +16,7 @@ public:
 	bool OnWindowResize(Engine::WindowResizeEvent& event);
 
 private:
+	entt::registry m_Registry;
 
 	Engine::Camera m_Camera;
 };

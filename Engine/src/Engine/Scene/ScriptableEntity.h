@@ -55,13 +55,12 @@ namespace Engine {
 
 	protected:
 		ScriptableEntity(Entity entity)
-			: m_Entity(entity), m_EntityHandle(entity.m_EntityHandle), m_RegistryHandle(entity.m_Scene->m_Registry), m_Scene(entity.m_Scene)
+			: m_Entity(entity), m_EntityHandle(entity.m_EntityHandle), m_RegistryHandle(entity.m_Registry)
 		{ }
 
 	protected:
 		entt::entity m_EntityHandle;
-		entt::registry& m_RegistryHandle;
-		Scene* m_Scene;
+		entt::registry* m_RegistryHandle;
 
 	private:
 		Entity m_Entity;

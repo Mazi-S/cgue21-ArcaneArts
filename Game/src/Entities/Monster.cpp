@@ -18,9 +18,9 @@ void Monster::OnUpdate(Engine::Timestep ts)
 		return;
 	}
 
-	auto view = m_RegistryHandle.view<CharacterControllerComponent, TransformComponent>();
+	auto view = m_RegistryHandle->view<CharacterControllerComponent, TransformComponent>();
 	ASSERT(view.begin() != view.end(), "No Character found!");
-	Engine::Entity character{ *view.begin(), m_Scene };
+	Engine::Entity character{ *view.begin(), m_RegistryHandle };
 	auto characterTransformComponent = character.GetComponent<TransformComponent>();
 	auto monsterTransformComponent = GetComponent<TransformComponent>();
 	glm::vec3 movement = glm::normalize(characterTransformComponent.Translation - monsterTransformComponent.Translation) * monsterComp.Speed;
