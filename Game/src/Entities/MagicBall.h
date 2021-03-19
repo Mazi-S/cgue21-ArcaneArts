@@ -6,7 +6,7 @@ enum class MagicBallType
 {
 	Light,
 	Fire,
-	Water,
+	Lightning,
 };
 
 class MagicBall : public Engine::ScriptableEntity

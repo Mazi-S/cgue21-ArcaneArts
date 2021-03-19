@@ -40,7 +40,7 @@ bool Hero::OnMouseScrolled(Engine::MouseScrolledEvent& e)
 	switch (m_ActiveSpell)
 	{
 	case MagicBallType::Fire:
-		m_ActiveSpell = MagicBallType::Water;
+		m_ActiveSpell = MagicBallType::Lightning;
 		break;
 	default:
 		m_ActiveSpell = MagicBallType::Fire;
@@ -95,14 +95,14 @@ Engine::Entity Hero::CreateMagicBall(MagicBallType type, glm::vec3 offset)
 		ball.AddComponent<ShadowComponent>();
 		ball.AddComponent<MaterialComponent>(Engine::MaterialLibrary::Get("MagicBall_Fire"));
 		ball.AddNativeScript<MagicBall>();
-		ball.AddComponent<MagicBallComponent>(Engine::SoundLibrary::Get("FireballCast"), Engine::SoundLibrary::Get("FireballShoot"), nullptr);
+		ball.AddComponent<MagicBallComponent>(nullptr, Engine::SoundLibrary::Get("FireballShoot"), Engine::SoundLibrary::Get("Impact"));
 		ball.GetComponent<NativeScriptComponent>().Active = false;
 		break;
-	case MagicBallType::Water:
+	case MagicBallType::Lightning:
 		ball.AddComponent<ShadowComponent>();
 		ball.AddComponent<MaterialComponent>(Engine::MaterialLibrary::Get("MagicBall_Water"));
 		ball.AddNativeScript<MagicBall>();
-		ball.AddComponent<MagicBallComponent>();
+		ball.AddComponent<MagicBallComponent>(Engine::SoundLibrary::Get("LightningShoot"), nullptr, Engine::SoundLibrary::Get("Thunder"));
 		ball.GetComponent<NativeScriptComponent>().Active = false;
 		break;
 	}
