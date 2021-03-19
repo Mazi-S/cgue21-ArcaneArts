@@ -14,7 +14,7 @@ void MagicBall::OnUpdate(Engine::Timestep ts)
 	if (HasComponent<HitComponent>())
 	{
 		auto& hitComp = GetComponent<HitComponent>();
-		Engine::Entity hitEntity(hitComp.Other, m_Scene);
+		Engine::Entity hitEntity(hitComp.Other, m_RegistryHandle);
 
 		if (hitEntity.HasComponent<MonsterComponent>())
 		{

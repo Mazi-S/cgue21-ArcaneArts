@@ -1,6 +1,7 @@
 #include "Hero.h"
 #include "Engine/Physics/PhysicsAPI.h"
 #include "Components/GameComponents.h"
+#include "Engine/Scene/Factories.h"
 
 using TransformComponent			= Engine::Component::Core::TransformComponent;
 using NativeScriptComponent			= Engine::Component::Core::NativeScriptComponent;
@@ -75,7 +76,7 @@ void Hero::UseRightHand()
 
 Engine::Entity Hero::CreateMagicBall(MagicBallType type, glm::vec3 offset)
 {
-	Engine::Entity ball = m_Scene->CreateEntity("MagicBall");
+	Engine::Entity ball{ Engine::Factory::CreateEntity(*m_RegistryHandle, "MagicBall"), m_RegistryHandle };
 	auto& transformComp = ball.GetComponent<TransformComponent>();
 
 	transformComp.Scale = { 0.1f, 0.1f, 0.1f };
@@ -128,7 +129,7 @@ void Hero::DropRight()
 
 void Hero::Throw(Engine::Entity ball)
 {
-	Engine::System::Util::MakeIndependent(m_RegistryHandle, ball);
+	Engine::System::Util::MakeIndependent(*m_RegistryHandle, ball);
 
 	auto& transformComp = GetComponent<TransformComponent>();
 	auto& transformComp_ball = ball.GetComponent<TransformComponent>();

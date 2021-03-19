@@ -197,7 +197,7 @@ namespace Engine {
 	Entity Scene::CreateEntity(const std::string& name)
 	{
 		entt::entity entity = Factory::CreateEntity(m_Registry, name);
-		return { entity, this };
+		return { entity, &m_Registry };
 	}
 
 	void Scene::DestroyEntity(Entity entity)

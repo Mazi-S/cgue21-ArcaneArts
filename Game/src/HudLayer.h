@@ -13,5 +13,10 @@ public:
 
 	virtual void OnEvent(Engine::Event& event) override;
 
+	bool OnWindowResize(Engine::WindowResizeEvent& event);
+
 private:
+	entt::registry m_Registry;
+
+	Engine::Camera m_Camera;
 };

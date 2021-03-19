@@ -37,6 +37,8 @@ namespace Engine::OpenGL {
 		virtual const std::string& GetName() const { return m_Name; }
 		virtual const std::string& GetPath() const { return m_Path; }
 
+		virtual void SetData(const void* data, uint32_t size);
+
 	private:
 		void Create(const Texture2DSpecification& spec);
 		void Create(Texture2DSpecification& spec, const std::string& filepath);

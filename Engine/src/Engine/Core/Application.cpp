@@ -5,6 +5,7 @@
 #include "Platform/Platform.h"
 
 #include "Engine/Renderer/Renderer.h"
+#include "Engine/Renderer/Renderer2D.h"
 #include "Engine/Audio/SoundEngine.h"
 #include "Engine/Physics/PhysicsAPI.h"
 
@@ -22,12 +23,14 @@ namespace Engine {
 		m_Window->SetEventCallback(EG_BIND_EVENT_FN(Application::OnEvent));
 
 		Renderer::Init();
+		Renderer2D::Init();
 		SoundEngine::Init();
 		PhysicsAPI::Init();
 	}
 
 	Application::~Application() {
 		Renderer::Shutdown();
+		Renderer2D::Shutdown();
 		SoundEngine::Shutdown();
 		PhysicsAPI::Shutdown();
 	}

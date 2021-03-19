@@ -21,6 +21,7 @@
 #include "Engine/Renderer/Material.h"
 #include "Engine/Renderer/Mesh.h"
 #include "Engine/Renderer/Renderer.h"
+#include "Engine/Renderer/Renderer2D.h"
 #include "Engine/Renderer/Camera.h"
 #include "Engine/Renderer/TextureLibrary.h"
 
