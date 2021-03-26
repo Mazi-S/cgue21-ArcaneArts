@@ -1,3 +1,5 @@
+#pragma once
+
 #include <glm/glm.hpp>
 #include <glm/gtx/quaternion.hpp>
 
@@ -57,15 +59,6 @@ namespace Engine::Component::Physics {
 
 		TriggerComponent() = default;
 		TriggerComponent(const TriggerComponent&) = default;
-	};
-
-	struct HitComponent
-	{
-		entt::entity Other;
-
-		HitComponent(const HitComponent&) = default;
-		HitComponent(entt::entity other)
-			: Other(other) { }
 	};
 
 	struct CharacterControllerComponent

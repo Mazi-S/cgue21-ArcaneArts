@@ -1,26 +1,27 @@
 #pragma once
 
 #include "PxPhysicsAPI.h"
+#include "Engine/Events/Event.h"
+#include "Engine/Scene/Entity.h"
 
 #include <map>
-#include <entt.hpp>
 #include <glm/glm.hpp>
 
 namespace Engine::Physics {
 
 	class PsScene : public physx::PxSimulationEventCallback
 	{
-		using TriggerCallback = std::function<void(entt::entity, entt::entity)>;
+		using EventCallbackFn = std::function<void(Event&)>;
 
 	public:
 		PsScene();
 
 		void Simulate(float elapsedTime);
 
-		void AddActor(physx::PxActor* actor, entt::entity entity);
+		void AddActor(physx::PxActor* actor, Entity entity);
 		void RemoveActor(physx::PxActor* actor);
 
-		void SetTriggerCallback(TriggerCallback callback);
+		void SetEventCallback(EventCallbackFn callback);
 
 		physx::PxController* CreateController(float height, float radius, glm::vec3 position);
 
@@ -28,10 +29,12 @@ namespace Engine::Physics {
 		physx::PxScene* m_PxScene;
 		physx::PxControllerManager* m_PxControllerManager;
 		
-		std::map<physx::PxActor*, entt::entity> m_Entities;
+		// TODO: combine
+		std::map<physx::PxActor*, Entity> m_Entities;
 
-		// Callbacks
-		TriggerCallback m_TriggerCallback;
+		// Callback Function
+		EventCallbackFn m_EventCallback;
+
 
 		// Inherited via PxSimulationEventCallback
 		virtual void onConstraintBreak(physx::PxConstraintInfo* constraints, physx::PxU32 count) override {}

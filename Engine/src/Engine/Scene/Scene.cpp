@@ -24,11 +24,6 @@ namespace Engine {
 		registry.get<Component::Core::NativeScriptComponent>(entity).Unbind();
 	}
 
-	void Scene::TriggerHit(entt::entity triggerEntity, entt::entity otherEntity)
-	{
-		m_Registry.emplace_or_replace<Component::Physics::HitComponent>(triggerEntity, otherEntity);
-	}
-
 	void Scene::InitCameraComponent(entt::registry& registry, entt::entity entity)
 	{
 		System::Camera::SetViewportSize(registry, entity, m_ViewportWidth, m_ViewportHeight);
@@ -43,7 +38,7 @@ namespace Engine {
 	void Scene::AddRigidComponent(entt::registry& registry, entt::entity entity)
 	{
 		auto& rc = registry.get<Component::Physics::RigidComponent>(entity);
-		m_PhysicsScene->AddActor(rc.Actor, entity);
+		m_PhysicsScene->AddActor(rc.Actor, Entity(entity, &registry));
 	}
 
 	void Scene::RemoveRigidComponent(entt::registry& registry, entt::entity entity)
@@ -55,7 +50,7 @@ namespace Engine {
 	void Scene::AddRigidDynamicComponent(entt::registry& registry, entt::entity entity)
 	{
 		auto& rdc = registry.get<Component::Physics::RigidDynamicComponent>(entity);
-		m_PhysicsScene->AddActor(rdc.Actor, entity);
+		m_PhysicsScene->AddActor(rdc.Actor, Entity(entity, &registry));
 	}
 
 	void Scene::RemoveRigidDynamicComponent(entt::registry& registry, entt::entity entity)
@@ -186,7 +181,7 @@ namespace Engine {
 		m_Registry.on_destroy<Component::Audio::Sound3DComponent>().connect<&Scene::RemoveSound3DComponent>(*this);
 
 		m_PhysicsScene = new Physics::PsScene();
-		m_PhysicsScene->SetTriggerCallback(std::bind(&Scene::TriggerHit, this, std::placeholders::_1, std::placeholders::_2));
+		m_PhysicsScene->SetEventCallback(std::bind(&Application::OnEvent, &Application::Get(), std::placeholders::_1));
 	}
 
 	Scene::~Scene()
@@ -248,6 +243,8 @@ namespace Engine {
 		EventHandler eventHandler(event);
 		eventHandler.Handle<WindowResizeEvent>(EG_BIND_EVENT_FN(Scene::OnWindowResize));
 		eventHandler.Handle<KeyPressedEvent>(EG_BIND_EVENT_FN(Scene::OnKeyPressed));
+		eventHandler.Handle<CollisionEvent>(EG_BIND_EVENT_FN(Scene::OnCollision));
+
 
 		m_Registry.view<Component::Core::NativeScriptComponent>().each([&](auto entity, auto& nsc) { if (nsc.Active) nsc.Instance->OnEvent(event); });
 	}
@@ -261,6 +258,14 @@ namespace Engine {
 	bool Scene::OnKeyPressed(KeyPressedEvent& e)
 	{
 		return System::CharacterController::OnKeyPressed(m_Registry, e);
+	}
+
+	bool Scene::OnCollision(CollisionEvent& e)
+	{
+		auto& [first, second] = e.Get();
+		first.EmplaceOrReplace<Component::Event::CollisionEventComponent>(second);
+		second.EmplaceOrReplace<Component::Event::CollisionEventComponent>(first);
+		return true;
 	}
 
 	void Scene::OnViewportResize(uint32_t width, uint32_t height)

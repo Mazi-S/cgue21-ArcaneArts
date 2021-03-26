@@ -1,3 +1,5 @@
+#pragma once
+
 #include "Engine/Scene/ScriptableEntity.h"
 
 #include <entt.hpp>

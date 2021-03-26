@@ -1,7 +1,6 @@
 #pragma once
 
 #include "entt.hpp"
-#include "Scene.h"
 
 namespace Engine {
 
@@ -46,7 +45,7 @@ namespace Engine {
 		}
 
 		template <typename T>
-		bool HasComponent()
+		bool HasComponent() const
 		{
 			return m_Registry->has<T>(m_EntityHandle);
 		}
@@ -71,9 +70,10 @@ namespace Engine {
 		bool operator==(const Entity& other) const { return m_EntityHandle == other.m_EntityHandle; }
 		bool operator!=(const Entity& other) const { return !(*this == other); }
 
+		std::string ToString() const;
+
 	private:
 		entt::entity m_EntityHandle{ entt::null };
-		//Scene* m_Scene = nullptr;
 		entt::registry* m_Registry = nullptr;
 	};
 

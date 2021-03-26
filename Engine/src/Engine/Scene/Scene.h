@@ -5,6 +5,7 @@
 #include "Engine/Core/Timestep.h"
 #include "Engine/Events/Event.h"
 #include "Engine/Events/KeyEvent.h"
+#include "Engine/Events/PhysicsEvent.h"
 #include "Engine/Core/Application.h"
 #include "Engine/Renderer/Camera.h"
 
@@ -43,10 +44,9 @@ namespace Engine {
 	private:
 		bool OnWindowResize(WindowResizeEvent& e);
 		bool OnKeyPressed(KeyPressedEvent& e);
+		bool OnCollision(CollisionEvent& e);
 
 		void InitCameraComponent(entt::registry& registry, entt::entity entity);
-
-		void TriggerHit(entt::entity triggerEntity, entt::entity otherEntity);
 
 		// PhysX
 		void AddCharacterController(entt::registry& registry, entt::entity entity);

@@ -1,6 +1,7 @@
 #include "egpch.h"
 #include "PhysicsScene.h"
 #include "Engine/Physics/PhysicsAPI.h"
+#include "Engine/Events/PhysicsEvent.h"
 
 namespace Engine::Physics {
 
@@ -17,7 +18,7 @@ namespace Engine::Physics {
 		m_PxScene->fetchResults(true);
 	}
 
-	void PsScene::AddActor(physx::PxActor* actor, entt::entity entity)
+	void PsScene::AddActor(physx::PxActor* actor, Entity entity)
 	{
 		m_PxScene->addActor(*actor);
 		m_Entities[actor] = entity;
@@ -29,9 +30,9 @@ namespace Engine::Physics {
 		m_PxScene->removeActor(*actor);
 	}
 
-	void PsScene::SetTriggerCallback(TriggerCallback callback)
+	void PsScene::SetEventCallback(EventCallbackFn callback)
 	{
-		m_TriggerCallback = callback;
+		m_EventCallback = callback;
 	}
 
 	physx::PxController* PsScene::CreateController(float h, float r, glm::vec3 pos)
@@ -47,10 +48,11 @@ namespace Engine::Physics {
 			if (pairs[i].flags & (physx::PxTriggerPairFlag::eREMOVED_SHAPE_TRIGGER | physx::PxTriggerPairFlag::eREMOVED_SHAPE_OTHER))
 				continue;
 
-			entt::entity triggerEntity = m_Entities[pairs[i].triggerActor];
-			entt::entity otherEntity = m_Entities[pairs[i].otherActor];
+			Entity triggerEntity = m_Entities[pairs[i].triggerActor];
+			Entity otherEntity = m_Entities[pairs[i].otherActor];
 
-			m_TriggerCallback(triggerEntity, otherEntity);
+			CollisionEvent event(triggerEntity, otherEntity);
+			m_EventCallback(event);
 		}
 	}
 

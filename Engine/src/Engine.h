@@ -7,10 +7,12 @@
 
 #include "Engine/Core/Timestep.h"
 
+// Events
 #include "Engine/Events/Event.h"
 #include "Engine/Events/ApplicationEvent.h"
 #include "Engine/Events/KeyEvent.h"
 #include "Engine/Events/MouseEvent.h"
+#include "Engine/Events/PhysicsEvent.h"
 
 #include "Engine/Core/KeyCodes.h"
 #include "Engine/Core/MouseCodes.h"

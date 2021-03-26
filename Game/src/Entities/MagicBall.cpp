@@ -1,8 +1,8 @@
 #include "MagicBall.h"
 #include "Components/GameComponents.h"
 
-using HitComponent = Engine::Component::Physics::HitComponent;
-using TransformComponent = Engine::Component::Core::TransformComponent;
+using CollisionEventComponent	= Engine::Component::Event::CollisionEventComponent;
+using TransformComponent		= Engine::Component::Core::TransformComponent;
 
 void MagicBall::OnUpdate(Engine::Timestep ts)
 {
@@ -11,9 +11,9 @@ void MagicBall::OnUpdate(Engine::Timestep ts)
 
 	auto& magicBallComp = GetComponent<MagicBallComponent>();
 
-	if (HasComponent<HitComponent>())
+	if (HasComponent<CollisionEventComponent>())
 	{
-		auto& hitComp = GetComponent<HitComponent>();
+		auto& hitComp = GetComponent<CollisionEventComponent>();
 		Engine::Entity hitEntity(hitComp.Other, m_RegistryHandle);
 
 		if (hitEntity.HasComponent<MonsterComponent>())

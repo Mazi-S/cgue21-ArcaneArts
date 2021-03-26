@@ -10,7 +10,8 @@ namespace Engine {
 		None = 0,
 		WindowClose, WindowResize, WindowFocus, WindowLostFocus, WindowMoved,
 		KeyPressed, KeyReleased, KeyTyped,
-		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
+		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled,
+		Collision
 	};
 
 	enum class EventCategory {
@@ -19,7 +20,8 @@ namespace Engine {
 		Input         = BIT(1),
 		Keyboard      = BIT(2),
 		Mouse         = BIT(3),
-		MouseButton   = BIT(4)
+		MouseButton   = BIT(4),
+		Physics       = BIT(5)
 	};
 
 	uint32_t operator|(EventCategory lhs, EventCategory rhs);
