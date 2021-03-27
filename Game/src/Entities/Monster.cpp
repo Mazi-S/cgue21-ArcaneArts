@@ -29,12 +29,27 @@ void Monster::OnUpdate(Engine::Timestep ts)
 		//Engine::SoundEngine::Play3D(monsterComp.LiveSound, transformComp.Translation, true);
 	}
 
-	auto view = m_RegistryHandle->view<CharacterControllerComponent, TransformComponent>();
+	// Get Hero
+	auto view = m_RegistryHandle->view<HeroComponent>();
 	ASSERT(view.begin() != view.end(), "No Character found!");
-	Engine::Entity character{ *view.begin(), m_RegistryHandle };
-	auto characterTransformComponent = character.GetComponent<TransformComponent>();
-	auto monsterTransformComponent = GetComponent<TransformComponent>();
-	glm::vec3 movement = glm::normalize(characterTransformComponent.Translation - monsterTransformComponent.Translation) * monsterComp.Speed;
-	glm::quat rotation = glm::quatLookAt(glm::normalize(-movement), {0,1,0});
-	EmplaceOrReplace<KinematicMovementComponent>(movement, rotation);
+	Engine::Entity hero{ *view.begin(), m_RegistryHandle };
+
+	float speed = 1;
+
+	float distanceToHero = glm::length(GetComponent<TransformComponent>().Translation - hero.GetComponent<TransformComponent>().Translation);
+	if (distanceToHero < monsterComp.HitRange)
+	{
+		hero.GetComponent<HeroComponent>().Hitpoints - monsterComp.Damage;
+		speed = -200;
+	}
+
+	if (distanceToHero < monsterComp.ViewRange)
+	{
+		auto characterTransformComponent = hero.GetComponent<TransformComponent>();
+		auto monsterTransformComponent = GetComponent<TransformComponent>();
+
+		glm::vec3 movement = glm::normalize(characterTransformComponent.Translation - monsterTransformComponent.Translation) * monsterComp.Speed * speed;
+		glm::quat rotation = glm::quatLookAt(glm::normalize(-movement), { 0,1,0 });
+		EmplaceOrReplace<KinematicMovementComponent>(movement, rotation);
+	}
 }

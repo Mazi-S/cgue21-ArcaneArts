@@ -7,14 +7,15 @@ struct MonsterComponent
 	float Hitpoints;
 	float Damage;
 	float Speed;
+	float ViewRange;
 	float HitRange;
 
-	irrklang::ISoundSource* LiveSound = nullptr;
-	irrklang::ISoundSource* DeathSound = nullptr;
+	irrklang::ISoundSource* LiveSound;
+	irrklang::ISoundSource* DeathSound;
 
-	MonsterComponent(irrklang::ISoundSource* liveSound, irrklang::ISoundSource* deathSound, 
-		float hitpoints = 100.0f, float damge = 20.0f, float speed = 2.0, float hitRange = 1.0f)
-		: LiveSound(liveSound), DeathSound(deathSound), Hitpoints(hitpoints), Damage(damge), Speed(speed), HitRange(hitRange) { }
+	MonsterComponent(irrklang::ISoundSource* liveSound = nullptr, irrklang::ISoundSource* deathSound = nullptr,
+		float hitpoints = 100.0f, float damge = 20.0f, float speed = 2.0, float viewRange = 22.0f, float hitRange = 3.0f)
+		: LiveSound(liveSound), DeathSound(deathSound), Hitpoints(hitpoints), Damage(damge), Speed(speed), ViewRange(viewRange), HitRange(hitRange) { }
 
 	MonsterComponent(const MonsterComponent&) = default;
 };
@@ -34,4 +35,14 @@ struct MagicBallComponent
 		: CastSound(castSound), ThrowSound(throwSound), ImpactSound(impactSound), Damage(damage) { }
 
 	MagicBallComponent(const MagicBallComponent&) = default;
+};
+
+struct HeroComponent
+{
+	float Hitpoints;
+
+	HeroComponent(float hitpoints = 100.0f)
+		: Hitpoints(hitpoints) { }
+
+	HeroComponent(const HeroComponent&) = default;
 };

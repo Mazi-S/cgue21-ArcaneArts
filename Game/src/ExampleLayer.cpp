@@ -122,6 +122,7 @@ void ExampleLayer::OnAttach()
 	// Hero
 	m_Hero = m_Scene->CreateEntity();
 	m_Hero.AddComponent<Engine::Component::Audio::ListenerComponent>();
+	m_Hero.AddComponent<HeroComponent>();
 	m_Hero.GetComponent<Engine::Component::Core::TransformComponent>().Translation = { 0.0f, 8.0f, 10.0f };
 	m_Hero.AddNativeScript<Hero>();
 	auto& ccc = m_Hero.AddComponent<Engine::Component::Physics::CharacterControllerComponent>(2.0f, 1.2f, 0.3f);
@@ -211,7 +212,7 @@ void ExampleLayer::OnAttach()
 				entity.AddComponent<Engine::Component::Physics::KinematicComponent>();
 				entity.AddComponent<Engine::Component::Physics::ShapeComponent>(shape);
 				entity.AddComponent<Engine::Component::Physics::KinematicMovementComponent>(glm::vec3{ 0,0,1 });
-				entity.AddComponent<MonsterComponent>(Engine::SoundLibrary::Get("Monster"), Engine::SoundLibrary::Get("MonsterDying"), 35.0f, 10.0f, 4.5f);
+				entity.AddComponent<MonsterComponent>(Engine::SoundLibrary::Get("Monster"), Engine::SoundLibrary::Get("MonsterDying"), 35.0f, 10.0f, 4.5f, 30.0f, 2.5f);
 				entity.AddNativeScript<Monster>();
 			}
 		}
