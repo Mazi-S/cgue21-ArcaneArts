@@ -17,11 +17,8 @@ public:
 	~GameApp()
 	{
 	}
-};
 
-Engine::Application* Engine::CreateApplication() {
-	return new GameApp();
-}
+};
 
 int main() {
 	Engine::Scope<GameApp> app = Engine::CreateScope<GameApp>();

@@ -1,5 +1,21 @@
 #pragma once
 #include "Engine.h"
+#include "Events/CharacterHealthEvent.h"
+
+struct HealthBar
+{
+	Engine::Entity Bar;
+	Engine::Entity Background;
+	Engine::Entity Health;
+
+	float Width = 300.0f;
+	float Height = 15.0f;
+	float Offset = 5;
+	
+	void Init(entt::registry& registry);
+	void UpdateHealth(float hp);
+	void UpdatePosition(glm::vec2 position);
+};
 
 class HudLayer : public Engine::Layer {
 public:
@@ -14,16 +30,12 @@ public:
 	virtual void OnEvent(Engine::Event& event) override;
 
 	bool OnWindowResize(Engine::WindowResizeEvent& event);
-
-	void SetHitpoints(float hp) {
-		m_Hitpoints = hp;
-	}
-		
+	bool OnHealthChange(CharacterHealthEvent& event);
 
 private:
 	entt::registry m_Registry;
 
 	Engine::Camera m_Camera;
 
-	float m_Hitpoints;
+	HealthBar m_HealthBar;
 };

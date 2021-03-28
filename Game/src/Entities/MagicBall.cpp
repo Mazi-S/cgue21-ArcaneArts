@@ -19,6 +19,7 @@ void MagicBall::OnUpdate(Engine::Timestep ts)
 		if (hitEntity.HasComponent<MonsterComponent>())
 		{
 			hitEntity.GetComponent<MonsterComponent>().Hitpoints -= magicBallComp.Damage;
+			hitEntity.GetComponent<MonsterComponent>().ViewRange += 100;
 		}
 
 		if (magicBallComp.ImpactSound != nullptr)

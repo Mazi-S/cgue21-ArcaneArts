@@ -13,6 +13,7 @@
 #include "Engine/Events/KeyEvent.h"
 #include "Engine/Events/MouseEvent.h"
 #include "Engine/Events/PhysicsEvent.h"
+#include "Engine/Events/GameEvent.h"
 
 #include "Engine/Core/KeyCodes.h"
 #include "Engine/Core/MouseCodes.h"

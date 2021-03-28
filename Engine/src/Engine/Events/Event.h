@@ -11,17 +11,19 @@ namespace Engine {
 		WindowClose, WindowResize, WindowFocus, WindowLostFocus, WindowMoved,
 		KeyPressed, KeyReleased, KeyTyped,
 		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled,
-		Collision
+		Collision,
+		Game
 	};
 
 	enum class EventCategory {
 		None = 0,
-		Application   = BIT(0),
-		Input         = BIT(1),
-		Keyboard      = BIT(2),
-		Mouse         = BIT(3),
-		MouseButton   = BIT(4),
-		Physics       = BIT(5)
+		Application		= BIT(0),
+		Input			= BIT(1),
+		Keyboard		= BIT(2),
+		Mouse			= BIT(3),
+		MouseButton		= BIT(4),
+		Physics			= BIT(5),
+		Game			= BIT(6)
 	};
 
 	uint32_t operator|(EventCategory lhs, EventCategory rhs);
@@ -67,6 +69,16 @@ namespace Engine {
 		bool Handle(F& func)
 		{
 			if (m_Event.GetEventType() == T::GetStaticType()) {
+				m_Event.Handled = func(static_cast<T&>(m_Event));
+				return true;
+			}
+			return false;
+		}
+
+		template<typename T, typename F>
+		bool HandleGameEvent(F& func)
+		{
+			if (m_Event.GetEventType() == GameEvent::GetStaticType() && static_cast<GameEvent&>(m_Event).GetGameEventType() == T::GetStaticType()) {
 				m_Event.Handled = func(static_cast<T&>(m_Event));
 				return true;
 			}
