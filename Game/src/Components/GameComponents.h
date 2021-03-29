@@ -40,9 +40,10 @@ struct MagicBallComponent
 struct HeroComponent
 {
 	float Hitpoints;
+	float Mana;
 
-	HeroComponent(float hitpoints = 100.0f)
-		: Hitpoints(hitpoints) { }
+	HeroComponent(float hitpoints = 100.0f, float mana = 100.0f)
+		: Hitpoints(hitpoints), Mana(mana) { }
 
 	HeroComponent(const HeroComponent&) = default;
 };

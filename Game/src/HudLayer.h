@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine.h"
 #include "Events/CharacterHealthEvent.h"
+#include "Events/CharacterManaEvent.h"
 
 struct HealthBar
 {
@@ -14,6 +15,22 @@ struct HealthBar
 	
 	void Init(entt::registry& registry);
 	void UpdateHealth(float hp);
+	void UpdatePosition(glm::vec2 position);
+};
+
+struct ManaBar
+{
+	Engine::Entity Bar;
+	Engine::Entity Background;
+	Engine::Entity Mana;
+
+	float Width = 300.0f;
+	float Height = 15.0f;
+	float OffsetTop = 5;
+	float OffsetLeft = 20;
+
+	void Init(entt::registry& registry);
+	void UpdateMana(float m);
 	void UpdatePosition(glm::vec2 position);
 };
 
@@ -31,6 +48,7 @@ public:
 
 	bool OnWindowResize(Engine::WindowResizeEvent& event);
 	bool OnHealthChange(CharacterHealthEvent& event);
+	bool OnManaChange(CharacterManaEvent& event);
 
 private:
 	entt::registry m_Registry;
@@ -38,4 +56,5 @@ private:
 	Engine::Camera m_Camera;
 
 	HealthBar m_HealthBar;
+	ManaBar m_ManaBar;
 };

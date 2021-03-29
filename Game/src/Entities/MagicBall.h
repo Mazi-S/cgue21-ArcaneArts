@@ -5,6 +5,7 @@
 enum class MagicBallType
 {
 	Light,
+	Heal,
 	Fire,
 	Lightning,
 };
