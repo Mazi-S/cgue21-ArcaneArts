@@ -22,17 +22,22 @@ struct MonsterComponent
 
 struct MagicBallComponent
 {
-	float Damage;
+	float Effect;
+	float Mana;
+	float CastTime;
+
+	float Progress = 0;
+
 	float Lifetime = 100.0f;
 
 	irrklang::ISoundSource* CastSound = nullptr;
 	irrklang::ISoundSource* ThrowSound = nullptr;
 	irrklang::ISoundSource* ImpactSound = nullptr;
 
-	MagicBallComponent(float damage = 20.0)
-		: Damage(damage) {}
-	MagicBallComponent(irrklang::ISoundSource* castSound, irrklang::ISoundSource* throwSound, irrklang::ISoundSource* impactSound, float damage = 20.0)
-		: CastSound(castSound), ThrowSound(throwSound), ImpactSound(impactSound), Damage(damage) { }
+	MagicBallComponent(float effect = 20.0, float mana = 10.0f, float castTime = 2.0f)
+		: Effect(effect), Mana(mana), CastTime(castTime) {}
+	MagicBallComponent(irrklang::ISoundSource* castSound, irrklang::ISoundSource* throwSound, irrklang::ISoundSource* impactSound, float effect = 20.0, float mana = 10.0f, float castTime = 2.0f)
+		: CastSound(castSound), ThrowSound(throwSound), ImpactSound(impactSound), Effect(effect), Mana(mana), CastTime(castTime) { }
 
 	MagicBallComponent(const MagicBallComponent&) = default;
 };
@@ -41,6 +46,7 @@ struct HeroComponent
 {
 	float Hitpoints;
 	float Mana;
+	float LockedMana = 0;
 
 	HeroComponent(float hitpoints = 100.0f, float mana = 100.0f)
 		: Hitpoints(hitpoints), Mana(mana) { }

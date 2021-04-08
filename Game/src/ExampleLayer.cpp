@@ -3,9 +3,9 @@
 #include <Engine/Events/KeyEvent.h>
 #include <Engine/Util/ObjectLoader.h>
 
-#include "Entities/Hero.h"
-#include "Entities/MagicBall.h"
-#include "Entities/Monster.h"
+#include "Entities/HeroScript.h"
+#include "Entities/MagicBallScript.h"
+#include "Entities/MonsterScript.h"
 
 #include "Components/GameComponents.h"
 
@@ -110,7 +110,9 @@ void ExampleLayer::OnAttach()
 		Engine::MaterialLibrary::Create(Engine::MaterialProperties("MagicBall_Light", { 0.9f, 0.9f, 0.9f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }), Engine::ShaderLibrary::Get("ColorShader"));
 		Engine::MaterialLibrary::Create(Engine::MaterialProperties("MagicBall_Heal", { 0.9f, 0.9f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }), Engine::ShaderLibrary::Get("ColorShader"));
 		Engine::MaterialLibrary::Create(Engine::MaterialProperties("MagicBall_Fire", { 0.5f, 0.05f, 0.1f }, { 0.5f, 0.05f, 0.1f }, { 0.5f, 0.35f, 0.4f }, 5.0f), Engine::ShaderLibrary::Get("ColorShader"));
-		Engine::MaterialLibrary::Create(Engine::MaterialProperties("MagicBall_Water", { 0.1f, 0.05f, 0.5f }, { 0.1f, 0.05f, 0.5f }, { 0.4f, 0.35f, 0.5f }, 5.0f), Engine::ShaderLibrary::Get("ColorShader"));
+		Engine::MaterialLibrary::Create(Engine::MaterialProperties("MagicBall_Fire_ready", { 0.6f, 0.15f, 0.2f }, { 0.6f, 0.15f, 0.2f }, { 0.5f, 0.35f, 0.4f }, 5.0f), Engine::ShaderLibrary::Get("ColorShader"));
+		Engine::MaterialLibrary::Create(Engine::MaterialProperties("MagicBall_Lightning", { 0.1f, 0.05f, 0.5f }, { 0.1f, 0.05f, 0.5f }, { 0.4f, 0.35f, 0.5f }, 5.0f), Engine::ShaderLibrary::Get("ColorShader"));
+		Engine::MaterialLibrary::Create(Engine::MaterialProperties("MagicBall_Lightning_ready", { 0.2f, 0.15f, 0.6f }, { 0.2f, 0.15f, 0.6f }, { 0.4f, 0.35f, 0.5f }, 5.0f), Engine::ShaderLibrary::Get("ColorShader"));
 	}
 
 	// Create Scene
@@ -125,7 +127,7 @@ void ExampleLayer::OnAttach()
 	m_Hero.AddComponent<Engine::Component::Audio::ListenerComponent>();
 	m_Hero.AddComponent<HeroComponent>();
 	m_Hero.GetComponent<Engine::Component::Core::TransformComponent>().Translation = { 0.0f, 8.0f, 10.0f };
-	m_Hero.AddNativeScript<Hero>();
+	m_Hero.AddNativeScript<HeroScript>();
 	auto& ccc = m_Hero.AddComponent<Engine::Component::Physics::CharacterControllerComponent>(2.0f, 1.2f, 0.3f);
 	Engine::System::Util::Activate(ccc);
 
@@ -191,7 +193,7 @@ void ExampleLayer::OnAttach()
 				entity.AddComponent<Engine::Component::Physics::ShapeComponent>(shape);
 				entity.AddComponent<Engine::Component::Physics::KinematicMovementComponent>(glm::vec3{ 0,0,1 });
 				entity.AddComponent<MonsterComponent>(Engine::SoundLibrary::Get("Monster"), Engine::SoundLibrary::Get("MonsterDying"));
-				entity.AddNativeScript<Monster>();
+				entity.AddNativeScript<MonsterScript>();
 			}
 			// Small Monsters
 			for (size_t i = 0; i < 7; i++)
@@ -214,7 +216,7 @@ void ExampleLayer::OnAttach()
 				entity.AddComponent<Engine::Component::Physics::ShapeComponent>(shape);
 				entity.AddComponent<Engine::Component::Physics::KinematicMovementComponent>(glm::vec3{ 0,0,1 });
 				entity.AddComponent<MonsterComponent>(Engine::SoundLibrary::Get("Monster"), Engine::SoundLibrary::Get("MonsterDying"), 35.0f, 10.0f, 4.5f, 30.0f, 2.5f);
-				entity.AddNativeScript<Monster>();
+				entity.AddNativeScript<MonsterScript>();
 			}
 		}
 

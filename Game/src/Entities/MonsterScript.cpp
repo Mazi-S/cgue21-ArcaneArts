@@ -1,4 +1,4 @@
-#include "Monster.h"
+#include "MonsterScript.h"
 #include "Components/GameComponents.h"
 #include "Events/CharacterHealthEvent.h"
 
@@ -6,7 +6,7 @@ using TransformComponent			= Engine::Component::Core::TransformComponent;
 using KinematicMovementComponent	= Engine::Component::Physics::KinematicMovementComponent;
 using CharacterControllerComponent	= Engine::Component::Physics::CharacterControllerComponent;
 
-void Monster::OnUpdate(Engine::Timestep ts)
+void MonsterScript::OnUpdate(Engine::Timestep ts)
 {
 	if (!HasComponent<MonsterComponent>())
 		return;
