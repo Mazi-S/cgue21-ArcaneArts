@@ -62,6 +62,9 @@ namespace Engine::OpenGL {
 
 		if (spec.Mipmaps)
 			glGenerateMipmap(GL_TEXTURE_2D);
+
+		if (spec.ComparisonMode)
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
 	}
 
 	void GlTexture2D::Create(Texture2DSpecification& spec, const std::string& filepath)
@@ -96,6 +99,9 @@ namespace Engine::OpenGL {
 
 		if (spec.Mipmaps)
 			glGenerateMipmap(GL_TEXTURE_2D);
+
+		if (spec.ComparisonMode)
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_COMPARE_MODE, GL_COMPARE_R_TO_TEXTURE);
 
 		stbi_image_free(data);
 		LOG_TRACE("Texture loaded successfully!");

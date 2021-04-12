@@ -19,6 +19,9 @@ namespace Engine::OpenGL {
 		uint32_t Min_Filter = 0x2600;
 		uint32_t Mag_Filter = 0x2600;
 
+		// Texture Comparison Mode
+		uint32_t ComparisonMode = 0;
+
 		bool Mipmaps = true;
 	};
 

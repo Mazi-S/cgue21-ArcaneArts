@@ -105,7 +105,7 @@ void ExampleLayer::OnAttach()
 		Engine::MaterialLibrary::Create(Engine::MaterialProperties("MonsterBigMaterial", { 0.1f, 0.1f, 0.1f }, { 0.6f, 0.6f, 0.6f }, { 0.2f, 0.2f, 0.2f }, 2.0f), Engine::TextureLibrary::GetTexture2D("MonsterBig"), Engine::ShaderLibrary::Get("TextureShader"));
 		Engine::MaterialLibrary::Create(Engine::MaterialProperties("MonsterSmallMaterial", { 0.1f, 0.1f, 0.1f }, { 0.6f, 0.6f, 0.6f }, { 0.2f, 0.2f, 0.2f }, 2.0f), Engine::TextureLibrary::GetTexture2D("MonsterSmall"), Engine::ShaderLibrary::Get("TextureShader"));
 		Engine::MaterialLibrary::Create(Engine::MaterialProperties("HouseMaterial", { 0.1f, 0.1f, 0.1f }, { 0.6f, 0.6f, 0.6f }, { 0.2f, 0.2f, 0.2f }, 2.0f), Engine::TextureLibrary::GetTexture2D("House"), Engine::ShaderLibrary::Get("TextureShader"));
-		Engine::MaterialLibrary::Create(Engine::MaterialProperties("ForestMaterial", { 0.1f, 0.1f, 0.1f }, { 0.45f, 0.45f, 0.45f }, { 0.25f, 0.25f, 0.25f }, 2.0f), Engine::TextureLibrary::GetTexture2D("Forest"), Engine::ShaderLibrary::Get("TextureShader"));
+		Engine::MaterialLibrary::Create(Engine::MaterialProperties("ForestMaterial", { 0.1f, 0.1f, 0.1f }, { 0.65f, 0.65f, 0.65f }, { 0.15f, 0.15f, 0.15f }, 2.0f), Engine::TextureLibrary::GetTexture2D("Forest"), Engine::ShaderLibrary::Get("TextureShader"));
 
 		Engine::MaterialLibrary::Create(Engine::MaterialProperties("MagicBall_Light", { 0.9f, 0.9f, 0.9f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }), Engine::ShaderLibrary::Get("ColorShader"));
 		Engine::MaterialLibrary::Create(Engine::MaterialProperties("MagicBall_Heal", { 0.9f, 0.9f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }), Engine::ShaderLibrary::Get("ColorShader"));
@@ -173,7 +173,7 @@ void ExampleLayer::OnAttach()
 		// Monster
 		{
 			// Big Monsters
-			for (size_t i = 0; i < 3; i++)
+			for (size_t i = 0; i < 1; i++)
 			{
 				entity = m_Scene->CreateEntity();
 				auto& mesh = Engine::MeshLibrary::Get("Monster");
@@ -191,12 +191,11 @@ void ExampleLayer::OnAttach()
 				entity.AddComponent<Engine::Component::Physics::RigidDynamicComponent>(actor);
 				entity.AddComponent<Engine::Component::Physics::KinematicComponent>();
 				entity.AddComponent<Engine::Component::Physics::ShapeComponent>(shape);
-				entity.AddComponent<Engine::Component::Physics::KinematicMovementComponent>(glm::vec3{ 0,0,1 });
 				entity.AddComponent<MonsterComponent>(Engine::SoundLibrary::Get("Monster"), Engine::SoundLibrary::Get("MonsterDying"));
 				entity.AddNativeScript<MonsterScript>();
 			}
 			// Small Monsters
-			for (size_t i = 0; i < 7; i++)
+			for (size_t i = 0; i < 1; i++)
 			{
 				entity = m_Scene->CreateEntity();
 				auto& mesh = Engine::MeshLibrary::Get("Monster");
@@ -214,7 +213,6 @@ void ExampleLayer::OnAttach()
 				entity.AddComponent<Engine::Component::Physics::RigidDynamicComponent>(actor);
 				entity.AddComponent<Engine::Component::Physics::KinematicComponent>();
 				entity.AddComponent<Engine::Component::Physics::ShapeComponent>(shape);
-				entity.AddComponent<Engine::Component::Physics::KinematicMovementComponent>(glm::vec3{ 0,0,1 });
 				entity.AddComponent<MonsterComponent>(Engine::SoundLibrary::Get("Monster"), Engine::SoundLibrary::Get("MonsterDying"), 35.0f, 10.0f, 4.5f, 30.0f, 2.5f);
 				entity.AddNativeScript<MonsterScript>();
 			}

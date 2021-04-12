@@ -57,18 +57,20 @@ void Engine::OpenGL::GlFramebuffer::Init()
 		colorSpec.Width = m_Specification.Width;
 		colorSpec.Height = m_Specification.Height;
 
-		colorSpec.Internalformat = m_Specification.DepthAttachment.Internalformat;
-		colorSpec.Format = m_Specification.DepthAttachment.Format;
-		colorSpec.Type = m_Specification.DepthAttachment.Type;
+		colorSpec.Internalformat = m_Specification.ColorAttachment.Internalformat;
+		colorSpec.Format = m_Specification.ColorAttachment.Format;
+		colorSpec.Type = m_Specification.ColorAttachment.Type;
 
-		colorSpec.Wrap_S = m_Specification.DepthAttachment.Wrap_S;
-		colorSpec.Wrap_T = m_Specification.DepthAttachment.Wrap_T;
-		colorSpec.Border = m_Specification.DepthAttachment.Border;
+		colorSpec.Wrap_S = m_Specification.ColorAttachment.Wrap_S;
+		colorSpec.Wrap_T = m_Specification.ColorAttachment.Wrap_T;
+		colorSpec.Border = m_Specification.ColorAttachment.Border;
 
-		colorSpec.Min_Filter = m_Specification.DepthAttachment.Min_Filter;
-		colorSpec.Mag_Filter = m_Specification.DepthAttachment.Mag_Filter;
+		colorSpec.Min_Filter = m_Specification.ColorAttachment.Min_Filter;
+		colorSpec.Mag_Filter = m_Specification.ColorAttachment.Mag_Filter;
 
 		colorSpec.Mipmaps = false;
+
+		colorSpec.ComparisonMode = m_Specification.ColorAttachment.ComparisonMode;
 
 		m_DepthAttachment = CreateRef<GlTexture2D>("ColorAttachment", colorSpec);
 	}
@@ -94,6 +96,8 @@ void Engine::OpenGL::GlFramebuffer::Init()
 
 		depthSpec.Min_Filter = m_Specification.DepthAttachment.Min_Filter;
 		depthSpec.Mag_Filter = m_Specification.DepthAttachment.Mag_Filter;
+
+		depthSpec.ComparisonMode = m_Specification.DepthAttachment.ComparisonMode;
 
 		depthSpec.Mipmaps = false;
 

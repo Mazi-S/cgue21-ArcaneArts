@@ -47,8 +47,9 @@ namespace Engine {
 		spec.DepthAttachment.Wrap_S = GL_CLAMP_TO_BORDER;
 		spec.DepthAttachment.Wrap_T = GL_CLAMP_TO_BORDER;
 		spec.DepthAttachment.Border = { 1.0f, 1.0f, 1.0f, 1.0f };
-		spec.DepthAttachment.Min_Filter = GL_NEAREST;
-		spec.DepthAttachment.Mag_Filter = GL_NEAREST;
+		spec.DepthAttachment.Min_Filter = GL_LINEAR;
+		spec.DepthAttachment.Mag_Filter = GL_LINEAR;
+		spec.DepthAttachment.ComparisonMode = GL_COMPARE_REF_TO_TEXTURE;
 
 		s_ShadowMapFB = CreateRef<OpenGL::GlFramebuffer>(spec);
 	}
@@ -117,7 +118,6 @@ namespace Engine {
 		s_SceneUB->SetData(&s_SceneData.PointLight.Constant, "PointLight_Constant");
 		s_SceneUB->SetData(&s_SceneData.PointLight.Linear, "PointLight_Linear");
 		s_SceneUB->SetData(&s_SceneData.PointLight.Quadratic, "PointLight_Quadratic");
-
 
 		glm::mat4 lightSpaceMatrix = s_SceneData.DepthProjectionMatrix * s_SceneData.DepthViewMatrix;
 		for (const auto& material : s_RenderQueue)
