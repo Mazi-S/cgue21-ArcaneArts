@@ -9,7 +9,7 @@ namespace Engine::OpenGL {
 	class GlShader
 	{
 	public:
-		GlShader(const std::string& name, const std::string& filepath);
+		GlShader(const std::string& name, const std::string& filepath, bool link = true);
 		GlShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc);
 		virtual ~GlShader();
 
@@ -17,6 +17,7 @@ namespace Engine::OpenGL {
 		virtual void Unbind() const;
 
 		virtual void SetBlockBinding(const std::string& name, uint32_t bindingPoint);
+		virtual void SetTransformFeedbackVaryings(uint32_t count, char* varyings[], uint32_t bufferMode);
 
 		virtual void SetInt(const std::string& name, int value);
 		virtual void SetIntArray(const std::string& name, int* values, uint32_t count);
@@ -29,12 +30,15 @@ namespace Engine::OpenGL {
 
 		virtual const std::string& GetName() const { return m_Name; }
 
+		void Link();
 	private:
 		std::string ReadFile(const std::string& filepath);
 		std::unordered_map<GLenum, std::string> PreProcess(const std::string& source);
 		void Compile(std::unordered_map<GLenum, std::string> shaderSources);
 
 	private:
+		std::vector<GLenum> m_ShaderIDs;
+
 		const std::string m_Name;
 		const std::string m_Path;
 		uint32_t m_RendererID;

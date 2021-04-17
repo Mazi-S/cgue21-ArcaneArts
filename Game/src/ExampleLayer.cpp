@@ -395,6 +395,11 @@ void ExampleLayer::OnAttach()
 			entity.AddComponent<Engine::Component::Renderer::MeshComponent>(Engine::MeshLibrary::Get("Cloud_" + std::to_string((rand() % 4) + 1)));
 		}
 	}
+
+	// ParticleSystem
+	Engine::ParticleSystem::Init();
+	m_ParticleSystem = Engine::CreateRef<Engine::ParticleSystem>();
+	m_ParticleSystem->InitParticleSystem({ 0, 1, 3 });
 }
 
 void ExampleLayer::OnDetach()
@@ -416,6 +421,12 @@ void ExampleLayer::OnUpdate(Engine::Timestep ts)
 
 	// Render Scene
 	m_Scene->OnRender();
+
+	auto c = m_Scene->GetCamera();
+	glm::vec3 cameraPos = { c.Transform[3][0], c.Transform[3][1], c.Transform[3][2] };
+	glm::mat4 viewProjectionMatrix = c.Projection * glm::inverse(c.Transform);
+
+	m_ParticleSystem->Render(ts, viewProjectionMatrix, cameraPos);
 }
 
 void ExampleLayer::OnEvent(Engine::Event& event)

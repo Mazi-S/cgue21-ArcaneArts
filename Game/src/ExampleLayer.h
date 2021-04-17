@@ -22,4 +22,6 @@ private:
 	Engine::Entity m_Hero;
 
 	bool m_Menu = false;
+
+	Engine::Ref<Engine::ParticleSystem> m_ParticleSystem;
 };

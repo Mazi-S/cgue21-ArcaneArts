@@ -12,6 +12,8 @@ namespace Engine::OpenGL {
 	{
 		if (type == "vertex")
 			return GL_VERTEX_SHADER;
+		if (type == "geometry")
+			return GL_GEOMETRY_SHADER;
 		if (type == "fragment")
 			return GL_FRAGMENT_SHADER;
 
@@ -19,12 +21,14 @@ namespace Engine::OpenGL {
 		return 0;
 	}
 
-	GlShader::GlShader(const std::string& name, const std::string& filepath)
+	GlShader::GlShader(const std::string& name, const std::string& filepath, bool link)
 		: m_Name(name), m_Path(filepath)
 	{
 		std::string source = ReadFile(filepath);
 		auto shaderSources = PreProcess(source);
 		Compile(shaderSources);
+		if (link)
+			Link();
 	}
 
 	GlShader::GlShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
@@ -34,6 +38,7 @@ namespace Engine::OpenGL {
 		sources[GL_VERTEX_SHADER] = vertexSrc;
 		sources[GL_FRAGMENT_SHADER] = fragmentSrc;
 		Compile(sources);
+		Link();
 	}
 
 	GlShader::~GlShader()
@@ -56,6 +61,11 @@ namespace Engine::OpenGL {
 		GLint blockIndex = glGetUniformBlockIndex(m_RendererID, name.c_str());
 		ASSERT(blockIndex != GL_INVALID_INDEX, "'" + name + "' does not correspond to an active uniform block in this shader!", name);
 		glUniformBlockBinding(m_RendererID, blockIndex, bindingPoint);
+	}
+
+	void GlShader::SetTransformFeedbackVaryings(uint32_t count, char* varyings[], uint32_t bufferMode)
+	{
+		glTransformFeedbackVaryings(m_RendererID, 4, varyings, bufferMode);
 	}
 
 	void GlShader::SetInt(const std::string& name, int value)
@@ -171,12 +181,27 @@ namespace Engine::OpenGL {
 		m_RendererID = 0;
 
 		GLuint program = glCreateProgram();
-		ASSERT(shaderSources.size() <= 2, "We only support 2 shaders for now");
-		std::array<GLenum, 2> glShaderIDs;
+		ASSERT(shaderSources.size() <= 3, "We only support 3 shaders for now");
+		LOG_TRACE("Compile Shader: {}", m_Name);
+
 		int glShaderIDIndex = 0;
 		for (auto& kv : shaderSources)
 		{
 			GLenum type = kv.first;
+
+			if (type == GL_VERTEX_SHADER)
+			{
+				LOG_TRACE("\tCompile GL_VERTEX_SHADER...");
+			}
+			if (type == GL_GEOMETRY_SHADER)
+			{
+				LOG_TRACE("\tCompile GL_GEOMETRY_SHADER...");
+			}
+			if (type == GL_FRAGMENT_SHADER)
+			{
+				LOG_TRACE("\tCompile GL_FRAGMENT_SHADER...");
+			}
+
 			const std::string& source = kv.second;
 
 			GLuint shader = glCreateShader(type);
@@ -204,26 +229,30 @@ namespace Engine::OpenGL {
 			}
 
 			glAttachShader(program, shader);
-			glShaderIDs[glShaderIDIndex++] = shader;
+			m_ShaderIDs.push_back(shader);
 		}
 
 		m_RendererID = program;
+	}
 
-		glLinkProgram(program);
+	void GlShader::Link()
+	{
+		LOG_TRACE("Link Shader: {}", m_Name);
+		glLinkProgram(m_RendererID);
 
 		GLint isLinked = 0;
-		glGetProgramiv(program, GL_LINK_STATUS, (int*)&isLinked);
+		glGetProgramiv(m_RendererID, GL_LINK_STATUS, (int*)&isLinked);
 		if (isLinked == GL_FALSE)
 		{
 			GLint maxLength = 0;
-			glGetProgramiv(program, GL_INFO_LOG_LENGTH, &maxLength);
+			glGetProgramiv(m_RendererID, GL_INFO_LOG_LENGTH, &maxLength);
 
 			std::vector<GLchar> infoLog(maxLength);
-			glGetProgramInfoLog(program, maxLength, &maxLength, &infoLog[0]);
+			glGetProgramInfoLog(m_RendererID, maxLength, &maxLength, &infoLog[0]);
 
-			glDeleteProgram(program);
+			glDeleteProgram(m_RendererID);
 
-			for (auto id : glShaderIDs)
+			for (auto id : m_ShaderIDs)
 				glDeleteShader(id);
 
 			LOG_ERROR("{0}", infoLog.data());
@@ -231,11 +260,13 @@ namespace Engine::OpenGL {
 			return;
 		}
 
-		for (auto id : glShaderIDs)
+		for (auto id : m_ShaderIDs)
 		{
-			glDetachShader(program, id);
+			glDetachShader(m_RendererID, id);
 			glDeleteShader(id);
 		}
+
+		m_ShaderIDs.clear();
 	}
 
 }

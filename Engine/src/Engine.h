@@ -28,6 +28,8 @@
 #include "Engine/Renderer/Camera.h"
 #include "Engine/Renderer/TextureLibrary.h"
 
+#include "Engine/Renderer/ParticleSystem.h"
+
 #include "Engine/Renderer/Skybox.h"
 
 // Audio

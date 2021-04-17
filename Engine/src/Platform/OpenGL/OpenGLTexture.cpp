@@ -37,7 +37,7 @@ namespace Engine::OpenGL {
 
 	void GlTexture2D::SetData(const void* data, uint32_t size)
 	{
-		glTextureSubImage2D(m_TextureID, 0, 0, 0, m_Specification.Width, m_Specification.Height, m_Specification.Format, GL_UNSIGNED_BYTE, data);
+		glTextureSubImage2D(m_TextureID, 0, 0, 0, m_Specification.Width, m_Specification.Height, m_Specification.Format, m_Specification.Type, data);
 	}
 
 	void GlTexture2D::Create(const Texture2DSpecification& spec)

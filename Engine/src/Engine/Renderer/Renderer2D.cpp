@@ -86,6 +86,7 @@ namespace Engine {
 		spec.Height = 1;
 		spec.Internalformat = 0x8058;
 		spec.Format = 0x1908;
+		spec.Type = 0x1401;
 
 		s_Data.TextureSlots[0] = CreateRef<OpenGL::GlTexture2D>("WhiteTexture", spec);
 		uint32_t whiteTextureData = 0xffffffff;
