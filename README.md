@@ -23,7 +23,7 @@ To generate the project files, run: `scripts/GenerateProjects.bat`
 
 * [GLFW](https://github.com/glfw/glfw)
 * [Glad](https://github.com/Dav1dde/glad)
-* [glm](https://github.com/g-truc/glm)
+* [glm](https://github.com/g-truc/glm) (mathematics library)
 * [spdlog](https://github.com/gabime/spdlog) (logging library)
 * [stb](https://github.com/nothings/stb) (image loader)
 * [tinyobjloader](https://github.com/tinyobjloader/tinyobjloader) (obj loader)
