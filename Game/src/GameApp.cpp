@@ -3,6 +3,7 @@
 #include "ExampleLayer.h"
 #include "PhysicsTest.h"
 #include "HudLayer.h"
+#include "MenuLayer.h"
 
 class GameApp : public Engine::Application
 {
@@ -11,6 +12,7 @@ public:
 	{
 		PushLayer(new ExampleLayer());
 		PushOverlay(new HudLayer());
+		PushOverlay(new MenuLayer());
 		//PushLayer(new PhysicsTestLayer());
 	}
 
