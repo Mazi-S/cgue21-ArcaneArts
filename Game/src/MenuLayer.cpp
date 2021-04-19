@@ -15,7 +15,11 @@ void MenuLayer::OnAttach()
 	m_Camera.Projection = glm::ortho(-(width / 2.0f), width / 2.0f, -(height / 2.0f), height / 2.0f, 10.0f, -10.0f);
 	m_Camera.Transform = glm::mat4(1);
 
-	m_Controls = Engine::CreateRef<Engine::OpenGL::GlTexture2D>("Controls", "assets/textures/Controls.png");
+	Engine::OpenGL::Texture2DSpecification spec;
+	spec.Min_Filter = 0x2600;
+	spec.Mag_Filter = 0x2600;
+
+	m_Controls = Engine::CreateRef<Engine::OpenGL::GlTexture2D>("Controls", spec, "assets/textures/Controls.png");
 }
 
 void MenuLayer::OnDetach()
@@ -49,6 +53,12 @@ bool MenuLayer::OnKeyPressed(Engine::KeyPressedEvent& event)
 	if (event.GetKeyCode() == Engine::Key::Escape)
 	{
 		m_Menu = !m_Menu;
+		return false;
+	}
+
+	if (event.GetKeyCode() == Engine::Key::F11)
+	{
+		Engine::Application::Get().GetWindow().ToggleFullscreen();
 		return false;
 	}
 

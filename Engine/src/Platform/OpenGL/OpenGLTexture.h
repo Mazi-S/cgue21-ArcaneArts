@@ -16,8 +16,8 @@ namespace Engine::OpenGL {
 		glm::vec4 Border;
 
 		// Texture Filtering
-		uint32_t Min_Filter = 0x2600;
-		uint32_t Mag_Filter = 0x2600;
+		uint32_t Min_Filter = 0x2601;
+		uint32_t Mag_Filter = 0x2601;
 
 		// Texture Comparison Mode
 		uint32_t ComparisonMode = 0;

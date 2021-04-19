@@ -27,7 +27,7 @@ void HudLayer::OnAttach()
 	Engine::TextureLibrary::LoadTexture2D("Crosshair", "assets/textures/crosshair.png");
 
 	Engine::Entity crosshair{ Engine::Factory::CreateEntity(m_Registry, "Crosshair"), &m_Registry};
-	crosshair.GetComponent<Engine::Component::Core::TransformComponent>().Scale = { 20,20,20 };
+	crosshair.GetComponent<Engine::Component::Core::TransformComponent>().Scale = { 20, 20, 1 };
 	crosshair.AddComponent<Engine::Component::Renderer2D::SpriteRendererComponent>(glm::vec4(1, 1, 1, 0.4));
 	crosshair.AddComponent<Engine::Component::Renderer2D::SpriteRendererTextureComponent>(Engine::TextureLibrary::GetTexture2D("Crosshair"));
 
@@ -36,6 +36,13 @@ void HudLayer::OnAttach()
 
 	// ManaBar
 	m_ManaBar.Init(m_Registry);
+
+	// Monster Display
+	Engine::OpenGL::Texture2DSpecification spec;
+	spec.Min_Filter = 0x2600;
+	spec.Mag_Filter = 0x2600;
+	auto bigIcon = Engine::CreateRef<Engine::OpenGL::GlTexture2D>("monsterIcon", spec, "assets/textures/monster-icon.png");
+	m_MonsterDisplay.Init(m_Registry, bigIcon, 6);
 }
 
 void HudLayer::OnDetach()
@@ -58,9 +65,10 @@ void HudLayer::OnEvent(Engine::Event& event)
 {
 	Engine::EventHandler eventHandler(event);
 	eventHandler.Handle<Engine::WindowResizeEvent>(EG_BIND_EVENT_FN(HudLayer::OnWindowResize));
-	eventHandler.HandleGameEvent<CharacterHealthEvent>(EG_BIND_EVENT_FN(HudLayer::OnHealthChange));
-	eventHandler.HandleGameEvent<CharacterManaEvent>(EG_BIND_EVENT_FN(HudLayer::OnManaChange));
 	eventHandler.Handle<Engine::KeyPressedEvent>(EG_BIND_EVENT_FN(HudLayer::OnKeyPressed));
+	eventHandler.HandleGameEvent<CharacterHealthEvent>(EG_BIND_EVENT_FN(HudLayer::OnHealthChange));
+	eventHandler.HandleGameEvent<MonsterDiedEvent>(EG_BIND_EVENT_FN(HudLayer::OnMonsterDied));
+	eventHandler.HandleGameEvent<CharacterManaEvent>(EG_BIND_EVENT_FN(HudLayer::OnManaChange));
 }
 
 bool HudLayer::OnWindowResize(Engine::WindowResizeEvent& event)
@@ -72,6 +80,9 @@ bool HudLayer::OnWindowResize(Engine::WindowResizeEvent& event)
 
 	glm::vec2 posMana = { -(event.GetWidth() / 2.0f) + m_ManaBar.Width / 2.0f + m_ManaBar.OffsetTop, event.GetHeight() / 2.0f - m_ManaBar.Height / 2.0f - m_ManaBar.OffsetLeft };
 	m_ManaBar.UpdatePosition(posMana);
+
+	glm::vec2 rightTop = { event.GetWidth() / 2.0f, event.GetHeight() / 2.0 };
+	m_MonsterDisplay.UpdatePosition(rightTop);
 	
 	return false;
 }
@@ -80,6 +91,12 @@ bool HudLayer::OnHealthChange(CharacterHealthEvent& event)
 {
 	m_HealthBar.UpdateHealth(event.GetHealth());
 	return false;
+}
+
+bool HudLayer::OnMonsterDied(MonsterDiedEvent& event)
+{
+	m_MonsterDisplay.Remove();
+	return true;
 }
 
 bool HudLayer::OnManaChange(CharacterManaEvent& event)
@@ -166,4 +183,47 @@ void ManaBar::UpdatePosition(glm::vec2 position)
 {
 	auto& transformComp = Bar.GetComponent<Engine::Component::Core::TransformComponent>();
 	transformComp.Translation = { position.x, position.y, 0.0f };
+}
+
+void MonsterDisplay::Init(entt::registry& registry, Engine::Ref<Engine::OpenGL::GlTexture2D> sprite, uint32_t count)
+{
+	Sprite = sprite;
+	Registry = &registry;
+
+	Bar = { Engine::Factory::CreateEntity(registry, "MonsterDisplay"), &registry };
+	float windowWidth = Engine::Application::Get().GetWindow().GetWidth();
+	float windowHeight = Engine::Application::Get().GetWindow().GetHeight();
+	glm::vec2 pos = { windowWidth / 2.0, windowHeight / 2.0 };
+	UpdatePosition(pos);
+
+	for (uint32_t i = 0; i < count; i++)
+		Add();
+}
+
+void MonsterDisplay::Add()
+{
+	Engine::Entity monster = { Engine::Factory::CreateEntity(*Registry, "MonsterIcon"), Registry };
+
+	monster.GetComponent<Engine::Component::Core::TransformComponent>().Scale = { Size.x, Size.y, 1 };
+	monster.GetComponent<Engine::Component::Core::TransformComponent>().Translation = { - ((OffsetMonster + Size.x) * Monsters.size()), 0, 0 };
+	monster.AddComponent<Engine::Component::Renderer2D::SpriteRendererComponent>(glm::vec4(1, 1, 1, 0.9));
+	monster.AddComponent<Engine::Component::Renderer2D::SpriteRendererTextureComponent>(Sprite);
+	monster.AddComponent<Engine::Component::Core::ParentComponent>(Bar);
+	
+	Monsters.push_back(monster);
+}
+
+void MonsterDisplay::Remove()
+{
+	if (!Monsters.empty())
+	{
+		Monsters.back().Destroy();
+		Monsters.pop_back();
+	}
+}
+
+void MonsterDisplay::UpdatePosition(glm::vec2 position)
+{
+	auto& transformComp = Bar.GetComponent<Engine::Component::Core::TransformComponent>();
+	transformComp.Translation = { position.x - OffsetRight - Size.x / 2.0, position.y - OffsetTop - Size.y / 2.0, 0.0f };
 }

@@ -7,14 +7,16 @@ namespace Engine {
 	struct WindowProps
 	{
 		std::string Title;
-		uint32_t Width;
-		uint32_t Height;
+		int Width;
+		int Height;
+		int RefreshRate;
 
 		WindowProps(
 			const std::string& title = "Engine",
-			uint32_t width = 1280,
-			uint32_t height = 750
-		) : Title(title), Width(width), Height(height) {}
+			int width = 1280,
+			int height = 750,
+			int refreshRate = -1 // -1 = GLFW_DONT_CARE
+		) : Title(title), Width(width), Height(height), RefreshRate(refreshRate) { }
 	};
 
 	class Window
@@ -29,6 +31,7 @@ namespace Engine {
 		virtual void SetCursorPosition(float x, float y) = 0;
 		virtual void HideCursor() = 0;
 		virtual void ShowCursor() = 0;
+		virtual void ToggleFullscreen() = 0;
 
 		// Window attributes
 		virtual uint32_t GetWidth() const = 0;

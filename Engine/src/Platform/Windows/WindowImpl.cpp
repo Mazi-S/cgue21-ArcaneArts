@@ -22,6 +22,7 @@ namespace Engine {
 	}
 
 	WindowImpl::WindowImpl(const WindowProps& props)
+		: m_Monitor(nullptr), m_WindowedPos({0,0}), m_WindowedSize({props.Width, props.Height})
 	{
 		Init(props);
 	}
@@ -57,6 +58,7 @@ namespace Engine {
 		m_Data.Title = props.Title;
 		m_Data.Width = props.Width;
 		m_Data.Height = props.Height;
+		m_Data.RefreshRate = props.RefreshRate;
 
 		LOG_INFO("Creating window {0} ({1}, {2})", props.Title, props.Width, props.Height);
 
@@ -185,6 +187,27 @@ namespace Engine {
 	void WindowImpl::ShowCursor()
 	{
 		glfwSetInputMode(m_Window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+	}
+
+	void WindowImpl::ToggleFullscreen()
+	{
+		if (m_Monitor != nullptr)
+		{
+			glfwSetWindowMonitor(m_Window, NULL, m_WindowedPos[0], m_WindowedPos[1], m_WindowedSize[0], m_WindowedSize[1], m_Data.RefreshRate);
+			m_Monitor = nullptr;
+		}
+		else
+		{
+			GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+			const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+
+			glfwGetWindowPos(m_Window, &m_WindowedPos[0], &m_WindowedPos[1]);
+			glfwGetWindowSize(m_Window, &m_WindowedSize[0], &m_WindowedSize[1]);
+
+			glfwSetWindowMonitor(m_Window, monitor, 0, 0, mode->width, mode->height, m_Data.RefreshRate);
+
+			m_Monitor = monitor;
+		}
 	}
 
 

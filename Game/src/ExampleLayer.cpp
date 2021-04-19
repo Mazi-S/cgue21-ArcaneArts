@@ -173,7 +173,7 @@ void ExampleLayer::OnAttach()
 		// Monster
 		{
 			// Big Monsters
-			for (size_t i = 0; i < 1; i++)
+			for (size_t i = 0; i < 2; i++)
 			{
 				entity = m_Scene->CreateEntity();
 				auto& mesh = Engine::MeshLibrary::Get("Monster");
@@ -195,7 +195,7 @@ void ExampleLayer::OnAttach()
 				entity.AddNativeScript<MonsterScript>();
 			}
 			// Small Monsters
-			for (size_t i = 0; i < 1; i++)
+			for (size_t i = 0; i < 4; i++)
 			{
 				entity = m_Scene->CreateEntity();
 				auto& mesh = Engine::MeshLibrary::Get("Monster");
@@ -426,7 +426,7 @@ void ExampleLayer::OnUpdate(Engine::Timestep ts)
 	glm::vec3 cameraPos = { c.Transform[3][0], c.Transform[3][1], c.Transform[3][2] };
 	glm::mat4 viewProjectionMatrix = c.Projection * glm::inverse(c.Transform);
 
-	m_ParticleSystem->Render(ts, viewProjectionMatrix, cameraPos);
+	//m_ParticleSystem->Render(ts, viewProjectionMatrix, cameraPos);
 }
 
 void ExampleLayer::OnEvent(Engine::Event& event)

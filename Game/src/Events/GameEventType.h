@@ -3,5 +3,5 @@
 enum class GameEventType {
 	CharacterHealth,
 	CharacterMana,
-	MonsterHealth
+	MonsterDied
 };

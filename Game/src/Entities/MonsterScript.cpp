@@ -1,6 +1,7 @@
 #include "MonsterScript.h"
 #include "Components/GameComponents.h"
 #include "Events/CharacterHealthEvent.h"
+#include "Events/MonsterDied.h"
 
 using TransformComponent			= Engine::Component::Core::TransformComponent;
 using KinematicMovementComponent	= Engine::Component::Physics::KinematicMovementComponent;
@@ -20,6 +21,7 @@ void MonsterScript::OnUpdate(Engine::Timestep ts)
 			auto& transformComp = GetComponent<TransformComponent>();
 			Engine::SoundEngine::Play3D(monsterComp.DeathSound, transformComp.Translation);
 		}
+		Engine::Application::Get().OnEvent(MonsterDiedEvent());
 		Destroy();
 		return;
 	}
@@ -56,5 +58,9 @@ void MonsterScript::OnUpdate(Engine::Timestep ts)
 		glm::vec3 movement = glm::normalize(characterTransformComponent.Translation - monsterTransformComponent.Translation) * monsterComp.Speed * speed;
 		glm::quat rotation = glm::quatLookAt(glm::normalize(-movement), { 0,1,0 });
 		EmplaceOrReplace<KinematicMovementComponent>(movement, rotation);
+	}
+	else if(HasComponent<KinematicMovementComponent>())
+	{
+		RemoveComponent<KinematicMovementComponent>();
 	}
 }

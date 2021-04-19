@@ -2,6 +2,7 @@
 #include "Engine.h"
 #include "Events/CharacterHealthEvent.h"
 #include "Events/CharacterManaEvent.h"
+#include "Events/MonsterDied.h"
 
 struct HealthBar
 {
@@ -34,6 +35,29 @@ struct ManaBar
 	void UpdatePosition(glm::vec2 position);
 };
 
+struct MonsterDisplay
+{
+	Engine::Entity Bar;
+	std::vector<Engine::Entity> Monsters;
+
+	Engine::Ref<Engine::OpenGL::GlTexture2D> Sprite;
+
+	float OffsetTop = 5;
+	float OffsetRight = 5;
+	float OffsetMonster = 5;
+
+	glm::vec2 Size = { 30, 30 };
+
+	void Init(entt::registry& registry, Engine::Ref<Engine::OpenGL::GlTexture2D> sprite, uint32_t count);
+	void Add();
+	void Remove();
+	void UpdatePosition(glm::vec2 position);
+
+private:
+	entt::registry* Registry;
+};
+
+
 class HudLayer : public Engine::Layer {
 public:
 	HudLayer();
@@ -48,6 +72,7 @@ public:
 
 	bool OnWindowResize(Engine::WindowResizeEvent& event);
 	bool OnHealthChange(CharacterHealthEvent& event);
+	bool OnMonsterDied(MonsterDiedEvent& event);
 	bool OnManaChange(CharacterManaEvent& event);
 	bool OnKeyPressed(Engine::KeyPressedEvent& event);
 
@@ -60,4 +85,5 @@ private:
 
 	HealthBar m_HealthBar;
 	ManaBar m_ManaBar;
+	MonsterDisplay m_MonsterDisplay;
 };
