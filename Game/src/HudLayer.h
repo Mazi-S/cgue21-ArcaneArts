@@ -49,8 +49,11 @@ public:
 	bool OnWindowResize(Engine::WindowResizeEvent& event);
 	bool OnHealthChange(CharacterHealthEvent& event);
 	bool OnManaChange(CharacterManaEvent& event);
+	bool OnKeyPressed(Engine::KeyPressedEvent& event);
 
 private:
+	bool m_HUD;
+
 	entt::registry m_Registry;
 
 	Engine::Camera m_Camera;

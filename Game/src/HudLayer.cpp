@@ -13,7 +13,7 @@
 #include "Events/CharacterManaEvent.h"
 
 HudLayer::HudLayer()
-	: Layer("HUD")
+	: Layer("HUD"), m_HUD(true)
 {
 }
 
@@ -44,11 +44,14 @@ void HudLayer::OnDetach()
 
 void HudLayer::OnUpdate(Engine::Timestep ts)
 {
-	Engine::Renderer2D::BeginScene(m_Camera);
+	if (m_HUD)
+	{
+		Engine::Renderer2D::BeginScene(m_Camera);
 
-	Engine::System::Renderer2D::SubmitSprites(m_Registry);
+		Engine::System::Renderer2D::SubmitSprites(m_Registry);
 
-	Engine::Renderer2D::EndScene();
+		Engine::Renderer2D::EndScene();
+	}
 }
 
 void HudLayer::OnEvent(Engine::Event& event)
@@ -57,6 +60,7 @@ void HudLayer::OnEvent(Engine::Event& event)
 	eventHandler.Handle<Engine::WindowResizeEvent>(EG_BIND_EVENT_FN(HudLayer::OnWindowResize));
 	eventHandler.HandleGameEvent<CharacterHealthEvent>(EG_BIND_EVENT_FN(HudLayer::OnHealthChange));
 	eventHandler.HandleGameEvent<CharacterManaEvent>(EG_BIND_EVENT_FN(HudLayer::OnManaChange));
+	eventHandler.Handle<Engine::KeyPressedEvent>(EG_BIND_EVENT_FN(HudLayer::OnKeyPressed));
 }
 
 bool HudLayer::OnWindowResize(Engine::WindowResizeEvent& event)
@@ -81,6 +85,14 @@ bool HudLayer::OnHealthChange(CharacterHealthEvent& event)
 bool HudLayer::OnManaChange(CharacterManaEvent& event)
 {
 	m_ManaBar.UpdateMana(event.GetMana());
+	return false;
+}
+
+bool HudLayer::OnKeyPressed(Engine::KeyPressedEvent& event)
+{
+	if (event.GetKeyCode() == Engine::Key::F1)
+		m_HUD = !m_HUD;
+
 	return false;
 }
 
