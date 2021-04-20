@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine.h"
+#include "Events/GameEnd.h"
 
 class MenuLayer : public Engine::Layer {
 public:
@@ -14,12 +15,23 @@ public:
 	virtual void OnEvent(Engine::Event& event) override;
 	bool OnKeyPressed(Engine::KeyPressedEvent& event);
 	bool OnWindowResize(Engine::WindowResizeEvent& event);
+	bool OnGameEnd(GameEndEvent& event);
 
 private:
+
+	enum class GameState
+	{
+		Running,
+		Victory,
+		Defeat
+	};
 	
 	bool m_Menu;
+	GameState m_GameState;
 
 	Engine::Camera m_Camera;
 
 	Engine::Ref<Engine::OpenGL::GlTexture2D> m_Controls;
+	Engine::Ref<Engine::OpenGL::GlTexture2D> m_Victory;
+	Engine::Ref<Engine::OpenGL::GlTexture2D> m_Defeat;
 };
