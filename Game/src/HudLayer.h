@@ -3,6 +3,7 @@
 #include "Events/CharacterHealthEvent.h"
 #include "Events/CharacterManaEvent.h"
 #include "Events/MonsterDied.h"
+#include "Events/GameEnd.h"
 
 struct HealthBar
 {
@@ -71,10 +72,11 @@ public:
 	virtual void OnEvent(Engine::Event& event) override;
 
 	bool OnWindowResize(Engine::WindowResizeEvent& event);
+	bool OnKeyPressed(Engine::KeyPressedEvent& event);
 	bool OnHealthChange(CharacterHealthEvent& event);
 	bool OnMonsterDied(MonsterDiedEvent& event);
 	bool OnManaChange(CharacterManaEvent& event);
-	bool OnKeyPressed(Engine::KeyPressedEvent& event);
+	bool OnGameEnd(GameEndEvent& event);
 
 private:
 	bool m_HUD;

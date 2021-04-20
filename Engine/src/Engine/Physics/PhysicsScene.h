@@ -15,6 +15,7 @@ namespace Engine::Physics {
 
 	public:
 		PsScene();
+		~PsScene();
 
 		void Simulate(float elapsedTime);
 

@@ -11,6 +11,7 @@
 #include <algorithm>
 
 #include "Events/CharacterManaEvent.h"
+#include "GameApp.h";
 
 HudLayer::HudLayer()
 	: Layer("HUD"), m_HUD(true)
@@ -69,6 +70,7 @@ void HudLayer::OnEvent(Engine::Event& event)
 	eventHandler.HandleGameEvent<CharacterHealthEvent>(EG_BIND_EVENT_FN(HudLayer::OnHealthChange));
 	eventHandler.HandleGameEvent<MonsterDiedEvent>(EG_BIND_EVENT_FN(HudLayer::OnMonsterDied));
 	eventHandler.HandleGameEvent<CharacterManaEvent>(EG_BIND_EVENT_FN(HudLayer::OnManaChange));
+	eventHandler.HandleGameEvent<GameEndEvent>(EG_BIND_EVENT_FN(HudLayer::OnGameEnd));
 }
 
 bool HudLayer::OnWindowResize(Engine::WindowResizeEvent& event)
@@ -102,6 +104,12 @@ bool HudLayer::OnMonsterDied(MonsterDiedEvent& event)
 bool HudLayer::OnManaChange(CharacterManaEvent& event)
 {
 	m_ManaBar.UpdateMana(event.GetMana());
+	return false;
+}
+
+bool HudLayer::OnGameEnd(GameEndEvent& event)
+{
+	Engine::Application::Get().Remove(this);
 	return false;
 }
 
@@ -161,6 +169,9 @@ void HealthBar::UpdateHealth(float hp)
 	auto& transformComp = Health.GetComponent<Engine::Component::Core::TransformComponent>();
 	transformComp.Scale = { healthWidth, Height, 1 };
 	transformComp.Translation = { -(Width - healthWidth) / 2.0f, 0, -0.1f };
+
+	if(health <= 0)
+		GameApp::Defeat();
 }
 
 void ManaBar::UpdateMana(float m)
@@ -219,6 +230,9 @@ void MonsterDisplay::Remove()
 	{
 		Monsters.back().Destroy();
 		Monsters.pop_back();
+
+		if (Monsters.size() == 0)
+			GameApp::Victory();
 	}
 }
 

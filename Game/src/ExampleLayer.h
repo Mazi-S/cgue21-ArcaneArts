@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine.h"
+#include "Events/GameEnd.h"
 
 class ExampleLayer : public Engine::Layer {
 public:
@@ -14,9 +15,10 @@ public:
 	virtual void OnEvent(Engine::Event& event) override;
 
 	bool OnKeyPressed(Engine::KeyPressedEvent& event);
+	bool OnGameEnd(GameEndEvent& event);
 
 private:
-	Engine::Ref<Engine::Scene> m_Scene;
+	Engine::Scope<Engine::Scene> m_Scene;
 	Engine::Ref<Engine::Skybox> m_Skybox;
 
 	Engine::Entity m_Hero;

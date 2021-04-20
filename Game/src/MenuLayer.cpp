@@ -53,6 +53,12 @@ bool MenuLayer::OnKeyPressed(Engine::KeyPressedEvent& event)
 	if (event.GetKeyCode() == Engine::Key::Escape)
 	{
 		m_Menu = !m_Menu;
+
+		float x = Engine::Application::Get().GetWindow().GetWidth() / 2;
+		float y = Engine::Application::Get().GetWindow().GetHeight() / 2;
+		Engine::Application::Get().GetWindow().SetCursorPosition(x, y);
+		Engine::Application::Get().GetWindow().ShowCursor();
+
 		return false;
 	}
 

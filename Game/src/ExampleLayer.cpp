@@ -116,7 +116,7 @@ void ExampleLayer::OnAttach()
 	}
 
 	// Create Scene
-	m_Scene = Engine::CreateRef<Engine::Scene>();
+	m_Scene = Engine::CreateScope<Engine::Scene>();
 
 	// light
 	auto directionalLight = m_Scene->CreateEntity();
@@ -405,6 +405,7 @@ void ExampleLayer::OnAttach()
 void ExampleLayer::OnDetach()
 {
 	// Shutdown here
+	m_Scene = nullptr;
 }
 
 void ExampleLayer::OnUpdate(Engine::Timestep ts)
@@ -414,7 +415,6 @@ void ExampleLayer::OnUpdate(Engine::Timestep ts)
 	m_Scene->OnUpdate(ts);
 
 	// Render here
-	Engine::OpenGL::API::Clear();
 
 	// Render Skybox and CubeMap
 	m_Skybox->Draw(m_Scene->GetCamera());
@@ -435,6 +435,7 @@ void ExampleLayer::OnEvent(Engine::Event& event)
 
 	Engine::EventHandler eventHandler(event);
 	eventHandler.Handle<Engine::KeyPressedEvent>(EG_BIND_EVENT_FN(ExampleLayer::OnKeyPressed));
+	eventHandler.HandleGameEvent<GameEndEvent>(EG_BIND_EVENT_FN(ExampleLayer::OnGameEnd));
 }
 
 bool ExampleLayer::OnKeyPressed(Engine::KeyPressedEvent& event)
@@ -452,6 +453,12 @@ bool ExampleLayer::OnKeyPressed(Engine::KeyPressedEvent& event)
 			m_Menu = true;
 		}
 	}
+	return false;
+}
+
+bool ExampleLayer::OnGameEnd(GameEndEvent& event)
+{
+	Engine::Application::Get().Remove(this);
 	return false;
 }
 

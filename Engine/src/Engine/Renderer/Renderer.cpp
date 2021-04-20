@@ -56,6 +56,7 @@ namespace Engine {
 
 	void Renderer::Shutdown()
 	{
+		LOG_INFO("Renderer2D::Shutdown...");
 	}
 
 	void Renderer::OnWindowResize(uint32_t width, uint32_t height)

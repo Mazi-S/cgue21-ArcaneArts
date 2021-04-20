@@ -186,6 +186,7 @@ namespace Engine {
 
 	Scene::~Scene()
 	{
+		m_Registry.clear();
 		delete m_PhysicsScene;
 	}
 

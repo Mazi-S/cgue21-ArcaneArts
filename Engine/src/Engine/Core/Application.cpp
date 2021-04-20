@@ -3,6 +3,7 @@
 #include "Base.h"
 
 #include "Platform/Platform.h"
+#include "Platform/OpenGL/OpenGLAPI.h"
 
 #include "Engine/Renderer/Renderer.h"
 #include "Engine/Renderer/Renderer2D.h"
@@ -26,9 +27,13 @@ namespace Engine {
 		Renderer2D::Init();
 		SoundEngine::Init();
 		PhysicsAPI::Init();
+
+		m_LayerStack = new LayerStack();
 	}
 
 	Application::~Application() {
+		delete m_LayerStack;
+
 		Renderer::Shutdown();
 		Renderer2D::Shutdown();
 		SoundEngine::Shutdown();
@@ -41,7 +46,7 @@ namespace Engine {
 		handler.Handle<WindowCloseEvent>(EG_BIND_EVENT_FN(Application::OnWindowClose));
 		handler.Handle<WindowResizeEvent>(EG_BIND_EVENT_FN(Application::OnWindowResize));
 
-		for (auto it = m_LayerStack.rbegin(); it != m_LayerStack.rend(); it++)
+		for (auto it = m_LayerStack->rbegin(); it != m_LayerStack->rend(); it++)
 		{
 			if (e.Handled)
 				break;
@@ -51,14 +56,18 @@ namespace Engine {
 
 	void Application::PushLayer(Layer* layer)
 	{
-		m_LayerStack.PushLayer(layer);
+		m_LayerStack->PushLayer(layer);
 		layer->OnAttach();
 	}
 
 	void Application::PushOverlay(Layer* layer)
 	{
-		m_LayerStack.PushOverlay(layer);
+		m_LayerStack->PushOverlay(layer);
 		layer->OnAttach();
+	}
+
+	void Application::Remove(Layer* layer) {
+		m_RemovedLayers.push_back(layer);
 	}
 
 	void Application::Run()
@@ -69,9 +78,16 @@ namespace Engine {
 			Timestep timestep = time - m_LastFrameTime;
 			m_LastFrameTime = time;
 
+			for (Layer* layer : m_RemovedLayers) {
+				m_LayerStack->Pop(layer);
+			}
+			m_RemovedLayers.clear();
+
 			if (!m_Minimized)
 			{
-				for (Layer* layer : m_LayerStack)
+				OpenGL::API::Clear();
+
+				for (Layer* layer : *m_LayerStack)
 					layer->OnUpdate(timestep);
 			}
 

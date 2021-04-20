@@ -14,6 +14,7 @@ namespace Engine {
 
 	void SoundEngine::Shutdown()
 	{
+		LOG_INFO("SoundEngine::Shutdown...");
 		s_SoundEngine->drop();
 	}
 

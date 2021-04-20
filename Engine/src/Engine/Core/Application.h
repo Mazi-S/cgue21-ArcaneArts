@@ -24,7 +24,9 @@ namespace Engine {
 		void OnEvent(Event& e);
 
 		void PushLayer(Layer* layer);
-		void PushOverlay(Layer* layer);
+		void PushOverlay(Layer* overlay);
+
+		void Remove(Layer* layer);
 
 		Window& GetWindow() { return *m_Window; }
 
@@ -39,7 +41,8 @@ namespace Engine {
 		bool m_Running = true;
 		bool m_Minimized = false;
 
-		LayerStack m_LayerStack;
+		LayerStack* m_LayerStack;
+		std::vector<Layer*> m_RemovedLayers;
 
 		Timestep m_LastFrameTime;
 

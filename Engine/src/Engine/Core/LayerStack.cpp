@@ -38,5 +38,25 @@ namespace Engine {
 		}
 	}
 
+	void LayerStack::Pop(Layer* layer)
+	{
+		auto itLayer = std::find(m_Layers.begin(), m_Layers.begin() + m_LayerInsertIndex, layer);
+		if (itLayer != m_Layers.begin() + m_LayerInsertIndex)
+		{
+			layer->OnDetach();
+			m_Layers.erase(itLayer);
+			m_LayerInsertIndex--;
+			return;
+		}
+
+		auto itOverlay = std::find(m_Layers.begin() + m_LayerInsertIndex, m_Layers.end(), layer);
+		if (itOverlay != m_Layers.end())
+		{
+			layer->OnDetach();
+			m_Layers.erase(itOverlay);
+			return;
+		}
+	}
+
 }
 

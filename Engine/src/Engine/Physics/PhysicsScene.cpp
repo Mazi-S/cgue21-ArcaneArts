@@ -12,6 +12,11 @@ namespace Engine::Physics {
 		m_PxScene->setSimulationEventCallback(this);
 	}
 
+	PsScene::~PsScene()
+	{
+		m_PxControllerManager->release();
+	}
+
 	void PsScene::Simulate(float elapsedTime)
 	{
 		m_PxScene->simulate(elapsedTime);

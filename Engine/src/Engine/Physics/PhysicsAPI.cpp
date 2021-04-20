@@ -29,6 +29,10 @@ namespace Engine {
 
 	void PhysicsAPI::Shutdown()
 	{
+		LOG_INFO("PhysicsAPI::Shutdown...");
+		
+		s_TaskDispatcher->release();
+		s_Cooking->release();
 		s_PhysicsSDK->release();
 		s_Foundation->release();
 	}
