@@ -12,10 +12,16 @@
 
 namespace Engine {
 
+	struct ApplicationSpecification
+	{
+		float Brightness = 1.0;
+		float Brightness2D = 1.0;
+	};
+
 	class Application
 	{
 	public:
-		Application(WindowSpecification windowSpec = WindowSpecification());
+		Application(ApplicationSpecification appSpec, WindowSpecification windowSpec);
 		virtual ~Application();
 
 		void Run();
@@ -28,6 +34,9 @@ namespace Engine {
 
 		void Remove(Layer* layer);
 
+		float Brightness() { return m_Brightness; }
+		float Brightness2D() { return m_Brightness2D; }
+
 		Window& GetWindow() { return *m_Window; }
 
 		static Application& Get() { return *s_Instance; }
@@ -38,6 +47,8 @@ namespace Engine {
 	private:
 		Scope<Window> m_Window;
 
+		float m_Brightness = 1.0;
+		float m_Brightness2D = 1.0;
 		bool m_Running = true;
 		bool m_Minimized = false;
 

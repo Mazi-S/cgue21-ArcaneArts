@@ -79,6 +79,7 @@ namespace Engine {
 		// Shader
 		s_Data.BatchShader = CreateRef<OpenGL::GlShader>("BatchShader", "assets/shaders/BatchShader2D.glsl");
 		s_Data.BatchShader->Bind();
+		s_Data.BatchShader->SetFloat("u_Brightness", Engine::Application::Get().Brightness2D());
 
 		// Texture
 		auto spec = OpenGL::Texture2DSpecification();

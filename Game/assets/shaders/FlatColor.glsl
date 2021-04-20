@@ -38,6 +38,9 @@ void main() {
 #type fragment
 #version 330 core
 
+// illumination multiplier
+uniform float u_Brightness = 1.0;
+
 layout (std140) uniform SceneData {
 	mat4 u_ViewProjection;
 	vec3 u_CameraPosition;
@@ -111,7 +114,8 @@ float ShadowCalculation(vec4 fragPosLightSpace, vec3 normal, vec3 lightDir)
 	if(projCoords.z > 1.0)
 		shadow = 0.0;
 
-	return shadow;
+	return min(shadow, 0.8);
+	//return shadow;
 }
 
 void main() {
@@ -134,7 +138,7 @@ void main() {
     result += CalcPointLight(normal, viewDir);
 		
 	// final color
-	color = vec4(result, 1.0);
+	color = vec4(result * u_Brightness, 1.0);
 }
 
 vec3 CalcDirLight(vec3 normal, vec3 viewDir) 

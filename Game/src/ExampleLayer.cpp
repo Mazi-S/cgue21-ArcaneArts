@@ -64,8 +64,12 @@ void ExampleLayer::OnAttach()
 
 	// Load Shaders
 	{
-		Engine::ShaderLibrary::Load("TextureShader", "assets/shaders/Texture.glsl");
-		Engine::ShaderLibrary::Load("ColorShader", "assets/shaders/FlatColor.glsl");
+		auto textureShader = Engine::ShaderLibrary::Load("TextureShader", "assets/shaders/Texture.glsl");
+		textureShader->Bind();
+		textureShader->SetFloat("u_Brightness", Engine::Application::Get().Brightness());
+		auto flatColorShader = Engine::ShaderLibrary::Load("ColorShader", "assets/shaders/FlatColor.glsl");
+		flatColorShader->Bind();
+		flatColorShader->SetFloat("u_Brightness", Engine::Application::Get().Brightness());
 	}
 
 	// Load Textures
@@ -410,7 +414,6 @@ void ExampleLayer::OnDetach()
 
 void ExampleLayer::OnUpdate(Engine::Timestep ts)
 {
-
 	// Update here
 	m_Scene->OnUpdate(ts);
 

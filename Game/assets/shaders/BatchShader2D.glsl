@@ -22,6 +22,9 @@ void main() {
 #type fragment
 #version 330 core
 
+// illumination multiplier
+uniform float u_Brightness = 1.0;
+
 in vec4 v_Color;
 in vec2 v_TexCoord;
 in float v_TexIndex;
@@ -32,4 +35,5 @@ out vec4 color;
 
 void main() {
 	color = texture(u_Textures[int(v_TexIndex)], v_TexCoord) * v_Color;
+	color.xyz *= u_Brightness;
 }

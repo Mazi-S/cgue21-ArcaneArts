@@ -15,7 +15,7 @@ namespace Engine {
 
 	Application* Application::s_Instance = nullptr;
 
-	Application::Application(WindowSpecification windowSpec)
+	Application::Application(ApplicationSpecification appSpec, WindowSpecification windowSpec)
 	{
 		Log::Init();
 
@@ -23,6 +23,9 @@ namespace Engine {
 
 		m_Window = CreateScope<WindowImpl>(windowSpec);
 		m_Window->SetEventCallback(EG_BIND_EVENT_FN(Application::OnEvent));
+
+		m_Brightness = appSpec.Brightness;
+		m_Brightness2D = appSpec.Brightness2D;
 
 		Renderer::Init();
 		Renderer2D::Init();

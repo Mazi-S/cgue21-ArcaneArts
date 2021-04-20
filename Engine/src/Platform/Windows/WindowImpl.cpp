@@ -198,7 +198,7 @@ namespace Engine {
 	{
 		if (m_Monitor != nullptr)
 		{
-			glfwSetWindowMonitor(m_Window, NULL, m_WindowedPos[0], m_WindowedPos[1], m_WindowedSize[0], m_WindowedSize[1], m_Data.RefreshRate);
+			glfwSetWindowMonitor(m_Window, nullptr, m_WindowedPos[0], m_WindowedPos[1], m_WindowedSize[0], m_WindowedSize[1], m_Data.RefreshRate);
 			m_Monitor = nullptr;
 		}
 		else

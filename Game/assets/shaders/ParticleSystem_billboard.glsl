@@ -55,6 +55,9 @@ void main()
 #type fragment
 #version 330 core
 
+// illumination multiplier
+uniform float u_Brightness = 1.0;
+
 uniform sampler2D u_ColorMap;
 
 in vec2 v_TexCoord;
@@ -63,6 +66,7 @@ out vec4 FragColor;
 void main()
 { 
 	FragColor = texture2D(u_ColorMap, v_TexCoord);
+	FragColor.xyz *= u_Brightness;
 
 	if (FragColor.r >= 0.9 && FragColor.g >= 0.9 && FragColor.b >= 0.9) {
 		discard;

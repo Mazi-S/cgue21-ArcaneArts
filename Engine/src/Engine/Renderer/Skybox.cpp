@@ -15,6 +15,9 @@ namespace Engine {
 	Skybox::Skybox()
 	{
 		m_SkyboxShader = CreateRef<OpenGL::GlShader>("SkyboxShader", "assets/shaders/Skybox.glsl");
+		m_SkyboxShader->Bind();
+		m_SkyboxShader->SetFloat("u_Brightness", Engine::Application::Get().Brightness());
+
 		m_CubemapShader = CreateRef<OpenGL::GlShader>("CubemapShader", "assets/shaders/Cubemap.glsl");
 
 		// Skybox Texture

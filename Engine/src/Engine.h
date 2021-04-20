@@ -4,6 +4,7 @@
 #include "Engine/Core/Layer.h"
 #include "Engine/Core/Log.h"
 #include "Engine/Core/Assert.h"
+#include "Engine/Util/Config.h"
 
 #include "Engine/Core/Timestep.h"
 

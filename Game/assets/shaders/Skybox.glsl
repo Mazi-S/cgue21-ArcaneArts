@@ -9,20 +9,25 @@ uniform mat4 u_View;
 
 void main()
 {
-    v_Texture = a_Position;
-    vec4 pos = u_Projection * u_View * vec4(a_Position, 1.0);
-    gl_Position = pos.xyww;
-}  
+	v_Texture = a_Position;
+	vec4 pos = u_Projection * u_View * vec4(a_Position, 1.0);
+	gl_Position = pos.xyww;
+}
 
 #type fragment
 #version 330 core
-out vec4 color;
 
-in vec3 v_Texture;
+// illumination multiplier
+uniform float u_Brightness = 1.0;
 
 uniform samplerCube u_Skybox;
 
+in vec3 v_Texture;
+
+out vec4 color;
+
 void main()
-{    
-    color = texture(u_Skybox, -v_Texture);
+{
+	color = texture(u_Skybox, -v_Texture);
+	color.xyz *= u_Brightness;
 }

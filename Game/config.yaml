@@ -1,0 +1,9 @@
+application:
+  brightness: 1.0
+  brightness2D: 1.0
+
+window: 
+  width: 1280
+  height: 750
+  refreshRate: -1
+  fullscreen: off
