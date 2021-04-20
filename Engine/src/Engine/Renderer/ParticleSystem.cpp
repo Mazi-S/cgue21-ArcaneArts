@@ -1,5 +1,7 @@
 #include "egpch.h"
 #include "ParticleSystem.h"
+
+#include "Platform/OpenGL/OpenGLAPI.h"
 #include "Platform/OpenGL/OpenGLShader.h"
 
 #include "glad/glad.h"
@@ -95,7 +97,7 @@ namespace Engine {
 	{
 		uint32_t size = sizeof(Particle) * MAX_PARTICLES;
 
-		Particle particles[MAX_PARTICLES];
+		Particle particles[10];
 		memset(particles, 0, sizeof(particles));
 		particles[0].Type = 0.0f;
 		particles[0].Pos = Pos;
@@ -110,7 +112,6 @@ namespace Engine {
 		m_TransformFeedback[0] = new OpenGL::GlTransformFeedback();
 		m_TransformFeedback[1] = new OpenGL::GlTransformFeedback();
 
-
 		m_TransformFeedback[0]->BindBuffer(*m_VertexBuffer[0], 0);
 		m_TransformFeedback[1]->BindBuffer(*m_VertexBuffer[1], 0);
 	}
@@ -118,6 +119,9 @@ namespace Engine {
 	void ParticleSystem::Render(Timestep timestep, const glm::mat4& viewProjection, const glm::vec3& cameraPos)
 	{
 		m_Time += timestep.GetMilliseconds();
+
+		OpenGL::API::UnbindVertexArray();
+
 		UpdateParticles(timestep);
 
 		RenderParticles(viewProjection, cameraPos);
@@ -133,10 +137,11 @@ namespace Engine {
 		s_UpdateShader->SetFloat("u_Time", m_Time);
 
 		s_RandomTexture->Bind(3);
-		glEnable(GL_RASTERIZER_DISCARD);
 
 		m_VertexBuffer[m_currVB]->Bind();
 		m_TransformFeedback[m_currTFB]->Bind();
+
+		glEnable(GL_RASTERIZER_DISCARD);
 
 		glEnableVertexAttribArray(0);
 		glEnableVertexAttribArray(1);
@@ -165,6 +170,8 @@ namespace Engine {
 		glDisableVertexAttribArray(1);
 		glDisableVertexAttribArray(2);
 		glDisableVertexAttribArray(3);
+
+		glDisable(GL_RASTERIZER_DISCARD);
 	}
 
 	void ParticleSystem::RenderParticles(const glm::mat4& viewProjection, const glm::vec3& cameraPos)
@@ -174,7 +181,6 @@ namespace Engine {
 		s_BillboardShader->SetMat4("u_ViewProjection", viewProjection);
 		s_ParticleTexture->Bind();
 
-		glDisable(GL_RASTERIZER_DISCARD);
 
 		m_VertexBuffer[m_currTFB]->Bind();
 

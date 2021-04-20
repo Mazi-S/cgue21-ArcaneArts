@@ -32,6 +32,8 @@ namespace Engine::OpenGL {
 
 		static void DrawIndexed(const Ref<OpenGL::GlVertexArray>& vertexArray, uint32_t indexCount);
 		static void DrawIndexed(const OpenGL::GlVertexArray* vertexArray, uint32_t indexCount);
+
+		static void UnbindVertexArray();
 	};
 
 }

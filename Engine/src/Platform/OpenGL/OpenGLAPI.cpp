@@ -52,4 +52,9 @@ namespace Engine::OpenGL {
 		glDrawElements(GL_TRIANGLES, indexCount, GL_UNSIGNED_INT, nullptr);
 	}
 
+	void API::UnbindVertexArray()
+	{
+		glBindVertexArray(0);
+	}
+
 }

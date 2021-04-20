@@ -142,6 +142,7 @@ namespace Engine {
 				OpenGL::API::DrawIndexed(obj.VertexArray, obj.VertexArray->GetIndexBuffer()->GetCount());
 			}
 		}
+		OpenGL::API::UnbindVertexArray();
 	}
 
 	void Renderer::UpdateShadowMap()

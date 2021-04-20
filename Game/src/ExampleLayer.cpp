@@ -425,11 +425,11 @@ void ExampleLayer::OnUpdate(Engine::Timestep ts)
 	// Render Scene
 	m_Scene->OnRender();
 
-	auto c = m_Scene->GetCamera();
-	glm::vec3 cameraPos = { c.Transform[3][0], c.Transform[3][1], c.Transform[3][2] };
-	glm::mat4 viewProjectionMatrix = c.Projection * glm::inverse(c.Transform);
+	auto camera = m_Scene->GetCamera();
+	glm::vec3 cameraPos = { camera.Transform[3][0], camera.Transform[3][1], camera.Transform[3][2] };
+	glm::mat4 viewProjectionMatrix = camera.Projection * glm::inverse(camera.Transform);
 
-	//m_ParticleSystem->Render(ts, viewProjectionMatrix, cameraPos);
+	m_ParticleSystem->Render(ts, viewProjectionMatrix, cameraPos);
 }
 
 void ExampleLayer::OnEvent(Engine::Event& event)
