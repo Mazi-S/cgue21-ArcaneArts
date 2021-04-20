@@ -4,7 +4,7 @@
 class GameApp : public Engine::Application
 {
 public:
-	GameApp();
+	GameApp(Engine::WindowSpecification windowSpec);
 
 	~GameApp() = default;
 

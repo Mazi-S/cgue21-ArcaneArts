@@ -15,7 +15,7 @@ namespace Engine {
 	class Application
 	{
 	public:
-		Application();
+		Application(WindowSpecification windowSpec = WindowSpecification());
 		virtual ~Application();
 
 		void Run();

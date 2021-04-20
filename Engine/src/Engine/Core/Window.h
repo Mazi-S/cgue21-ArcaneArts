@@ -4,19 +4,13 @@
 
 namespace Engine {
 
-	struct WindowProps
+	struct WindowSpecification
 	{
-		std::string Title;
-		int Width;
-		int Height;
-		int RefreshRate;
-
-		WindowProps(
-			const std::string& title = "Engine",
-			int width = 1280,
-			int height = 750,
-			int refreshRate = -1 // -1 = GLFW_DONT_CARE
-		) : Title(title), Width(width), Height(height), RefreshRate(refreshRate) { }
+		std::string Title = "Engine";
+		int Width = 1280;
+		int Height = 750;
+		int RefreshRate = -1;
+		bool fullscreen = false;
 	};
 
 	class Window
@@ -39,9 +33,6 @@ namespace Engine {
 		virtual void SetEventCallback(const EventCallbackFn& callback) = 0;
 		virtual void SetVSync(bool enabled) = 0;
 		virtual bool IsVSync() const = 0;
-
-		// Implemented in the platform specific class (Windows)
-		static Window* Create(const WindowProps& props = WindowProps());
 	};
 
 }

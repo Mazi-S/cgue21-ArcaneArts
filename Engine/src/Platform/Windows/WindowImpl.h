@@ -8,7 +8,7 @@ namespace Engine {
 	class WindowImpl : public Window
 	{
 	public:
-		WindowImpl(const WindowProps& props);
+		WindowImpl(const WindowSpecification& props);
 		virtual ~WindowImpl();
 
 		virtual void OnUpdate() override;
@@ -28,7 +28,7 @@ namespace Engine {
 		virtual GLFWwindow* GetNativeWindow() const { return m_Window; }
 
 	private:
-		void Init(const WindowProps& props);
+		void Init(const WindowSpecification& props);
 		void Shutdown();
 
 	private:

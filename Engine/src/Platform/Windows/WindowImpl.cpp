@@ -16,12 +16,7 @@ static void GLFWErrorCallback(int error, const char* description)
 
 namespace Engine {
 
-	Window* Window::Create(const WindowProps& props)
-	{
-		return new WindowImpl(props);
-	}
-
-	WindowImpl::WindowImpl(const WindowProps& props)
+	WindowImpl::WindowImpl(const WindowSpecification& props)
 		: m_Monitor(nullptr), m_WindowedPos({0,0}), m_WindowedSize({props.Width, props.Height})
 	{
 		Init(props);
@@ -53,7 +48,7 @@ namespace Engine {
 		return m_Data.VSync;
 	}
 
-	void WindowImpl::Init(const WindowProps& props)
+	void WindowImpl::Init(const WindowSpecification& props)
 	{
 		m_Data.Title = props.Title;
 		m_Data.Width = props.Width;
@@ -68,10 +63,20 @@ namespace Engine {
 			int success = glfwInit();
 			ASSERT(success, "Could not initialize GLFW!");
 			glfwSetErrorCallback(GLFWErrorCallback);
+
+
 			s_GLFWInitialized = true;
 		}
 
-		m_Window = glfwCreateWindow((int)props.Width, (int)props.Height, m_Data.Title.c_str(), nullptr, nullptr);
+		if (props.fullscreen)
+		{
+			m_Monitor = glfwGetPrimaryMonitor();
+			const GLFWvidmode* mode = glfwGetVideoMode(m_Monitor);
+			m_Data.Width = mode->width;
+			m_Data.Height = mode->height;
+		}
+
+		m_Window = glfwCreateWindow(m_Data.Width, m_Data.Height, m_Data.Title.c_str(), m_Monitor, nullptr);
 
 		m_Context = new OpenGL::GlContext(m_Window);
 		m_Context->Init();

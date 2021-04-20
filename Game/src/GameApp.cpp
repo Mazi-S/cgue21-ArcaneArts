@@ -5,11 +5,18 @@
 #include "GameApp.h"
 
 int main() {
-	Engine::Scope<GameApp> app = Engine::CreateScope<GameApp>();
+
+	Engine::WindowSpecification windowSpec = Engine::WindowSpecification();
+	windowSpec.Title = "Arcane Arts";
+
+	// TODO: load YAML
+
+	Engine::Scope<GameApp> app = Engine::CreateScope<GameApp>(windowSpec);
 	app->Run();
 }
 
-GameApp::GameApp()
+GameApp::GameApp(Engine::WindowSpecification windowSpec)
+	: Application(windowSpec)
 {
 	PushOverlay(new MenuLayer());
 	PushOverlay(new HudLayer());

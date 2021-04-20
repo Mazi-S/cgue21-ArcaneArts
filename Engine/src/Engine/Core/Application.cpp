@@ -4,6 +4,7 @@
 
 #include "Platform/Platform.h"
 #include "Platform/OpenGL/OpenGLAPI.h"
+#include "Platform/Windows/WindowImpl.h"
 
 #include "Engine/Renderer/Renderer.h"
 #include "Engine/Renderer/Renderer2D.h"
@@ -14,13 +15,13 @@ namespace Engine {
 
 	Application* Application::s_Instance = nullptr;
 
-	Application::Application()
+	Application::Application(WindowSpecification windowSpec)
 	{
 		Log::Init();
 
 		s_Instance = this;
 
-		m_Window = Scope<Window>(Window::Create());
+		m_Window = CreateScope<WindowImpl>(windowSpec);
 		m_Window->SetEventCallback(EG_BIND_EVENT_FN(Application::OnEvent));
 
 		Renderer::Init();
