@@ -31,7 +31,7 @@ group "Dependencies"
 	include "Engine/dependencies/GLFW"
 	include "Engine/dependencies/Glad"
 	include "Engine/dependencies/yaml-cpp"
-	include "Engine/dependencies/imgui"
+	include "Engine/dependencies/imgui_premake5.lua"
 
 group ""
 	include "Engine"
