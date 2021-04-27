@@ -34,7 +34,8 @@ project "Engine"
 		"%{IncludeDir.tinyobjloader}",
 		"%{IncludeDir.physx}",
 		"%{IncludeDir.irrklang}",
-		"%{IncludeDir.yaml_cpp}"
+		"%{IncludeDir.yaml_cpp}",
+		"%{IncludeDir.ImGui}"
 	}
 
 	links {
@@ -48,7 +49,8 @@ project "Engine"
 		"PhysXCooking_64.lib",
 		"PhysXCharacterKinematic_static_64.lib",
 		"irrKlang.lib",
-		"yaml-cpp"
+		"yaml-cpp",
+		"ImGui"
 	}
 	
 	defines	{

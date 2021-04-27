@@ -13,3 +13,7 @@
 [submodule "Engine/dependencies/yaml-cpp"]
 	path = Engine/dependencies/yaml-cpp
 	url = https://github.com/Mazi-S/yaml-cpp.git
+[submodule "Engine/dependencies/imgui"]
+	path = Engine/dependencies/imgui
+	url = https://github.com/ocornut/imgui.git
+	branch = docking

@@ -11,6 +11,7 @@
 
 #include <glad/glad.h>
 #include <glm/gtc/matrix_transform.hpp>
+#include "imgui/imgui.h"
 
 ExampleLayer::ExampleLayer()
 	: Layer("Example")
@@ -463,5 +464,14 @@ bool ExampleLayer::OnGameEnd(GameEndEvent& event)
 {
 	Engine::Application::Get().Remove(this);
 	return false;
+}
+
+void ExampleLayer::OnImGui()
+{
+	ImGui::ShowDemoWindow();
+
+	ImGui::Begin("Scene Hierarchy");
+
+	ImGui::End();
 }
 

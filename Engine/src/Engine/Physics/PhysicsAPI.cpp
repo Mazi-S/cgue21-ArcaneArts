@@ -15,6 +15,7 @@ namespace Engine {
 
 	void PhysicsAPI::Init()
 	{
+		LOG_INFO("PhysicsAPI::Init...");
 		s_Foundation = PxCreateFoundation(PX_PHYSICS_VERSION, s_AllocatorCallback, s_ErrorCallback);
 		ASSERT(s_Foundation, "PxCreateFoundation failed!");
 

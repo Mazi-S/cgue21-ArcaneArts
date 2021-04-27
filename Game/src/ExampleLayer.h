@@ -11,6 +11,7 @@ public:
 	virtual void OnDetach() override;
 
 	virtual void OnUpdate(Engine::Timestep ts) override;
+	virtual void OnImGui() override;
 
 	virtual void OnEvent(Engine::Event& event) override;
 

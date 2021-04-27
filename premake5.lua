@@ -25,11 +25,13 @@ IncludeDir["tinyobjloader"] = "%{wks.location}/Engine/dependencies/tinyobjloader
 IncludeDir["physx"] = "%{wks.location}/Engine/dependencies/physx/include"
 IncludeDir["irrklang"] = "%{wks.location}/Engine/dependencies/irrklang"
 IncludeDir["yaml_cpp"] = "%{wks.location}/Engine/dependencies/yaml-cpp/include"
+IncludeDir["ImGui"] = "%{wks.location}/Engine/dependencies/imgui"
 
 group "Dependencies"
 	include "Engine/dependencies/GLFW"
 	include "Engine/dependencies/Glad"
 	include "Engine/dependencies/yaml-cpp"
+	include "Engine/dependencies/imgui"
 
 group ""
 	include "Engine"

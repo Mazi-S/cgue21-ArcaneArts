@@ -8,6 +8,7 @@
 
 #include "Engine/Renderer/Renderer.h"
 #include "Engine/Renderer/Renderer2D.h"
+#include "Engine/ImGui/ImGuiAPI.h"
 #include "Engine/Audio/SoundEngine.h"
 #include "Engine/Physics/PhysicsAPI.h"
 
@@ -31,6 +32,7 @@ namespace Engine {
 		Renderer2D::Init();
 		SoundEngine::Init();
 		PhysicsAPI::Init();
+		ImGuiAPI::Init();
 
 		m_LayerStack = new LayerStack();
 	}
@@ -38,6 +40,7 @@ namespace Engine {
 	Application::~Application() {
 		delete m_LayerStack;
 
+		ImGuiAPI::Shutdown();
 		Renderer::Shutdown();
 		Renderer2D::Shutdown();
 		SoundEngine::Shutdown();
@@ -87,13 +90,17 @@ namespace Engine {
 			}
 			m_RemovedLayers.clear();
 
-			if (!m_Minimized)
-			{
-				OpenGL::API::Clear();
+			OpenGL::API::Clear();
 
+			if (!m_Minimized)
 				for (Layer* layer : *m_LayerStack)
 					layer->OnUpdate(timestep);
-			}
+
+			// ImGui
+			ImGuiAPI::Begin();
+			for (Layer* layer : *m_LayerStack)
+				layer->OnImGui();
+			ImGuiAPI::End();
 
 			m_Window->OnUpdate();
 		}

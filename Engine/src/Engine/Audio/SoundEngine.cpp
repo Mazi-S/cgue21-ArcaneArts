@@ -9,6 +9,7 @@ namespace Engine {
 
 	void SoundEngine::Init()
 	{
+		LOG_INFO("SoundEngine::Init...");
 		s_SoundEngine = irrklang::createIrrKlangDevice();
 	}
 

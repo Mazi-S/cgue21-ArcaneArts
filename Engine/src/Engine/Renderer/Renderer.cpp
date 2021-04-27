@@ -20,6 +20,7 @@ namespace Engine {
 
 	void Renderer::Init()
 	{
+		LOG_INFO("Renderer::Init...");
 		OpenGL::API::Init();
 		OpenGL::GlUniformBufferLayout_std140 layout(4 * 4 * 14, {
 			{OpenGL::GlShaderDataType::Mat4, "ViewProjection", 0},

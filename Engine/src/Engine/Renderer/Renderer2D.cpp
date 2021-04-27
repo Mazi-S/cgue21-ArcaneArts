@@ -44,6 +44,7 @@ namespace Engine {
 
 	void Renderer2D::Init()
 	{
+		LOG_INFO("Renderer2D::Init...");
 		s_Data.QuadVertexArray = CreateRef<OpenGL::GlVertexArray>();
 
 		s_Data.QuadVertexBuffer = CreateRef<OpenGL::GlVertexBuffer>(s_Data.MaxVertices * sizeof(QuadVertex));
