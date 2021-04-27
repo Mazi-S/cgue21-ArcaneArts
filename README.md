@@ -28,6 +28,7 @@ To generate the project files, run: `scripts/GenerateProjects.bat`
 * [stb](https://github.com/nothings/stb) (image loader)
 * [tinyobjloader](https://github.com/tinyobjloader/tinyobjloader) (obj loader)
 * [yaml-cpp](https://github.com/jbeder/yaml-cpp) (YAML parser)
+* [ImGui](https://github.com/ocornut/imgui) (GUI for debug/develop)
 
 ### Tutorials
 > [Uniform Buffers](https://www.lighthouse3d.com/tutorials/glsl-tutorial/uniform-blocks/)  
