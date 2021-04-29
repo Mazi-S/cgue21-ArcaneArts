@@ -34,10 +34,7 @@ void PhysicsTestLayer::OnAttach()
 
 	// Create Materials
 	{
-		MaterialLibrary::Create(MaterialProperties("GreenMaterial",     { 0.1f, 0.3f, 0.1f },		{ 0.3f, 0.9f, 0.3f },		{ 0.0f, 0.0f, 0.0f },	2.0f), ShaderLibrary::Get("ColorShader"));
-		MaterialLibrary::Create(MaterialProperties("GroundMaterial",      { 0.2f, 0.2f, 0.2f },		{ 0.8f, 0.8f, 0.8f },		{ 0.1f, 0.1f, 0.1f },	2.0f), ShaderLibrary::Get("ColorShader"));
-		MaterialLibrary::Create(MaterialProperties("BricksMaterial",    { 0.1f, 0.1f, 0.1f },		{ 0.6f, 0.6f, 0.6f },		{ 0.2f, 0.2f, 0.2f },	2.0f), TextureLibrary::GetTexture2D("Bricks"), ShaderLibrary::Get("TextureShader"));
-	}
+		}
 
 	// Create Scene
 	m_Scene = CreateRef<Scene>();

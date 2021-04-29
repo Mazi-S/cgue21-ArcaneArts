@@ -65,22 +65,22 @@ void ExampleLayer::OnAttach()
 
 	// Load Shaders
 	{
-		auto textureShader = Engine::ShaderLibrary::Load("TextureShader", "assets/shaders/Texture.glsl");
-		textureShader->Bind();
-		textureShader->SetFloat("u_Brightness", Engine::Application::Get().Brightness());
-		auto flatColorShader = Engine::ShaderLibrary::Load("ColorShader", "assets/shaders/FlatColor.glsl");
-		flatColorShader->Bind();
-		flatColorShader->SetFloat("u_Brightness", Engine::Application::Get().Brightness());
+		//auto textureShader = Engine::ShaderLibrary::Load("TextureShader", "assets/shaders/Texture.glsl");
+		//textureShader->Bind();
+		//textureShader->SetFloat("u_Brightness", Engine::Application::Get().Brightness());
+		//auto flatColorShader = Engine::ShaderLibrary::Load("ColorShader", "assets/shaders/FlatColor.glsl");
+		//flatColorShader->Bind();
+		//flatColorShader->SetFloat("u_Brightness", Engine::Application::Get().Brightness());
 	}
 
 	// Load Textures
 	{
-		Engine::TextureLibrary::LoadTexture2D("Bricks", "assets/textures/Bricks.jpg");
-		Engine::TextureLibrary::LoadTexture2D("WoodFloor", "assets/textures/WoodFloor.jpg");
-		Engine::TextureLibrary::LoadTexture2D("MonsterBig", "assets/textures/monster-big.png");
-		Engine::TextureLibrary::LoadTexture2D("MonsterSmall", "assets/textures/monster-small.png");
-		Engine::TextureLibrary::LoadTexture2D("House", "assets/textures/house.png");
-		Engine::TextureLibrary::LoadTexture2D("Forest", "assets/textures/forest.png");
+		//auto bricksTex = Engine::TextureLibrary::LoadTexture2D("Bricks", "assets/textures/Bricks.jpg");
+		//auto woodFloorTex = Engine::TextureLibrary::LoadTexture2D("WoodFloor", "assets/textures/WoodFloor.jpg");
+		//auto monsterBigTex = Engine::TextureLibrary::LoadTexture2D("MonsterBig", "assets/textures/monster-big.png");
+		//auto monsterSmallTex = Engine::TextureLibrary::LoadTexture2D("MonsterSmall", "assets/textures/monster-small.png");
+		//auto houseTex = Engine::TextureLibrary::LoadTexture2D("House", "assets/textures/house.png");
+		//auto forestTex = Engine::TextureLibrary::LoadTexture2D("Forest", "assets/textures/forest.png");
 	}
 
 	// Load Sounds
@@ -100,24 +100,45 @@ void ExampleLayer::OnAttach()
 	// Create Materials
 	{
 		// Colors
-		Engine::MaterialLibrary::Create(Engine::MaterialProperties("SkinMaterial", { 0.2f, 0.15f, 0.1f }, { 0.4f, 0.2f, 0.2f }, { 0.1f, 0.1f, 0.1f }, 2.0f), Engine::ShaderLibrary::Get("ColorShader"));
-		Engine::MaterialLibrary::Create(Engine::MaterialProperties("CloudMaterial", { 0.56f, 0.77f, 1.0f }, { 0.46f, 0.67f, 0.9f }, { 0.36f, 0.57f, 0.8f }), Engine::ShaderLibrary::Get("ColorShader"));
-		Engine::MaterialLibrary::Create(Engine::MaterialProperties("TerrainMaterial", { 0.06f, 0.1f, 0.0f }, { 0.20f, 0.32f, 0.0f }, { 0.06f, 0.12f, 0.0f }), Engine::ShaderLibrary::Get("ColorShader"));
-		Engine::MaterialLibrary::Create(Engine::MaterialProperties("RockMaterial", { 0.1f, 0.1f, 0.1f }, { 0.4f, 0.4f, 0.4f }, { 0.3f, 0.3f, 0.3f }), Engine::ShaderLibrary::Get("ColorShader"));
-		Engine::MaterialLibrary::Create(Engine::MaterialProperties("PedestalMaterial", { 0.11f, 0.05f, 0.02f }, { 0.21f, 0.15f, 0.09f }, { 0.31f, 0.25f, 0.19f }), Engine::ShaderLibrary::Get("ColorShader"));
-
-		// Textures
-		Engine::MaterialLibrary::Create(Engine::MaterialProperties("MonsterBigMaterial", { 0.1f, 0.1f, 0.1f }, { 0.6f, 0.6f, 0.6f }, { 0.2f, 0.2f, 0.2f }, 2.0f), Engine::TextureLibrary::GetTexture2D("MonsterBig"), Engine::ShaderLibrary::Get("TextureShader"));
-		Engine::MaterialLibrary::Create(Engine::MaterialProperties("MonsterSmallMaterial", { 0.1f, 0.1f, 0.1f }, { 0.6f, 0.6f, 0.6f }, { 0.2f, 0.2f, 0.2f }, 2.0f), Engine::TextureLibrary::GetTexture2D("MonsterSmall"), Engine::ShaderLibrary::Get("TextureShader"));
-		Engine::MaterialLibrary::Create(Engine::MaterialProperties("HouseMaterial", { 0.1f, 0.1f, 0.1f }, { 0.6f, 0.6f, 0.6f }, { 0.2f, 0.2f, 0.2f }, 2.0f), Engine::TextureLibrary::GetTexture2D("House"), Engine::ShaderLibrary::Get("TextureShader"));
-		Engine::MaterialLibrary::Create(Engine::MaterialProperties("ForestMaterial", { 0.1f, 0.1f, 0.1f }, { 0.65f, 0.65f, 0.65f }, { 0.15f, 0.15f, 0.15f }, 2.0f), Engine::TextureLibrary::GetTexture2D("Forest"), Engine::ShaderLibrary::Get("TextureShader"));
-
-		Engine::MaterialLibrary::Create(Engine::MaterialProperties("MagicBall_Light", { 0.9f, 0.9f, 0.9f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }), Engine::ShaderLibrary::Get("ColorShader"));
-		Engine::MaterialLibrary::Create(Engine::MaterialProperties("MagicBall_Heal", { 0.9f, 0.9f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }), Engine::ShaderLibrary::Get("ColorShader"));
-		Engine::MaterialLibrary::Create(Engine::MaterialProperties("MagicBall_Fire", { 0.5f, 0.05f, 0.1f }, { 0.5f, 0.05f, 0.1f }, { 0.5f, 0.35f, 0.4f }, 5.0f), Engine::ShaderLibrary::Get("ColorShader"));
-		Engine::MaterialLibrary::Create(Engine::MaterialProperties("MagicBall_Fire_ready", { 0.6f, 0.15f, 0.2f }, { 0.6f, 0.15f, 0.2f }, { 0.5f, 0.35f, 0.4f }, 5.0f), Engine::ShaderLibrary::Get("ColorShader"));
-		Engine::MaterialLibrary::Create(Engine::MaterialProperties("MagicBall_Lightning", { 0.1f, 0.05f, 0.5f }, { 0.1f, 0.05f, 0.5f }, { 0.4f, 0.35f, 0.5f }, 5.0f), Engine::ShaderLibrary::Get("ColorShader"));
-		Engine::MaterialLibrary::Create(Engine::MaterialProperties("MagicBall_Lightning_ready", { 0.2f, 0.15f, 0.6f }, { 0.2f, 0.15f, 0.6f }, { 0.4f, 0.35f, 0.5f }, 5.0f), Engine::ShaderLibrary::Get("ColorShader"));
+		//Engine::MaterialProperties prop1 = Engine::MaterialProperties("SkinMaterial", { 0.2f, 0.15f, 0.1f }, { 0.4f, 0.2f, 0.2f }, { 0.1f, 0.1f, 0.1f }, 2.0f, "ColorShader");
+		//Engine::MaterialProperties prop2 = Engine::MaterialProperties("CloudMaterial", { 0.56f, 0.77f, 1.0f }, { 0.46f, 0.67f, 0.9f }, { 0.36f, 0.57f, 0.8f }, 1.0f, "ColorShader");
+		//Engine::MaterialProperties prop3 = Engine::MaterialProperties("TerrainMaterial", { 0.06f, 0.1f, 0.0f }, { 0.20f, 0.32f, 0.0f }, { 0.06f, 0.12f, 0.0f }, 1.0f, "ColorShader");
+		//Engine::MaterialProperties prop4 = Engine::MaterialProperties("RockMaterial", { 0.1f, 0.1f, 0.1f }, { 0.4f, 0.4f, 0.4f }, { 0.3f, 0.3f, 0.3f }, 1.0f, "ColorShader");
+		//Engine::MaterialProperties prop5 = Engine::MaterialProperties("PedestalMaterial", { 0.11f, 0.05f, 0.02f }, { 0.21f, 0.15f, 0.09f }, { 0.31f, 0.25f, 0.19f }, 1.0f, "ColorShader");
+		//
+		//Engine::MaterialProperties prop6 = Engine::MaterialProperties("MonsterBigMaterial", { 0.1f, 0.1f, 0.1f }, { 0.6f, 0.6f, 0.6f }, { 0.2f, 0.2f, 0.2f }, 2.0f, "TextureShader");
+		//Engine::MaterialProperties prop7 = Engine::MaterialProperties("MonsterSmallMaterial", { 0.1f, 0.1f, 0.1f }, { 0.6f, 0.6f, 0.6f }, { 0.2f, 0.2f, 0.2f }, 2.0f, "TextureShader");
+		//Engine::MaterialProperties prop8 = Engine::MaterialProperties("HouseMaterial", { 0.1f, 0.1f, 0.1f }, { 0.6f, 0.6f, 0.6f }, { 0.2f, 0.2f, 0.2f }, 2.0f, "TextureShader");
+		//Engine::MaterialProperties prop9 = Engine::MaterialProperties("ForestMaterial", { 0.1f, 0.1f, 0.1f }, { 0.65f, 0.65f, 0.65f }, { 0.15f, 0.15f, 0.15f }, 2.0f, "TextureShader");
+		//prop6.Textures[0] = "MonsterBig";
+		//prop7.Textures[0] = "MonsterSmall";
+		//prop8.Textures[0] = "House";
+		//prop9.Textures[0] = "Forest";
+		//
+		//Engine::MaterialProperties prop10 = Engine::MaterialProperties("MagicBall_Light", { 0.9f, 0.9f, 0.9f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, 1.0f, "ColorShader");
+		//Engine::MaterialProperties prop11 = Engine::MaterialProperties("MagicBall_Heal", { 0.9f, 0.9f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, 1.0f, "ColorShader");
+		//Engine::MaterialProperties prop12 = Engine::MaterialProperties("MagicBall_Fire", { 0.5f, 0.05f, 0.1f }, { 0.5f, 0.05f, 0.1f }, { 0.5f, 0.35f, 0.4f }, 5.0f, "ColorShader");
+		//Engine::MaterialProperties prop13 = Engine::MaterialProperties("MagicBall_Fire_ready", { 0.6f, 0.15f, 0.2f }, { 0.6f, 0.15f, 0.2f }, { 0.5f, 0.35f, 0.4f }, 5.0f, "ColorShader");
+		//Engine::MaterialProperties prop14 = Engine::MaterialProperties("MagicBall_Lightning", { 0.1f, 0.05f, 0.5f }, { 0.1f, 0.05f, 0.5f }, { 0.4f, 0.35f, 0.5f }, 5.0f, "ColorShader");
+		//Engine::MaterialProperties prop15 = Engine::MaterialProperties("MagicBall_Lightning_ready", { 0.2f, 0.15f, 0.6f }, { 0.2f, 0.15f, 0.6f }, { 0.4f, 0.35f, 0.5f }, 5.0f, "ColorShader");
+		//
+		//Engine::MaterialLibrary::Create(prop1);
+		//Engine::MaterialLibrary::Create(prop2);
+		//Engine::MaterialLibrary::Create(prop3);
+		//Engine::MaterialLibrary::Create(prop4);
+		//Engine::MaterialLibrary::Create(prop5);
+		//Engine::MaterialLibrary::Create(prop6);
+		//Engine::MaterialLibrary::Create(prop7);
+		//Engine::MaterialLibrary::Create(prop8);
+		//Engine::MaterialLibrary::Create(prop9);
+		//Engine::MaterialLibrary::Create(prop10);
+		//Engine::MaterialLibrary::Create(prop11);
+		//Engine::MaterialLibrary::Create(prop12);
+		//Engine::MaterialLibrary::Create(prop13);
+		//Engine::MaterialLibrary::Create(prop14);
+		//Engine::MaterialLibrary::Create(prop15);
+		
+		Engine::MaterialLibrary::Load("assets/Materials.yaml");
 	}
 
 	// Create Scene
@@ -178,7 +199,7 @@ void ExampleLayer::OnAttach()
 		// Monster
 		{
 			// Big Monsters
-			for (size_t i = 0; i < 2; i++)
+			for (size_t i = 2; i < 2; i++)
 			{
 				entity = m_Scene->CreateEntity();
 				auto& mesh = Engine::MeshLibrary::Get("Monster");
@@ -200,7 +221,7 @@ void ExampleLayer::OnAttach()
 				entity.AddNativeScript<MonsterScript>();
 			}
 			// Small Monsters
-			for (size_t i = 0; i < 4; i++)
+			for (size_t i = 4; i < 4; i++)
 			{
 				entity = m_Scene->CreateEntity();
 				auto& mesh = Engine::MeshLibrary::Get("Monster");
@@ -405,6 +426,9 @@ void ExampleLayer::OnAttach()
 	Engine::ParticleSystem::Init();
 	m_ParticleSystem = Engine::CreateRef<Engine::ParticleSystem>();
 	m_ParticleSystem->InitParticleSystem({ 0, 1, 3 });
+
+	// ImGui
+	m_MaterialPanel = Engine::CreateScope<Engine::MaterialPanel>();
 }
 
 void ExampleLayer::OnDetach()
@@ -470,8 +494,6 @@ void ExampleLayer::OnImGui()
 {
 	ImGui::ShowDemoWindow();
 
-	ImGui::Begin("Scene Hierarchy");
-
-	ImGui::End();
+	m_MaterialPanel->OnImGui();
 }
 

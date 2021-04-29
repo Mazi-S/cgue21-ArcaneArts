@@ -13,7 +13,7 @@ namespace Engine::OpenGL {
 		// Texture Wrapping
 		uint32_t Wrap_S = 0x2901;
 		uint32_t Wrap_T = 0x2901;
-		glm::vec4 Border;
+		glm::vec4 Border = { 0, 0, 0, 0 };
 
 		// Texture Filtering
 		uint32_t Min_Filter = 0x2601;
@@ -39,6 +39,7 @@ namespace Engine::OpenGL {
 		virtual void Bind(uint32_t slot = 0) const;
 		virtual const std::string& GetName() const { return m_Name; }
 		virtual const std::string& GetPath() const { return m_Path; }
+		virtual const Texture2DSpecification& GetSpecification() const { return m_Specification; }
 
 		virtual void SetData(const void* data, uint32_t size);
 

@@ -10,7 +10,6 @@ namespace Engine::OpenGL {
 	{
 	public:
 		GlShader(const std::string& name, const std::string& filepath, bool link = true);
-		GlShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc);
 		virtual ~GlShader();
 
 		virtual void Bind() const;
@@ -29,6 +28,7 @@ namespace Engine::OpenGL {
 		virtual void SetMat4(const std::string& name, const glm::mat4& matrix);
 
 		virtual const std::string& GetName() const { return m_Name; }
+		virtual const std::string& GetPath() const { return m_Path; }
 
 		void Link();
 	private:

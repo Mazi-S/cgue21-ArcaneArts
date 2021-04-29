@@ -27,4 +27,7 @@ private:
 	bool m_Menu = false;
 
 	Engine::Ref<Engine::ParticleSystem> m_ParticleSystem;
+
+	// ImGui
+	Engine::Scope<Engine::MaterialPanel> m_MaterialPanel;
 };

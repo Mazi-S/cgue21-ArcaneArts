@@ -30,7 +30,6 @@
 #include "Engine/Renderer/TextureLibrary.h"
 
 #include "Engine/Renderer/ParticleSystem.h"
-
 #include "Engine/Renderer/Skybox.h"
 
 // Audio
@@ -54,3 +53,6 @@
 #include "Engine/Physics/PhysicsAPI.h"
 #include "Engine/Physics/PhysicsMesh.h"
 #include "Engine/Physics/PhysicsScene.h"
+
+// ImGui
+#include "Engine/ImGui/MaterialPanel.h"

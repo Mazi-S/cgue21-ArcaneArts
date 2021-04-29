@@ -7,8 +7,8 @@ namespace Engine {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// MaterialProperties /////////////////////////////////////////////////////////////////////////
 
-	MaterialProperties::MaterialProperties(const std::string & name, const glm::vec3 & ambient, const glm::vec3 & diffuse, const glm::vec3 & specular, float shininess)
-		: Name(name), Ambient(ambient), Diffuse(diffuse), Specular(specular), Shininess(shininess)
+	MaterialProperties::MaterialProperties(const std::string & name, const glm::vec3 & ambient, const glm::vec3 & diffuse, const glm::vec3 & specular, float shininess, const std::string& shader)
+		: Name(name), Ambient(ambient), Diffuse(diffuse), Specular(specular), Shininess(shininess), Shader(shader)
 	{ }
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -25,10 +25,10 @@ namespace Engine {
 		});
 		m_MaterialUB = CreateRef<OpenGL::GlUniformBuffer>(layout);
 
-		m_MaterialUB->SetData(glm::value_ptr(m_Ambient), "Ambient");
-		m_MaterialUB->SetData(glm::value_ptr(m_Diffuse), "Diffuse");
-		m_MaterialUB->SetData(glm::value_ptr(m_Specular), "Specular");
-		m_MaterialUB->SetData(&m_Shininess, "Shininess");
+		SetAmbient(m_Ambient);
+		SetDiffuse(m_Diffuse);
+		SetSpecular(m_Specular);
+		SetShininess(m_Shininess);
 	}
 
 	void Material::Bind()
@@ -45,62 +45,48 @@ namespace Engine {
 		m_BindingPoint++;
 	}
 
+	void Material::SetAmbient(glm::vec3 ambient)
+	{
+		m_Ambient = ambient;
+		m_MaterialUB->SetData(glm::value_ptr(ambient), "Ambient");
+	}
+
+	void Material::SetDiffuse(glm::vec3 diffuse)
+	{
+		m_Diffuse = diffuse;
+		m_MaterialUB->SetData(glm::value_ptr(diffuse), "Diffuse");
+	}
+
+	void Material::SetSpecular(glm::vec3 specular)
+	{
+		m_Specular = specular;
+		m_MaterialUB->SetData(glm::value_ptr(specular), "Specular");
+	}
+
+	void Material::SetShininess(float shininess)
+	{
+		m_Shininess = shininess;
+		m_MaterialUB->SetData(&shininess, "Shininess");
+	}
+
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// TextureMaterial ////////////////////////////////////////////////////////////////////////////
 
 	TextureMaterial::TextureMaterial(const MaterialProperties& properties, const Ref<OpenGL::GlTexture2D>& colorTex, const Ref<OpenGL::GlShader>& shader)
-		: Material(properties, shader), m_ColorTexture(colorTex)
-	{ }
+		: Material(properties, shader)
+	{
+		// ColorTexture = slot 0
+		m_Textures[0] = colorTex;
+
+	}
 
 	void TextureMaterial::Bind()
 	{
 		Material::Bind();
-		m_ColorTexture->Bind();
+
+		for(auto& entry : m_Textures)
+			entry.second->Bind(entry.first);
 	}
-
-
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	// MaterialLibrary ////////////////////////////////////////////////////////////////////////////
-
-	std::unordered_map<std::string, Ref<Material>> MaterialLibrary::s_Materials;
-
-	void MaterialLibrary::Add(const Ref<Material>& material)
-	{
-		auto& name = material->GetName();
-		Add(name, material);
-	}
-
-	void MaterialLibrary::Add(const std::string& name, const Ref<Material>& material)
-	{
-		ASSERT(!Contains(name), "Shader already exists!");
-		s_Materials[name] = material;
-	}
-
-	Ref<Material> MaterialLibrary::Create(const MaterialProperties& properties, const Ref<OpenGL::GlShader>& shader)
-	{
-		Ref<Material> material = CreateRef<Material>(properties, shader);
-		s_Materials[material->GetName()] = material;
-		return material;
-	}
-
-	Ref<TextureMaterial> MaterialLibrary::Create(const MaterialProperties& properties, const Ref<OpenGL::GlTexture2D>& colorTex, const Ref<OpenGL::GlShader>& shader)
-	{
-		Ref<TextureMaterial> material = CreateRef<TextureMaterial>(properties, colorTex, shader);
-		s_Materials[material->GetName()] = material;
-		return material;
-	}
-
-	Ref<Material> MaterialLibrary::Get(const std::string& name)
-	{
-		ASSERT(Contains(name), "Material not found!");
-		return s_Materials[name];
-	}
-
-	bool MaterialLibrary::Contains(const std::string& name)
-	{
-		return s_Materials.find(name) != s_Materials.end();
-	}
-
 
 }
 

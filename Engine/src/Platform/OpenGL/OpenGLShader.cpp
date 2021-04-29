@@ -31,16 +31,6 @@ namespace Engine::OpenGL {
 			Link();
 	}
 
-	GlShader::GlShader(const std::string& name, const std::string& vertexSrc, const std::string& fragmentSrc)
-		: m_Name(name)
-	{
-		std::unordered_map<GLenum, std::string> sources;
-		sources[GL_VERTEX_SHADER] = vertexSrc;
-		sources[GL_FRAGMENT_SHADER] = fragmentSrc;
-		Compile(sources);
-		Link();
-	}
-
 	GlShader::~GlShader()
 	{
 		glDeleteProgram(m_RendererID);
