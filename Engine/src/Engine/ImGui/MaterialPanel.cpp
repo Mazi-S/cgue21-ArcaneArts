@@ -49,6 +49,18 @@ namespace Engine {
 		ImGuiUtil::Text("Name", material->GetName());
 		ImGuiUtil::Text("Shader", material->m_Shader->GetName());
 
+		if (material->GetTextures().size() > 0)
+		{
+			for (auto& entry : material->GetTextures())
+			{
+				std::stringstream ss;
+				ss << "Texture " << entry.first;
+				ImGuiUtil::Text(ss.str(), entry.second->GetName());
+			}
+		}
+		ImGui::NewLine();
+
+
 		glm::vec3 ambient = material->GetAmbient();
 		glm::vec3 diffuse = material->GetDiffuse();
 		glm::vec3 specular = material->GetSpecular();

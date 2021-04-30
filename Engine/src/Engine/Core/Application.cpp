@@ -52,6 +52,7 @@ namespace Engine {
 		EventHandler handler(e);
 		handler.Handle<WindowCloseEvent>(EG_BIND_EVENT_FN(Application::OnWindowClose));
 		handler.Handle<WindowResizeEvent>(EG_BIND_EVENT_FN(Application::OnWindowResize));
+		handler.Handle<KeyPressedEvent>(EG_BIND_EVENT_FN(Application::OnKeyPressed));
 
 		for (auto it = m_LayerStack->rbegin(); it != m_LayerStack->rend(); it++)
 		{
@@ -98,8 +99,9 @@ namespace Engine {
 
 			// ImGui
 			ImGuiAPI::Begin();
-			for (Layer* layer : *m_LayerStack)
-				layer->OnImGui();
+			if (m_ImGui)
+				for (Layer* layer : *m_LayerStack)
+					layer->OnImGui();
 			ImGuiAPI::End();
 
 			m_Window->OnUpdate();
@@ -126,6 +128,16 @@ namespace Engine {
 		m_Minimized = false;
 		Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
 
+		return false;
+	}
+
+	bool Application::OnKeyPressed(Engine::KeyPressedEvent& event)
+	{
+		if (event.GetKeyCode() == Engine::Key::F4)
+		{
+			m_ImGui = !m_ImGui;
+			return true;
+		}
 		return false;
 	}
 

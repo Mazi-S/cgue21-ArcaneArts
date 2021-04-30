@@ -2,6 +2,7 @@
 #include "Base.h"
 #include "Engine/Events/Event.h"
 #include "Engine/Events/ApplicationEvent.h"
+#include "Engine/Events/KeyEvent.h"
 
 #include "Engine/Core/Timestep.h"
 
@@ -34,6 +35,8 @@ namespace Engine {
 
 		void Remove(Layer* layer);
 
+		void ShowImGui(bool show) { m_ImGui = show; };
+
 		float Brightness() { return m_Brightness; }
 		float Brightness2D() { return m_Brightness2D; }
 
@@ -43,6 +46,7 @@ namespace Engine {
 	private:
 		bool OnWindowClose(WindowCloseEvent& e);
 		bool OnWindowResize(WindowResizeEvent& e);
+		bool OnKeyPressed(Engine::KeyPressedEvent& event);
 
 	private:
 		Scope<Window> m_Window;
@@ -51,6 +55,7 @@ namespace Engine {
 		float m_Brightness2D = 1.0;
 		bool m_Running = true;
 		bool m_Minimized = false;
+		bool m_ImGui = false;
 
 		LayerStack* m_LayerStack;
 		std::vector<Layer*> m_RemovedLayers;
