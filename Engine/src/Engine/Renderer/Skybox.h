@@ -3,6 +3,7 @@
 #include "Engine/Core/Base.h"
 
 #include "Platform/OpenGL/OpenGLShader.h"
+#include "Platform/OpenGL/OpenGLCubeTexture.h"
 
 namespace Engine {
 
@@ -15,6 +16,8 @@ namespace Engine {
 		void Draw(Camera camera);
 
 	private:
+		Ref<OpenGL::GlCubeTexture> m_SkyboxTex;
+
 		Ref<OpenGL::GlShader> m_SkyboxShader;
 		Ref<OpenGL::GlShader> m_CubemapShader;
 	};

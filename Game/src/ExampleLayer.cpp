@@ -15,8 +15,7 @@
 
 ExampleLayer::ExampleLayer()
 	: Layer("Example")
-{
-}
+{ }
 
 void ExampleLayer::OnAttach()
 {
@@ -77,7 +76,9 @@ void ExampleLayer::OnAttach()
 		Engine::SoundLibrary::Load("MonsterDying", "assets/sounds/monster-dying.wav", 1.0f);
 	}
 
-	Engine::MaterialLibrary::Load("assets/Materials.yaml");
+	Engine::ShaderLibrary::Load("assets/ShaderLibrary.yaml");
+	Engine::Texture2DLibrary::Load("assets/Texture2DLibrary.yaml");
+	Engine::MaterialLibrary::Load("assets/MaterialLibrary.yaml");
 
 	// Create Scene
 	m_Scene = Engine::CreateScope<Engine::Scene>();

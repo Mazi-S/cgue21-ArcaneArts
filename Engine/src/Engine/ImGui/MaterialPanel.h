@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine/Renderer/Material.h"
+#include "Engine/Renderer/MaterialLibrary.h"
 
 namespace Engine {
 
