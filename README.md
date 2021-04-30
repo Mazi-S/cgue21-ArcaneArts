@@ -31,5 +31,17 @@ To generate the project files, run: `scripts/GenerateProjects.bat`
 * [ImGui](https://github.com/ocornut/imgui) (GUI for debug/develop)
 
 ### Tutorials
-> [Uniform Buffers](https://www.lighthouse3d.com/tutorials/glsl-tutorial/uniform-blocks/)  
-> [Textures](https://learnopengl.com/Getting-started/Textures)
+* C++ / OpenGL
+  * [YouTube - The Cherno](https://www.youtube.com/user/TheChernoProject)  
+* Uniform Buffers
+  * [lighthouse3d.com](https://www.lighthouse3d.com/tutorials/glsl-tutorial/uniform-blocks/)  
+* Textures
+  * [learnopengl.com](https://learnopengl.com/Getting-started/Textures)
+* Shadow-Mapping
+  * [opengl-tutorial.org](http://www.opengl-tutorial.org/intermediate-tutorials/tutorial-16-shadow-mapping/)
+  * [learnopengl.com](https://learnopengl.com/Advanced-Lighting/Shadows/Shadow-Mapping)
+* Particle System (using Transform Feedback)
+  * [ogldev.atspace.co.uk](http://ogldev.atspace.co.uk/www/tutorial28/tutorial28.html)
+* Cubemaps / Skyboxes / Environment Mapping
+  * [learnopengl.com](https://learnopengl.com/Advanced-OpenGL/Cubemaps)
+  * [YouTube - Brian Will](https://www.youtube.com/watch?v=QYvi1akO_Po)
