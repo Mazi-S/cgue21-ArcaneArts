@@ -1,8 +1,9 @@
 #include "egpch.h"
 #include "MaterialPanel.h"
-#include "ImGuiUtil.h"
+#include "Engine/Renderer/MaterialLibrary.h"
 
 #include <imgui.h>
+#include "ImGuiUtil.h"
 
 namespace Engine {
 
@@ -34,14 +35,10 @@ namespace Engine {
 
 		bool opened = ImGui::TreeNodeEx(material.get(), flags, name.c_str());
 		if (ImGui::IsItemClicked())
-		{
 			m_SelectionContext = material;
-		}
 
 		if (opened)
-		{
 			ImGui::TreePop();
-		}
 	}
 
 	void MaterialPanel::DrawMaterial(Ref<Material>& material)
@@ -77,7 +74,6 @@ namespace Engine {
 		if (ImGuiUtil::DrawFloatControl("Shininess", shininess, 1, 50))
 			material->SetShininess(shininess);
 	}
-
 
 }
 

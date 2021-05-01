@@ -1,4 +1,5 @@
 #pragma once
+#include "Engine/Core/Base.h"
 #include "Engine/Renderer/Material.h"
 
 namespace Engine {
@@ -15,7 +16,6 @@ namespace Engine {
 
 	private:
 		void DrawMaterialNode(Ref<Material>& material);
-
 		void DrawMaterial(Ref<Material>& material);
 	};
 

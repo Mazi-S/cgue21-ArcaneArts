@@ -31,7 +31,7 @@ namespace Engine {
 			"assets/textures/skybox/back.jpg",
 		};
 
-		Engine::TextureLibrary::LoadCubeTexture("Skybox", faces);
+		m_SkyboxTex = CreateRef<OpenGL::GlCubeTexture>("Skybox", faces);
 	}
 
 	void Skybox::Draw(Camera camera)
@@ -53,7 +53,7 @@ namespace Engine {
 		m_CubemapShader->SetMat4("u_Projection", projection);
 
 		meshKnight->GetSubmeshes()[0]->GetVertexArray()->Bind();
-		Engine::TextureLibrary::GetCubeTexture("Skybox")->Bind();
+		m_SkyboxTex->Bind();
 		glDrawArrays(GL_TRIANGLES, 0, meshKnight->GetSubmeshes()[0]->GetVertexArray()->GetIndexBuffer()->GetCount());
 
 		// Draw Skybox
@@ -68,7 +68,7 @@ namespace Engine {
 		m_SkyboxShader->SetMat4("u_Projection", projection);
 
 		meshSkybox->GetSubmeshes()[0]->GetVertexArray()->Bind();
-		Engine::TextureLibrary::GetCubeTexture("Skybox")->Bind();
+		m_SkyboxTex->Bind();
 		glDrawArrays(GL_TRIANGLES, 0, meshSkybox->GetSubmeshes()[0]->GetVertexArray()->GetIndexBuffer()->GetCount());
 		OpenGL::API::CullFaces();
 	}

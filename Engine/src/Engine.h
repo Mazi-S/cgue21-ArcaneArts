@@ -23,6 +23,7 @@
 // Renderer
 #include "Engine/Renderer/ShaderLibrary.h"
 #include "Engine/Renderer/Material.h"
+#include "Engine/Renderer/MaterialLibrary.h"
 #include "Engine/Renderer/Mesh.h"
 #include "Engine/Renderer/Renderer.h"
 #include "Engine/Renderer/Renderer2D.h"
@@ -56,3 +57,5 @@
 
 // ImGui
 #include "Engine/ImGui/MaterialPanel.h"
+#include "Engine/ImGui/ShaderPanel.h"
+#include "Engine/ImGui/Texture2DPanel.h"

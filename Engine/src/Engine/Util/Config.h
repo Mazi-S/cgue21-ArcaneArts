@@ -2,7 +2,6 @@
 
 namespace Engine::Util {
 
-
 	class Config
 	{
 	public:

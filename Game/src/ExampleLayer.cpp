@@ -15,8 +15,7 @@
 
 ExampleLayer::ExampleLayer()
 	: Layer("Example")
-{
-}
+{ }
 
 void ExampleLayer::OnAttach()
 {
@@ -67,7 +66,9 @@ void ExampleLayer::OnAttach()
 		Engine::SoundLibrary::Load("MonsterDying", "assets/sounds/monster-dying.wav", 1.0f);
 	}
 
-	Engine::MaterialLibrary::Load("assets/Materials.yaml");
+	Engine::ShaderLibrary::Load("assets/ShaderLibrary.yaml");
+	Engine::Texture2DLibrary::Load("assets/Texture2DLibrary.yaml");
+	Engine::MaterialLibrary::Load("assets/MaterialLibrary.yaml");
 
 	// Create Scene
 	m_Scene = Engine::CreateScope<Engine::Scene>();
@@ -125,7 +126,7 @@ void ExampleLayer::OnAttach()
 		entity.AddComponent<Engine::Component::Audio::Sound2DComponent>(Engine::SoundLibrary::Get("Forest"), true);
 
 		// Monster
-		{
+		if(true) {
 			// Big Monsters
 			for (size_t i = 0; i < 2; i++)
 			{
@@ -357,6 +358,8 @@ void ExampleLayer::OnAttach()
 
 	// ImGui
 	m_MaterialPanel = Engine::CreateScope<Engine::MaterialPanel>();
+	m_ShaderPanel = Engine::CreateScope<Engine::ShaderPanel>();
+	m_TexturePanel = Engine::CreateScope<Engine::Texture2DPanel>();
 }
 
 void ExampleLayer::OnDetach()
@@ -423,5 +426,7 @@ void ExampleLayer::OnImGui()
 	ImGui::ShowDemoWindow();
 
 	m_MaterialPanel->OnImGui();
+	m_ShaderPanel->OnImGui();
+	m_TexturePanel->OnImGui();
 }
 
