@@ -1,8 +1,6 @@
 #pragma once
 #include "Engine/Core/Base.h"
-
 #include "Platform/OpenGL/OpenGLTexture.h"
-
 #include "Engine/Renderer/Material.h"
 
 namespace Engine {

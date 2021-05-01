@@ -136,7 +136,7 @@ void ExampleLayer::OnAttach()
 		entity.AddComponent<Engine::Component::Audio::Sound2DComponent>(Engine::SoundLibrary::Get("Forest"), true);
 
 		// Monster
-		{
+		if(true) {
 			// Big Monsters
 			for (size_t i = 0; i < 2; i++)
 			{
@@ -368,6 +368,8 @@ void ExampleLayer::OnAttach()
 
 	// ImGui
 	m_MaterialPanel = Engine::CreateScope<Engine::MaterialPanel>();
+	m_ShaderPanel = Engine::CreateScope<Engine::ShaderPanel>();
+	m_TexturePanel = Engine::CreateScope<Engine::Texture2DPanel>();
 }
 
 void ExampleLayer::OnDetach()
@@ -434,5 +436,7 @@ void ExampleLayer::OnImGui()
 	ImGui::ShowDemoWindow();
 
 	m_MaterialPanel->OnImGui();
+	m_ShaderPanel->OnImGui();
+	m_TexturePanel->OnImGui();
 }
 

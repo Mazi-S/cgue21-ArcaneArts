@@ -12,6 +12,8 @@ namespace Engine {
 
 	class Texture2DLibrary
 	{
+		friend class Texture2DPanel;
+
 	public:
 		static void Load(const std::string& filepath);
 		static void Save(const std::string& filepath);

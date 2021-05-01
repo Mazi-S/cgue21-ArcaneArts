@@ -30,4 +30,6 @@ private:
 
 	// ImGui
 	Engine::Scope<Engine::MaterialPanel> m_MaterialPanel;
+	Engine::Scope<Engine::ShaderPanel> m_ShaderPanel;
+	Engine::Scope<Engine::Texture2DPanel> m_TexturePanel;
 };

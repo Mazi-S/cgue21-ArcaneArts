@@ -57,3 +57,5 @@
 
 // ImGui
 #include "Engine/ImGui/MaterialPanel.h"
+#include "Engine/ImGui/ShaderPanel.h"
+#include "Engine/ImGui/Texture2DPanel.h"

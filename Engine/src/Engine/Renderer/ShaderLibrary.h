@@ -9,6 +9,8 @@ namespace Engine {
 
 	class ShaderLibrary
 	{
+		friend class ShaderPanel;
+
 	public:
 		static void Load(const std::string& filepath);
 		static void Save(const std::string& filepath);
