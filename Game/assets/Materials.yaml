@@ -62,6 +62,14 @@ Materials:
     Shininess: 2
     Textures:
       0: Forest
+  - Material: CaveMaterial
+    Shader: TextureShader
+    Ambient: [0.100000001, 0.100000001, 0.100000001]
+    Diffuse: [0.100000001, 0.100000001, 0.100000001]
+    Specular: [0.100000001, 0.100000001, 0.100000001]
+    Shininess: 2
+    Textures:
+      0: Cave
   - Material: MagicBall_Light
     Shader: ColorShader
     Ambient: [0.899999976, 0.899999976, 0.899999976]
@@ -107,8 +115,8 @@ Textures:
   - Texture: House
     Path: assets/textures/house.png
     Specification:
-      Width: 2048
-      Height: 2048
+      Width: 512
+      Height: 512
       Internalformat: 32856
       Format: 6408
       Type: 5121
@@ -167,8 +175,23 @@ Textures:
   - Texture: Forest
     Path: assets/textures/forest.png
     Specification:
-      Width: 256
-      Height: 256
+      Width: 1024
+      Height: 1024
+      Internalformat: 32849
+      Format: 6407
+      Type: 5121
+      Wrap_S: 10497
+      Wrap_T: 10497
+      Border: [0, 0, 0, 0]
+      Min_Filter: 9729
+      Mag_Filter: 9729
+      ComparisonMode: 0
+      Mipmaps: true
+  - Texture: Cave
+    Path: assets/textures/cave.png
+    Specification:
+      Width: 4096
+      Height: 4096
       Internalformat: 32849
       Format: 6407
       Type: 5121

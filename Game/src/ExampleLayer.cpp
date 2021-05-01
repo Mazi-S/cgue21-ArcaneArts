@@ -33,36 +33,26 @@ void ExampleLayer::OnAttach()
 		Engine::MeshLibrary::Load("Terrain", "assets/objects/terrain.obj");
 		Engine::MeshLibrary::Load("Knight", "assets/objects/knight.obj");
 		Engine::MeshLibrary::Load("Pedestal", "assets/objects/pedestal.obj");
+		Engine::MeshLibrary::Load("Cave", "assets/objects/cave.obj");
 
 		// Forest
-		Engine::MeshLibrary::Load("Log", "assets/objects/forest/log.obj");
 		Engine::MeshLibrary::Load("Spruce_1", "assets/objects/forest/spruce_1.obj");
 		Engine::MeshLibrary::Load("Spruce_2", "assets/objects/forest/spruce_2.obj");
 		Engine::MeshLibrary::Load("Spruce_3", "assets/objects/forest/spruce_3.obj");
-		Engine::MeshLibrary::Load("Spruce_Small_1", "assets/objects/forest/spruce_small_1.obj");
-		Engine::MeshLibrary::Load("Spruce_Small_2", "assets/objects/forest/spruce_small_2.obj");
-		Engine::MeshLibrary::Load("Oak_1", "assets/objects/forest/oak_1.obj");
-		Engine::MeshLibrary::Load("Oak_2", "assets/objects/forest/oak_2.obj");
+		Engine::MeshLibrary::Load("Spruce_4", "assets/objects/forest/spruce_4.obj");
+		Engine::MeshLibrary::Load("Spruce_5", "assets/objects/forest/spruce_5.obj");
 		Engine::MeshLibrary::Load("Fallen_Tree_1", "assets/objects/forest/fallen_tree_1.obj");
 		Engine::MeshLibrary::Load("Fallen_Tree_2", "assets/objects/forest/fallen_tree_2.obj");
 		Engine::MeshLibrary::Load("Stump_1", "assets/objects/forest/stump_1.obj");
 		Engine::MeshLibrary::Load("Stump_2", "assets/objects/forest/stump_2.obj");
-		Engine::MeshLibrary::Load("Stump_3", "assets/objects/forest/stump_3.obj");
+		Engine::MeshLibrary::Load("Rock_1", "assets/objects/forest/rock_1.obj");
 
 		// Clouds
 		Engine::MeshLibrary::Load("Cloud_1", "assets/objects/clouds/cloud_1.obj");
 		Engine::MeshLibrary::Load("Cloud_2", "assets/objects/clouds/cloud_2.obj");
 		Engine::MeshLibrary::Load("Cloud_3", "assets/objects/clouds/cloud_3.obj");
-		Engine::MeshLibrary::Load("Cloud_4", "assets/objects/clouds/cloud_4.obj");
-
-		// Rocks
-		Engine::MeshLibrary::Load("Rock_1", "assets/objects/rocks/rock_1.obj");
-		Engine::MeshLibrary::Load("Rock_2", "assets/objects/rocks/rock_2.obj");
-		Engine::MeshLibrary::Load("Rock_3", "assets/objects/rocks/rock_3.obj");
-		Engine::MeshLibrary::Load("Rock_4", "assets/objects/rocks/rock_4.obj");
-		Engine::MeshLibrary::Load("Rock_5", "assets/objects/rocks/rock_5.obj");
 	}
-
+	
 	// Load Sounds
 	{
 		Engine::SoundLibrary::Load("FireballShoot", "assets/sounds/fireball-shoot.wav", 0.1f);
@@ -106,7 +96,7 @@ void ExampleLayer::OnAttach()
 	m_Skybox = Engine::CreateRef<Engine::Skybox>();
 
 	// Seed
-	srand(187);
+	srand(420);
 
 	// Add objects to the Scene
 	{
@@ -114,7 +104,7 @@ void ExampleLayer::OnAttach()
 
 		// right hand
 		entity = m_Scene->CreateEntity();
-		entity.GetComponent<Engine::Component::Core::TransformComponent>().Translation = { 0.3f, 0.75f, -0.5f };
+		entity.GetComponent<Engine::Component::Core::TransformComponent>().Translation = { 0.25f, 0.75f, -0.35f };
 		entity.GetComponent<Engine::Component::Core::TransformComponent>().Rotation = { 1.0f, -2.0f, 1.0f };
 		entity.GetComponent<Engine::Component::Core::TransformComponent>().Scale = { 1.0f, 1.0f, 1.0f };
 		entity.AddComponent<Engine::Component::Renderer::MaterialComponent>(Engine::MaterialLibrary::Get("SkinMaterial"));
@@ -123,7 +113,7 @@ void ExampleLayer::OnAttach()
 
 		// left hand
 		entity = m_Scene->CreateEntity();
-		entity.GetComponent<Engine::Component::Core::TransformComponent>().Translation = { -0.3f, 0.75f, -0.5f };
+		entity.GetComponent<Engine::Component::Core::TransformComponent>().Translation = { -0.25f, 0.75f, -0.35f };
 		entity.GetComponent<Engine::Component::Core::TransformComponent>().Rotation = { -1.0f, 2.0f, -1.0f };
 		entity.GetComponent<Engine::Component::Core::TransformComponent>().Scale = { -1.0f, -1.0f, -1.0f };
 		entity.AddComponent<Engine::Component::Renderer::MaterialComponent>(Engine::MaterialLibrary::Get("SkinMaterial"));
@@ -182,12 +172,30 @@ void ExampleLayer::OnAttach()
 			}
 		}
 
-		// House
+		// House 1
 		{
 			entity = m_Scene->CreateEntity();
 			auto& mesh = Engine::MeshLibrary::Get("House");
 			glm::vec3 t{ 20.0f, 0.0f, 0.0f };
-			glm::vec3 r{ 0.0f, 0.0f, 0.0f };
+			glm::vec3 r{ 0.0f, -1.5f, 0.0f };
+			glm::vec3 s{ 1.5f, 1.5f, 1.5f };
+			entity.GetComponent<Engine::Component::Core::TransformComponent>().Translation = t;
+			entity.GetComponent<Engine::Component::Core::TransformComponent>().Rotation = r;
+			entity.GetComponent<Engine::Component::Core::TransformComponent>().Scale = s;
+			entity.AddComponent<Engine::Component::Renderer::MaterialComponent>(Engine::MaterialLibrary::Get("HouseMaterial"));
+			entity.AddComponent<Engine::Component::Renderer::ShadowComponent>();
+			entity.AddComponent<Engine::Component::Renderer::MeshComponent>(mesh);
+			auto actor = Engine::PhysicsAPI::CreateRigidStatic(t, r);
+			auto shape = Engine::PhysicsAPI::CreateShape(mesh, s);
+			entity.AddComponent<Engine::Component::Physics::RigidComponent>(actor);
+			entity.AddComponent<Engine::Component::Physics::ShapeComponent>(shape);
+		}
+		// House 2
+		{
+			entity = m_Scene->CreateEntity();
+			auto& mesh = Engine::MeshLibrary::Get("House");
+			glm::vec3 t{ -20.0f, 0.0f, -20.0f };
+			glm::vec3 r{ 0.0f, 0.5f, 0.0f };
 			glm::vec3 s{ 1.5f, 1.5f, 1.5f };
 			entity.GetComponent<Engine::Component::Core::TransformComponent>().Translation = t;
 			entity.GetComponent<Engine::Component::Core::TransformComponent>().Rotation = r;
@@ -201,13 +209,32 @@ void ExampleLayer::OnAttach()
 			entity.AddComponent<Engine::Component::Physics::ShapeComponent>(shape);
 		}
 
+		// Cave
+		{
+			entity = m_Scene->CreateEntity();
+			auto& mesh = Engine::MeshLibrary::Get("Cave");
+			glm::vec3 t{ -40.0f, 0.0f, -40.0f };
+			glm::vec3 r{ 0.0f, -1.2f, 0.0f };
+			glm::vec3 s{ 1.0f, 1.0f, 1.0f };
+			entity.GetComponent<Engine::Component::Core::TransformComponent>().Translation = t;
+			entity.GetComponent<Engine::Component::Core::TransformComponent>().Rotation = r;
+			entity.GetComponent<Engine::Component::Core::TransformComponent>().Scale = s;
+			entity.AddComponent<Engine::Component::Renderer::MaterialComponent>(Engine::MaterialLibrary::Get("CaveMaterial"));
+			entity.AddComponent<Engine::Component::Renderer::ShadowComponent>();
+			entity.AddComponent<Engine::Component::Renderer::MeshComponent>(mesh);
+			auto actor = Engine::PhysicsAPI::CreateRigidStatic(t, r);
+			auto shape = Engine::PhysicsAPI::CreateShape(mesh, s);
+			entity.AddComponent<Engine::Component::Physics::RigidComponent>(actor);
+			entity.AddComponent<Engine::Component::Physics::ShapeComponent>(shape);
+		}
+
 		// Pedestal
 		{
 			entity = m_Scene->CreateEntity();
 			auto& mesh = Engine::MeshLibrary::Get("Pedestal");
-			glm::vec3 t{ 0.0f, 0.0f, 0.0f };
+			glm::vec3 t{ 0.0f, -0.2f, 0.0f };
 			glm::vec3 r{ 0.0f, 0.0f, 0.0f };
-			glm::vec3 s{ 1.0f, 1.0f, 1.0f };
+			glm::vec3 s{ 3.0f, 3.0f, 3.0f };
 			entity.GetComponent<Engine::Component::Core::TransformComponent>().Translation = t;
 			entity.GetComponent<Engine::Component::Core::TransformComponent>().Rotation = r;
 			entity.GetComponent<Engine::Component::Core::TransformComponent>().Scale = s;
@@ -239,10 +266,10 @@ void ExampleLayer::OnAttach()
 		}
 
 		// Forest
-		for (size_t i = 0; i < 50; i++)
+		for (size_t i = 0; i < 100; i++)
 		{
 			entity = m_Scene->CreateEntity();
-			auto& mesh = Engine::MeshLibrary::Get("Spruce_" + std::to_string((rand() % 3) + 1));
+			auto& mesh = Engine::MeshLibrary::Get("Spruce_" + std::to_string((rand() % 5) + 1));
 			glm::vec3 t{ (rand() % 100) - 50, -1.0f, (rand() % 100) - 50 };
 			glm::vec3 r{ 0.0f, 0.0f, 0.0f };
 			glm::vec3 s{ 1.0f, 1.0f, 1.0f };
@@ -260,44 +287,8 @@ void ExampleLayer::OnAttach()
 		for (size_t i = 0; i < 10; i++)
 		{
 			entity = m_Scene->CreateEntity();
-			auto& mesh = Engine::MeshLibrary::Get("Oak_" + std::to_string((rand() % 2) + 1));
-			glm::vec3 t{ (rand() % 100) - 50, -1.0f, (rand() % 100) - 50 };
-			glm::vec3 r{ 0.0f, 0.0f, 0.0f };
-			glm::vec3 s{ 1.0f, 1.0f, 1.0f };
-			entity.GetComponent<Engine::Component::Core::TransformComponent>().Translation = t;
-			entity.GetComponent<Engine::Component::Core::TransformComponent>().Rotation = r;
-			entity.GetComponent<Engine::Component::Core::TransformComponent>().Scale = s;
-			entity.AddComponent<Engine::Component::Renderer::MaterialComponent>(Engine::MaterialLibrary::Get("ForestMaterial"));
-			entity.AddComponent<Engine::Component::Renderer::ShadowComponent>();
-			entity.AddComponent<Engine::Component::Renderer::MeshComponent>(mesh);
-			auto actor = Engine::PhysicsAPI::CreateRigidStatic(t, r);
-			auto shape = Engine::PhysicsAPI::CreateShape(mesh, s);
-			entity.AddComponent<Engine::Component::Physics::RigidComponent>(actor);
-			entity.AddComponent<Engine::Component::Physics::ShapeComponent>(shape);
-		}
-		for (size_t i = 0; i < 10; i++)
-		{
-			entity = m_Scene->CreateEntity();
-			auto& mesh = Engine::MeshLibrary::Get("Spruce_Small_" + std::to_string((rand() % 2) + 1));
-			glm::vec3 t{ (rand() % 100) - 50, -1.0f, (rand() % 100) - 50 };
-			glm::vec3 r{ 0.0f, 0.0f, 0.0f };
-			glm::vec3 s{ 1.0f, 1.0f, 1.0f };
-			entity.GetComponent<Engine::Component::Core::TransformComponent>().Translation = t;
-			entity.GetComponent<Engine::Component::Core::TransformComponent>().Rotation = r;
-			entity.GetComponent<Engine::Component::Core::TransformComponent>().Scale = s;
-			entity.AddComponent<Engine::Component::Renderer::MaterialComponent>(Engine::MaterialLibrary::Get("ForestMaterial"));
-			entity.AddComponent<Engine::Component::Renderer::ShadowComponent>();
-			entity.AddComponent<Engine::Component::Renderer::MeshComponent>(mesh);
-			auto actor = Engine::PhysicsAPI::CreateRigidStatic(t, r);
-			auto shape = Engine::PhysicsAPI::CreateShape(mesh, s);
-			entity.AddComponent<Engine::Component::Physics::RigidComponent>(actor);
-			entity.AddComponent<Engine::Component::Physics::ShapeComponent>(shape);
-		}
-		for (size_t i = 0; i < 10; i++)
-		{
-			entity = m_Scene->CreateEntity();
-			auto& mesh = Engine::MeshLibrary::Get("Stump_" + std::to_string((rand() % 3) + 1));
-			glm::vec3 t{ (rand() % 100) - 50, 0.0f, (rand() % 100) - 50 };
+			auto& mesh = Engine::MeshLibrary::Get("Stump_" + std::to_string((rand() % 2) + 1));
+			glm::vec3 t{ (rand() % 100) - 50, -0.1f, (rand() % 100) - 50 };
 			glm::vec3 r{ 0.0f, 0.0f, 0.0f };
 			glm::vec3 s{ 1.0f, 1.0f, 1.0f };
 			entity.GetComponent<Engine::Component::Core::TransformComponent>().Translation = t;
@@ -315,9 +306,9 @@ void ExampleLayer::OnAttach()
 		{
 			entity = m_Scene->CreateEntity();
 			auto& mesh = Engine::MeshLibrary::Get("Fallen_Tree_" + std::to_string((rand() % 2) + 1));
-			glm::vec3 t{ (rand() % 100) - 50, 0.0f, (rand() % 100) - 50 };
+			glm::vec3 t{ (rand() % 100) - 50, 0.2f, (rand() % 100) - 50 };
 			glm::vec3 r{ 0.0f, 0.0f, 0.0f };
-			glm::vec3 s{ 1.0f, 1.0f, 1.0f };
+			glm::vec3 s{ 0.5f, 0.5f, 0.5f };
 			entity.GetComponent<Engine::Component::Core::TransformComponent>().Translation = t;
 			entity.GetComponent<Engine::Component::Core::TransformComponent>().Rotation = r;
 			entity.GetComponent<Engine::Component::Core::TransformComponent>().Scale = s;
@@ -332,14 +323,14 @@ void ExampleLayer::OnAttach()
 		for (size_t i = 0; i < 30; i++)
 		{
 			entity = m_Scene->CreateEntity();
-			auto& mesh = Engine::MeshLibrary::Get("Rock_" + std::to_string((rand() % 5) + 1));
-			glm::vec3 t{ (rand() % 100) - 50, -0.2f, (rand() % 100) - 50 };
-			glm::vec3 r{ 0.0f, 0.0f, 0.0f };
+			auto& mesh = Engine::MeshLibrary::Get("Rock_" + std::to_string((rand() % 1) + 1));
+			glm::vec3 t{ (rand() % 100) - 50, 0.2f, (rand() % 100) - 50 };
+			glm::vec3 r{ 0.0f, 0.2f, 0.0f };
 			glm::vec3 s{ 1.0f, 1.0f, 1.0f };
 			entity.GetComponent<Engine::Component::Core::TransformComponent>().Translation = t;
 			entity.GetComponent<Engine::Component::Core::TransformComponent>().Rotation = r;
 			entity.GetComponent<Engine::Component::Core::TransformComponent>().Scale = s;
-			entity.AddComponent<Engine::Component::Renderer::MaterialComponent>(Engine::MaterialLibrary::Get("RockMaterial"));
+			entity.AddComponent<Engine::Component::Renderer::MaterialComponent>(Engine::MaterialLibrary::Get("ForestMaterial"));
 			entity.AddComponent<Engine::Component::Renderer::ShadowComponent>();
 			entity.AddComponent<Engine::Component::Renderer::MeshComponent>(mesh);
 			auto actor = Engine::PhysicsAPI::CreateRigidStatic(t, r);
@@ -347,16 +338,15 @@ void ExampleLayer::OnAttach()
 			entity.AddComponent<Engine::Component::Physics::RigidComponent>(actor);
 			entity.AddComponent<Engine::Component::Physics::ShapeComponent>(shape);
 		}
-
 		// Clouds
 		for (size_t i = 0; i < 30; i++)
 		{
 			entity = m_Scene->CreateEntity();
-			entity.GetComponent<Engine::Component::Core::TransformComponent>().Translation = { (rand() % 200) - 100, 50.0f, (rand() % 200) - 100 };
+			entity.GetComponent<Engine::Component::Core::TransformComponent>().Translation = { (rand() % 200) - 100, 60.0f, (rand() % 200) - 100 };
 			entity.GetComponent<Engine::Component::Core::TransformComponent>().Rotation = { 0.0f, 0.0f, 0.0f };
-			entity.GetComponent<Engine::Component::Core::TransformComponent>().Scale = { 4.0f, 4.0f, 4.0f };
+			entity.GetComponent<Engine::Component::Core::TransformComponent>().Scale = { 3.0f, 3.0f, 3.0f };
 			entity.AddComponent<Engine::Component::Renderer::MaterialComponent>(Engine::MaterialLibrary::Get("CloudMaterial"));
-			entity.AddComponent<Engine::Component::Renderer::MeshComponent>(Engine::MeshLibrary::Get("Cloud_" + std::to_string((rand() % 4) + 1)));
+			entity.AddComponent<Engine::Component::Renderer::MeshComponent>(Engine::MeshLibrary::Get("Cloud_" + std::to_string((rand() % 3) + 1)));
 		}
 	}
 
