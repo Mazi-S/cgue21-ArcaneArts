@@ -10,7 +10,19 @@ namespace Engine {
 
 	void Texture2DPanel::OnImGui()
 	{
-		ImGui::Begin("Texture 2D");
+		ImGui::Begin("Texture 2D", &m_Active, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse);
+
+		if (ImGui::BeginMenuBar())
+		{
+			if (ImGui::BeginMenu("File"))
+			{
+				if (ImGui::MenuItem("Save")) { /* Do stuff */ }
+				ImGui::EndMenu();
+			}
+			ImGui::EndMenuBar();
+		}
+
+		ImGuiUtil::HeaderText("TextureLibrary (2D)");
 
 		for (auto entry : Texture2DLibrary::s_Textures2D)
 		{
@@ -21,6 +33,7 @@ namespace Engine {
 		if (m_SelectionContext != nullptr)
 		{
 			ImGui::Separator();
+			ImGuiUtil::HeaderText("Texture");
 			DrawTexture(m_SelectionContext);
 		}
 
@@ -45,7 +58,8 @@ namespace Engine {
 	void Texture2DPanel::DrawTexture(Ref<OpenGL::GlTexture2D>& texture)
 	{
 		ImGuiUtil::Text("Name", texture->GetName());
-		ImGuiUtil::Text("Path", texture->GetPath());
+		if (!texture->IsDynamic())
+			ImGuiUtil::Text("Path", texture->GetPath());
 		ImGui::NewLine();
 
 		// Specification

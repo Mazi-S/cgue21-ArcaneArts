@@ -1,6 +1,8 @@
 #include "egpch.h"
 #include "Material.h"
 #include <glm/gtc/type_ptr.hpp>
+#include "ShaderLibrary.h"
+#include "TextureLibrary.h"
 
 namespace Engine {
 
@@ -14,8 +16,8 @@ namespace Engine {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// Material ///////////////////////////////////////////////////////////////////////////////////
 
-	Material::Material(const MaterialProperties& prop, const Ref<OpenGL::GlShader>& shader)
-		: m_Name(prop.Name), m_Ambient(prop.Ambient), m_Diffuse(prop.Diffuse), m_Specular(prop.Specular), m_Shininess(prop.Shininess), m_Shader(shader)
+	Material::Material(const MaterialProperties& prop)
+		: m_Name(prop.Name), m_Ambient(prop.Ambient), m_Diffuse(prop.Diffuse), m_Specular(prop.Specular), m_Shininess(prop.Shininess), m_Shader(prop.Shader)
 	{
 		OpenGL::GlUniformBufferLayout_std140 layout(4 * 4 * 3, {
 			{OpenGL::GlShaderDataType::Float3, "Ambient", 0},
@@ -29,19 +31,25 @@ namespace Engine {
 		SetDiffuse(m_Diffuse);
 		SetSpecular(m_Specular);
 		SetShininess(m_Shininess);
+
+		for (const auto& entry : prop.Textures)
+			m_Textures[entry.first] = entry.second;
 	}
 
 	void Material::Bind()
 	{
 		m_BindingPoint = 0;
-		m_Shader->Bind();
+		ShaderLibrary::Get(m_Shader)->Bind();
 		Set("MaterialData", m_MaterialUB);
+
+		for (auto& entry : m_Textures)
+			Texture2DLibrary::Get(entry.second)->Bind(entry.first);
 	}
 
 	void Material::Set(const std::string& name, const Ref<OpenGL::GlUniformBuffer>& uniformBuffer)
 	{
 		uniformBuffer->Bind(m_BindingPoint);
-		m_Shader->SetBlockBinding(name, m_BindingPoint);
+		ShaderLibrary::Get(m_Shader)->SetBlockBinding(name, m_BindingPoint);
 		m_BindingPoint++;
 	}
 
@@ -67,25 +75,6 @@ namespace Engine {
 	{
 		m_Shininess = shininess;
 		m_MaterialUB->SetData(&shininess, "Shininess");
-	}
-
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	// TextureMaterial ////////////////////////////////////////////////////////////////////////////
-
-	TextureMaterial::TextureMaterial(const MaterialProperties& properties, const Ref<OpenGL::GlTexture2D>& colorTex, const Ref<OpenGL::GlShader>& shader)
-		: Material(properties, shader)
-	{
-		// ColorTexture = slot 0
-		m_Textures[0] = colorTex;
-
-	}
-
-	void TextureMaterial::Bind()
-	{
-		Material::Bind();
-
-		for(auto& entry : m_Textures)
-			entry.second->Bind(entry.first);
 	}
 
 }

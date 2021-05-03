@@ -10,13 +10,19 @@ namespace Engine {
 		friend class MaterialPanel;
 
 	public:
-		static void Load(const std::string& filepath);
-		static void Save(const std::string& filepath);
+		static void Init();
+
+		static void Load(const std::string& filepath = "assets/MaterialLibrary.yaml");
+		static void Save(const std::string& filepath = "assets/MaterialLibrary.yaml");
 
 		static Ref<Material> Create(MaterialProperties& properties);
+		static Ref<Material> Create(const std::string& name);
 
-		static Ref<Material> Get(const std::string& name);
+		static Ref<Material> Get(const std::string& name = std::string());
 		static bool Contains(const std::string& name);
+
+		static void Remove(const std::string& name);
+		static void Rename(const std::string& oldName, const std::string& newName);
 
 	private:
 		static void Add(const Ref<Material>& material);
@@ -25,7 +31,8 @@ namespace Engine {
 		static void Deserialize(const std::string& filepath);
 
 	private:
-		static std::unordered_map<std::string, Ref<Material>> s_Materials;
+		static std::map<std::string, Ref<Material>> s_Materials;
+		static Ref<Material> s_Default;
 	};
 
 }

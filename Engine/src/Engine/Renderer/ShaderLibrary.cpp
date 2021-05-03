@@ -9,11 +9,18 @@
 namespace Engine {
 
 	std::unordered_map<std::string, Ref<OpenGL::GlShader>> ShaderLibrary::s_Shaders;
+	Ref<OpenGL::GlShader> ShaderLibrary::s_Default;
 
 	void ShaderLibrary::Add(const Ref<OpenGL::GlShader>& shader)
 	{
 		auto& name = shader->GetName();
 		Add(name, shader);
+	}
+
+	void ShaderLibrary::Init()
+	{
+		s_Default = CreateRef<OpenGL::GlShader>("DefaultShader", "assets/shaders/DefaultShader.glsl");
+		Load();
 	}
 
 	void ShaderLibrary::Load(const std::string& filepath)
@@ -41,8 +48,17 @@ namespace Engine {
 
 	Ref<OpenGL::GlShader> ShaderLibrary::Get(const std::string& name)
 	{
-		ASSERT(Exists(name), "Shader not found!");
+		if (!Exists(name))
+			return s_Default;
 		return s_Shaders[name];
+	}
+
+	std::vector<std::string> ShaderLibrary::GetNames()
+	{
+		std::vector<std::string> names;
+		for (auto entry : s_Shaders)
+			names.push_back(entry.first);
+		return names;
 	}
 
 	bool ShaderLibrary::Exists(const std::string& name)

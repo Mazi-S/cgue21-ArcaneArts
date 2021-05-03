@@ -25,12 +25,12 @@ void HudLayer::OnAttach()
 	m_Camera.Projection = glm::ortho(-(width / 2.0f), width / 2.0f, -(height / 2.0f), height / 2.0f, 10.0f, -10.0f );
 	m_Camera.Transform = glm::mat4(1);
 
-	Engine::Texture2DLibrary::LoadTexture2D("Crosshair", "assets/textures/crosshair.png");
+	auto crosshairTex = Engine::CreateRef<Engine::OpenGL::GlTexture2D>("Crosshair", "assets/textures/crosshair.png");
 
 	Engine::Entity crosshair{ Engine::Factory::CreateEntity(m_Registry, "Crosshair"), &m_Registry};
 	crosshair.GetComponent<Engine::Component::Core::TransformComponent>().Scale = { 20, 20, 1 };
 	crosshair.AddComponent<Engine::Component::Renderer2D::SpriteRendererComponent>(glm::vec4(1, 1, 1, 0.4));
-	crosshair.AddComponent<Engine::Component::Renderer2D::SpriteRendererTextureComponent>(Engine::Texture2DLibrary::GetTexture2D("Crosshair"));
+	crosshair.AddComponent<Engine::Component::Renderer2D::SpriteRendererTextureComponent>(crosshairTex);
 
 	// HealthBar
 	m_HealthBar.Init(m_Registry);

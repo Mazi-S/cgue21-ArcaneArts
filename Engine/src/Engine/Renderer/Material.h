@@ -22,7 +22,12 @@ namespace Engine {
 
 		std::map<uint16_t, std::string> Textures;
 
-		MaterialProperties(const std::string& name, const glm::vec3& ambient, const glm::vec3& diffuse, const glm::vec3& specular, float shininess = 1.0f, const std::string& shader = "");
+		MaterialProperties(const std::string& name,
+			const glm::vec3& ambient = { 1.0, 1.0, 1.0 },
+			const glm::vec3& diffuse = { 0.8, 0.8, 0.8 },
+			const glm::vec3& specular = { 0.5, 0.5, 0.5 },
+			float shininess = 1.0f,
+			const std::string& shader = "DefaultShader");
 	};
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
@@ -34,10 +39,15 @@ namespace Engine {
 		friend class MaterialPanel;
 
 	public:
-		Material(const MaterialProperties& properties, const Ref<OpenGL::GlShader>& shader);
+		Material(const MaterialProperties& properties);
 		virtual ~Material() = default;
 
-		Ref<OpenGL::GlShader> GetShader() { return m_Shader; }
+		std::string GetShader() { return m_Shader; }
+		void SetShader(std::string shader) { m_Shader = shader; }
+
+		void SetTexture(uint16_t slot, std::string texture = "DefaultTexture") { m_Textures[slot] = texture; }
+		const std::map<uint16_t, std::string>& GetTextures() const { return m_Textures; }
+		void RemoveTexture(uint16_t slot) { m_Textures.erase(slot); }
 
 		virtual void Bind();
 		virtual void Set(const std::string& name, const Ref<OpenGL::GlUniformBuffer>& uniformBuffer);
@@ -54,13 +64,11 @@ namespace Engine {
 		const glm::vec3& GetSpecular() const { return m_Specular; };
 		float GetShininess() const { return m_Shininess; }
 
-		const std::map<uint16_t, Ref<OpenGL::GlTexture2D>>& GetTextures() const { return m_Textures; }
-
 	protected:
 		std::string m_Name;
 		uint16_t m_BindingPoint = 0;
 
-		Ref<OpenGL::GlShader> m_Shader;
+		std::string m_Shader;
 		Ref<OpenGL::GlUniformBuffer> m_MaterialUB;
 
 		// Properties
@@ -70,20 +78,9 @@ namespace Engine {
 		float m_Shininess;
 
 		// Textures
-		std::map<uint16_t, Ref<OpenGL::GlTexture2D>> m_Textures;
+		std::map<uint16_t, std::string> m_Textures;
 	};
 
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	// TextureMaterial ////////////////////////////////////////////////////////////////////////////
-
-	class TextureMaterial : public Material
-	{
-	public:
-		TextureMaterial(const MaterialProperties& properties, const Ref<OpenGL::GlTexture2D>& colorTex, const Ref<OpenGL::GlShader>& shader);
-		
-		virtual void Bind() override;
-	};
-	
 }
 
 

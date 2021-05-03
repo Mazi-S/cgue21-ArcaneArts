@@ -1,5 +1,5 @@
 #type vertex
-#version 330 core
+#version 420 core
 
 layout(location = 0) in vec3 a_Position;
 layout(location = 1) in vec2 a_TexCoord;
@@ -36,7 +36,7 @@ void main() {
 }
 
 #type fragment
-#version 330 core
+#version 420 core
 
 // illumination multiplier
 uniform float u_Brightness = 1.0;
@@ -60,7 +60,7 @@ layout (std140) uniform MaterialData {
 	float u_Shininess;
 };
 
-uniform sampler2DShadow u_ShadowMap;
+layout(binding = 0) uniform sampler2DShadow u_ShadowMap;
 
 in vec3 v_Position;
 in vec3 v_Normals;

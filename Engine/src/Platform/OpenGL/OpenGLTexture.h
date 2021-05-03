@@ -23,6 +23,7 @@ namespace Engine::OpenGL {
 		uint32_t ComparisonMode = 0;
 
 		bool Mipmaps = true;
+		bool Dynamic = false;
 	};
 
 	class GlTexture2D
@@ -42,7 +43,7 @@ namespace Engine::OpenGL {
 		virtual const Texture2DSpecification& GetSpecification() const { return m_Specification; }
 
 		virtual void SetData(const void* data, uint32_t size);
-
+		virtual bool IsDynamic() const { return m_Dynamic; }
 	private:
 		void Create(const Texture2DSpecification& spec);
 		void Create(Texture2DSpecification& spec, const std::string& filepath);
@@ -51,6 +52,8 @@ namespace Engine::OpenGL {
 		std::uint32_t m_TextureID;
 		std::string m_Name;
 		std::string m_Path;
+
+		const bool m_Dynamic;
 
 		Texture2DSpecification m_Specification;
 	};

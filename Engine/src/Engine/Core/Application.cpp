@@ -34,6 +34,10 @@ namespace Engine {
 		PhysicsAPI::Init();
 		ImGuiAPI::Init();
 
+		Texture2DLibrary::Init();
+		ShaderLibrary::Init();
+		MaterialLibrary::Init();
+
 		m_LayerStack = new LayerStack();
 	}
 

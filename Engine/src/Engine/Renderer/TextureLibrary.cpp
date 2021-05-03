@@ -9,6 +9,23 @@ namespace Engine {
 	// Texture 2D Library /////////////////////////////////////////////////////////////////////////
 
 	std::unordered_map<std::string, Ref<OpenGL::GlTexture2D>> Texture2DLibrary::s_Textures2D;
+	Ref<OpenGL::GlTexture2D> Texture2DLibrary::s_Default;
+
+	void Texture2DLibrary::Init()
+	{
+		OpenGL::Texture2DSpecification spec;
+		spec.Width = 1;
+		spec.Height = 1;
+		spec.Internalformat = 0x8058;
+		spec.Format = 0x1908;
+		spec.Type = 0x1401;
+
+		s_Default = CreateRef<OpenGL::GlTexture2D>("DefaultTexture", spec);
+		uint32_t textureData = 0xffffffff;
+		s_Default->SetData(&textureData, sizeof(uint32_t));
+
+		Load();
+	}
 
 	void Texture2DLibrary::Load(const std::string& filepath)
 	{
@@ -27,17 +44,26 @@ namespace Engine {
 		s_Textures2D[name] = texture;
 	}
 
-	Ref<OpenGL::GlTexture2D> Texture2DLibrary::LoadTexture2D(const std::string& name, const std::string& filepath)
+	Ref<OpenGL::GlTexture2D> Texture2DLibrary::Load(const std::string& name, const std::string& filepath)
 	{
 		auto texture = CreateRef<OpenGL::GlTexture2D>(name, filepath);
 		Add(texture);
 		return texture;
 	}
 
-	Ref<OpenGL::GlTexture2D> Texture2DLibrary::GetTexture2D(const std::string& name)
+	Ref<OpenGL::GlTexture2D> Texture2DLibrary::Get(const std::string& name)
 	{
-		ASSERT(ContainsTexture2D(name), "Texture not found!");
+		if (!ContainsTexture2D(name))
+			return s_Default;
 		return s_Textures2D[name];
+	}
+
+	std::vector<std::string> Texture2DLibrary::GetNames()
+	{
+		std::vector<std::string> names;
+		for (auto entry : s_Textures2D)
+			names.push_back(entry.first);
+		return names;
 	}
 
 	bool Texture2DLibrary::ContainsTexture2D(const std::string& name)
@@ -88,6 +114,9 @@ namespace Engine {
 
 	static void SerializeTexture2D(YAML::Emitter& out, Ref<OpenGL::GlTexture2D> texture)
 	{
+		if (texture->IsDynamic())
+			return;
+
 		out << YAML::BeginMap; // Texture
 		out << YAML::Key << "Texture";
 		out << YAML::Value << texture->GetName();

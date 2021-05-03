@@ -15,18 +15,22 @@ namespace Engine {
 		friend class Texture2DPanel;
 
 	public:
-		static void Load(const std::string& filepath);
-		static void Save(const std::string& filepath);
+		static void Init();
+
+		static void Load(const std::string& filepath = "assets/Texture2DLibrary.yaml");
+		static void Save(const std::string& filepath = "assets/Texture2DLibrary.yaml");
 
 		static void Add(const Ref<OpenGL::GlTexture2D>& texture);
 
-		static Ref<OpenGL::GlTexture2D> LoadTexture2D(const std::string& name, const std::string& filepath);
-		static Ref<OpenGL::GlTexture2D> GetTexture2D(const std::string& name);
+		static Ref<OpenGL::GlTexture2D> Load(const std::string& name, const std::string& filepath);
+		static Ref<OpenGL::GlTexture2D> Get(const std::string& name = std::string());
+		static std::vector<std::string> GetNames();
 
 		static bool ContainsTexture2D(const std::string& name);
 
 	private:
 		static std::unordered_map<std::string, Ref<OpenGL::GlTexture2D>> s_Textures2D;
+		static Ref<OpenGL::GlTexture2D> s_Default;
 
 		static void Serialize(const std::string& filepath);
 		static void Deserialize(const std::string& filepath);

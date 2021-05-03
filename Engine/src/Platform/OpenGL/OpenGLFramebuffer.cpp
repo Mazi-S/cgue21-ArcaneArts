@@ -1,5 +1,6 @@
 #include "egpch.h"
 #include "OpenGLFramebuffer.h"
+#include "Engine/Renderer/TextureLibrary.h"
 
 #include <glad/glad.h>
 
@@ -39,10 +40,16 @@ void Engine::OpenGL::GlFramebuffer::Resize(uint32_t width, uint32_t height)
 	m_Specification.Width = width;
 	m_Specification.Height = height;
 
-	if (m_RendererID != 0)
+	if (!m_RendererID != 0)
+	{
+		Init();
+	}
+	else
+	{
 		Destroy();
 
-	Init();
+	}
+
 }
 
 void Engine::OpenGL::GlFramebuffer::Init()
@@ -72,7 +79,10 @@ void Engine::OpenGL::GlFramebuffer::Init()
 
 		colorSpec.ComparisonMode = m_Specification.ColorAttachment.ComparisonMode;
 
-		m_DepthAttachment = CreateRef<GlTexture2D>("ColorAttachment", colorSpec);
+		const std::string name = m_Specification.ColorAttachment.Name != std::string() ? m_Specification.ColorAttachment.Name : "ColorAttachment";
+		m_ColorAttachment = CreateRef<GlTexture2D>(name, colorSpec);
+		if (m_Specification.ColorAttachment.TextureLibrary)
+			Texture2DLibrary::Add(m_ColorAttachment);
 	}
 	else
 	{
@@ -101,7 +111,10 @@ void Engine::OpenGL::GlFramebuffer::Init()
 
 		depthSpec.Mipmaps = false;
 
-		m_DepthAttachment = CreateRef<GlTexture2D>("DepthAttachment", depthSpec);
+		const std::string name = m_Specification.DepthAttachment.Name != std::string() ? m_Specification.DepthAttachment.Name : "DepthAttachment";
+		m_DepthAttachment = CreateRef<GlTexture2D>(name, depthSpec);
+		if (m_Specification.DepthAttachment.TextureLibrary)
+			Texture2DLibrary::Add(m_DepthAttachment);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_DepthAttachment->m_TextureID, 0);
 	}
 

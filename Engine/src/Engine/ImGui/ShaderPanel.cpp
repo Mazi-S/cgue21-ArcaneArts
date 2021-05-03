@@ -9,7 +9,19 @@ namespace Engine {
 
 	void ShaderPanel::OnImGui()
 	{
-		ImGui::Begin("Shaders");
+		ImGui::Begin("Shaders", &m_Active, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse);
+
+		if (ImGui::BeginMenuBar())
+		{
+			if (ImGui::BeginMenu("File"))
+			{
+				if (ImGui::MenuItem("Save")) { /* Do stuff */ }
+				ImGui::EndMenu();
+			}
+			ImGui::EndMenuBar();
+		}
+
+		ImGuiUtil::HeaderText("ShaderLibrary");
 
 		for (auto entry : ShaderLibrary::s_Shaders)
 		{
@@ -20,6 +32,7 @@ namespace Engine {
 		if (m_SelectionContext != nullptr)
 		{
 			ImGui::Separator();
+			ImGuiUtil::HeaderText("Shader");
 			DrawShader(m_SelectionContext);
 		}
 

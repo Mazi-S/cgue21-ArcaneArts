@@ -8,7 +8,14 @@
 
 namespace Engine {
 
-	std::unordered_map<std::string, Ref<Material>> MaterialLibrary::s_Materials;
+	std::map<std::string, Ref<Material>> MaterialLibrary::s_Materials;
+	Ref<Material> MaterialLibrary::s_Default;
+
+	void MaterialLibrary::Init()
+	{
+		s_Default = CreateRef<Material>(MaterialProperties("DefaultMaterial"));
+		Load();
+	}
 
 	void MaterialLibrary::Load(const std::string& filepath)
 	{
@@ -22,32 +29,39 @@ namespace Engine {
 
 	Ref<Material> MaterialLibrary::Create(MaterialProperties& spec)
 	{
-		auto shader = ShaderLibrary::Get(spec.Shader);
-
-		Ref<Material> material;
-		if (spec.Textures[0] != "")
-		{
-			auto colorTex = Texture2DLibrary::GetTexture2D(spec.Textures[0]);
-			material = CreateRef<TextureMaterial>(spec, colorTex, shader);
-		}
-		else
-		{
-			material = CreateRef<Material>(spec, shader);
-		}
-
+		Ref<Material> material = CreateRef<Material>(spec);
 		s_Materials[material->GetName()] = material;
 		return material;
 	}
 
+	Ref<Material> MaterialLibrary::Create(const std::string& name)
+	{
+		return Create(MaterialProperties(name));
+	}
+
 	Ref<Material> MaterialLibrary::Get(const std::string& name)
 	{
-		ASSERT(Contains(name), "Material not found!");
+		if (!Contains(name))
+			return s_Default;
 		return s_Materials[name];
 	}
 
 	bool MaterialLibrary::Contains(const std::string& name)
 	{
 		return s_Materials.find(name) != s_Materials.end();
+	}
+
+	void MaterialLibrary::Remove(const std::string& name)
+	{
+		s_Materials.erase(name);
+	}
+
+	void MaterialLibrary::Rename(const std::string& oldName, const std::string& newName)
+	{
+		ASSERT(!Contains(newName), "Material already exists!");
+		s_Materials[newName] = s_Materials[oldName];
+		s_Materials[newName]->m_Name = newName;
+		Remove(oldName);
 	}
 
 	void MaterialLibrary::Add(const Ref<Material>& material)
@@ -103,19 +117,16 @@ namespace Engine {
 		out << YAML::Value << material->GetName();
 
 		out << YAML::Key << "Shader";
-		out << YAML::Value << material->GetShader()->GetName();
+		out << YAML::Value << material->GetShader();
 
 		out << YAML::Key << "Ambient";
-		glm::vec3 ambient = material->GetAmbient();
-		out << YAML::Value << ambient;
+		out << YAML::Value << material->GetAmbient();
 
 		out << YAML::Key << "Diffuse";
-		glm::vec3 diffuse = material->GetAmbient();
-		out << YAML::Value << diffuse;
+		out << YAML::Value << material->GetDiffuse();
 
 		out << YAML::Key << "Specular";
-		glm::vec3 specular = material->GetAmbient();
-		out << YAML::Value << specular;
+		out << YAML::Value << material->GetSpecular();
 
 		out << YAML::Key << "Shininess";
 		out << YAML::Value << material->GetShininess();
@@ -127,7 +138,7 @@ namespace Engine {
 			out << YAML::Value << YAML::BeginMap; 
 
 			for (auto& entry : material->GetTextures())
-				out << YAML::Key << entry.first << YAML::Value << entry.second->GetName();
+				out << YAML::Key << entry.first << YAML::Value << entry.second;
 			
 			out << YAML::EndMap;
 		}
@@ -148,8 +159,7 @@ namespace Engine {
 		glm::vec3 specular = material["Specular"].as<glm::vec3>();
 		float shininess = material["Shininess"].as<float>();
 
-		Ref<MaterialProperties> spec = CreateRef<MaterialProperties>(name, ambient, diffuse, specular, shininess);
-		spec->Shader = shader;
+		Ref<MaterialProperties> spec = CreateRef<MaterialProperties>(name, ambient, diffuse, specular, shininess, shader);
 
 		if (material["Textures"])
 			for (auto textureNode : material["Textures"])

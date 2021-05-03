@@ -12,11 +12,14 @@ namespace Engine {
 		void OnImGui();
 
 	private:
-		Ref<Material> m_SelectionContext;
+		bool m_Active = true;
 
+		Ref<Material> m_SelectionContext;
 	private:
 		void DrawMaterialNode(Ref<Material>& material);
 		void DrawMaterial(Ref<Material>& material);
+
+		void Save();
 	};
 
 }

@@ -15,6 +15,8 @@ namespace Engine::OpenGL {
 	struct FramebufferAttachmentSpecification
 	{
 		bool Attach = false;
+		bool TextureLibrary = false;
+		std::string Name = std::string();
 
 		uint32_t Internalformat;
 		uint32_t Format;

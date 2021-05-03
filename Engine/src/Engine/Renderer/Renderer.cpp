@@ -31,7 +31,10 @@ namespace Engine {
 			{OpenGL::GlShaderDataType::Float3, "PointLight_Color", 4 * 4 * 8},
 			{OpenGL::GlShaderDataType::Float, "PointLight_Constant", 4 * 4 * 8 + 4 * 3},
 			{OpenGL::GlShaderDataType::Float, "PointLight_Linear", 4 * 4 * 9},
-			{OpenGL::GlShaderDataType::Float, "PointLight_Quadratic", 4 * 4 * 9 + 4 * 1}
+			{OpenGL::GlShaderDataType::Float, "PointLight_Quadratic", 4 * 4 * 9 + 4 * 1},
+
+			{OpenGL::GlShaderDataType::Mat4, "PointLight_Quadratic", 4 * 4 * 9 + 4 * 1},
+			{OpenGL::GlShaderDataType::Float, "PointLight_Quadratic", 4 * 4 * 9 + 4 * 1},
 		});
 		s_SceneUB = CreateRef<OpenGL::GlUniformBuffer>(layout);
 
@@ -51,6 +54,8 @@ namespace Engine {
 		spec.DepthAttachment.Min_Filter = GL_LINEAR;
 		spec.DepthAttachment.Mag_Filter = GL_LINEAR;
 		spec.DepthAttachment.ComparisonMode = GL_COMPARE_REF_TO_TEXTURE;
+		spec.DepthAttachment.TextureLibrary = true;
+		spec.DepthAttachment.Name = "ShadowMap";
 
 		s_ShadowMapFB = CreateRef<OpenGL::GlFramebuffer>(spec);
 	}
@@ -127,9 +132,7 @@ namespace Engine {
 			material.first->Bind();
 			material.first->Set("SceneData", s_SceneUB);
 
-			auto& shader = material.first->GetShader();
-			s_ShadowMapFB->GetDepthAttachment()->Bind(2);
-			shader->SetInt("u_ShadowMap", 2);
+			Ref<OpenGL::GlShader>& shader = ShaderLibrary::Get(material.first->GetShader());
 
 			for (const auto& obj : material.second)
 			{

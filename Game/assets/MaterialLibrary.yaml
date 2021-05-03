@@ -1,67 +1,5 @@
 MaterialLibrary: Untitled
 Materials:
-  - Material: MonsterSmallMaterial
-    Shader: TextureShader
-    Ambient: [0.100000001, 0.100000001, 0.100000001]
-    Diffuse: [0.100000001, 0.100000001, 0.100000001]
-    Specular: [0.100000001, 0.100000001, 0.100000001]
-    Shininess: 2
-    Textures:
-      0: MonsterSmall
-  - Material: SkinMaterial
-    Shader: ColorShader
-    Ambient: [0.200000003, 0.150000006, 0.100000001]
-    Diffuse: [0.200000003, 0.150000006, 0.100000001]
-    Specular: [0.200000003, 0.150000006, 0.100000001]
-    Shininess: 2
-  - Material: TerrainMaterial
-    Shader: ColorShader
-    Ambient: [0.0599999987, 0.100000001, 0]
-    Diffuse: [0.0599999987, 0.100000001, 0]
-    Specular: [0.0599999987, 0.100000001, 0]
-    Shininess: 1
-  - Material: CloudMaterial
-    Shader: ColorShader
-    Ambient: [0.560000002, 0.769999981, 1]
-    Diffuse: [0.560000002, 0.769999981, 1]
-    Specular: [0.560000002, 0.769999981, 1]
-    Shininess: 1
-  - Material: RockMaterial
-    Shader: ColorShader
-    Ambient: [0.100000001, 0.100000001, 0.100000001]
-    Diffuse: [0.100000001, 0.100000001, 0.100000001]
-    Specular: [0.100000001, 0.100000001, 0.100000001]
-    Shininess: 1
-  - Material: HouseMaterial
-    Shader: TextureShader
-    Ambient: [0.100000001, 0.100000001, 0.100000001]
-    Diffuse: [0.100000001, 0.100000001, 0.100000001]
-    Specular: [0.100000001, 0.100000001, 0.100000001]
-    Shininess: 2
-    Textures:
-      0: House
-  - Material: PedestalMaterial
-    Shader: ColorShader
-    Ambient: [0.109999999, 0.0500000007, 0.0199999996]
-    Diffuse: [0.109999999, 0.0500000007, 0.0199999996]
-    Specular: [0.109999999, 0.0500000007, 0.0199999996]
-    Shininess: 1
-  - Material: MonsterBigMaterial
-    Shader: TextureShader
-    Ambient: [0.100000001, 0.100000001, 0.100000001]
-    Diffuse: [0.100000001, 0.100000001, 0.100000001]
-    Specular: [0.100000001, 0.100000001, 0.100000001]
-    Shininess: 2
-    Textures:
-      0: MonsterBig
-  - Material: ForestMaterial
-    Shader: TextureShader
-    Ambient: [0.100000001, 0.100000001, 0.100000001]
-    Diffuse: [0.100000001, 0.100000001, 0.100000001]
-    Specular: [0.100000001, 0.100000001, 0.100000001]
-    Shininess: 2
-    Textures:
-      0: Forest
   - Material: CaveMaterial
     Shader: TextureShader
     Ambient: [0.100000001, 0.100000001, 0.100000001]
@@ -69,40 +7,129 @@ Materials:
     Specular: [0.100000001, 0.100000001, 0.100000001]
     Shininess: 2
     Textures:
-      0: Cave
-  - Material: MagicBall_Light
+      0: ShadowMap
+      1: Cave
+  - Material: CloudMaterial
     Shader: ColorShader
-    Ambient: [0.899999976, 0.899999976, 0.899999976]
-    Diffuse: [0.899999976, 0.899999976, 0.899999976]
-    Specular: [0.899999976, 0.899999976, 0.899999976]
+    Ambient: [0.560000002, 0.769999981, 1]
+    Diffuse: [0.560000002, 0.769999981, 1]
+    Specular: [0.560000002, 0.769999981, 1]
     Shininess: 1
-  - Material: MagicBall_Heal
-    Shader: ColorShader
-    Ambient: [0.899999976, 0.899999976, 0]
-    Diffuse: [0.899999976, 0.899999976, 0]
-    Specular: [0.899999976, 0.899999976, 0]
-    Shininess: 1
+    Textures:
+      0: ShadowMap
+  - Material: ForestMaterial
+    Shader: TextureShader
+    Ambient: [0.100000001, 0.100000001, 0.100000001]
+    Diffuse: [0.100000001, 0.100000001, 0.100000001]
+    Specular: [0.100000001, 0.100000001, 0.100000001]
+    Shininess: 2
+    Textures:
+      0: ShadowMap
+      1: Forest
+  - Material: HouseMaterial
+    Shader: TextureShader
+    Ambient: [0.100000001, 0.100000001, 0.100000001]
+    Diffuse: [0.100000001, 0.100000001, 0.100000001]
+    Specular: [0.100000001, 0.100000001, 0.100000001]
+    Shininess: 2
+    Textures:
+      0: ShadowMap
+      1: House
   - Material: MagicBall_Fire
     Shader: ColorShader
     Ambient: [0.5, 0.0500000007, 0.100000001]
     Diffuse: [0.5, 0.0500000007, 0.100000001]
     Specular: [0.5, 0.0500000007, 0.100000001]
     Shininess: 5
+    Textures:
+      0: ShadowMap
   - Material: MagicBall_Fire_ready
     Shader: ColorShader
     Ambient: [0.600000024, 0.150000006, 0.200000003]
     Diffuse: [0.600000024, 0.150000006, 0.200000003]
     Specular: [0.600000024, 0.150000006, 0.200000003]
     Shininess: 5
+    Textures:
+      0: ShadowMap
+  - Material: MagicBall_Heal
+    Shader: ColorShader
+    Ambient: [0.899999976, 0.899999976, 0]
+    Diffuse: [0.899999976, 0.899999976, 0]
+    Specular: [0.899999976, 0.899999976, 0]
+    Shininess: 1
+    Textures:
+      0: ShadowMap
+  - Material: MagicBall_Light
+    Shader: ColorShader
+    Ambient: [0.899999976, 0.899999976, 0.899999976]
+    Diffuse: [0.899999976, 0.899999976, 0.899999976]
+    Specular: [0.899999976, 0.899999976, 0.899999976]
+    Shininess: 1
+    Textures:
+      0: ShadowMap
   - Material: MagicBall_Lightning
     Shader: ColorShader
     Ambient: [0.100000001, 0.0500000007, 0.5]
     Diffuse: [0.100000001, 0.0500000007, 0.5]
     Specular: [0.100000001, 0.0500000007, 0.5]
     Shininess: 5
+    Textures:
+      0: ShadowMap
   - Material: MagicBall_Lightning_ready
     Shader: ColorShader
     Ambient: [0.200000003, 0.150000006, 0.600000024]
     Diffuse: [0.200000003, 0.150000006, 0.600000024]
     Specular: [0.200000003, 0.150000006, 0.600000024]
     Shininess: 5
+    Textures:
+      0: ShadowMap
+  - Material: MonsterBigMaterial
+    Shader: TextureShader
+    Ambient: [0.100000001, 0.100000001, 0.100000001]
+    Diffuse: [0.100000001, 0.100000001, 0.100000001]
+    Specular: [0.100000001, 0.100000001, 0.100000001]
+    Shininess: 2
+    Textures:
+      0: ShadowMap
+      1: MonsterBig
+  - Material: MonsterSmallMaterial
+    Shader: TextureShader
+    Ambient: [0.100000001, 0.100000001, 0.100000001]
+    Diffuse: [0.100000001, 0.100000001, 0.100000001]
+    Specular: [0.100000001, 0.100000001, 0.100000001]
+    Shininess: 2
+    Textures:
+      0: ShadowMap
+      1: MonsterSmall
+  - Material: PedestalMaterial
+    Shader: ColorShader
+    Ambient: [0.109999999, 0.0500000007, 0.0199999996]
+    Diffuse: [0.109999999, 0.0500000007, 0.0199999996]
+    Specular: [0.109999999, 0.0500000007, 0.0199999996]
+    Shininess: 1
+    Textures:
+      0: ShadowMap
+  - Material: RockMaterial
+    Shader: ColorShader
+    Ambient: [0.100000001, 0.100000001, 0.100000001]
+    Diffuse: [0.100000001, 0.100000001, 0.100000001]
+    Specular: [0.100000001, 0.100000001, 0.100000001]
+    Shininess: 1
+    Textures:
+      0: ShadowMap
+  - Material: SkinMaterial
+    Shader: ColorShader
+    Ambient: [0.200000003, 0.150000006, 0.100000001]
+    Diffuse: [0.200000003, 0.150000006, 0.100000001]
+    Specular: [0.200000003, 0.150000006, 0.100000001]
+    Shininess: 2
+    Textures:
+      0: ShadowMap
+  - Material: TerrainMaterial
+    Shader: ColorShader
+    Ambient: [0.0599999987, 0.100000001, 0]
+    Diffuse: [0.0599999987, 0.100000001, 0]
+    Specular: [0.0599999987, 0.100000001, 0]
+    Shininess: 1
+    Textures:
+      0: ShadowMap

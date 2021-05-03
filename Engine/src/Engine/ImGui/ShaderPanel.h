@@ -12,6 +12,8 @@ namespace Engine {
 		void OnImGui();
 
 	private:
+		bool m_Active = true;
+
 		Ref<OpenGL::GlShader> m_SelectionContext;
 
 	private:

@@ -1,15 +1,30 @@
 #include "egpch.h"
 #include "MaterialPanel.h"
 #include "Engine/Renderer/MaterialLibrary.h"
+#include "Engine/Renderer/ShaderLibrary.h"
+#include "Engine/Renderer/TextureLibrary.h"
 
 #include <imgui.h>
 #include "ImGuiUtil.h"
+#include <windows.h>
+#include <fileapi.h>
 
 namespace Engine {
 
 	void MaterialPanel::OnImGui()
 	{
-		ImGui::Begin("Materials");
+		ImGui::Begin("Materials", &m_Active, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse);
+		if (ImGui::BeginMenuBar())
+		{
+			if (ImGui::BeginMenu("File"))
+			{
+				if (ImGui::MenuItem("Save")) { Save(); }
+				ImGui::EndMenu();
+			}
+			ImGui::EndMenuBar();
+		}
+
+		ImGuiUtil::HeaderText("MaterialLibrary");
 
 		for (auto entry : MaterialLibrary::s_Materials)
 		{
@@ -17,10 +32,19 @@ namespace Engine {
 			DrawMaterialNode(material);
 		}
 
+		ImGui::Separator();
+
 		if (m_SelectionContext != nullptr)
 		{
-			ImGui::Separator();
+			ImGuiUtil::HeaderText("Material");
 			DrawMaterial(m_SelectionContext);
+		}
+		else
+		{
+			if (ImGui::Button("Add Material", { -1, 0 }))
+			{
+				m_SelectionContext = MaterialLibrary::Create("New Material");
+			}
 		}
 
 		ImGui::End();
@@ -35,7 +59,7 @@ namespace Engine {
 
 		bool opened = ImGui::TreeNodeEx(material.get(), flags, name.c_str());
 		if (ImGui::IsItemClicked())
-			m_SelectionContext = material;
+			m_SelectionContext = m_SelectionContext != material ? material : nullptr;
 
 		if (opened)
 			ImGui::TreePop();
@@ -43,20 +67,38 @@ namespace Engine {
 
 	void MaterialPanel::DrawMaterial(Ref<Material>& material)
 	{
-		ImGuiUtil::Text("Name", material->GetName());
-		ImGuiUtil::Text("Shader", material->m_Shader->GetName());
+		// Name (ID)
+		std::string name = material->GetName();
+		if (ImGuiUtil::InputText("Name", name))
+			MaterialLibrary::Rename(material->GetName(), name);
 
+		// Shader
+		std::string shader = material->m_Shader;
+		if (ImGuiUtil::DrawComboControl("Shader", shader, ShaderLibrary::GetNames()))
+			material->SetShader(shader);
+
+		// Textures
 		if (material->GetTextures().size() > 0)
 		{
 			for (auto& entry : material->GetTextures())
 			{
 				std::stringstream ss;
 				ss << "Texture " << entry.first;
-				ImGuiUtil::Text(ss.str(), entry.second->GetName());
+				std::string texture = entry.second;
+				if (ImGuiUtil::DrawComboControl(ss.str(), texture, Texture2DLibrary::GetNames()))
+					material->SetTexture(entry.first, texture);
 			}
 		}
-		ImGui::NewLine();
 
+		bool add = false;
+		bool remove = false;
+		if (ImGuiUtil::Button("", "Add Texture", add, "Remove Texture", remove))
+		{
+			if (add) material->SetTexture(material->GetTextures().size());
+			else if (remove) material->RemoveTexture(material->GetTextures().size() - 1);
+		}
+
+		ImGui::NewLine();
 
 		glm::vec3 ambient = material->GetAmbient();
 		glm::vec3 diffuse = material->GetDiffuse();
@@ -73,6 +115,20 @@ namespace Engine {
 
 		if (ImGuiUtil::DrawFloatControl("Shininess", shininess, 1, 50))
 			material->SetShininess(shininess);
+
+		ImGui::NewLine();
+		ImGui::NewLine();
+
+		if (ImGui::Button("Remove Material", { -1, 0 }))
+		{
+			MaterialLibrary::Remove(material->GetName());
+			m_SelectionContext = nullptr;
+		}
+	}
+
+	void MaterialPanel::Save()
+	{
+		MaterialLibrary::Save("assets/MaterialLibrary.yaml");
 	}
 
 }
