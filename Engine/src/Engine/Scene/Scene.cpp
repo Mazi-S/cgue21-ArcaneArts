@@ -11,6 +11,7 @@
 
 // Renderer
 #include "Engine/Renderer/Renderer.h"
+#include "Engine/Renderer/ShadowMap.h"
 #include "Engine/Renderer/Camera.h"
 #include "Engine/Renderer/Light.h"
 
@@ -235,7 +236,11 @@ namespace Engine {
 		PointLight pLight = pLights.size() >= 1 ? pLights[0] : PointLight();
 
 		Renderer::BeginScene(camera, dLight, pLight);
+		ShadowMap::BeginScene(camera, dLight);
+
 		System::Renderer::Submit(m_Registry);
+
+		ShadowMap::EndScene();
 		Renderer::EndScene();
 	}
 

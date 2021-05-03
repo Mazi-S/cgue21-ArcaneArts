@@ -5,7 +5,7 @@ layout(location = 0) in vec3 a_Position;
 layout(location = 1) in vec2 a_TexCoord;
 layout(location = 2) in vec3 a_Normals;
 
-layout (std140) uniform SceneData {
+layout (std140, binding = 0) uniform SceneData {
 	mat4 u_ViewProjection;
 	vec3 u_CameraPosition;
 	vec3 u_DirectionalLight_Direction;
@@ -17,10 +17,13 @@ layout (std140) uniform SceneData {
 	float u_PointLight_Quadratic;
 };
 
+layout (std140, binding = 6) uniform LightSpace
+{
+	mat4 u_LightSpaceMatrix;
+};
+
 uniform mat4 u_Transform;
 uniform mat3 u_NormalMatrix;
-
-uniform mat4 u_LightSpaceMatrix;
 
 out vec3 v_Position;
 out vec3 v_Normals;
@@ -31,7 +34,7 @@ void main() {
 	v_Normals = u_NormalMatrix * a_Normals;
 	v_TexCoord = a_TexCoord;
 	v_Position = vec3(u_Transform * vec4(a_Position, 1.0));
-	v_FragPosLightSpace = u_LightSpaceMatrix * vec4(a_Position, 1.0);
+	v_FragPosLightSpace = u_LightSpaceMatrix * u_Transform * vec4(a_Position, 1.0);
 	gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
 }
 
@@ -41,7 +44,7 @@ void main() {
 // illumination multiplier
 uniform float u_Brightness = 1.0;
 
-layout (std140) uniform SceneData {
+layout (std140, binding = 0) uniform SceneData {
 	mat4 u_ViewProjection;
 	vec3 u_CameraPosition;
 	vec3 u_DirectionalLight_Direction;
@@ -53,7 +56,7 @@ layout (std140) uniform SceneData {
 	float u_PointLight_Quadratic;
 };
 
-layout (std140) uniform MaterialData {
+layout (std140, binding = 1) uniform MaterialData {
 	vec3 u_Ambient;
 	vec3 u_Diffuse;
 	vec3 u_Specular;

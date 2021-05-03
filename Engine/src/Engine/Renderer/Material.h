@@ -50,7 +50,6 @@ namespace Engine {
 		void RemoveTexture(uint16_t slot) { m_Textures.erase(slot); }
 
 		virtual void Bind();
-		virtual void Set(const std::string& name, const Ref<OpenGL::GlUniformBuffer>& uniformBuffer);
 
 		const std::string& GetName() const { return m_Name; };
 

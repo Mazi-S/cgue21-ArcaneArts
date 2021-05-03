@@ -5,6 +5,7 @@
 #include "Engine/Scene/Components.h"
 
 #include "Engine/Renderer/Renderer.h"
+#include "Engine/Renderer/ShadowMap.h"
 
 namespace Engine::System::Renderer {
 
@@ -17,7 +18,9 @@ namespace Engine::System::Renderer {
 			for (auto entity : view)
 			{
 				auto [material, mesh] = view.get<Component::Renderer::MaterialComponent, Component::Renderer::MeshComponent>(entity);
-				Engine::Renderer::Submit(mesh, material, Util::Transform(registry, entity), true);
+				auto transform = Util::Transform(registry, entity);
+				Engine::Renderer::Submit(mesh, material, transform);
+				Engine::ShadowMap::Submit(mesh, transform);
 			}
 		}
 
@@ -27,7 +30,7 @@ namespace Engine::System::Renderer {
 			for (auto entity : view)
 			{
 				auto [material, mesh] = view.get<Component::Renderer::MaterialComponent, Component::Renderer::MeshComponent>(entity);
-				Engine::Renderer::Submit(mesh, material, Util::Transform(registry, entity), false);
+				Engine::Renderer::Submit(mesh, material, Util::Transform(registry, entity));
 			}
 		}
 	}

@@ -8,6 +8,7 @@
 
 #include "Engine/Renderer/Renderer.h"
 #include "Engine/Renderer/Renderer2D.h"
+#include "Engine/Renderer/ShadowMap.h"
 #include "Engine/ImGui/ImGuiAPI.h"
 #include "Engine/Audio/SoundEngine.h"
 #include "Engine/Physics/PhysicsAPI.h"
@@ -37,6 +38,8 @@ namespace Engine {
 		Texture2DLibrary::Init();
 		ShaderLibrary::Init();
 		MaterialLibrary::Init();
+
+		ShadowMap::Init();
 
 		m_LayerStack = new LayerStack();
 	}

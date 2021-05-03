@@ -12,6 +12,8 @@ namespace Engine {
 		Camera(const glm::mat4& projection = glm::mat4(1.0f), const glm::mat4& transform = glm::mat4(1.0f))
 			: Projection(projection), Transform(transform)
 		{ }
+
+		const glm::vec3 Position() const { return { Transform[3][0], Transform[3][1], Transform[3][2] }; }
 	};
 
 }

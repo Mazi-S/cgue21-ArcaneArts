@@ -40,17 +40,10 @@ namespace Engine {
 	{
 		m_BindingPoint = 0;
 		ShaderLibrary::Get(m_Shader)->Bind();
-		Set("MaterialData", m_MaterialUB);
+		m_MaterialUB->Bind(1);
 
 		for (auto& entry : m_Textures)
 			Texture2DLibrary::Get(entry.second)->Bind(entry.first);
-	}
-
-	void Material::Set(const std::string& name, const Ref<OpenGL::GlUniformBuffer>& uniformBuffer)
-	{
-		uniformBuffer->Bind(m_BindingPoint);
-		ShaderLibrary::Get(m_Shader)->SetBlockBinding(name, m_BindingPoint);
-		m_BindingPoint++;
 	}
 
 	void Material::SetAmbient(glm::vec3 ambient)

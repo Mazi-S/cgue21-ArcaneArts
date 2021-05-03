@@ -17,17 +17,6 @@
 
 namespace Engine {
 
-	struct SceneData
-	{
-		Camera Camera;
-		glm::vec3 CameraPos;
-
-		DirectionalLight DirectionalLight;
-		PointLight PointLight;
-		glm::mat4 DepthViewMatrix;
-		glm::mat4 DepthProjectionMatrix;
-	};
-
 	class Renderer
 	{
 	public:
@@ -39,25 +28,17 @@ namespace Engine {
 		static void BeginScene(const Camera& camera, const DirectionalLight& directionalLight = DirectionalLight(), const PointLight& pointLight = PointLight());
 		static void EndScene();
 
-		static void Submit(const Ref<OpenGL::GlVertexArray>& vertexArray, const Ref<Material>& material, const glm::mat4& transform, bool shadow);
-		static void Submit(const Ref<OpenGL::GlMesh>& mesh, const Ref<Material>& material, const glm::mat4& transform, bool shadow);
+		static void Submit(const Ref<OpenGL::GlVertexArray>& vertexArray, const Ref<Material>& material, const glm::mat4& transform);
+		static void Submit(const Ref<OpenGL::GlMesh>& mesh, const Ref<Material>& material, const glm::mat4& transform);
 
 	private:
 		static void Render();
-		static void UpdateShadowMap();
 
 	private:
 		// shared over all shaders
 		static Ref<OpenGL::GlUniformBuffer> s_SceneUB;
 
-		static SceneData s_SceneData;
-
-		// Shadow Map
-		static Ref<OpenGL::GlFramebuffer> s_ShadowMapFB;
-		static Ref<OpenGL::GlShader> s_ShadowMapShader;
-
 		static std::map<Material*, std::set<RenderableObject, RenderableObject>> s_RenderQueue;
-		static std::map<OpenGL::GlVertexArray*, std::set<RenderableObject, RenderableObject>> s_DepthQueue;
 
 		static std::set<Ref<Material>> s_Materials;
 		static std::set<Ref<OpenGL::GlVertexArray>> s_VertexArrays;
