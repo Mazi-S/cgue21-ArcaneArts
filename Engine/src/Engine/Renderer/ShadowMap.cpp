@@ -178,6 +178,7 @@ namespace Engine {
 			vertexArray.first->Bind();
 			for (const auto& obj : vertexArray.second)
 			{
+				s_Shader->SetMat4("u_Transform", obj.Transform);
 				OpenGL::API::DrawIndexed(obj.VertexArray, obj.VertexArray->GetIndexBuffer()->GetCount());
 			}
 		}

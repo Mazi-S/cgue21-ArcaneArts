@@ -7,9 +7,11 @@ layout (std140, binding = 6) uniform LightSpace
 	mat4 u_LightSpaceMatrix;
 };
 
+uniform mat4 u_Transform;
+
 void main()
 {
-	gl_Position = u_LightSpaceMatrix * vec4(a_Position, 1.0);
+	gl_Position = u_LightSpaceMatrix * u_Transform * vec4(a_Position, 1.0);
 }
 
 #type fragment

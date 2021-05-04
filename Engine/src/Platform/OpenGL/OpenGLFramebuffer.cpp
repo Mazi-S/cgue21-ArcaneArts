@@ -40,16 +40,9 @@ void Engine::OpenGL::GlFramebuffer::Resize(uint32_t width, uint32_t height)
 	m_Specification.Width = width;
 	m_Specification.Height = height;
 
-	if (!m_RendererID != 0)
-	{
-		Init();
-	}
-	else
-	{
+	if (m_RendererID != 0)
 		Destroy();
-
-	}
-
+	Init();
 }
 
 void Engine::OpenGL::GlFramebuffer::Init()

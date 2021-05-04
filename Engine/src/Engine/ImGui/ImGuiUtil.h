@@ -2,6 +2,8 @@
 #include <string>
 #include <glm/glm.hpp>
 
+#include "Platform/OpenGL/OpenGLTexture.h"
+
 namespace Engine {
 
 	class ImGuiUtil
@@ -26,6 +28,7 @@ namespace Engine {
 
 		static void HeaderText(const std::string& text);
 		static void BoldText(const std::string& text);
+
 	};
 
 }

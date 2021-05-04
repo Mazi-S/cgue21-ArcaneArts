@@ -84,6 +84,11 @@ namespace Engine {
 
 		ImGuiUtil::Text("ComparisonMode", Util::GlEnumConverter::ToString(spec.ComparisonMode));
 		ImGuiUtil::Text("Mipmaps", spec.Mipmaps ? "true" : "false");
+
+		ImGui::NewLine();
+		glm::vec2 size = { texture->GetSpecification().Width, texture->GetSpecification().Height };
+		size *= ImGui::GetContentRegionAvail().x / texture->GetSpecification().Width;
+		ImGui::Image((void*)(intptr_t)texture->GetRendererID(), { size.x, size.y }, {0, 1}, {1, 0});
 	}
 
 }

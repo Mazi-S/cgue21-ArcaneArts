@@ -1,5 +1,6 @@
 #pragma once
 #include <glm/glm.hpp>
+#include <string>
 
 namespace Engine::OpenGL {
 
@@ -28,9 +29,9 @@ namespace Engine::OpenGL {
 
 	class GlTexture2D
 	{
+	public:
 		friend class GlFramebuffer;
 
-	public:
 		GlTexture2D(const std::string& name, Texture2DSpecification spec);
 		GlTexture2D(const std::string& name, const std::string& filepath);
 		GlTexture2D(const std::string& name, Texture2DSpecification spec, const std::string& filepath);
@@ -44,6 +45,9 @@ namespace Engine::OpenGL {
 
 		virtual void SetData(const void* data, uint32_t size);
 		virtual bool IsDynamic() const { return m_Dynamic; }
+
+		const uint32_t GetRendererID() const { return m_TextureID; }
+
 	private:
 		void Create(const Texture2DSpecification& spec);
 		void Create(Texture2DSpecification& spec, const std::string& filepath);
