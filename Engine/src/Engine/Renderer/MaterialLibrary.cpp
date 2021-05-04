@@ -56,7 +56,7 @@ namespace Engine {
 		s_Materials.erase(name);
 	}
 
-	void MaterialLibrary::Rename(const std::string& oldName, const std::string& newName)
+	void MaterialLibrary::Rename(const std::string oldName, const std::string newName)
 	{
 		ASSERT(!Contains(newName), "Material already exists!");
 		s_Materials[newName] = s_Materials[oldName];

@@ -241,6 +241,7 @@ namespace Engine::OpenGL {
 			glGetProgramInfoLog(m_RendererID, maxLength, &maxLength, &infoLog[0]);
 
 			glDeleteProgram(m_RendererID);
+			m_RendererID = 0;
 
 			for (auto id : m_ShaderIDs)
 				glDeleteShader(id);
@@ -257,6 +258,18 @@ namespace Engine::OpenGL {
 		}
 
 		m_ShaderIDs.clear();
+	}
+
+	void GlShader::Reload(bool link)
+	{
+		glDeleteProgram(m_RendererID);
+		m_RendererID = 0;
+
+		std::string source = ReadFile(m_Path);
+		auto shaderSources = PreProcess(source);
+		Compile(shaderSources);
+		if (link)
+			Link();
 	}
 
 }

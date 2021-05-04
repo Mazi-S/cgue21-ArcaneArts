@@ -1,6 +1,6 @@
 ShaderLibrary: Untitled
 Shaders:
+  - Shader: ColorShader
+    Path: assets/shaders/Color.glsl
   - Shader: TextureShader
     Path: assets/shaders/Texture.glsl
-  - Shader: ColorShader
-    Path: assets/shaders/FlatColor.glsl

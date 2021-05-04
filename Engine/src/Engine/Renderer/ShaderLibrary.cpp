@@ -8,14 +8,8 @@
 
 namespace Engine {
 
-	std::unordered_map<std::string, Ref<OpenGL::GlShader>> ShaderLibrary::s_Shaders;
+	std::map<std::string, Ref<OpenGL::GlShader>> ShaderLibrary::s_Shaders;
 	Ref<OpenGL::GlShader> ShaderLibrary::s_Default;
-
-	void ShaderLibrary::Add(const Ref<OpenGL::GlShader>& shader)
-	{
-		auto& name = shader->GetName();
-		Add(name, shader);
-	}
 
 	void ShaderLibrary::Init()
 	{
@@ -33,22 +27,21 @@ namespace Engine {
 		Serialize(filepath);
 	}
 
-	void ShaderLibrary::Add(const std::string& name, const Ref<OpenGL::GlShader>& shader)
+	void ShaderLibrary::Add(const Ref<OpenGL::GlShader>& shader)
 	{
-		ASSERT(!Exists(name), "Shader already exists!");
-		s_Shaders[name] = shader;
+		s_Shaders[shader->GetName()] = shader;
 	}
 
-	Ref<OpenGL::GlShader> ShaderLibrary::Load(const std::string& name, const std::string& filepath)
+	Ref<OpenGL::GlShader> ShaderLibrary::Create(const std::string& name, const std::string& filepath)
 	{
 		auto shader = CreateRef<OpenGL::GlShader>(name, filepath);
-		Add(name, shader);
+		s_Shaders[shader->GetName()] = shader;
 		return shader;
 	}
 
 	Ref<OpenGL::GlShader> ShaderLibrary::Get(const std::string& name)
 	{
-		if (!Exists(name))
+		if (!Contains(name))
 			return s_Default;
 		return s_Shaders[name];
 	}
@@ -61,9 +54,22 @@ namespace Engine {
 		return names;
 	}
 
-	bool ShaderLibrary::Exists(const std::string& name)
+	bool ShaderLibrary::Contains(const std::string& name)
 	{
 		return s_Shaders.find(name) != s_Shaders.end();
+	}
+
+	void ShaderLibrary::Remove(const std::string& name)
+	{
+		s_Shaders.erase(name);
+	}
+
+	void ShaderLibrary::Rename(const std::string oldName, const std::string newName)
+	{
+		ASSERT(!Contains(newName), "Shader already exists!");
+		s_Shaders[newName] = s_Shaders[oldName];
+		s_Shaders[newName]->m_Name = newName;
+		Remove(oldName);
 	}
 
 	// Serialization

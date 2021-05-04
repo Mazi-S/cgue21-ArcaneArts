@@ -2,6 +2,10 @@
 #include <glm/glm.hpp>
 #include <string>
 
+namespace Engine {
+	class Texture2DPanel;
+}
+
 namespace Engine::OpenGL {
 
 	struct Texture2DSpecification
@@ -31,6 +35,7 @@ namespace Engine::OpenGL {
 	{
 	public:
 		friend class GlFramebuffer;
+		friend class Texture2DPanel;
 
 		GlTexture2D(const std::string& name, Texture2DSpecification spec);
 		GlTexture2D(const std::string& name, const std::string& filepath);
@@ -45,8 +50,6 @@ namespace Engine::OpenGL {
 
 		virtual void SetData(const void* data, uint32_t size);
 		virtual bool IsDynamic() const { return m_Dynamic; }
-
-		const uint32_t GetRendererID() const { return m_TextureID; }
 
 	private:
 		void Create(const Texture2DSpecification& spec);

@@ -4,10 +4,18 @@
 
 typedef unsigned int GLenum;
 
+namespace Engine {
+	class ShaderLibrary;
+	class ShaderPanel;
+}
+
 namespace Engine::OpenGL {
 
 	class GlShader
 	{
+		friend class ShaderLibrary;
+		friend class ShaderPanel;
+
 	public:
 		GlShader(const std::string& name, const std::string& filepath, bool link = true);
 		virtual ~GlShader();
@@ -32,6 +40,8 @@ namespace Engine::OpenGL {
 
 		void Link();
 	private:
+		void Reload(bool link = true);
+
 		std::string ReadFile(const std::string& filepath);
 		std::unordered_map<GLenum, std::string> PreProcess(const std::string& source);
 		void Compile(std::unordered_map<GLenum, std::string> shaderSources);
@@ -39,8 +49,8 @@ namespace Engine::OpenGL {
 	private:
 		std::vector<GLenum> m_ShaderIDs;
 
-		const std::string m_Name;
-		const std::string m_Path;
+		std::string m_Name;
+		std::string m_Path;
 		uint32_t m_RendererID;
 	};
 

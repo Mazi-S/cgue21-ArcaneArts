@@ -22,7 +22,7 @@ namespace Engine {
 		static bool Contains(const std::string& name);
 
 		static void Remove(const std::string& name);
-		static void Rename(const std::string& oldName, const std::string& newName);
+		static void Rename(const std::string oldName, const std::string newName);
 
 	private:
 		static void Add(const Ref<Material>& material);

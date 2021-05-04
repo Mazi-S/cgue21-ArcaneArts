@@ -88,7 +88,7 @@ namespace Engine {
 		ImGui::NewLine();
 		glm::vec2 size = { texture->GetSpecification().Width, texture->GetSpecification().Height };
 		size *= ImGui::GetContentRegionAvail().x / texture->GetSpecification().Width;
-		ImGui::Image((void*)(intptr_t)texture->GetRendererID(), { size.x, size.y }, {0, 1}, {1, 0});
+		ImGui::Image((void*)(intptr_t)texture->m_TextureID, { size.x, size.y }, {0, 1}, {1, 0});
 	}
 
 }

@@ -19,6 +19,8 @@ namespace Engine {
 	private:
 		void DrawShaderNode(Ref<OpenGL::GlShader>& shader);
 		void DrawShader(Ref<OpenGL::GlShader>& shader);
+
+		void Save();
 	};
 
 }

@@ -128,7 +128,7 @@ namespace Engine {
 
 	void MaterialPanel::Save()
 	{
-		MaterialLibrary::Save("assets/MaterialLibrary.yaml");
+		MaterialLibrary::Save();
 	}
 
 }
