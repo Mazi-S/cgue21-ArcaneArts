@@ -41,7 +41,7 @@ namespace Engine {
 		}
 		else
 		{
-			if (ImGui::Button("Add Material", { -1, 0 }))
+			if (ImGuiUtil::Button("Add Material", glm::vec2{ -1, 0 }, ImGuiUtil::ButtonType::Success))
 			{
 				m_SelectionContext = MaterialLibrary::Create("New Material");
 			}
@@ -117,9 +117,8 @@ namespace Engine {
 			material->SetShininess(shininess);
 
 		ImGui::NewLine();
-		ImGui::NewLine();
 
-		if (ImGui::Button("Remove Material", { -1, 0 }))
+		if (ImGuiUtil::Button("Remove Material", glm::vec2{ -1, 0 }, ImGuiUtil::ButtonType::Danger))
 		{
 			MaterialLibrary::Remove(material->GetName());
 			m_SelectionContext = nullptr;

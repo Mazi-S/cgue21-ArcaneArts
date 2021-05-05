@@ -29,15 +29,16 @@ namespace Engine {
 			DrawShaderNode(shader);
 		}
 
+		ImGui::Separator();
+
 		if (m_SelectionContext != nullptr)
 		{
-			ImGui::Separator();
 			ImGuiUtil::HeaderText("Shader");
 			DrawShader(m_SelectionContext);
 		}
 		else
 		{
-			if (ImGui::Button("Add Shader", { -1, 0 }))
+			if (ImGuiUtil::Button("Add Shader", glm::vec2{ -1, 0 }, ImGuiUtil::ButtonType::Success))
 			{
 				m_SelectionContext = ShaderLibrary::Create("New Shader", "assets/shaders/DefaultShader.glsl");
 			}
@@ -55,7 +56,7 @@ namespace Engine {
 
 		bool opened = ImGui::TreeNodeEx(shader.get(), flags, name.c_str());
 		if (ImGui::IsItemClicked())
-			m_SelectionContext = shader;
+			m_SelectionContext = m_SelectionContext != shader ? shader : nullptr;
 
 		if (opened)
 			ImGui::TreePop();
@@ -84,9 +85,8 @@ namespace Engine {
 		}
 
 		ImGui::NewLine();
-		ImGui::NewLine();
 
-		if (ImGui::Button("Remove Shader", { -1, 0 }))
+		if (ImGuiUtil::Button("Remove Shader", glm::vec2{ -1, 0 }, ImGuiUtil::ButtonType::Danger))
 		{
 			ShaderLibrary::Remove(shader->GetName());
 			m_SelectionContext = nullptr;
