@@ -160,8 +160,10 @@ namespace Engine {
 		s_DepthQueue[vertexArray.get()].insert(ShadableObject(vertexArray.get(), transform));
 	}
 
-	void ShadowMap::Submit(const Ref<OpenGL::GlMesh>& mesh, const glm::mat4& transform)
+	void ShadowMap::Submit(const std::string& meshName, const glm::mat4& transform)
 	{
+		Ref<OpenGL::GlMesh>& mesh = MeshLibrary::Get(meshName)->GetGlMesh();
+
 		for (auto& submesh : mesh->GetSubmeshes())
 			Submit(submesh->GetVertexArray(), transform);
 	}
@@ -183,6 +185,7 @@ namespace Engine {
 			}
 		}
 		s_Framebuffer->Unbind();
+		OpenGL::API::UnbindVertexArray();
 
 		OpenGL::API::CullFaces();
 		OpenGL::API::SetViewport(0, 0, Application::Get().GetWindow().GetWidth(), Application::Get().GetWindow().GetHeight());

@@ -1,6 +1,7 @@
 #include "egpch.h"
 #include "PhysicsAPI.h"
 #include "Engine/Util/Math.h"
+#include "Engine/Renderer/MeshLibrary.h"
 
 physx::PxDefaultAllocator s_AllocatorCallback;
 physx::PxDefaultErrorCallback s_ErrorCallback;
@@ -79,11 +80,11 @@ namespace Engine {
 		return shape;
 	}
 
-	physx::PxShape* PhysicsAPI::CreateShape(Ref<Mesh> mesh, glm::vec3 scale)
+	physx::PxShape* PhysicsAPI::CreateShape(const std::string& meshName, glm::vec3 scale)
 	{
 		static physx::PxMaterial* material = s_PhysicsSDK->createMaterial(0.5f, 0.5f, 0.6f);
 
-		Ref<Physics::PsMesh> psMesh = mesh->GetPsMesh();
+		Ref<Physics::PsMesh> psMesh = MeshLibrary::Get(meshName)->GetPsMesh();
 
 		if (!psMesh->HasPxTriangleMesh())
 			psMesh->InitPxTriangleMesh();

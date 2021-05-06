@@ -32,6 +32,8 @@ namespace Engine {
 			ImGui::EndMenuBar();
 		}
 
+		ImGuiUtil::HeaderText("Scene Hierarchy");
+
 		m_Context->m_Registry.each(
 			[&](auto entityID)
 			{
@@ -118,9 +120,9 @@ namespace Engine {
 		// Material Component
 		ImGuiUtil::DrawComponent<MaterialComponent>("Material", entity, [](auto& component)
 			{
-				std::string material = component.Material->GetName();
+				std::string material = component.Material;
 				if (ImGuiUtil::DrawComboControl("Material", material, MaterialLibrary::GetNames()))
-					component.Material = MaterialLibrary::Get(material);
+					component.Material = material;
 			});
 
 

@@ -5,8 +5,6 @@
 #include <yaml-cpp/yaml.h>
 #include "Engine/Util/Serialization.h"
 
-#include "Engine/Util/ObjectLoader.h"
-
 namespace Engine {
 
 	std::map<std::string, Ref<Mesh>> MeshLibrary::s_Meshes;
@@ -14,7 +12,7 @@ namespace Engine {
 
 	void MeshLibrary::Init()
 	{
-		s_Default = ObjectLoader::LoadMesh("DefaultCube", "assets/objects/cube.obj");
+		s_Default = CreateRef<Mesh>("DefaultCube", "assets/objects/cube.obj");
 		Load();
 	}
 
@@ -30,7 +28,7 @@ namespace Engine {
 
 	Ref<Mesh> MeshLibrary::Create(const std::string& name, const std::string& filepath)
 	{
-		Ref<Mesh> mesh = ObjectLoader::LoadMesh(name, filepath);
+		Ref<Mesh> mesh = CreateRef<Mesh>(name, filepath);
 		Add(mesh);
 		return mesh;
 	}
@@ -136,7 +134,7 @@ namespace Engine {
 		std::string name = mesh["Mesh"].as<std::string>();
 		std::string path = mesh["Path"].as<std::string>();
 
-		return ObjectLoader::LoadMesh(name, path);
+		return CreateRef<Mesh>(name, path);
 	}
 
 }

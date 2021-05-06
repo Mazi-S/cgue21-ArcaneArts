@@ -13,7 +13,7 @@ namespace Engine {
 
 	void MaterialPanel::OnImGui()
 	{
-		ImGui::Begin("Materials", &m_Active, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse);
+		ImGui::Begin("Material Library", &m_Active, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse);
 		if (ImGui::BeginMenuBar())
 		{
 			if (ImGui::BeginMenu("File"))
@@ -32,11 +32,12 @@ namespace Engine {
 			DrawMaterialNode(material);
 		}
 
-		ImGui::Separator();
+		ImGui::End();
+
+		ImGui::Begin("Material");
 
 		if (m_SelectionContext != nullptr)
 		{
-			ImGuiUtil::HeaderText("Material");
 			DrawMaterial(m_SelectionContext);
 		}
 		else
@@ -50,7 +51,7 @@ namespace Engine {
 		ImGui::End();
 	}
 
-	void MaterialPanel::DrawMaterialNode(Ref<Material>& material)
+	void MaterialPanel::DrawMaterialNode(Ref<Material> material)
 	{
 		auto& name = material->GetName();
 
@@ -65,7 +66,7 @@ namespace Engine {
 			ImGui::TreePop();
 	}
 
-	void MaterialPanel::DrawMaterial(Ref<Material>& material)
+	void MaterialPanel::DrawMaterial(Ref<Material> material)
 	{
 		// Name (ID)
 		std::string name = material->GetName();

@@ -9,7 +9,7 @@ namespace Engine {
 
 	void ShaderPanel::OnImGui()
 	{
-		ImGui::Begin("Shaders", &m_Active, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse);
+		ImGui::Begin("Shader Library", &m_Active, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse);
 
 		if (ImGui::BeginMenuBar())
 		{
@@ -29,7 +29,9 @@ namespace Engine {
 			DrawShaderNode(shader);
 		}
 
-		ImGui::Separator();
+		ImGui::End();
+
+		ImGui::Begin("Shader");
 
 		if (m_SelectionContext != nullptr)
 		{
@@ -47,7 +49,7 @@ namespace Engine {
 		ImGui::End();
 	}
 
-	void ShaderPanel::DrawShaderNode(Ref<OpenGL::GlShader>& shader)
+	void ShaderPanel::DrawShaderNode(Ref<OpenGL::GlShader> shader)
 	{
 		auto& name = shader->GetName();
 
@@ -62,7 +64,7 @@ namespace Engine {
 			ImGui::TreePop();
 	}
 
-	void ShaderPanel::DrawShader(Ref<OpenGL::GlShader>& shader)
+	void ShaderPanel::DrawShader(Ref<OpenGL::GlShader> shader)
 	{
 		// Name (ID)
 		std::string name = shader->GetName();

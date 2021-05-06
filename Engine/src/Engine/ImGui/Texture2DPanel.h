@@ -17,8 +17,8 @@ namespace Engine {
 		Ref<OpenGL::GlTexture2D> m_SelectionContext;
 
 	private:
-		void DrawTextureNode(Ref<OpenGL::GlTexture2D>& texture);
-		void DrawTexture(Ref<OpenGL::GlTexture2D>& texture);
+		void DrawTextureNode(Ref<OpenGL::GlTexture2D> texture);
+		void DrawTexture(Ref<OpenGL::GlTexture2D> texture);
 	};
 
 }

@@ -240,10 +240,10 @@ bool HeroScript::UseActive(Engine::Timestep ts)
 		switch (m_ActiveSpell)
 		{
 		case MagicBallType::Fire:
-			materialComp.Material = Engine::MaterialLibrary::Get("MagicBall_Fire_ready");
+			materialComp.Material = "MagicBall_Fire_ready";
 			break;
 		case MagicBallType::Lightning:
-			materialComp.Material = Engine::MaterialLibrary::Get("MagicBall_Lightning_ready");
+			materialComp.Material = "MagicBall_Lightning_ready";
 			break;
 		}
 	}
@@ -343,13 +343,13 @@ Engine::Entity HeroScript::CreateMagicBall(MagicBallType type, glm::vec3 offset)
 	transformComp.Translation = offset;
 
 	ball.AddComponent<ParentComponent>(m_EntityHandle);
-	ball.AddComponent<MeshComponent>(Engine::MeshLibrary::Get("Sphere"));
+	ball.AddComponent<MeshComponent>("Sphere");
 
 	switch (type)
 	{
 	case MagicBallType::Light:
 		transformComp.Scale = { 0.1f, 0.1f, 0.1f };
-		ball.AddComponent<MaterialComponent>(Engine::MaterialLibrary::Get("MagicBall_Light"));
+		ball.AddComponent<MaterialComponent>("MagicBall_Light");
 		ball.AddComponent<MagicBallComponent>(
 			nullptr, Engine::SoundLibrary::Get("LightCast"), nullptr,
 			MagicBallEffect(type), MagicBallMana(type), MagicBallCastTime(type)
@@ -358,7 +358,7 @@ Engine::Entity HeroScript::CreateMagicBall(MagicBallType type, glm::vec3 offset)
 		break;
 	case MagicBallType::Heal:
 		transformComp.Scale = { 0.1f, 0.1f, 0.1f };
-		ball.AddComponent<MaterialComponent>(Engine::MaterialLibrary::Get("MagicBall_Heal"));
+		ball.AddComponent<MaterialComponent>("MagicBall_Heal");
 		ball.AddComponent<MagicBallComponent>(
 			nullptr, nullptr, nullptr,
 			MagicBallEffect(type), MagicBallMana(type), MagicBallCastTime(type)
@@ -368,7 +368,7 @@ Engine::Entity HeroScript::CreateMagicBall(MagicBallType type, glm::vec3 offset)
 	case MagicBallType::Fire:
 		transformComp.Scale = { 0.001f, 0.001f, 0.001f };
 		ball.AddComponent<ShadowComponent>();
-		ball.AddComponent<MaterialComponent>(Engine::MaterialLibrary::Get("MagicBall_Fire"));
+		ball.AddComponent<MaterialComponent>("MagicBall_Fire");
 		ball.AddNativeScript<MagicBallScript>();
 		ball.AddComponent<MagicBallComponent>(
 			nullptr, Engine::SoundLibrary::Get("FireballShoot"), Engine::SoundLibrary::Get("Impact"),
@@ -379,7 +379,7 @@ Engine::Entity HeroScript::CreateMagicBall(MagicBallType type, glm::vec3 offset)
 	case MagicBallType::Lightning:
 		transformComp.Scale = { 0.001f, 0.001f, 0.001f };
 		ball.AddComponent<ShadowComponent>();
-		ball.AddComponent<MaterialComponent>(Engine::MaterialLibrary::Get("MagicBall_Lightning"));
+		ball.AddComponent<MaterialComponent>("MagicBall_Lightning");
 		ball.AddNativeScript<MagicBallScript>();
 		ball.AddComponent<MagicBallComponent>(
 			Engine::SoundLibrary::Get("LightningShoot"), nullptr, Engine::SoundLibrary::Get("Thunder"),

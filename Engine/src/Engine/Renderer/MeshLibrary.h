@@ -12,6 +12,8 @@ namespace Engine {
 
 	class MeshLibrary
 	{
+		friend class MeshPanel;
+
 	public:
 		static void Init();
 

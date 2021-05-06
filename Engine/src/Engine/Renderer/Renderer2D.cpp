@@ -144,6 +144,7 @@ namespace Engine {
 
 		s_Data.QuadVertexArray->Bind();
 		OpenGL::API::DrawIndexed(s_Data.QuadVertexArray, s_Data.QuadIndexCount);
+		OpenGL::API::UnbindVertexArray();
 
 		s_Data.QuadIndexCount = 0;
 		s_Data.QuadVertexBufferPtr = s_Data.QuadVertexBufferBase;

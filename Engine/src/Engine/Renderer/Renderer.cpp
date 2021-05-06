@@ -78,8 +78,11 @@ namespace Engine {
 		s_RenderQueue[material.get()].insert(RenderableObject(material.get(), vertexArray.get(), transform));
 	}
 
-	void Renderer::Submit(const Ref<OpenGL::GlMesh>& mesh, const Ref<Material>& material, const glm::mat4& transform)
+	void Renderer::Submit(const std::string& meshName, const std::string& materialName, const glm::mat4& transform)
 	{
+		Ref<OpenGL::GlMesh>& mesh = MeshLibrary::Get(meshName)->GetGlMesh();
+		Ref<Material>& material = MaterialLibrary::Get(materialName);
+
 		for(auto& submesh : mesh->GetSubmeshes())
 			Submit(submesh->GetVertexArray(), material, transform);
 	}

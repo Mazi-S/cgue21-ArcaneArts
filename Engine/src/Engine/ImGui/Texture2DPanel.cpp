@@ -10,7 +10,7 @@ namespace Engine {
 
 	void Texture2DPanel::OnImGui()
 	{
-		ImGui::Begin("Texture 2D", &m_Active, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse);
+		ImGui::Begin("Texture Library (2D)", &m_Active, ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoCollapse);
 
 		if (ImGui::BeginMenuBar())
 		{
@@ -22,7 +22,7 @@ namespace Engine {
 			ImGui::EndMenuBar();
 		}
 
-		ImGuiUtil::HeaderText("TextureLibrary (2D)");
+		ImGuiUtil::HeaderText("Texture Library (2D)");
 
 		for (auto entry : Texture2DLibrary::s_Textures2D)
 		{
@@ -30,9 +30,12 @@ namespace Engine {
 			DrawTextureNode(texture);
 		}
 
+		ImGui::End();
+
+		ImGui::Begin("Texture");
+
 		if (m_SelectionContext != nullptr)
 		{
-			ImGui::Separator();
 			ImGuiUtil::HeaderText("Texture");
 			DrawTexture(m_SelectionContext);
 		}
@@ -40,7 +43,7 @@ namespace Engine {
 		ImGui::End();
 	}
 
-	void Texture2DPanel::DrawTextureNode(Ref<OpenGL::GlTexture2D>& texture)
+	void Texture2DPanel::DrawTextureNode(Ref<OpenGL::GlTexture2D> texture)
 	{
 		auto& name = texture->GetName();
 
@@ -49,13 +52,13 @@ namespace Engine {
 
 		bool opened = ImGui::TreeNodeEx(texture.get(), flags, name.c_str());
 		if (ImGui::IsItemClicked())
-			m_SelectionContext = texture;
+			m_SelectionContext = m_SelectionContext != texture ? texture : nullptr;
 
 		if (opened)
 			ImGui::TreePop();
 	}
 
-	void Texture2DPanel::DrawTexture(Ref<OpenGL::GlTexture2D>& texture)
+	void Texture2DPanel::DrawTexture(Ref<OpenGL::GlTexture2D> texture)
 	{
 		ImGuiUtil::Text("Name", texture->GetName());
 		if (!texture->IsSystem())

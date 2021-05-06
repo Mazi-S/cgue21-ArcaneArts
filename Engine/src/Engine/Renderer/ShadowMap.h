@@ -11,6 +11,7 @@
 #include "Platform/OpenGL/OpenGLMesh.h"
 
 #include <map>
+#include <string>
 #include <set>
 #include <glm/glm.hpp>
 
@@ -38,7 +39,7 @@ namespace Engine {
 		static void EndScene();
 
 		static void Submit(const Ref<OpenGL::GlVertexArray>& vertexArray, const glm::mat4& transform);
-		static void Submit(const Ref<OpenGL::GlMesh>& mesh, const glm::mat4& transform);
+		static void Submit(const std::string& meshName, const glm::mat4& transform);
 	
 	private:
 		static void UpdateShadowMap();

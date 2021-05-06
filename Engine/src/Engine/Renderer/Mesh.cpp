@@ -1,26 +1,30 @@
 #include "egpch.h"
-#include "Mesh.h"
 
 #include <set>
+
+#include "Mesh.h"
+#include "Engine/Util/ObjectLoader.h"
 
 namespace Engine {
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// Mesh ///////////////////////////////////////////////////////////////////////////////////////
 
-	Mesh::Mesh(const std::string& name, const std::string& path, std::vector<glm::vec3>& positions, std::vector<glm::vec3>& normals, std::vector<glm::vec2>& textureCoordinates, std::vector<Submesh>& submeshes)
-		: m_Name(name), m_Path(path), m_Positions(positions), m_Normals(normals), m_TextureCoordinates(textureCoordinates), m_Submeshes(submeshes)
+	Mesh::Mesh(const std::string& name, const std::string& path)
+		: m_Name(name), m_Path(path)
 	{
-		m_GlMesh = CreateGlMesh(true, true, true, {
+		ObjectLoader::LoadMesh(name, path, m_Positions, m_Normals, m_TextureCoordinates, m_Submeshes);
+
+		m_GlMesh.reset(CreateGlMesh(true, true, true, {
 			{ OpenGL::GlShaderDataType::Float3, "a_Position" },
 			{ OpenGL::GlShaderDataType::Float2, "a_TexCoord" },
 			{ OpenGL::GlShaderDataType::Float3, "a_Normals" }
-		});
+		}));
 
-		m_PxMesh = CreatePsMesh();
+		m_PxMesh.reset(CreatePsMesh());
 	}
 
-	Ref<OpenGL::GlMesh> Mesh::CreateGlMesh(bool positions, bool texcoords, bool normals, OpenGL::GlVertexBufferLayout layout)
+	OpenGL::GlMesh* Mesh::CreateGlMesh(bool positions, bool texcoords, bool normals, OpenGL::GlVertexBufferLayout layout)
 	{
 		std::set<std::vector<uint32_t>> submeshIndices;
 
@@ -62,7 +66,7 @@ namespace Engine {
 			indices.clear();
 		}
 
-		Ref<OpenGL::GlMesh> mesh = CreateRef<OpenGL::GlMesh>(m_Name, vertices, layout);
+		OpenGL::GlMesh* mesh = new OpenGL::GlMesh(m_Name, vertices, layout);
 
 		for (auto sm : submeshIndices)
 			mesh->AddSubmesh(sm);
@@ -70,7 +74,7 @@ namespace Engine {
 		return mesh;
 	}
 
-	Ref<Physics::PsMesh> Mesh::CreatePsMesh()
+	Physics::PsMesh* Mesh::CreatePsMesh()
 	{
 		std::vector<uint32_t> indices;
 		for (auto& submeshe : m_Submeshes)
@@ -78,9 +82,25 @@ namespace Engine {
 				for (uint16_t v = 0; v < face.vertices; v++)
 					indices.push_back(face.positionIndex[v]);
 
-		return CreateRef<Physics::PsMesh>(m_Positions, indices);
+		return new Physics::PsMesh(m_Positions, indices);
 	}
 
-	
+	void Mesh::Reload()
+	{
+		m_Positions.clear();
+		m_Normals.clear();
+		m_TextureCoordinates.clear();
+		m_Submeshes.clear();
+
+		ObjectLoader::LoadMesh(m_Name, m_Path, m_Positions, m_Normals, m_TextureCoordinates, m_Submeshes);
+
+		m_GlMesh.reset(CreateGlMesh(true, true, true, {
+			{ OpenGL::GlShaderDataType::Float3, "a_Position" },
+			{ OpenGL::GlShaderDataType::Float2, "a_TexCoord" },
+			{ OpenGL::GlShaderDataType::Float3, "a_Normals" }
+		}));
+
+		m_PxMesh.reset(CreatePsMesh());
+	}
 
 }

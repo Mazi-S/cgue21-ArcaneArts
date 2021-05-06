@@ -15,6 +15,7 @@ namespace Engine::OpenGL {
 	public:
 		GlMesh() = default;
 		GlMesh(const std::string& name, std::vector<float>& vertices, GlVertexBufferLayout& layout);
+		~GlMesh() = default;
 
 		void AddSubmesh(std::vector<uint32_t> & indices);
 

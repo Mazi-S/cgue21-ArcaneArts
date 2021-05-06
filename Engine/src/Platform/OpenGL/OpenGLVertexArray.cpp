@@ -13,6 +13,8 @@ namespace Engine::OpenGL {
 
 	GlVertexArray::~GlVertexArray()
 	{
+		m_VertexBuffers.clear();
+		m_IndexBuffer = nullptr;
 		glDeleteVertexArrays(1, &m_RendererID);
 	}
 

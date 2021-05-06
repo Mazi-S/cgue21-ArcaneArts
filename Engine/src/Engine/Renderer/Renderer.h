@@ -13,6 +13,7 @@
 
 #include <map>
 #include <set>
+#include <string>
 #include <glm/glm.hpp>
 
 namespace Engine {
@@ -29,7 +30,7 @@ namespace Engine {
 		static void EndScene();
 
 		static void Submit(const Ref<OpenGL::GlVertexArray>& vertexArray, const Ref<Material>& material, const glm::mat4& transform);
-		static void Submit(const Ref<OpenGL::GlMesh>& mesh, const Ref<Material>& material, const glm::mat4& transform);
+		static void Submit(const std::string& meshName, const std::string& materialName, const glm::mat4& transform);
 
 	private:
 		static void Render();
@@ -37,6 +38,8 @@ namespace Engine {
 	private:
 		// shared over all shaders
 		static Ref<OpenGL::GlUniformBuffer> s_SceneUB;
+
+		//static std::
 
 		static std::map<Material*, std::set<RenderableObject, RenderableObject>> s_RenderQueue;
 

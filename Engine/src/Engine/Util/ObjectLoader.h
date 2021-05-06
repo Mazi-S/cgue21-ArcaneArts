@@ -14,14 +14,7 @@ namespace Engine {
 	class ObjectLoader
 	{
 	public:
-		static bool loadOBJ(
-			const char* path,
-			std::vector<float>& out_vertices,
-			std::vector<uint32_t>& out_indices
-		);
-
-		static Ref<Mesh> LoadMesh(const std::string& name, const std::string& path);
-
+		static void LoadMesh(const std::string& name, const std::string& path, std::vector<glm::vec3>& positions_out, std::vector<glm::vec3>& normals_out, std::vector<glm::vec2>& textureCoordinates_out, std::vector<Submesh>& submeshes_out);
 	};
 
 }

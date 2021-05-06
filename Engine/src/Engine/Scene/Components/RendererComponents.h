@@ -1,36 +1,30 @@
 #pragma once
-#include "Engine/Core/Base.h"
-
-#include "Engine/Renderer/Mesh.h"
-#include "Engine/Renderer/Material.h"
-
-#include "Platform/OpenGL/OpenGLMesh.h"
+#include <string>
 
 namespace Engine::Component::Renderer {
 
 	struct MeshComponent
 	{
-		Ref<OpenGL::GlMesh> Mesh;
+		std::string Mesh;
 
-		operator Ref<OpenGL::GlMesh>() { return Mesh; }
+		operator std::string() { return Mesh; }
 
 		MeshComponent() = default;
 		MeshComponent(const MeshComponent&) = default;
-		MeshComponent(Ref<OpenGL::GlMesh> mesh)
-			: Mesh(mesh) { }
-		MeshComponent(const Ref<Engine::Mesh>& mesh)
-			: Mesh(mesh->GetGlMesh()) { }
+		MeshComponent(std::string mesh)
+			: Mesh(mesh)
+		{ }
 	};
 
 	struct MaterialComponent
 	{
-		Ref<Engine::Material> Material;
+		std::string Material;
 
-		operator Ref<Engine::Material>() { return Material; }
+		operator std::string() { return Material; }
 
 		MaterialComponent() = default;
 		MaterialComponent(const MaterialComponent&) = default;
-		MaterialComponent(Ref<Engine::Material> material)
+		MaterialComponent(std::string material)
 			: Material(material) { }
 	};
 	
