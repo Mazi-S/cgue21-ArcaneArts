@@ -37,14 +37,33 @@ namespace Engine {
 		Serialize(filepath);
 	}
 
+	void Texture2DLibrary::AddSystem(const Ref<OpenGL::GlTexture2D>& texture)
+	{
+		ASSERT(texture->IsSystem(), "Only system textures can be added!");
+		Add(texture);
+	}
+
+	void Texture2DLibrary::Remove(const std::string& name)
+	{
+		s_Textures2D.erase(name);
+	}
+
+	void Texture2DLibrary::Rename(const std::string oldName, const std::string newName)
+	{
+		ASSERT(!Contains(newName), "Texture2D already exists!");
+		s_Textures2D[newName] = s_Textures2D[oldName];
+		s_Textures2D[newName]->m_Name = newName;
+		Remove(oldName);
+	}
+
 	void Texture2DLibrary::Add(const Ref<OpenGL::GlTexture2D>& texture)
 	{
 		auto& name = texture->GetName();
-		ASSERT(!ContainsTexture2D(name), "Texture already exists!");
+		ASSERT(!Contains(name), "Texture already exists!");
 		s_Textures2D[name] = texture;
 	}
 
-	Ref<OpenGL::GlTexture2D> Texture2DLibrary::Load(const std::string& name, const std::string& filepath)
+	Ref<OpenGL::GlTexture2D> Texture2DLibrary::Create(const std::string& name, const std::string& filepath)
 	{
 		auto texture = CreateRef<OpenGL::GlTexture2D>(name, filepath);
 		Add(texture);
@@ -53,7 +72,7 @@ namespace Engine {
 
 	Ref<OpenGL::GlTexture2D> Texture2DLibrary::Get(const std::string& name)
 	{
-		if (!ContainsTexture2D(name))
+		if (!Contains(name))
 			return s_Default;
 		return s_Textures2D[name];
 	}
@@ -66,7 +85,7 @@ namespace Engine {
 		return names;
 	}
 
-	bool Texture2DLibrary::ContainsTexture2D(const std::string& name)
+	bool Texture2DLibrary::Contains(const std::string& name)
 	{
 		return s_Textures2D.find(name) != s_Textures2D.end();
 	}
@@ -114,7 +133,7 @@ namespace Engine {
 
 	static void SerializeTexture2D(YAML::Emitter& out, Ref<OpenGL::GlTexture2D> texture)
 	{
-		if (texture->IsDynamic())
+		if (texture->IsSystem())
 			return;
 
 		out << YAML::BeginMap; // Texture

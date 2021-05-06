@@ -38,6 +38,7 @@ namespace Engine {
 		Texture2DLibrary::Init();
 		ShaderLibrary::Init();
 		MaterialLibrary::Init();
+		MeshLibrary::Init();
 
 		ShadowMap::Init();
 

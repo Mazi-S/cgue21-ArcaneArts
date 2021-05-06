@@ -21,13 +21,15 @@
 #include "Engine/Core/Input.h"
 
 // Renderer
-#include "Engine/Renderer/ShaderLibrary.h"
 #include "Engine/Renderer/Material.h"
-#include "Engine/Renderer/MaterialLibrary.h"
 #include "Engine/Renderer/Mesh.h"
 #include "Engine/Renderer/Renderer.h"
 #include "Engine/Renderer/Renderer2D.h"
 #include "Engine/Renderer/Camera.h"
+
+#include "Engine/Renderer/MeshLibrary.h"
+#include "Engine/Renderer/MaterialLibrary.h"
+#include "Engine/Renderer/ShaderLibrary.h"
 #include "Engine/Renderer/TextureLibrary.h"
 
 #include "Engine/Renderer/ParticleSystem.h"

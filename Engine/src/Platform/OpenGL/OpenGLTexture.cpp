@@ -7,20 +7,20 @@
 
 namespace Engine::OpenGL {
 	GlTexture2D::GlTexture2D(const std::string& name, Texture2DSpecification spec)
-		: m_Name(name), m_Dynamic(true)
+		: m_Name(name), m_System(true)
 	{
 		Create(spec);
 	}
 
 	GlTexture2D::GlTexture2D(const std::string& name, const std::string& filepath)
-		: m_Name(name), m_Path(filepath), m_Dynamic(false)
+		: m_Name(name), m_Path(filepath), m_System(false)
 	{
 		Texture2DSpecification spec;
 		Create(spec, filepath);
 	}
 
 	GlTexture2D::GlTexture2D(const std::string& name, Texture2DSpecification spec, const std::string& filepath)
-		: m_Name(name), m_Path(filepath), m_Dynamic(false)
+		: m_Name(name), m_Path(filepath), m_System(false)
 	{
 		Create(spec, filepath);
 	}

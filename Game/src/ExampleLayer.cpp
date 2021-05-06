@@ -22,36 +22,6 @@ void ExampleLayer::OnAttach()
 	// Init here
 	Engine::OpenGL::API::SetClearColor({ 0.0f, 0.3f, 0.5f, 1.0f });
 
-	// Load Meshes
-	{
-		Engine::MeshLibrary::Load("Cube", "assets/objects/cube.obj");
-		Engine::MeshLibrary::Load("Sphere", "assets/objects/sphere.obj");
-		Engine::MeshLibrary::Load("Hand", "assets/objects/hand.obj");
-		Engine::MeshLibrary::Load("Monster", "assets/objects/monster.obj");
-		Engine::MeshLibrary::Load("House", "assets/objects/house.obj");
-		Engine::MeshLibrary::Load("Terrain", "assets/objects/terrain.obj");
-		Engine::MeshLibrary::Load("Knight", "assets/objects/knight.obj");
-		Engine::MeshLibrary::Load("Pedestal", "assets/objects/pedestal.obj");
-		Engine::MeshLibrary::Load("Cave", "assets/objects/cave.obj");
-
-		// Forest
-		Engine::MeshLibrary::Load("Spruce_1", "assets/objects/forest/spruce_1.obj");
-		Engine::MeshLibrary::Load("Spruce_2", "assets/objects/forest/spruce_2.obj");
-		Engine::MeshLibrary::Load("Spruce_3", "assets/objects/forest/spruce_3.obj");
-		Engine::MeshLibrary::Load("Spruce_4", "assets/objects/forest/spruce_4.obj");
-		Engine::MeshLibrary::Load("Spruce_5", "assets/objects/forest/spruce_5.obj");
-		Engine::MeshLibrary::Load("Fallen_Tree_1", "assets/objects/forest/fallen_tree_1.obj");
-		Engine::MeshLibrary::Load("Fallen_Tree_2", "assets/objects/forest/fallen_tree_2.obj");
-		Engine::MeshLibrary::Load("Stump_1", "assets/objects/forest/stump_1.obj");
-		Engine::MeshLibrary::Load("Stump_2", "assets/objects/forest/stump_2.obj");
-		Engine::MeshLibrary::Load("Rock_1", "assets/objects/forest/rock_1.obj");
-
-		// Clouds
-		Engine::MeshLibrary::Load("Cloud_1", "assets/objects/clouds/cloud_1.obj");
-		Engine::MeshLibrary::Load("Cloud_2", "assets/objects/clouds/cloud_2.obj");
-		Engine::MeshLibrary::Load("Cloud_3", "assets/objects/clouds/cloud_3.obj");
-	}
-	
 	// Load Sounds
 	{
 		Engine::SoundLibrary::Load("FireballShoot", "assets/sounds/fireball-shoot.wav", 0.1f);

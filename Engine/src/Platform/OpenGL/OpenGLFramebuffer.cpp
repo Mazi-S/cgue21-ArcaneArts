@@ -75,7 +75,7 @@ void Engine::OpenGL::GlFramebuffer::Init()
 		const std::string name = m_Specification.ColorAttachment.Name != std::string() ? m_Specification.ColorAttachment.Name : "ColorAttachment";
 		m_ColorAttachment = CreateRef<GlTexture2D>(name, colorSpec);
 		if (m_Specification.ColorAttachment.TextureLibrary)
-			Texture2DLibrary::Add(m_ColorAttachment);
+			Texture2DLibrary::AddSystem(m_ColorAttachment);
 	}
 	else
 	{
@@ -107,7 +107,7 @@ void Engine::OpenGL::GlFramebuffer::Init()
 		const std::string name = m_Specification.DepthAttachment.Name != std::string() ? m_Specification.DepthAttachment.Name : "DepthAttachment";
 		m_DepthAttachment = CreateRef<GlTexture2D>(name, depthSpec);
 		if (m_Specification.DepthAttachment.TextureLibrary)
-			Texture2DLibrary::Add(m_DepthAttachment);
+			Texture2DLibrary::AddSystem(m_DepthAttachment);
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, m_DepthAttachment->m_TextureID, 0);
 	}
 

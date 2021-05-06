@@ -1,6 +1,5 @@
 #include "egpch.h"
 #include "Mesh.h"
-#include "Engine/Util/ObjectLoader.h"
 
 #include <set>
 
@@ -9,8 +8,8 @@ namespace Engine {
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// Mesh ///////////////////////////////////////////////////////////////////////////////////////
 
-	Mesh::Mesh(const std::string& name, std::vector<glm::vec3>& positions, std::vector<glm::vec3>& normals, std::vector<glm::vec2>& textureCoordinates, std::vector<Submesh>& submeshes)
-		: m_Name(name), m_Positions(positions), m_Normals(normals), m_TextureCoordinates(textureCoordinates), m_Submeshes(submeshes)
+	Mesh::Mesh(const std::string& name, const std::string& path, std::vector<glm::vec3>& positions, std::vector<glm::vec3>& normals, std::vector<glm::vec2>& textureCoordinates, std::vector<Submesh>& submeshes)
+		: m_Name(name), m_Path(path), m_Positions(positions), m_Normals(normals), m_TextureCoordinates(textureCoordinates), m_Submeshes(submeshes)
 	{
 		m_GlMesh = CreateGlMesh(true, true, true, {
 			{ OpenGL::GlShaderDataType::Float3, "a_Position" },
@@ -82,34 +81,6 @@ namespace Engine {
 		return CreateRef<Physics::PsMesh>(m_Positions, indices);
 	}
 
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	// MeshLibrary ////////////////////////////////////////////////////////////////////////////////
-
-	std::unordered_map<std::string, Ref<Mesh>> MeshLibrary::s_Meshes;
-
-	void MeshLibrary::Add(const Ref<Mesh>& mesh)
-	{
-		auto& name = mesh->GetName();
-		ASSERT(!Exists(name), "Mesh already exists!");
-		s_Meshes[name] = mesh;
-	}
-
-	Ref<Mesh> MeshLibrary::Load(const std::string& name, const std::string& filepath)
-	{
-		Ref<Mesh> mesh = ObjectLoader::LoadMesh(name, filepath);
-		Add(mesh);
-		return mesh;
-	}
-
-	Ref<Mesh> MeshLibrary::Get(const std::string& name)
-	{
-		ASSERT(Exists(name), "Mesh not found!");
-		return s_Meshes[name];
-	}
-
-	bool MeshLibrary::Exists(const std::string& name)
-	{
-		return s_Meshes.find(name) != s_Meshes.end();
-	}
+	
 
 }

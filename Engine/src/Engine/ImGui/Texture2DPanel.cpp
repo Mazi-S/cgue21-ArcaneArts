@@ -58,7 +58,7 @@ namespace Engine {
 	void Texture2DPanel::DrawTexture(Ref<OpenGL::GlTexture2D>& texture)
 	{
 		ImGuiUtil::Text("Name", texture->GetName());
-		if (!texture->IsDynamic())
+		if (!texture->IsSystem())
 			ImGuiUtil::Text("Path", texture->GetPath());
 		ImGui::NewLine();
 

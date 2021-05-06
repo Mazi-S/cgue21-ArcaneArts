@@ -187,7 +187,7 @@ namespace Engine {
 			submeshes.push_back(submesh);
 		}
 
-		return CreateRef<Mesh>(name, positions, normals, textureCoordinates, submeshes);
+		return CreateRef<Mesh>(name, path, positions, normals, textureCoordinates, submeshes);
 	}
 
 }

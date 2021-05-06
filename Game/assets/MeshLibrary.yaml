@@ -1,0 +1,46 @@
+MeshLibrary: Untitled
+Meshes:
+  - Mesh: Cave
+    Path: assets/objects/cave.obj
+  - Mesh: Cloud_1
+    Path: assets/objects/clouds/cloud_1.obj
+  - Mesh: Cloud_2
+    Path: assets/objects/clouds/cloud_2.obj
+  - Mesh: Cloud_3
+    Path: assets/objects/clouds/cloud_3.obj
+  - Mesh: Cube
+    Path: assets/objects/cube.obj
+  - Mesh: Fallen_Tree_1
+    Path: assets/objects/forest/fallen_tree_1.obj
+  - Mesh: Fallen_Tree_2
+    Path: assets/objects/forest/fallen_tree_2.obj
+  - Mesh: Hand
+    Path: assets/objects/hand.obj
+  - Mesh: House
+    Path: assets/objects/house.obj
+  - Mesh: Knight
+    Path: assets/objects/knight.obj
+  - Mesh: Monster
+    Path: assets/objects/monster.obj
+  - Mesh: Pedestal
+    Path: assets/objects/pedestal.obj
+  - Mesh: Rock_1
+    Path: assets/objects/forest/rock_1.obj
+  - Mesh: Sphere
+    Path: assets/objects/sphere.obj
+  - Mesh: Spruce_1
+    Path: assets/objects/forest/spruce_1.obj
+  - Mesh: Spruce_2
+    Path: assets/objects/forest/spruce_2.obj
+  - Mesh: Spruce_3
+    Path: assets/objects/forest/spruce_3.obj
+  - Mesh: Spruce_4
+    Path: assets/objects/forest/spruce_4.obj
+  - Mesh: Spruce_5
+    Path: assets/objects/forest/spruce_5.obj
+  - Mesh: Stump_1
+    Path: assets/objects/forest/stump_1.obj
+  - Mesh: Stump_2
+    Path: assets/objects/forest/stump_2.obj
+  - Mesh: Terrain
+    Path: assets/objects/terrain.obj

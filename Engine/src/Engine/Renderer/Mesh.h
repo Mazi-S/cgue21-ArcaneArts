@@ -6,9 +6,6 @@
 
 namespace Engine {
 
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	// Mesh ///////////////////////////////////////////////////////////////////////////////////////
-
 	struct Face;
 
 	struct Submesh
@@ -26,12 +23,14 @@ namespace Engine {
 
 	class Mesh
 	{
+		friend class MeshLibrary;
+
 	public:
 		Mesh() = default;
-		Mesh(const std::string& name, std::vector<glm::vec3>& positions, std::vector<glm::vec3>& normals, std::vector<glm::vec2>& textureCoordinates, std::vector<Submesh>& submeshes);
-
+		Mesh(const std::string& name, const std::string& path, std::vector<glm::vec3>& positions, std::vector<glm::vec3>& normals, std::vector<glm::vec2>& textureCoordinates, std::vector<Submesh>& submeshes);
 		
 		std::string GetName() { return m_Name; }
+		std::string GetPath() { return m_Path; }
 
 		Ref<Physics::PsMesh> GetPsMesh() { return m_PxMesh; }
 		Ref<OpenGL::GlMesh> GetGlMesh() { return m_GlMesh; }
@@ -43,7 +42,9 @@ namespace Engine {
 		Ref<Physics::PsMesh> CreatePsMesh();
 
 	private:
-		const std::string m_Name;
+		std::string m_Name;
+		std::string m_Path;
+
 		const std::vector<glm::vec3> m_Positions;
 		const std::vector<glm::vec3> m_Normals;
 		const std::vector<glm::vec2> m_TextureCoordinates;
@@ -53,21 +54,6 @@ namespace Engine {
 		Ref<Physics::PsMesh> m_PxMesh;
 	};
 
-	///////////////////////////////////////////////////////////////////////////////////////////////
-	// MeshLibrary ////////////////////////////////////////////////////////////////////////////////
-
-	class MeshLibrary
-	{
-	public:
-		static void Add(const Ref<Mesh>& mesh);
-		static Ref<Mesh> Load(const std::string& name, const std::string& filepath);
-
-		static Ref<Mesh> Get(const std::string& name);
-		static bool Exists(const std::string& name);
-
-	private:
-		static std::unordered_map<std::string, Ref<Mesh>> s_Meshes;
-	};
 }
 
 

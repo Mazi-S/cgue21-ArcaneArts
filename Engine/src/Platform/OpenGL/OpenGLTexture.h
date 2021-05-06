@@ -3,6 +3,7 @@
 #include <string>
 
 namespace Engine {
+	class Texture2DLibrary;
 	class Texture2DPanel;
 }
 
@@ -28,7 +29,7 @@ namespace Engine::OpenGL {
 		uint32_t ComparisonMode = 0;
 
 		bool Mipmaps = true;
-		bool Dynamic = false;
+		bool System = false;
 	};
 
 	class GlTexture2D
@@ -36,6 +37,7 @@ namespace Engine::OpenGL {
 	public:
 		friend class GlFramebuffer;
 		friend class Texture2DPanel;
+		friend class Texture2DLibrary;
 
 		GlTexture2D(const std::string& name, Texture2DSpecification spec);
 		GlTexture2D(const std::string& name, const std::string& filepath);
@@ -49,7 +51,7 @@ namespace Engine::OpenGL {
 		virtual const Texture2DSpecification& GetSpecification() const { return m_Specification; }
 
 		virtual void SetData(const void* data, uint32_t size);
-		virtual bool IsDynamic() const { return m_Dynamic; }
+		virtual bool IsSystem() const { return m_System; }
 
 	private:
 		void Create(const Texture2DSpecification& spec);
@@ -60,7 +62,7 @@ namespace Engine::OpenGL {
 		std::string m_Name;
 		std::string m_Path;
 
-		const bool m_Dynamic;
+		const bool m_System;
 
 		Texture2DSpecification m_Specification;
 	};
