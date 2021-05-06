@@ -19,7 +19,7 @@ public:
 	bool OnGameEnd(GameEndEvent& event);
 
 private:
-	Engine::Scope<Engine::Scene> m_Scene;
+	Engine::Ref<Engine::Scene> m_Scene;
 	Engine::Ref<Engine::Skybox> m_Skybox;
 
 	Engine::Entity m_Hero;
@@ -32,4 +32,5 @@ private:
 	Engine::Scope<Engine::MaterialPanel> m_MaterialPanel;
 	Engine::Scope<Engine::ShaderPanel> m_ShaderPanel;
 	Engine::Scope<Engine::Texture2DPanel> m_TexturePanel;
+	Engine::Scope<Engine::SceneHierarchyPanel> m_SceneHierarchyPanel;
 };

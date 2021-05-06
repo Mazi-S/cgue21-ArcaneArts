@@ -203,7 +203,9 @@ namespace Engine::ImGuiUtil {
 		ImGui::Text(label.c_str());
 		ImGui::NextColumn();
 		ImGui::PushItemWidth(0);
+		PushButtonStyle(type);
 		bool update = ImGuiUtil::Button(buttonLable.c_str());
+		PopButtonStyle(type);
 		ImGui::Columns(1);
 		ImGui::PopID();
 		return update;

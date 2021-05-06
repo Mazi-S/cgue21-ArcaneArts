@@ -19,6 +19,8 @@ namespace Engine {
 		static Ref<Material> Create(const std::string& name);
 
 		static Ref<Material> Get(const std::string& name = std::string());
+		static std::vector<std::string> GetNames();
+
 		static bool Contains(const std::string& name);
 
 		static void Remove(const std::string& name);

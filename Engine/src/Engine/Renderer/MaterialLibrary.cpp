@@ -46,6 +46,14 @@ namespace Engine {
 		return s_Materials[name];
 	}
 
+	std::vector<std::string> MaterialLibrary::GetNames()
+	{
+		std::vector<std::string> names;
+		for (auto entry : s_Materials)
+			names.push_back(entry.first);
+		return names;
+	}
+
 	bool MaterialLibrary::Contains(const std::string& name)
 	{
 		return s_Materials.find(name) != s_Materials.end();

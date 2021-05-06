@@ -21,6 +21,8 @@ namespace Engine {
 	{
 		friend class Entity;
 		friend class ScriptableEntity;
+		
+		friend class SceneHierarchyPanel;
 
 	public:
 		Scene();

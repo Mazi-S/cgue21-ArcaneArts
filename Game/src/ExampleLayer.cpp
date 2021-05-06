@@ -67,14 +67,14 @@ void ExampleLayer::OnAttach()
 	}
 
 	// Create Scene
-	m_Scene = Engine::CreateScope<Engine::Scene>();
+	m_Scene = Engine::CreateRef<Engine::Scene>();
 
 	// light
-	auto directionalLight = m_Scene->CreateEntity();
+	auto directionalLight = m_Scene->CreateEntity("Moon [Directional Light]");
 	directionalLight.AddComponent<Engine::Component::Renderer::DirectionalLightComponent>(glm::vec3{ 0.0f, -1.0f, 0.8f }, glm::vec3{ 0.3f, 0.3f, 0.3f } );
 
 	// Hero
-	m_Hero = m_Scene->CreateEntity();
+	m_Hero = m_Scene->CreateEntity("Hero");
 	m_Hero.AddComponent<Engine::Component::Audio::ListenerComponent>();
 	m_Hero.AddComponent<HeroComponent>();
 	m_Hero.GetComponent<Engine::Component::Core::TransformComponent>().Translation = { 0.0f, 8.0f, 10.0f };
@@ -83,7 +83,7 @@ void ExampleLayer::OnAttach()
 	Engine::System::Util::Activate(ccc);
 
 	// Camera
-	Engine::Entity camera = m_Scene->CreateEntity();
+	Engine::Entity camera = m_Scene->CreateEntity("Camera");
 	camera.GetComponent<Engine::Component::Core::TransformComponent>().Translation = { 0.0f, 0.9f, 0.0f };
 	camera.AddComponent<Engine::Component::Renderer::CameraComponent>();
 	camera.AddComponent<Engine::Component::Core::ParentComponent>(m_Hero);
@@ -100,7 +100,7 @@ void ExampleLayer::OnAttach()
 		Engine::Entity entity;
 
 		// right hand
-		entity = m_Scene->CreateEntity();
+		entity = m_Scene->CreateEntity("Right Hand");
 		entity.GetComponent<Engine::Component::Core::TransformComponent>().Translation = { 0.25f, 0.75f, -0.35f };
 		entity.GetComponent<Engine::Component::Core::TransformComponent>().Rotation = { 1.0f, -2.0f, 1.0f };
 		entity.GetComponent<Engine::Component::Core::TransformComponent>().Scale = { 1.0f, 1.0f, 1.0f };
@@ -109,7 +109,7 @@ void ExampleLayer::OnAttach()
 		entity.AddComponent<Engine::Component::Core::ParentComponent>(m_Hero);
 
 		// left hand
-		entity = m_Scene->CreateEntity();
+		entity = m_Scene->CreateEntity("Left Hand");
 		entity.GetComponent<Engine::Component::Core::TransformComponent>().Translation = { -0.25f, 0.75f, -0.35f };
 		entity.GetComponent<Engine::Component::Core::TransformComponent>().Rotation = { -1.0f, 2.0f, -1.0f };
 		entity.GetComponent<Engine::Component::Core::TransformComponent>().Scale = { -1.0f, -1.0f, -1.0f };
@@ -126,7 +126,7 @@ void ExampleLayer::OnAttach()
 			// Big Monsters
 			for (size_t i = 0; i < 2; i++)
 			{
-				entity = m_Scene->CreateEntity();
+				entity = m_Scene->CreateEntity("Monster [Big]");
 				auto& mesh = Engine::MeshLibrary::Get("Monster");
 				glm::vec3 t{ (rand() % 100) - 50, 5.5f, (rand() % 100) - 50 };
 				glm::vec3 r{ 0.0f, 0.0f, 0.0f };
@@ -148,7 +148,7 @@ void ExampleLayer::OnAttach()
 			// Small Monsters
 			for (size_t i = 0; i < 4; i++)
 			{
-				entity = m_Scene->CreateEntity();
+				entity = m_Scene->CreateEntity("Monster [Small]");
 				auto& mesh = Engine::MeshLibrary::Get("Monster");
 				glm::vec3 t{ (rand() % 100) - 50, 5.5f, (rand() % 100) - 50 };
 				glm::vec3 r{ 0.0f, 0.0f, 0.0f };
@@ -171,7 +171,7 @@ void ExampleLayer::OnAttach()
 
 		// House 1
 		{
-			entity = m_Scene->CreateEntity();
+			entity = m_Scene->CreateEntity("House");
 			auto& mesh = Engine::MeshLibrary::Get("House");
 			glm::vec3 t{ 20.0f, 0.0f, 0.0f };
 			glm::vec3 r{ 0.0f, -1.5f, 0.0f };
@@ -189,7 +189,7 @@ void ExampleLayer::OnAttach()
 		}
 		// House 2
 		{
-			entity = m_Scene->CreateEntity();
+			entity = m_Scene->CreateEntity("House");
 			auto& mesh = Engine::MeshLibrary::Get("House");
 			glm::vec3 t{ -20.0f, 0.0f, -20.0f };
 			glm::vec3 r{ 0.0f, 0.5f, 0.0f };
@@ -208,7 +208,7 @@ void ExampleLayer::OnAttach()
 
 		// Cave
 		{
-			entity = m_Scene->CreateEntity();
+			entity = m_Scene->CreateEntity("Cave");
 			auto& mesh = Engine::MeshLibrary::Get("Cave");
 			glm::vec3 t{ -40.0f, 0.0f, -40.0f };
 			glm::vec3 r{ 0.0f, -1.2f, 0.0f };
@@ -227,7 +227,7 @@ void ExampleLayer::OnAttach()
 
 		// Pedestal
 		{
-			entity = m_Scene->CreateEntity();
+			entity = m_Scene->CreateEntity("Pedestal");
 			auto& mesh = Engine::MeshLibrary::Get("Pedestal");
 			glm::vec3 t{ 0.0f, -0.2f, 0.0f };
 			glm::vec3 r{ 0.0f, 0.0f, 0.0f };
@@ -246,7 +246,7 @@ void ExampleLayer::OnAttach()
 
 		// Terrain
 		{
-			entity = m_Scene->CreateEntity();
+			entity = m_Scene->CreateEntity("Terrain");
 			auto& mesh = Engine::MeshLibrary::Get("Terrain");
 			glm::vec3 t{ 0.0f, -0.45f, 0.0f };
 			glm::vec3 r{ 0.0f, 0.0f, 0.0f };
@@ -265,7 +265,7 @@ void ExampleLayer::OnAttach()
 		// Forest
 		for (size_t i = 0; i < 100; i++)
 		{
-			entity = m_Scene->CreateEntity();
+			entity = m_Scene->CreateEntity("Spruce");
 			auto& mesh = Engine::MeshLibrary::Get("Spruce_" + std::to_string((rand() % 5) + 1));
 			glm::vec3 t{ (rand() % 100) - 50, -1.0f, (rand() % 100) - 50 };
 			glm::vec3 r{ 0.0f, 0.0f, 0.0f };
@@ -283,7 +283,7 @@ void ExampleLayer::OnAttach()
 		}
 		for (size_t i = 0; i < 10; i++)
 		{
-			entity = m_Scene->CreateEntity();
+			entity = m_Scene->CreateEntity("Stump");
 			auto& mesh = Engine::MeshLibrary::Get("Stump_" + std::to_string((rand() % 2) + 1));
 			glm::vec3 t{ (rand() % 100) - 50, -0.1f, (rand() % 100) - 50 };
 			glm::vec3 r{ 0.0f, 0.0f, 0.0f };
@@ -301,7 +301,7 @@ void ExampleLayer::OnAttach()
 		}
 		for (size_t i = 0; i < 10; i++)
 		{
-			entity = m_Scene->CreateEntity();
+			entity = m_Scene->CreateEntity("Fallen Tree");
 			auto& mesh = Engine::MeshLibrary::Get("Fallen_Tree_" + std::to_string((rand() % 2) + 1));
 			glm::vec3 t{ (rand() % 100) - 50, 0.2f, (rand() % 100) - 50 };
 			glm::vec3 r{ 0.0f, 0.0f, 0.0f };
@@ -319,7 +319,7 @@ void ExampleLayer::OnAttach()
 		}
 		for (size_t i = 0; i < 30; i++)
 		{
-			entity = m_Scene->CreateEntity();
+			entity = m_Scene->CreateEntity("Rock");
 			auto& mesh = Engine::MeshLibrary::Get("Rock_" + std::to_string((rand() % 1) + 1));
 			glm::vec3 t{ (rand() % 100) - 50, 0.2f, (rand() % 100) - 50 };
 			glm::vec3 r{ 0.0f, 0.2f, 0.0f };
@@ -338,7 +338,7 @@ void ExampleLayer::OnAttach()
 		// Clouds
 		for (size_t i = 0; i < 30; i++)
 		{
-			entity = m_Scene->CreateEntity();
+			entity = m_Scene->CreateEntity("Clouds");
 			entity.GetComponent<Engine::Component::Core::TransformComponent>().Translation = { (rand() % 200) - 100, 60.0f, (rand() % 200) - 100 };
 			entity.GetComponent<Engine::Component::Core::TransformComponent>().Rotation = { 0.0f, 0.0f, 0.0f };
 			entity.GetComponent<Engine::Component::Core::TransformComponent>().Scale = { 3.0f, 3.0f, 3.0f };
@@ -356,6 +356,7 @@ void ExampleLayer::OnAttach()
 	m_MaterialPanel = Engine::CreateScope<Engine::MaterialPanel>();
 	m_ShaderPanel = Engine::CreateScope<Engine::ShaderPanel>();
 	m_TexturePanel = Engine::CreateScope<Engine::Texture2DPanel>();
+	m_SceneHierarchyPanel = Engine::CreateScope<Engine::SceneHierarchyPanel>(m_Scene);
 }
 
 void ExampleLayer::OnDetach()
@@ -424,5 +425,6 @@ void ExampleLayer::OnImGui()
 	m_MaterialPanel->OnImGui();
 	m_ShaderPanel->OnImGui();
 	m_TexturePanel->OnImGui();
+	m_SceneHierarchyPanel->OnImGui();
 }
 
