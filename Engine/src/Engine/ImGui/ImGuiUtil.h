@@ -44,8 +44,7 @@ namespace Engine::ImGuiUtil {
 	template<typename T, typename UIFunction>
 	static void DrawComponent(const std::string& name, Entity entity, UIFunction uiFunction)
 	{
-		static const ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_DefaultOpen
-			| ImGuiTreeNodeFlags_Framed
+		static const ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_Framed
 			| ImGuiTreeNodeFlags_FramePadding
 			| ImGuiTreeNodeFlags_SpanAvailWidth
 			| ImGuiTreeNodeFlags_AllowItemOverlap;

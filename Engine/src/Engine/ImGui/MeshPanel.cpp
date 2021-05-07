@@ -41,8 +41,7 @@ namespace Engine {
 		{
 			if (ImGuiUtil::Button("Add Mesh", glm::vec2{ -1, 0 }, ImGuiUtil::ButtonType::Success))
 			{
-				// TODO: implement...
-				LOG_WARN("Add mesh not implemented!");
+				m_SelectionContext = MeshLibrary::Create("New Mesh", "assets/objects/cube.obj");
 			}
 		}
 
