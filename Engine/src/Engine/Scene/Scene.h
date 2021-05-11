@@ -48,10 +48,24 @@ namespace Engine {
 		bool OnKeyPressed(KeyPressedEvent& e);
 		bool OnCollision(CollisionEvent& e);
 
+
+		// Registry
+		void InitRegistry();
+
+		// Registry - Core
+		void UpdateTransform(entt::registry& registry, entt::entity entity); // TODO
+		
+		// Registry - Renderer
 		void InitCameraComponent(entt::registry& registry, entt::entity entity);
 
-		// PhysX
-		void AddCharacterController(entt::registry& registry, entt::entity entity);
+		// Registry - PhysX
+		void InitStaticCollider(entt::registry& registry, entt::entity entity);
+		void UpdateStaticCollider(entt::registry& registry, entt::entity entity);
+		void DestroyStaticCollider(entt::registry& registry, entt::entity entity);
+
+		void InitCharacterController(entt::registry& registry, entt::entity entity);
+		void UpdateCharacterController(entt::registry& registry, entt::entity entity);
+		void DestroyCharacterController(entt::registry& registry, entt::entity entity);
 
 		void AddRigidComponent(entt::registry& registry, entt::entity entity);
 		void RemoveRigidComponent(entt::registry& registry, entt::entity entity);
@@ -59,15 +73,7 @@ namespace Engine {
 		void AddRigidDynamicComponent(entt::registry& registry, entt::entity entity);
 		void RemoveRigidDynamicComponent(entt::registry& registry, entt::entity entity);
 
-		void AddTriggerComponent(entt::registry& registry, entt::entity entity);
-		void RemoveTriggerComponent(entt::registry& registry, entt::entity entity);
-
-		void AddKinematicComponent(entt::registry& registry, entt::entity entity);
-		void RemoveKinematicComponent(entt::registry& registry, entt::entity entity);
-		
-		void AddShapeComponent(entt::registry& registry, entt::entity entity);
-		void RemoveShapeComponent(entt::registry& registry, entt::entity entity);
-
+		// Registry - Audio
 		void AddSound2DComponent(entt::registry& registry, entt::entity entity);
 		void RemoveSound2DComponent(entt::registry& registry, entt::entity entity);
 

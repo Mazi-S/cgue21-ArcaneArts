@@ -211,7 +211,7 @@ namespace Engine::ImGuiUtil {
 		return update;
 	}
 
-	bool Button(const std::string& label, const std::string& buttonLable1, bool& button1, const std::string& buttonLable2, bool& button2, float columnWidth)
+	bool Button(const std::string& label, const std::string& buttonLable1, bool& button1, ButtonType type1, const std::string& buttonLable2, bool& button2, ButtonType type2, float columnWidth)
 	{
 		ImGui::PushID(label.c_str());
 		ImGui::Columns(2, 0, false);
@@ -219,9 +219,9 @@ namespace Engine::ImGuiUtil {
 		ImGui::Text(label.c_str());
 		ImGui::NextColumn();
 		ImGui::PushItemWidth(0);
-		button1 = ImGuiUtil::Button(buttonLable1.c_str(), glm::vec2{ 0, 0 });
+		button1 = ImGuiUtil::Button(buttonLable1.c_str(), glm::vec2{ 0, 0 }, type1);
 		ImGui::SameLine();
-		button2 = ImGuiUtil::Button(buttonLable2.c_str(), glm::vec2{ 0, 0 });
+		button2 = ImGuiUtil::Button(buttonLable2.c_str(), glm::vec2{ 0, 0 }, type2);
 		ImGui::Columns(1);
 		ImGui::PopID();
 		return button1 | button2;

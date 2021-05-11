@@ -115,7 +115,7 @@ bool HudLayer::OnGameEnd(GameEndEvent& event)
 
 bool HudLayer::OnKeyPressed(Engine::KeyPressedEvent& event)
 {
-	if (event.GetKeyCode() == Engine::Key::F1)
+	if (event.GetKeyCode() == Engine::Key::F2)
 		m_HUD = !m_HUD;
 
 	return false;

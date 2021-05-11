@@ -93,7 +93,7 @@ namespace Engine {
 
 		bool add = false;
 		bool remove = false;
-		if (ImGuiUtil::Button("", "Add Texture", add, "Remove Texture", remove))
+		if (ImGuiUtil::Button("", "Add Texture", add, ImGuiUtil::ButtonType::Default, "Remove Texture", remove, ImGuiUtil::ButtonType::Default))
 		{
 			if (add) material->SetTexture(material->GetTextures().size());
 			else if (remove) material->RemoveTexture(material->GetTextures().size() - 1);

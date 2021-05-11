@@ -1,7 +1,9 @@
 #include "HeroScript.h"
-#include "Engine/Physics/PhysicsAPI.h"
-#include "Components/GameComponents.h"
 #include "Engine/Scene/Factories.h"
+
+#include "Components/GameComponents.h"
+#include "ActorFactory.h"
+
 #include "Events/CharacterHealthEvent.h"
 #include "Events/CharacterManaEvent.h"
 
@@ -10,9 +12,6 @@ using NativeScriptComponent			= Engine::Component::Core::NativeScriptComponent;
 using ParentComponent				= Engine::Component::Core::ParentComponent;
 
 using RigidDynamicComponent			= Engine::Component::Physics::RigidDynamicComponent;
-using ShapeComponent				= Engine::Component::Physics::ShapeComponent;
-using TriggerComponent				= Engine::Component::Physics::TriggerComponent;
-using KinematicComponent			= Engine::Component::Physics::KinematicComponent;
 using KinematicMovementComponent	= Engine::Component::Physics::KinematicMovementComponent;
 
 using MaterialComponent				= Engine::Component::Renderer::MaterialComponent;
@@ -413,17 +412,10 @@ void HeroScript::Throw(Engine::Entity ball)
 
 	glm::vec4 velocity = glm::toMat4(glm::quat(transformComp.Rotation)) * glm::vec4{ 0.0f, 0.0f, -28.0f, 0.0 };
 
-	auto* actor = Engine::PhysicsAPI::CreateRigidDynamic(transformComp_ball.Translation);
-	auto* shape = Engine::PhysicsAPI::CreateSphereShape(transformComp_ball.Scale.x);
-	shape->setContactOffset(0.1f);
+	auto* actor = ActorFactory::MagicBall(transformComp_ball.Translation, transformComp_ball.Rotation, transformComp_ball.Scale.x);
 
 	ball.AddComponent<RigidDynamicComponent>(actor);
-	ball.AddComponent<ShapeComponent>(shape);
-
-	ball.AddComponent<TriggerComponent>();
-	ball.AddComponent<KinematicComponent>();
 	ball.AddComponent<KinematicMovementComponent>(glm::vec3{ velocity.x, velocity.y, velocity.z });
-
 	ball.GetComponent<NativeScriptComponent>().Active = true;
 }
 

@@ -4,7 +4,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 MenuLayer::MenuLayer()
-	: Layer("Menu"), m_Menu(false), m_GameState(GameState::Running)
+	: Layer("Menu"), m_Menu(false), m_Controls(false), m_GameState(GameState::Running)
 { }
 
 void MenuLayer::OnAttach()
@@ -18,7 +18,7 @@ void MenuLayer::OnAttach()
 	spec.Min_Filter = 0x2600;
 	spec.Mag_Filter = 0x2600;
 
-	m_Controls = Engine::CreateRef<Engine::OpenGL::GlTexture2D>("Controls", spec, "assets/textures/Controls.png");
+	m_ControlsTex = Engine::CreateRef<Engine::OpenGL::GlTexture2D>("Controls", spec, "assets/textures/Controls.png");
 	m_Victory = Engine::CreateRef<Engine::OpenGL::GlTexture2D>("Victory", "assets/textures/Victory.png");
 	m_Defeat = Engine::CreateRef<Engine::OpenGL::GlTexture2D>("Defeat", "assets/textures/Defeat.png");
 }
@@ -34,9 +34,9 @@ void MenuLayer::OnUpdate(Engine::Timestep ts)
 
 	Engine::Renderer2D::BeginScene(m_Camera);
 
-	if (m_Menu)
+	if (m_Controls)
 	{
-		Engine::Renderer2D::DrawQuad(menuTransform, m_Controls);
+		Engine::Renderer2D::DrawQuad(menuTransform, m_ControlsTex);
 	}
 
 	if (m_GameState != GameState::Running)
@@ -63,12 +63,17 @@ bool MenuLayer::OnKeyPressed(Engine::KeyPressedEvent& event)
 	if (event.GetKeyCode() == Engine::Key::Escape)
 	{
 		m_Menu = !m_Menu;
-
 		float x = Engine::Application::Get().GetWindow().GetWidth() / 2;
 		float y = Engine::Application::Get().GetWindow().GetHeight() / 2;
 		Engine::Application::Get().GetWindow().SetCursorPosition(x, y);
 		Engine::Application::Get().GetWindow().ShowCursor();
 
+		return false;
+	}
+
+	if (event.GetKeyCode() == Engine::Key::F1)
+	{
+		m_Controls = !m_Controls;
 		return false;
 	}
 

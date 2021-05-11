@@ -16,10 +16,11 @@ namespace Engine::Physics {
 		const std::vector<glm::vec3> Vertices() { return m_Positions; }
 		const std::vector<uint32_t> Indices() { return m_Indices; }
 
+		physx::PxTriangleMesh* GetPxTriangleMesh();
+	private:
 		bool HasPxTriangleMesh() { return m_PxTriangleMesh != nullptr; }
 		void InitPxTriangleMesh();
-		physx::PxTriangleMesh* GetPxTriangleMesh() { return m_PxTriangleMesh; }
-	private:
+
 		const uint32_t m_Vertices;
 		const uint32_t m_Faces;
 		

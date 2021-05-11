@@ -38,7 +38,7 @@ namespace Engine::System::Physics {
 
 	void OnUpdateKinematic(entt::registry& registry, Timestep ts)
 	{
-		auto view = registry.view<Component::Physics::RigidDynamicComponent, Component::Physics::KinematicComponent, Component::Physics::KinematicMovementComponent, Component::Core::TransformComponent>();
+		auto view = registry.view<Component::Physics::RigidDynamicComponent, Component::Physics::KinematicMovementComponent, Component::Core::TransformComponent>();
 		for (const entt::entity e : view)
 		{
 			auto& [rdc, kmc, tc] = view.get<Component::Physics::RigidDynamicComponent, Component::Physics::KinematicMovementComponent, Component::Core::TransformComponent>(e);
@@ -49,7 +49,6 @@ namespace Engine::System::Physics {
 			rdc.Actor->setKinematicTarget(transform);
 		}
 	}
-
 
 }
 

@@ -27,11 +27,12 @@ private:
 	};
 	
 	bool m_Menu;
+	bool m_Controls;
 	GameState m_GameState;
 
 	Engine::Camera m_Camera;
 
-	Engine::Ref<Engine::OpenGL::GlTexture2D> m_Controls;
+	Engine::Ref<Engine::OpenGL::GlTexture2D> m_ControlsTex;
 	Engine::Ref<Engine::OpenGL::GlTexture2D> m_Victory;
 	Engine::Ref<Engine::OpenGL::GlTexture2D> m_Defeat;
 };

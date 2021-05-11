@@ -7,15 +7,34 @@
 
 namespace Engine::Component::Physics {
 
-	struct KinematicMovementComponent
+	struct StaticColliderComponent
 	{
-		// movement per second
-		glm::vec3 Movement;
-		glm::quat Rotation;
+		physx::PxRigidActor* Actor = nullptr;
+		physx::PxTriangleMesh* Mesh = nullptr;
 
-		KinematicMovementComponent(const KinematicMovementComponent&) = default;
-		KinematicMovementComponent(glm::vec3 movement = { 0.0f, 0.0f, 0.0f }, glm::quat rotation = { 1.0f, 0.0f, 0.0f, 0.0f })
-			: Movement(movement), Rotation(rotation) { }
+		StaticColliderComponent() = default;
+	};
+
+	struct CharacterControllerComponent
+	{
+		bool Active = false;
+
+		physx::PxController* Controller = nullptr;
+
+		float TranslationSpeed = 5.0f;
+		float RotationSpeed = 0.002f;
+
+		float StandingHeight; // total height of the character (including radius)
+		float CrouchingHeight;
+		float Radius;
+
+		float MouseX = 0, MouseY = 0;
+		float Jump = 0;
+		bool Crouching = false;
+
+		CharacterControllerComponent(float standingHeight = 2.0f, float crouchingHeight = 1.2f, float radius = 0.3f)
+			: StandingHeight(standingHeight), CrouchingHeight(crouchingHeight), Radius(radius) { }
+		CharacterControllerComponent(const CharacterControllerComponent&) = default;
 	};
 
 	struct RigidComponent
@@ -36,51 +55,15 @@ namespace Engine::Component::Physics {
 			: Actor(actor) { }
 	};
 
-	struct ShapeComponent
+	struct KinematicMovementComponent
 	{
-		physx::PxShape* Shape;
+		// movement per second
+		glm::vec3 Movement;
+		glm::quat Rotation;
 
-		ShapeComponent(const ShapeComponent&) = default;
-		ShapeComponent(physx::PxShape* shape)
-			: Shape(shape) { }
-	};
-
-	struct KinematicComponent
-	{
-		uint16_t temp = 0; // todo: fix
-
-		KinematicComponent() = default;
-		KinematicComponent(const KinematicComponent&) = default;
-	};
-
-	struct TriggerComponent
-	{
-		uint16_t temp = 0; // todo: fix
-
-		TriggerComponent() = default;
-		TriggerComponent(const TriggerComponent&) = default;
-	};
-
-	struct CharacterControllerComponent
-	{
-		bool Active = false;
-
-		physx::PxController* Controller = nullptr;
-
-		float TranslationSpeed = 5.0f;
-		float RotationSpeed = 0.002f;
-
-		float StandingHeight; // total height of the character (including radius)
-		float CrouchingHeight;
-		float Radius;
-
-		float MouseX = 0, MouseY = 0;
-		float Jump = 0;
-		bool Crouching = false;
-
-		CharacterControllerComponent(float standingHeight, float crouchingHeight, float radius)
-			: StandingHeight(standingHeight), CrouchingHeight(crouchingHeight), Radius(radius) { }
-		CharacterControllerComponent(const CharacterControllerComponent&) = default;
+		KinematicMovementComponent(const KinematicMovementComponent&) = default;
+		KinematicMovementComponent(glm::vec3 movement = { 0.0f, 0.0f, 0.0f }, glm::quat rotation = { 1.0f, 0.0f, 0.0f, 0.0f })
+			: Movement(movement), Rotation(rotation) { }
 	};
 
 }

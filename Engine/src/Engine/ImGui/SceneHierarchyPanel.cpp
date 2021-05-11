@@ -84,12 +84,16 @@ namespace Engine {
 	{
 		using TagComponent				= Engine::Component::Core::TagComponent;
 		using TransformComponent		= Engine::Component::Core::TransformComponent;
+
 		using MeshComponent				= Engine::Component::Renderer::MeshComponent;
 		using MaterialComponent			= Engine::Component::Renderer::MaterialComponent;
 		using ShadowComponent			= Engine::Component::Renderer::ShadowComponent;
 		using DirectionalLightComponent	= Engine::Component::Renderer::DirectionalLightComponent;
 		using PointLightComponent		= Engine::Component::Renderer::PointLightComponent;
 		using CameraComponent			= Engine::Component::Renderer::CameraComponent;
+
+		using StaticColliderComponent	= Engine::Component::Physics::StaticColliderComponent;
+		using CharacterControllerComponent = Engine::Component::Physics::CharacterControllerComponent;
 
 		if (entity.HasComponent<TagComponent>())
 		{
@@ -115,6 +119,10 @@ namespace Engine {
 			components.push_back("PointLight");
 		if (!entity.HasComponent<CameraComponent>())
 			components.push_back("Camera");
+		if (!entity.HasComponent<StaticColliderComponent>())
+			components.push_back("StaticCollider");
+		if (!entity.HasComponent<CharacterControllerComponent>())
+			components.push_back("CharacterController");
 
 		if (components.size() > 0 && ImGuiUtil::DrawComboControl("Add Component", component, components))
 		{
@@ -132,6 +140,10 @@ namespace Engine {
 				entity.AddComponent<PointLightComponent>();
 			if (component == "Camera")
 				entity.AddComponent<CameraComponent>();
+			if (component == "StaticCollider")
+				entity.AddComponent<StaticColliderComponent>();
+			if (component == "CharacterController")
+				entity.AddComponent<CharacterControllerComponent>();
 		}
 
 		ImGui::Separator();
@@ -145,8 +157,6 @@ namespace Engine {
 				if (ImGuiUtil::DrawFloat3Control("Rotation", rotation))
 					component.Rotation = glm::radians(rotation);
 				ImGuiUtil::DrawFloat3Control("Scale", component.Scale, 0.01f);
-
-				component.Rotation = glm::radians(rotation);
 		});
 
 		// Material Component
@@ -207,6 +217,39 @@ namespace Engine {
 				if (recalculate)
 					System::Util::RecalculateProjection(component);
 		});
+
+		// Static Collider Component
+		ImGuiUtil::DrawComponent<StaticColliderComponent>("Static Collider", entity, [](auto& component)
+			{
+				ImGuiUtil::Text("Description", "Specifies if the entity has a physical collider.");
+				ImGui::Dummy({ 0, .5 });
+				ImGuiUtil::Text("Note", "Collider must be created after the TransformComponent and\nthe MeshComponent. Updates on these components will not\nbe reflected automatically to the collider.");
+		}, true);
+
+		// Character Controller Component
+		ImGuiUtil::DrawComponent<CharacterControllerComponent>("Character Controller", entity, [](auto& component)
+			{
+				int active = component.Active;
+				if (ImGuiUtil::DrawComboControl("Active", active, { "false", "true" }))
+					component.Active = active;
+
+				ImGuiUtil::DrawFloatControl("TranslationSpeed", component.TranslationSpeed, 0, 20, 0.01);
+				
+				float rotationSpeed = component.RotationSpeed * 1000.0f;
+				if (ImGuiUtil::DrawFloatControl("RotationSpeed", rotationSpeed, 1, 10, 0.01))
+					component.RotationSpeed = rotationSpeed / 1000.0f;
+
+				ImGui::Dummy({ 0, .5 });
+				ImGuiUtil::DrawFloatControl("Standing Height", component.StandingHeight, 0, 10, 0.01);
+				ImGuiUtil::DrawFloatControl("Crouching Height", component.CrouchingHeight, 0, 10, 0.01);
+				ImGuiUtil::DrawFloatControl("Radius", component.Radius, 0, 10, 0.01);
+
+				ImGui::Dummy({ 0, .5 });
+
+				ImGuiUtil::Text("Mouse", std::to_string((int)component.MouseX) + ", " + std::to_string((int)component.MouseY));
+				ImGuiUtil::Text("Jump", std::to_string(component.Jump));
+				ImGuiUtil::Text("Crouching", component.Crouching ? "true" : "false");
+		}, true);
 
 
 		ImGui::Separator();

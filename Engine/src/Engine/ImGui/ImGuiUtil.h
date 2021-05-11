@@ -32,7 +32,7 @@ namespace Engine::ImGuiUtil {
 	void Text(const std::string& label, const std::string& text, float columnWidth = 100.0f);
 
 	bool Button(const std::string& label, const std::string& buttonLable, ButtonType type = ButtonType::Default, float columnWidth = 100.0f);
-	bool Button(const std::string& label, const std::string& buttonLable1, bool& button1, const std::string& buttonLable2, bool& button2, float columnWidth = 100.0f);
+	bool Button(const std::string& label, const std::string& buttonLable1, bool& button1, ButtonType type1, const std::string& buttonLable2, bool& button2, ButtonType type2, float columnWidth = 100.0f);
 
 	bool Button(const std::string& label, glm::vec2 size = { 0, 0 }, ButtonType type = ButtonType::Default);
 
@@ -42,7 +42,7 @@ namespace Engine::ImGuiUtil {
 
 
 	template<typename T, typename UIFunction>
-	static void DrawComponent(const std::string& name, Entity entity, UIFunction uiFunction)
+	static void DrawComponent(const std::string& name, Entity entity, UIFunction uiFunction, bool updatable = false)
 	{
 		static const ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_Framed
 			| ImGuiTreeNodeFlags_FramePadding
@@ -66,8 +66,23 @@ namespace Engine::ImGuiUtil {
 				{
 					uiFunction(component);
 					ImGui::Dummy(ImVec2(0.0f, 2.0f));
-					if (Button("", "Remove Component", ImGuiUtil::ButtonType::Danger))
-						entity.RemoveComponent<T>();
+					if (updatable)
+					{
+						bool remove = false;
+						bool update = false;
+						if (Button("", "Remove Component", remove, ImGuiUtil::ButtonType::Danger, "Update Component", update, ImGuiUtil::ButtonType::Default))
+						{
+							if (update)
+								entity.Update<T>();
+							if(remove)
+								entity.RemoveComponent<T>();
+						}
+					}
+					else
+					{
+						if (Button("", "Remove Component", ImGuiUtil::ButtonType::Danger))
+							entity.RemoveComponent<T>();
+					}
 					ImGui::TreePop();
 				}
 

@@ -80,14 +80,22 @@ namespace Engine {
 		return shape;
 	}
 
+	physx::PxShape* PhysicsAPI::CreateShape(physx::PxTriangleMesh* mesh, glm::vec3 scale)
+	{
+		static physx::PxMaterial* material = s_PhysicsSDK->createMaterial(0.5f, 0.5f, 0.6f);
+
+		physx::PxTriangleMeshGeometry geometry = physx::PxTriangleMeshGeometry(mesh);
+		geometry.scale = physx::PxVec3({ scale.x, scale.y, scale.z });
+		physx::PxShape* shape = s_PhysicsSDK->createShape(geometry, *material, true);
+
+		return shape;
+	}
+
 	physx::PxShape* PhysicsAPI::CreateShape(const std::string& meshName, glm::vec3 scale)
 	{
 		static physx::PxMaterial* material = s_PhysicsSDK->createMaterial(0.5f, 0.5f, 0.6f);
 
 		Ref<Physics::PsMesh> psMesh = MeshLibrary::Get(meshName)->GetPsMesh();
-
-		if (!psMesh->HasPxTriangleMesh())
-			psMesh->InitPxTriangleMesh();
 
 		physx::PxTriangleMesh* triMesh = psMesh->GetPxTriangleMesh();
 

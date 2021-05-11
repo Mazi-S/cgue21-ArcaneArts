@@ -63,6 +63,12 @@ namespace Engine {
 			m_Registry = nullptr;
 		}
 
+		template<typename T>
+		void Update()
+		{
+			m_Registry->patch<T>(m_EntityHandle, [](auto &comp) { });
+		}
+
 		operator bool() const { return m_EntityHandle != entt::null; }
 		operator uint32_t() const { return (uint32_t)m_EntityHandle; }
 		operator entt::entity() const { return m_EntityHandle; }

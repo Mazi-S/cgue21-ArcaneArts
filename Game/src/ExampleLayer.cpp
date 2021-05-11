@@ -9,6 +9,8 @@
 
 #include "Components/GameComponents.h"
 
+#include "ActorFactory.h"
+
 #include <glad/glad.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include "imgui/imgui.h"
@@ -92,7 +94,7 @@ void ExampleLayer::OnAttach()
 		entity.AddComponent<Engine::Component::Audio::Sound2DComponent>(Engine::SoundLibrary::Get("Forest"), true);
 
 		// Monster
-		if(false) {
+		if(true) {
 			// Big Monsters
 			for (size_t i = 0; i < 2; i++)
 			{
@@ -107,11 +109,8 @@ void ExampleLayer::OnAttach()
 				entity.AddComponent<Engine::Component::Renderer::MaterialComponent>("MonsterBigMaterial");
 				entity.AddComponent<Engine::Component::Renderer::ShadowComponent>();
 				entity.AddComponent<Engine::Component::Renderer::MeshComponent>(mesh);
-				auto actor = Engine::PhysicsAPI::CreateRigidDynamic(t, r);
-				auto shape = Engine::PhysicsAPI::CreateShape(mesh, s);
+				auto actor = ActorFactory::Monster(mesh, t, r, s);
 				entity.AddComponent<Engine::Component::Physics::RigidDynamicComponent>(actor);
-				entity.AddComponent<Engine::Component::Physics::KinematicComponent>();
-				entity.AddComponent<Engine::Component::Physics::ShapeComponent>(shape);
 				entity.AddComponent<MonsterComponent>(Engine::SoundLibrary::Get("Monster"), Engine::SoundLibrary::Get("MonsterDying"));
 				entity.AddNativeScript<MonsterScript>();
 			}
@@ -129,11 +128,8 @@ void ExampleLayer::OnAttach()
 				entity.AddComponent<Engine::Component::Renderer::MaterialComponent>("MonsterSmallMaterial");
 				entity.AddComponent<Engine::Component::Renderer::ShadowComponent>();
 				entity.AddComponent<Engine::Component::Renderer::MeshComponent>(mesh);
-				auto actor = Engine::PhysicsAPI::CreateRigidDynamic(t, r);
-				auto shape = Engine::PhysicsAPI::CreateShape(mesh, s);
+				auto actor = ActorFactory::Monster(mesh, t, r, s);
 				entity.AddComponent<Engine::Component::Physics::RigidDynamicComponent>(actor);
-				entity.AddComponent<Engine::Component::Physics::KinematicComponent>();
-				entity.AddComponent<Engine::Component::Physics::ShapeComponent>(shape);
 				entity.AddComponent<MonsterComponent>(Engine::SoundLibrary::Get("Monster"), Engine::SoundLibrary::Get("MonsterDying"), 35.0f, 10.0f, 4.5f, 30.0f, 2.5f);
 				entity.AddNativeScript<MonsterScript>();
 			}
@@ -152,10 +148,7 @@ void ExampleLayer::OnAttach()
 			entity.AddComponent<Engine::Component::Renderer::MaterialComponent>("HouseMaterial");
 			entity.AddComponent<Engine::Component::Renderer::ShadowComponent>();
 			entity.AddComponent<Engine::Component::Renderer::MeshComponent>(mesh);
-			auto actor = Engine::PhysicsAPI::CreateRigidStatic(t, r);
-			auto shape = Engine::PhysicsAPI::CreateShape(mesh, s);
-			entity.AddComponent<Engine::Component::Physics::RigidComponent>(actor);
-			entity.AddComponent<Engine::Component::Physics::ShapeComponent>(shape);
+			entity.AddComponent<Engine::Component::Physics::StaticColliderComponent>();
 		}
 		// House 2
 		{
@@ -170,10 +163,7 @@ void ExampleLayer::OnAttach()
 			entity.AddComponent<Engine::Component::Renderer::MaterialComponent>("HouseMaterial");
 			entity.AddComponent<Engine::Component::Renderer::ShadowComponent>();
 			entity.AddComponent<Engine::Component::Renderer::MeshComponent>(mesh);
-			auto actor = Engine::PhysicsAPI::CreateRigidStatic(t, r);
-			auto shape = Engine::PhysicsAPI::CreateShape(mesh, s);
-			entity.AddComponent<Engine::Component::Physics::RigidComponent>(actor);
-			entity.AddComponent<Engine::Component::Physics::ShapeComponent>(shape);
+			entity.AddComponent<Engine::Component::Physics::StaticColliderComponent>();
 		}
 
 		// Cave
@@ -189,10 +179,7 @@ void ExampleLayer::OnAttach()
 			entity.AddComponent<Engine::Component::Renderer::MaterialComponent>("CaveMaterial");
 			entity.AddComponent<Engine::Component::Renderer::ShadowComponent>();
 			entity.AddComponent<Engine::Component::Renderer::MeshComponent>(mesh);
-			auto actor = Engine::PhysicsAPI::CreateRigidStatic(t, r);
-			auto shape = Engine::PhysicsAPI::CreateShape(mesh, s);
-			entity.AddComponent<Engine::Component::Physics::RigidComponent>(actor);
-			entity.AddComponent<Engine::Component::Physics::ShapeComponent>(shape);
+			entity.AddComponent<Engine::Component::Physics::StaticColliderComponent>();
 		}
 
 		// Pedestal
@@ -208,10 +195,7 @@ void ExampleLayer::OnAttach()
 			entity.AddComponent<Engine::Component::Renderer::MaterialComponent>("PedestalMaterial");
 			entity.AddComponent<Engine::Component::Renderer::ShadowComponent>();
 			entity.AddComponent<Engine::Component::Renderer::MeshComponent>(mesh);
-			auto actor = Engine::PhysicsAPI::CreateRigidStatic(t, r);
-			auto shape = Engine::PhysicsAPI::CreateShape(mesh, s);
-			entity.AddComponent<Engine::Component::Physics::RigidComponent>(actor);
-			entity.AddComponent<Engine::Component::Physics::ShapeComponent>(shape);
+			entity.AddComponent<Engine::Component::Physics::StaticColliderComponent>();
 		}
 
 		// Terrain
@@ -226,10 +210,7 @@ void ExampleLayer::OnAttach()
 			entity.GetComponent<Engine::Component::Core::TransformComponent>().Scale = s;
 			entity.AddComponent<Engine::Component::Renderer::MaterialComponent>("TerrainMaterial");
 			entity.AddComponent<Engine::Component::Renderer::MeshComponent>(mesh);
-			auto actor = Engine::PhysicsAPI::CreateRigidStatic(t, r);
-			auto shape = Engine::PhysicsAPI::CreateShape(mesh, s);
-			entity.AddComponent<Engine::Component::Physics::RigidComponent>(actor);
-			entity.AddComponent<Engine::Component::Physics::ShapeComponent>(shape);
+			entity.AddComponent<Engine::Component::Physics::StaticColliderComponent>();
 		}
 
 		// Forest
@@ -246,10 +227,7 @@ void ExampleLayer::OnAttach()
 			entity.AddComponent<Engine::Component::Renderer::MaterialComponent>("ForestMaterial");
 			entity.AddComponent<Engine::Component::Renderer::ShadowComponent>();
 			entity.AddComponent<Engine::Component::Renderer::MeshComponent>(mesh);
-			auto actor = Engine::PhysicsAPI::CreateRigidStatic(t, r);
-			auto shape = Engine::PhysicsAPI::CreateShape(mesh, s);
-			entity.AddComponent<Engine::Component::Physics::RigidComponent>(actor);
-			entity.AddComponent<Engine::Component::Physics::ShapeComponent>(shape);
+			entity.AddComponent<Engine::Component::Physics::StaticColliderComponent>();
 		}
 		for (size_t i = 0; i < 10; i++)
 		{
@@ -264,10 +242,7 @@ void ExampleLayer::OnAttach()
 			entity.AddComponent<Engine::Component::Renderer::MaterialComponent>("ForestMaterial");
 			entity.AddComponent<Engine::Component::Renderer::ShadowComponent>();
 			entity.AddComponent<Engine::Component::Renderer::MeshComponent>(mesh);
-			auto actor = Engine::PhysicsAPI::CreateRigidStatic(t, r);
-			auto shape = Engine::PhysicsAPI::CreateShape(mesh, s);
-			entity.AddComponent<Engine::Component::Physics::RigidComponent>(actor);
-			entity.AddComponent<Engine::Component::Physics::ShapeComponent>(shape);
+			entity.AddComponent<Engine::Component::Physics::StaticColliderComponent>();
 		}
 		for (size_t i = 0; i < 10; i++)
 		{
@@ -282,10 +257,7 @@ void ExampleLayer::OnAttach()
 			entity.AddComponent<Engine::Component::Renderer::MaterialComponent>("ForestMaterial");
 			entity.AddComponent<Engine::Component::Renderer::ShadowComponent>();
 			entity.AddComponent<Engine::Component::Renderer::MeshComponent>(mesh);
-			auto actor = Engine::PhysicsAPI::CreateRigidStatic(t, r);
-			auto shape = Engine::PhysicsAPI::CreateShape(mesh, s);
-			entity.AddComponent<Engine::Component::Physics::RigidComponent>(actor);
-			entity.AddComponent<Engine::Component::Physics::ShapeComponent>(shape);
+			entity.AddComponent<Engine::Component::Physics::StaticColliderComponent>();
 		}
 		for (size_t i = 0; i < 30; i++)
 		{
@@ -300,10 +272,8 @@ void ExampleLayer::OnAttach()
 			entity.AddComponent<Engine::Component::Renderer::MaterialComponent>("ForestMaterial");
 			entity.AddComponent<Engine::Component::Renderer::ShadowComponent>();
 			entity.AddComponent<Engine::Component::Renderer::MeshComponent>(mesh);
-			auto actor = Engine::PhysicsAPI::CreateRigidStatic(t, r);
-			auto shape = Engine::PhysicsAPI::CreateShape(mesh, s);
-			entity.AddComponent<Engine::Component::Physics::RigidComponent>(actor);
-			entity.AddComponent<Engine::Component::Physics::ShapeComponent>(shape);
+
+			entity.AddComponent<Engine::Component::Physics::StaticColliderComponent>();
 		}
 		// Clouds
 		for (size_t i = 0; i < 30; i++)

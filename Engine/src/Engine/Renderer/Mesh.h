@@ -37,6 +37,7 @@ namespace Engine {
 		Ref<OpenGL::GlMesh> GetGlMesh() { return m_GlMesh; }
 
 		operator Ref<OpenGL::GlMesh>() { return m_GlMesh; }
+		operator Ref<Physics::PsMesh>() { return m_PxMesh; }
 
 	private:
 		OpenGL::GlMesh* CreateGlMesh(bool positions, bool texcoords, bool normals, OpenGL::GlVertexBufferLayout layout);

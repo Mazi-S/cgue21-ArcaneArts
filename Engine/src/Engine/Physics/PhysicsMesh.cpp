@@ -7,6 +7,13 @@ Engine::Physics::PsMesh::PsMesh(const std::vector<glm::vec3>& positions, std::ve
 {
 }
 
+physx::PxTriangleMesh* Engine::Physics::PsMesh::GetPxTriangleMesh()
+{
+	if (!HasPxTriangleMesh())
+		InitPxTriangleMesh();
+	return m_PxTriangleMesh;
+}
+
 void Engine::Physics::PsMesh::InitPxTriangleMesh()
 {
 	m_PxTriangleMesh = PhysicsAPI::CreateTriangleMesh(this);

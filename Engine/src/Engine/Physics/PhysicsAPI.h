@@ -20,6 +20,8 @@ namespace Engine {
 		static physx::PxRigidStatic* CreateRigidStatic(glm::vec3 position, glm::vec3 rotation = { 0.0f, 0.0f, 0.0f });
 
 		static physx::PxShape* CreateSphereShape(float radius);
+		static physx::PxShape* CreateShape(physx::PxTriangleMesh* mesh, glm::vec3 scale);
+
 		static physx::PxShape* CreateShape(const std::string& meshName, glm::vec3 scale);
 
 		static physx::PxTriangleMesh* CreateTriangleMesh(Physics::PsMesh* mesh);
