@@ -82,8 +82,8 @@ namespace Engine {
 
 	void SceneHierarchyPanel::DrawEntity(Entity entity)
 	{
-		using TagComponent				= Engine::Component::Core::TagComponent;
-		using TransformComponent		= Engine::Component::Core::TransformComponent;
+		using TagComponent			= Engine::Component::Core::TagComponent;
+		using TransformComponent	= Engine::Component::Core::TransformComponent;
 
 		using MeshComponent				= Engine::Component::Renderer::MeshComponent;
 		using MaterialComponent			= Engine::Component::Renderer::MaterialComponent;
@@ -92,8 +92,11 @@ namespace Engine {
 		using PointLightComponent		= Engine::Component::Renderer::PointLightComponent;
 		using CameraComponent			= Engine::Component::Renderer::CameraComponent;
 
-		using StaticColliderComponent	= Engine::Component::Physics::StaticColliderComponent;
-		using CharacterControllerComponent = Engine::Component::Physics::CharacterControllerComponent;
+		using StaticColliderComponent		= Engine::Component::Physics::StaticColliderComponent;
+		using CharacterControllerComponent	= Engine::Component::Physics::CharacterControllerComponent;
+		using RigidComponent				= Engine::Component::Physics::RigidComponent;
+		using RigidDynamicComponent			= Engine::Component::Physics::RigidDynamicComponent;
+		using KinematicMovementComponent	= Engine::Component::Physics::KinematicMovementComponent;
 
 		if (entity.HasComponent<TagComponent>())
 		{
@@ -250,6 +253,33 @@ namespace Engine {
 				ImGuiUtil::Text("Jump", std::to_string(component.Jump));
 				ImGuiUtil::Text("Crouching", component.Crouching ? "true" : "false");
 		}, true);
+
+		// Rigid Actor
+		ImGuiUtil::DrawComponent<RigidComponent>("Rigid Actor", entity, [](auto& component)
+			{
+				ImGui::Dummy({ 0, .5 });
+				ImGuiUtil::Text("Description", "Specifies the physical representation.");
+		});
+
+		// Rigid Dynamic Actor
+		ImGuiUtil::DrawComponent<RigidDynamicComponent>("Rigid Dynamic Actor", entity, [](auto& component)
+			{
+				ImGuiUtil::Text("actor", component.Actor == nullptr ? "nullptr" : "valid");
+				ImGui::Dummy({ 0, .5 });
+				ImGuiUtil::Text("Description", "Specifies the dynamic physical representation.");
+		});
+
+		// Kinematic Movement
+		ImGuiUtil::DrawComponent<KinematicMovementComponent>("Kinematic Movement", entity, [](auto& component)
+			{
+				ImGuiUtil::DrawFloat3Control("Movement/s", component.Movement, 0, 0, 0.01);
+
+				glm::vec3 euler = glm::eulerAngles(component.Rotation);
+				if (ImGuiUtil::DrawFloat3Control("Rotation", euler, 0, 20, 0.01))
+					component.Rotation = glm::quat(euler);
+				ImGui::Dummy({ 0, .5 });
+				ImGuiUtil::Text("Description", "Specifies the movement of a kinematic actor.");
+			});
 
 
 		ImGui::Separator();
