@@ -34,7 +34,11 @@ namespace Engine::ImGuiUtil {
 	bool Button(const std::string& label, const std::string& buttonLable, ButtonType type = ButtonType::Default, float columnWidth = 100.0f);
 	bool Button(const std::string& label, const std::string& buttonLable1, bool& button1, ButtonType type1, const std::string& buttonLable2, bool& button2, ButtonType type2, float columnWidth = 100.0f);
 
+	bool Checkbox(const std::string& label, bool& value, float columnWidth = 100.0f);
+
+	
 	bool Button(const std::string& label, glm::vec2 size = { 0, 0 }, ButtonType type = ButtonType::Default);
+
 
 	void HeaderText(const std::string& text);
 	void BoldText(const std::string& text);
@@ -83,6 +87,41 @@ namespace Engine::ImGuiUtil {
 						if (Button("", "Remove Component", ImGuiUtil::ButtonType::Danger))
 							entity.RemoveComponent<T>();
 					}
+					ImGui::TreePop();
+				}
+
+			}
+			ImGui::PopID();
+		}
+	}
+
+	template<typename T, typename UIFunction>
+	static void DrawComponent(const std::string& name, Entity entity, UIFunction uiFunction, entt::registry* registryHandle, entt::entity entityHandle)
+	{
+		static const ImGuiTreeNodeFlags treeNodeFlags = ImGuiTreeNodeFlags_Framed
+			| ImGuiTreeNodeFlags_FramePadding
+			| ImGuiTreeNodeFlags_SpanAvailWidth
+			| ImGuiTreeNodeFlags_AllowItemOverlap;
+
+		if (entity.HasComponent<T>())
+		{
+			ImGui::PushID(name.c_str());
+			{
+				auto& component = entity.GetComponent<T>();
+				ImVec2 contentRegionAvailable = ImGui::GetContentRegionAvail();
+
+				ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(2, 2));
+
+				bool open = ImGui::TreeNodeEx((void*)typeid(T).hash_code(), treeNodeFlags, name.c_str());
+
+				ImGui::PopStyleVar();
+
+				if (open)
+				{
+					uiFunction(registryHandle, entityHandle);
+					ImGui::Dummy(ImVec2(0.0f, 2.0f));
+					if (Button("", "Remove Component", ImGuiUtil::ButtonType::Danger))
+						entity.RemoveComponent<T>();
 					ImGui::TreePop();
 				}
 

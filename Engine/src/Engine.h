@@ -52,6 +52,8 @@
 #include "Engine/Scene/ScriptableEntity.h"
 #include "Engine/Scene/Systems/Util.h"
 
+#include "Engine/Scene/SceneSerializer.h"
+
 // Physics
 #include "Engine/Physics/PhysicsAPI.h"
 #include "Engine/Physics/PhysicsMesh.h"

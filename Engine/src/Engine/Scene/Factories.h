@@ -7,4 +7,6 @@ namespace Engine::Factory {
 
 	entt::entity CreateEntity(entt::registry& registry, const std::string& name = std::string());
 
+	entt::entity CreateEntity(entt::registry& registry, const std::string& name, uint32_t id);
+
 }

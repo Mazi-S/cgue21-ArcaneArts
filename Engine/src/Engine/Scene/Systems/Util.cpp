@@ -10,7 +10,7 @@ namespace Engine::System::Util {
 	{
 		auto* parentComp = registry.try_get<Component::Core::ParentComponent>(entity);
 
-		if (parentComp == nullptr) return;
+		if (parentComp == nullptr || parentComp->Parent == entt::null) return;
 
 		auto& transformComp = registry.get<Component::Core::TransformComponent>(entity);
 
@@ -45,7 +45,7 @@ namespace Engine::System::Util {
 			transform = Util::Transform(*tc);
 
 		auto* pc = registry.try_get<Component::Core::ParentComponent>(entity);
-		if (pc != nullptr)
+		if (pc != nullptr && pc->Parent != entt::null)
 			transform = Transform(registry, pc->Parent) * transform;
 
 		return transform;

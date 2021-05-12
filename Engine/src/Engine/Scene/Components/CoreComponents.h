@@ -6,6 +6,23 @@
 
 namespace Engine::Component::Core {
 
+	struct Identifier
+	{
+		uint32_t ID;
+
+		Identifier(uint32_t id)
+			:ID(id) {}
+		Identifier(const Identifier&) = default;
+	};
+
+	struct Unserializable
+	{
+		uint16_t temp = 0; // todo: fix
+
+		Unserializable() = default;
+		Unserializable(const Unserializable&) = default;
+	};
+
 	struct TagComponent
 	{
 		std::string Tag;
@@ -34,7 +51,7 @@ namespace Engine::Component::Core {
 	{
 		entt::entity Parent;
 
-		ParentComponent(entt::entity parent) : Parent(parent) { }
+		ParentComponent(entt::entity parent = entt::null) : Parent(parent) { }
 		ParentComponent(const ParentComponent&) = default;
 	};
 

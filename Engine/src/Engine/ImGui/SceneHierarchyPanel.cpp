@@ -35,6 +35,27 @@ namespace Engine {
 			ImGui::EndMenuBar();
 		}
 
+		ImGuiUtil::HeaderText("Scene");
+		std::string mainCamera = m_Context->m_MainCamera != entt::null 
+			? m_Context->m_Registry.get<Component::Core::TagComponent>(m_Context->m_MainCamera).Tag 
+			: std::string();
+
+		std::vector<std::string> cameraNames;
+		std::map<std::string, Entity> cameras;
+
+		auto view = m_Context->m_Registry.view<Component::Renderer::CameraComponent, Component::Core::TagComponent>();
+		for (const entt::entity e : view)
+		{
+			auto& tagComp = view.get<Component::Core::TagComponent>(e);
+			cameraNames.push_back(tagComp.Tag);
+			cameras[tagComp.Tag] = Entity{ e, &m_Context->m_Registry };
+		}
+
+		if (ImGuiUtil::DrawComboControl("Main Camera", mainCamera, cameraNames))
+			m_Context->SetMainCamera(cameras[mainCamera]);
+
+
+		ImGui::Dummy({ 0,.5 });
 		ImGuiUtil::HeaderText("Scene Hierarchy");
 
 		m_Context->m_Registry.each(
@@ -82,8 +103,11 @@ namespace Engine {
 
 	void SceneHierarchyPanel::DrawEntity(Entity entity)
 	{
+		using Identifier			= Engine::Component::Core::Identifier;
+		using Unserializable		= Engine::Component::Core::Unserializable;
 		using TagComponent			= Engine::Component::Core::TagComponent;
 		using TransformComponent	= Engine::Component::Core::TransformComponent;
+		using ParentComponent		= Engine::Component::Core::ParentComponent;
 
 		using MeshComponent				= Engine::Component::Renderer::MeshComponent;
 		using MaterialComponent			= Engine::Component::Renderer::MaterialComponent;
@@ -98,6 +122,17 @@ namespace Engine {
 		using RigidDynamicComponent			= Engine::Component::Physics::RigidDynamicComponent;
 		using KinematicMovementComponent	= Engine::Component::Physics::KinematicMovementComponent;
 
+		ImGuiUtil::Text("ID", std::to_string(entity.GetID()));
+
+		bool serializable = !entity.HasComponent<Unserializable>();
+		if(ImGuiUtil::Checkbox("Serializable", serializable))
+		{
+			if (serializable)
+				entity.RemoveComponent<Unserializable>();
+			else
+				entity.AddComponent<Unserializable>();
+		}
+
 		if (entity.HasComponent<TagComponent>())
 		{
 			auto tag = entity.GetComponent<TagComponent>().Tag;
@@ -110,6 +145,8 @@ namespace Engine {
 
 		if (!entity.HasComponent<TransformComponent>())
 			components.push_back("Transform");
+		if (!entity.HasComponent<ParentComponent>())
+			components.push_back("Parent");
 		if (!entity.HasComponent<MeshComponent>())
 			components.push_back("Mesh");
 		if (!entity.HasComponent<MaterialComponent>())
@@ -129,6 +166,8 @@ namespace Engine {
 
 		if (components.size() > 0 && ImGuiUtil::DrawComboControl("Add Component", component, components))
 		{
+			if (component == "Parent")
+				entity.AddComponent<ParentComponent>();
 			if (component == "Transform")
 				entity.AddComponent<TransformComponent>();
 			if (component == "Mesh")
@@ -147,9 +186,34 @@ namespace Engine {
 				entity.AddComponent<StaticColliderComponent>();
 			if (component == "CharacterController")
 				entity.AddComponent<CharacterControllerComponent>();
+
 		}
 
 		ImGui::Separator();
+
+		// Parent Component
+		ImGuiUtil::DrawComponent<ParentComponent>("Parent", entity, [](entt::registry* registryHandle, entt::entity entityHandle)
+			{
+				Entity entity = {entityHandle, registryHandle};
+				Entity parent = entity.GetParent();
+				
+				auto view = registryHandle->view<Identifier, TagComponent>(entt::exclude<Component::Core::Unserializable>);
+				std::map<std::string, entt::entity> entities;
+				std::vector<std::string> names;
+				for (auto e : view)
+				{
+					auto& [id, tagComp] = view.get<Identifier, TagComponent>(e);
+					std::string name = tagComp.Tag + " (" + std::to_string(id.ID) + ")";
+					entities[name] = e;
+					names.push_back(name);
+				}
+
+				std::string parentName = parent ? parent.GetComponent<TagComponent>().Tag + " (" + std::to_string(parent.GetID()) + ")" : "none";
+				if (ImGuiUtil::DrawComboControl("Parent", parentName, names))
+					entity.GetComponent<ParentComponent>().Parent = entities[parentName];
+
+				ImGuiUtil::Text("Description", "Specifies if the entity has a parent entity.");
+			}, &m_Context->m_Registry, entity);
 
 		// Transform Component
 		ImGuiUtil::DrawComponent<TransformComponent>("Transform", entity, [](auto& component)
@@ -279,7 +343,7 @@ namespace Engine {
 					component.Rotation = glm::quat(euler);
 				ImGui::Dummy({ 0, .5 });
 				ImGuiUtil::Text("Description", "Specifies the movement of a kinematic actor.");
-			});
+		});
 
 
 		ImGui::Separator();

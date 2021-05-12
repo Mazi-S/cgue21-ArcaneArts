@@ -63,14 +63,15 @@ namespace Engine::Component::Renderer {
 	struct CameraComponent
 	{
 		glm::mat4 Projection = glm::mat4(1.0f);
+		float AspectRatio = 1.0f;
 
 		float FOV = glm::radians(45.0f);
 		float Near = 0.01f, Far = 1000.0f;
 
-		float AspectRatio = 1.0f;
-
 		CameraComponent() = default;
 		CameraComponent(const CameraComponent&) = default;
+		CameraComponent(float fov, float nearPlane, float farPlane)
+			: FOV(fov), Near(nearPlane), Far(farPlane) { }
 	};
 
 }

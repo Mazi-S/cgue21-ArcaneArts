@@ -23,13 +23,14 @@ namespace Engine {
 		friend class ScriptableEntity;
 		
 		friend class SceneHierarchyPanel;
+		friend class SceneSerializer;
 
 	public:
 		Scene();
 		~Scene();
 
 		// ECS
-		Entity CreateEntity(const std::string& name = std::string());
+		Entity CreateEntity(const std::string& name = std::string(), uint32_t id = 0);
 		void DestroyEntity(Entity entity);
 
 		void SetMainCamera(Entity entity);

@@ -10,7 +10,6 @@ namespace Engine::Component::Physics {
 	struct StaticColliderComponent
 	{
 		physx::PxRigidActor* Actor = nullptr;
-		physx::PxTriangleMesh* Mesh = nullptr;
 
 		StaticColliderComponent() = default;
 	};
@@ -21,8 +20,8 @@ namespace Engine::Component::Physics {
 
 		physx::PxController* Controller = nullptr;
 
-		float TranslationSpeed = 5.0f;
-		float RotationSpeed = 0.002f;
+		float TranslationSpeed;
+		float RotationSpeed;
 
 		float StandingHeight; // total height of the character (including radius)
 		float CrouchingHeight;
@@ -32,10 +31,11 @@ namespace Engine::Component::Physics {
 		float Jump = 0;
 		bool Crouching = false;
 
-		CharacterControllerComponent(float standingHeight = 2.0f, float crouchingHeight = 1.2f, float radius = 0.3f)
-			: StandingHeight(standingHeight), CrouchingHeight(crouchingHeight), Radius(radius) { }
+		CharacterControllerComponent(float standingHeight = 2.0f, float crouchingHeight = 1.2f, float radius = 0.3f, float translationSpeed = 5.0f, float rotationSpeed = 0.002f)
+			: StandingHeight(standingHeight), CrouchingHeight(crouchingHeight), Radius(radius), TranslationSpeed(translationSpeed), RotationSpeed(rotationSpeed) { }
 		CharacterControllerComponent(const CharacterControllerComponent&) = default;
 	};
+
 
 	struct RigidComponent
 	{

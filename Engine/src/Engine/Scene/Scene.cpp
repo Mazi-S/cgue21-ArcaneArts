@@ -39,9 +39,9 @@ namespace Engine {
 		delete m_PhysicsScene;
 	}
 
-	Entity Scene::CreateEntity(const std::string& name)
+	Entity Scene::CreateEntity(const std::string& name, uint32_t id)
 	{
-		entt::entity entity = Factory::CreateEntity(m_Registry, name);
+		entt::entity entity = Factory::CreateEntity(m_Registry, name, id);
 		return { entity, &m_Registry };
 	}
 

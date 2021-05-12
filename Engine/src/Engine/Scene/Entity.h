@@ -16,6 +16,10 @@ namespace Engine {
 
 		~Entity() = default;
 
+		const uint32_t GetID() const;
+
+		Entity GetParent();
+
 		template <typename T, typename... Args>
 		T& AddComponent(Args&&... args)
 		{
@@ -75,6 +79,7 @@ namespace Engine {
 
 		bool operator==(const Entity& other) const { return m_EntityHandle == other.m_EntityHandle; }
 		bool operator!=(const Entity& other) const { return !(*this == other); }
+		bool operator<(const Entity& other) const { return GetID() < other.GetID(); }
 
 		std::string ToString() const;
 

@@ -227,6 +227,20 @@ namespace Engine::ImGuiUtil {
 		return button1 | button2;
 	}
 
+	bool Checkbox(const std::string& label, bool& value, float columnWidth)
+	{
+		ImGui::PushID(label.c_str());
+		ImGui::Columns(2, 0, false);
+		ImGui::SetColumnWidth(0, columnWidth);
+		ImGui::Text(label.c_str());
+		ImGui::NextColumn();
+		ImGui::PushItemWidth(0);
+		bool update = ImGui::Checkbox("", &value);
+		ImGui::Columns(1);
+		ImGui::PopID();
+		return update;
+	}
+
 	bool Button(const std::string& label, glm::vec2 size, ButtonType type)
 	{
 		ImGui::PushID(label.c_str());

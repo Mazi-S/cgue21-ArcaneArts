@@ -8,6 +8,26 @@ namespace Engine {
 		: m_EntityHandle(handle), m_Registry(registry)
 	{ }
 
+	const uint32_t Entity::GetID() const
+	{
+		using Identifier = Engine::Component::Core::Identifier;
+
+		if (!HasComponent<Identifier>())
+			return 0;
+
+		return m_Registry->get<Identifier>(m_EntityHandle).ID;
+	}
+
+	Entity Entity::GetParent()
+	{
+		using ParentComponent = Engine::Component::Core::ParentComponent;
+
+		if(!HasComponent<ParentComponent>() || GetComponent<ParentComponent>().Parent == entt::null)
+			return Entity();
+
+		return {GetComponent<ParentComponent>().Parent, m_Registry};
+	}
+
 	std::string Entity::ToString() const
 	{
 		std::stringstream ss;
