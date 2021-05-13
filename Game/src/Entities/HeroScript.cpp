@@ -10,6 +10,7 @@
 using TransformComponent			= Engine::Component::Core::TransformComponent;
 using NativeScriptComponent			= Engine::Component::Core::NativeScriptComponent;
 using ParentComponent				= Engine::Component::Core::ParentComponent;
+using Unserializable				= Engine::Component::Core::Unserializable;
 
 using RigidDynamicComponent			= Engine::Component::Physics::RigidDynamicComponent;
 using KinematicMovementComponent	= Engine::Component::Physics::KinematicMovementComponent;
@@ -343,6 +344,7 @@ Engine::Entity HeroScript::CreateMagicBall(MagicBallType type, glm::vec3 offset)
 
 	ball.AddComponent<ParentComponent>(m_EntityHandle);
 	ball.AddComponent<MeshComponent>("Sphere");
+	ball.AddComponent<Unserializable>();
 
 	switch (type)
 	{

@@ -15,10 +15,14 @@
 
 #include <glm/glm.hpp>
 
+class ExampleLayer;
+
 namespace Engine {
 
 	class Scene
 	{
+		friend class ExampleLayer;
+
 		friend class Entity;
 		friend class ScriptableEntity;
 		
@@ -75,11 +79,13 @@ namespace Engine {
 		void RemoveRigidDynamicComponent(entt::registry& registry, entt::entity entity);
 
 		// Registry - Audio
-		void AddSound2DComponent(entt::registry& registry, entt::entity entity);
-		void RemoveSound2DComponent(entt::registry& registry, entt::entity entity);
+		void InitSound2DComponent(entt::registry& registry, entt::entity entity);
+		void UpdateSound2DComponent(entt::registry& registry, entt::entity entity);
+		void DestroySound2DComponent(entt::registry& registry, entt::entity entity);
 
-		void AddSound3DComponent(entt::registry& registry, entt::entity entity);
-		void RemoveSound3DComponent(entt::registry& registry, entt::entity entity);
+		void InitSound3DComponent(entt::registry& registry, entt::entity entity);
+		void UpdateSound3DComponent(entt::registry& registry, entt::entity entity);
+		void DestroySound3DComponent(entt::registry& registry, entt::entity entity);
 	private:
 		entt::registry m_Registry;
 		entt::entity m_MainCamera = entt::null;

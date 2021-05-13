@@ -11,9 +11,11 @@
 
 #include "Engine/Renderer/MaterialLibrary.h"
 #include "Engine/Renderer/MeshLibrary.h"
+#include "Engine/Audio/SoundLibrary.h"
 #include "Engine/Scene/Components.h"
 
 #include "Engine/Scene/Systems/Util.h"
+#include "Engine/Scene/SceneSerializer.h"
 
 namespace Engine {
 
@@ -78,8 +80,7 @@ namespace Engine {
 		{
 			if (ImGuiUtil::Button("Add Entity", glm::vec2{ -1, 0 }, ImGuiUtil::ButtonType::Success))
 			{
-				// TODO: implement...
-				LOG_WARN("Add entity not implemented!");
+				m_SelectionContext = m_Context->CreateEntity();
 			}
 		}
 
@@ -122,6 +123,10 @@ namespace Engine {
 		using RigidDynamicComponent			= Engine::Component::Physics::RigidDynamicComponent;
 		using KinematicMovementComponent	= Engine::Component::Physics::KinematicMovementComponent;
 
+		using Sound2DComponent		= Engine::Component::Audio::Sound2DComponent;
+		using Sound3DComponent		= Engine::Component::Audio::Sound3DComponent;
+		using ListenerComponent		= Engine::Component::Audio::ListenerComponent;
+
 		ImGuiUtil::Text("ID", std::to_string(entity.GetID()));
 
 		bool serializable = !entity.HasComponent<Unserializable>();
@@ -163,6 +168,12 @@ namespace Engine {
 			components.push_back("StaticCollider");
 		if (!entity.HasComponent<CharacterControllerComponent>())
 			components.push_back("CharacterController");
+		if (!entity.HasComponent<Sound2DComponent>())
+			components.push_back("Sound2D");
+		if (!entity.HasComponent<Sound3DComponent>())
+			components.push_back("Sound3D");
+		if (!entity.HasComponent<ListenerComponent>())
+			components.push_back("AudioListener");
 
 		if (components.size() > 0 && ImGuiUtil::DrawComboControl("Add Component", component, components))
 		{
@@ -186,7 +197,12 @@ namespace Engine {
 				entity.AddComponent<StaticColliderComponent>();
 			if (component == "CharacterController")
 				entity.AddComponent<CharacterControllerComponent>();
-
+			if (component == "Sound2D")
+				entity.AddComponent<Sound2DComponent>();
+			if (component == "Sound3D")
+				entity.AddComponent<Sound3DComponent>();
+			if (component == "AudioListener")
+				entity.AddComponent<ListenerComponent>();
 		}
 
 		ImGui::Separator();
@@ -220,7 +236,7 @@ namespace Engine {
 			{
 				glm::vec3 rotation = glm::degrees(component.Rotation);
 
-				ImGuiUtil::DrawFloat3Control("Translation", component.Translation, 0.01f);
+				ImGuiUtil::DrawFloat3Control("Translation", component.Translation, 0, 0, 0.001f);
 				if (ImGuiUtil::DrawFloat3Control("Rotation", rotation))
 					component.Rotation = glm::radians(rotation);
 				ImGuiUtil::DrawFloat3Control("Scale", component.Scale, 0.01f);
@@ -345,6 +361,79 @@ namespace Engine {
 				ImGuiUtil::Text("Description", "Specifies the movement of a kinematic actor.");
 		});
 
+		// Sound 2D
+		ImGuiUtil::DrawComponent<Sound2DComponent>("Sound [2D]", entity, [](Entity& entity)
+			{
+				Sound2DComponent& component = entity.GetComponent<Sound2DComponent>();
+
+				bool update = false;
+
+				int loop = component.Loop;
+				if (ImGuiUtil::DrawComboControl("Active", loop, { "false", "true" }))
+				{
+					component.Loop = loop;
+					update = true;
+				}
+
+				if (ImGuiUtil::DrawFloatControl("Volume", component.Volume, 0.0f, 1.0f, 0.001))
+				{
+					if (component.Sound != nullptr)
+						component.Sound->setVolume(component.Volume);
+				}
+
+
+				std::string soundSource = component.SoundSource;
+				if (ImGuiUtil::DrawComboControl("SoundSource", soundSource, SoundLibrary::GetNames()))
+				{
+					component.SoundSource = soundSource;
+					component.Volume = SoundLibrary::Get(soundSource)->GetVolume();
+					update = true;
+				}
+
+				if (update)
+					entity.Update<Sound2DComponent>();
+
+			}, entity);
+
+		// Sound 3D
+		ImGuiUtil::DrawComponent<Sound3DComponent>("Sound [3D]", entity, [](Entity& entity)
+			{
+				Sound3DComponent& component = entity.GetComponent<Sound3DComponent>();
+
+				bool update = false;
+
+				int loop = component.Loop;
+				if (ImGuiUtil::DrawComboControl("Active", loop, { "false", "true" }))
+				{
+					component.Loop = loop;
+					update = true;
+				}
+
+				if (ImGuiUtil::DrawFloatControl("Volume", component.Volume, 0.0f, 1.0f, 0.001))
+				{
+					if (component.Sound != nullptr)
+						component.Sound->setVolume(component.Volume);
+				}
+
+				std::string soundSource = component.SoundSource;
+				if (ImGuiUtil::DrawComboControl("SoundSource", soundSource, SoundLibrary::GetNames()))
+				{
+					component.SoundSource = soundSource;
+					component.Volume = SoundLibrary::Get(soundSource)->GetVolume();
+					update = true;
+				}
+
+				if (update)
+					entity.Update<Sound3DComponent>();
+
+			}, entity);
+
+		// Listener Component
+		ImGuiUtil::DrawComponent<ListenerComponent>("Audio Listener", entity, [](auto& component)
+			{
+				ImGuiUtil::Text("Description", "Specifies if the entity is the audio listener.");
+		});
+
 
 		ImGui::Separator();
 
@@ -357,8 +446,8 @@ namespace Engine {
 
 	void SceneHierarchyPanel::Save()
 	{
-		// TODO: implement...
-		LOG_WARN("void SceneHierarchyPanel::Save() not implemented!");
+		SceneSerializer sceneSerializer = SceneSerializer(m_Context);
+		sceneSerializer.Serialize("assets/scenes/Example.yaml");
 	}
 
 }

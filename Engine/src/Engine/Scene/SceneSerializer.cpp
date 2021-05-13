@@ -14,19 +14,23 @@ namespace Engine {
 
 	static void SerializeEntity(YAML::Emitter& out, Entity entity)
 	{
-		using TagComponent = Engine::Component::Core::TagComponent;
-		using TransformComponent = Engine::Component::Core::TransformComponent;
-		using ParentComponent = Engine::Component::Core::ParentComponent;
+		using TagComponent			= Engine::Component::Core::TagComponent;
+		using TransformComponent	= Engine::Component::Core::TransformComponent;
+		using ParentComponent		= Engine::Component::Core::ParentComponent;
 
-		using MeshComponent = Engine::Component::Renderer::MeshComponent;
-		using MaterialComponent = Engine::Component::Renderer::MaterialComponent;
-		using ShadowComponent = Engine::Component::Renderer::ShadowComponent;
-		using DirectionalLightComponent = Engine::Component::Renderer::DirectionalLightComponent;
-		using PointLightComponent = Engine::Component::Renderer::PointLightComponent;
-		using CameraComponent = Engine::Component::Renderer::CameraComponent;
+		using MeshComponent					= Engine::Component::Renderer::MeshComponent;
+		using MaterialComponent				= Engine::Component::Renderer::MaterialComponent;
+		using ShadowComponent				= Engine::Component::Renderer::ShadowComponent;
+		using DirectionalLightComponent		= Engine::Component::Renderer::DirectionalLightComponent;
+		using PointLightComponent			= Engine::Component::Renderer::PointLightComponent;
+		using CameraComponent				= Engine::Component::Renderer::CameraComponent;
 
-		using StaticColliderComponent = Engine::Component::Physics::StaticColliderComponent;
-		using CharacterControllerComponent = Engine::Component::Physics::CharacterControllerComponent;
+		using StaticColliderComponent		= Engine::Component::Physics::StaticColliderComponent;
+		using CharacterControllerComponent	= Engine::Component::Physics::CharacterControllerComponent;
+
+		using Sound2DComponent		= Engine::Component::Audio::Sound2DComponent;
+		using Sound3DComponent		= Engine::Component::Audio::Sound3DComponent;
+		using ListenerComponent		= Engine::Component::Audio::ListenerComponent;
 
 		out << YAML::BeginMap; // Entity
 
@@ -173,23 +177,66 @@ namespace Engine {
 			out << YAML::EndMap; // CharacterControllerComponent
 		}
 
+		// Sound 2D
+		if (entity.HasComponent<Sound2DComponent>())
+		{
+			out << YAML::Key << "Sound2DComponent";
+			out << YAML::BeginMap; // Sound2DComponent
+		
+			auto& sound2DComp = entity.GetComponent<Sound2DComponent>();
+		
+			out << YAML::Key << "SoundSource" << YAML::Value << sound2DComp.SoundSource;
+			out << YAML::Key << "Loop" << YAML::Value << sound2DComp.Loop;
+			out << YAML::Key << "Volume" << YAML::Value << sound2DComp.Volume;
+		
+			out << YAML::EndMap; // Sound2DComponent
+		}
+
+		// Sound 3D
+		if (entity.HasComponent<Sound3DComponent>())
+		{
+			out << YAML::Key << "Sound3DComponent";
+			out << YAML::BeginMap; // Sound3DComponent
+
+			auto& sound3DComp = entity.GetComponent<Sound3DComponent>();
+
+			out << YAML::Key << "SoundSource" << YAML::Value << sound3DComp.SoundSource;
+			out << YAML::Key << "Loop" << YAML::Value << sound3DComp.Loop;
+			out << YAML::Key << "Volume" << YAML::Value << sound3DComp.Volume;
+
+			out << YAML::EndMap; // Sound3DComponent
+		}
+
+		// Audio Listener
+		if (entity.HasComponent<ListenerComponent>())
+		{
+			out << YAML::Key << "ListenerComponent";
+			out << YAML::Flow;
+			out << YAML::BeginMap; // ListenerComponent
+			out << YAML::EndMap; // ListenerComponent
+		}
+
 		out << YAML::EndMap; // Entity
 	}
 
 	static void DeserializeEntity(Entity deserializedEntity, const YAML::Node& entityNode)
 	{
-		using TagComponent = Engine::Component::Core::TagComponent;
-		using TransformComponent = Engine::Component::Core::TransformComponent;
+		using TagComponent			= Engine::Component::Core::TagComponent;
+		using TransformComponent	= Engine::Component::Core::TransformComponent;
 
-		using MeshComponent = Engine::Component::Renderer::MeshComponent;
-		using MaterialComponent = Engine::Component::Renderer::MaterialComponent;
-		using ShadowComponent = Engine::Component::Renderer::ShadowComponent;
-		using DirectionalLightComponent = Engine::Component::Renderer::DirectionalLightComponent;
-		using PointLightComponent = Engine::Component::Renderer::PointLightComponent;
-		using CameraComponent = Engine::Component::Renderer::CameraComponent;
+		using MeshComponent					= Engine::Component::Renderer::MeshComponent;
+		using MaterialComponent				= Engine::Component::Renderer::MaterialComponent;
+		using ShadowComponent				= Engine::Component::Renderer::ShadowComponent;
+		using DirectionalLightComponent		= Engine::Component::Renderer::DirectionalLightComponent;
+		using PointLightComponent			= Engine::Component::Renderer::PointLightComponent;
+		using CameraComponent				= Engine::Component::Renderer::CameraComponent;
 
-		using StaticColliderComponent = Engine::Component::Physics::StaticColliderComponent;
-		using CharacterControllerComponent = Engine::Component::Physics::CharacterControllerComponent;
+		using StaticColliderComponent		= Engine::Component::Physics::StaticColliderComponent;
+		using CharacterControllerComponent	= Engine::Component::Physics::CharacterControllerComponent;
+
+		using Sound2DComponent				= Engine::Component::Audio::Sound2DComponent;
+		using Sound3DComponent				= Engine::Component::Audio::Sound3DComponent;
+		using ListenerComponent				= Engine::Component::Audio::ListenerComponent;
 
 		// Transform
 		if (entityNode["TransformComponent"])
@@ -243,7 +290,7 @@ namespace Engine {
 			deserializedEntity.AddComponent<PointLightComponent>(color, constant, linear, quadratic);
 		}
 
-		// Camera Light
+		// Camera
 		if (entityNode["CameraComponent"])
 		{
 			auto compNode = entityNode["CameraComponent"];
@@ -259,7 +306,7 @@ namespace Engine {
 			deserializedEntity.AddComponent<StaticColliderComponent>();
 		}
 
-		// Character Controller Light
+		// Character Controller
 		if (entityNode["CharacterControllerComponent"])
 		{
 			auto compNode = entityNode["CharacterControllerComponent"];
@@ -271,6 +318,36 @@ namespace Engine {
 			float rotationSpeed = compNode["RotationSpeed"].as<float>();
 
 			deserializedEntity.AddComponent<CharacterControllerComponent>(standingHeight, crouchingHeight, radius, translationSpeed, rotationSpeed);
+		}
+
+		// Sound 2D
+		if (entityNode["Sound2DComponent"])
+		{
+			auto compNode = entityNode["Sound2DComponent"];
+
+			std::string soundSource = compNode["SoundSource"].as<std::string>();
+			bool loop = compNode["Loop"].as<bool>();
+			float volume = compNode["Volume"].as<float>();
+
+			deserializedEntity.AddComponent<Sound2DComponent>(soundSource, loop, volume);
+		}
+
+		// Sound 3D
+		if (entityNode["Sound3DComponent"])
+		{
+			auto compNode = entityNode["Sound3DComponent"];
+
+			std::string soundSource = compNode["SoundSource"].as<std::string>();
+			bool loop = compNode["Loop"].as<bool>();
+			float volume = compNode["Volume"].as<float>();
+
+			deserializedEntity.AddComponent<Sound3DComponent>(soundSource, loop, volume);
+		}
+
+		// Listener
+		if (entityNode["ListenerComponent"])
+		{
+			deserializedEntity.AddComponent<ListenerComponent>();
 		}
 
 	}

@@ -26,9 +26,13 @@ namespace Engine::System::Audio {
 		auto view = registry.view<Sound3DComponent, TransformComponent>();
 		for (const entt::entity e : view)
 		{
-			auto& [soundComp, transformComp] = view.get<Sound3DComponent, TransformComponent>(e);
+			auto& soundComp = view.get<Sound3DComponent>(e);
 
-			soundComp.Sound->setPosition({ transformComp.Translation.x, transformComp.Translation.y, transformComp.Translation.z });
+			if (soundComp.Sound != nullptr)
+			{
+				glm::vec3 position = Util::Position(registry, e);
+				soundComp.Sound->setPosition({ position.x, position.y, position.z });
+			}
 		}
 	}
 

@@ -129,35 +129,63 @@ namespace Engine {
 	}
 
 
-	void Scene::AddSound2DComponent(entt::registry& registry, entt::entity entity)
+	void Scene::InitSound2DComponent(entt::registry& registry, entt::entity entity)
 	{
 		auto& sound2DComp = registry.get<Component::Audio::Sound2DComponent>(entity);
+
+		if (sound2DComp.SoundSource.empty())
+			return;
 
 		Ref<Audio::SoundSource> soundSource = SoundLibrary::Get(sound2DComp.SoundSource);
 		sound2DComp.Sound = soundSource->Play2D(sound2DComp.Loop, false, true);
+		sound2DComp.Sound->setVolume(sound2DComp.Volume);
 	}
 
-	void Scene::RemoveSound2DComponent(entt::registry& registry, entt::entity entity)
+	void Scene::UpdateSound2DComponent(entt::registry& registry, entt::entity entity)
+	{
+		DestroySound2DComponent(registry, entity);
+		InitSound2DComponent(registry, entity);
+	}
+
+	void Scene::DestroySound2DComponent(entt::registry& registry, entt::entity entity)
 	{
 		auto& sound2DComp = registry.get<Component::Audio::Sound2DComponent>(entity);
+
+		if (sound2DComp.Sound == nullptr)
+			return;
+
 		sound2DComp.Sound->stop();
 		sound2DComp.Sound->drop();
 		sound2DComp.Sound = nullptr;
 	}
 
-	void Scene::AddSound3DComponent(entt::registry& registry, entt::entity entity)
+	void Scene::InitSound3DComponent(entt::registry& registry, entt::entity entity)
 	{
 		auto& sound3DComp = registry.get<Component::Audio::Sound3DComponent>(entity);
+
+		if (sound3DComp.SoundSource.empty())
+			return;
 
 		Ref<Audio::SoundSource> soundSource = SoundLibrary::Get(sound3DComp.SoundSource);
 		glm::vec3 position = System::Util::Position(registry, entity);
 
 		sound3DComp.Sound = soundSource->Play3D(position, sound3DComp.Loop, false, true);
+		sound3DComp.Sound->setVolume(sound3DComp.Volume);
 	}
 
-	void Scene::RemoveSound3DComponent(entt::registry& registry, entt::entity entity)
+	void Scene::UpdateSound3DComponent(entt::registry& registry, entt::entity entity)
+	{
+		DestroySound3DComponent(registry, entity);
+		InitSound3DComponent(registry, entity);
+	}
+
+	void Scene::DestroySound3DComponent(entt::registry& registry, entt::entity entity)
 	{
 		auto& sound3DComp = registry.get<Component::Audio::Sound3DComponent>(entity);
+
+		if (sound3DComp.Sound == nullptr)
+			return;
+
 		sound3DComp.Sound->stop();
 		sound3DComp.Sound->drop();
 		sound3DComp.Sound = nullptr;
@@ -175,11 +203,13 @@ namespace Engine {
 
 
 		// Audio //////////////////////7//////////////////////////////////////////////////////////////////
-		m_Registry.on_construct<Component::Audio::Sound2DComponent>().connect<&Scene::AddSound2DComponent>(*this);
-		m_Registry.on_destroy<Component::Audio::Sound2DComponent>().connect<&Scene::RemoveSound2DComponent>(*this);
+		m_Registry.on_construct<Component::Audio::Sound2DComponent>().connect<&Scene::InitSound2DComponent>(*this);
+		m_Registry.on_update<Component::Audio::Sound2DComponent>().connect<&Scene::UpdateSound2DComponent>(*this);
+		m_Registry.on_destroy<Component::Audio::Sound2DComponent>().connect<&Scene::DestroySound2DComponent>(*this);
 
-		m_Registry.on_construct<Component::Audio::Sound3DComponent>().connect<&Scene::AddSound3DComponent>(*this);
-		m_Registry.on_destroy<Component::Audio::Sound3DComponent>().connect<&Scene::RemoveSound3DComponent>(*this);
+		m_Registry.on_construct<Component::Audio::Sound3DComponent>().connect<&Scene::InitSound3DComponent>(*this);
+		m_Registry.on_update<Component::Audio::Sound3DComponent>().connect<&Scene::UpdateSound3DComponent>(*this);
+		m_Registry.on_destroy<Component::Audio::Sound3DComponent>().connect<&Scene::DestroySound3DComponent>(*this);
 
 
 		// Physics components ////////////////////////////////////////////////////////////////////////////
