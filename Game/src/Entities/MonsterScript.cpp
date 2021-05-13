@@ -19,7 +19,7 @@ void MonsterScript::OnUpdate(Engine::Timestep ts)
 		if (monsterComp.DeathSound != nullptr)
 		{
 			auto& transformComp = GetComponent<TransformComponent>();
-			Engine::SoundEngine::Play3D(monsterComp.DeathSound, transformComp.Translation);
+			monsterComp.DeathSound->Play3D(transformComp.Translation);
 		}
 		Engine::Application::Get().OnEvent(MonsterDiedEvent());
 		Destroy();

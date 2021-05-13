@@ -27,11 +27,6 @@ namespace Engine {
 		Serialize(filepath);
 	}
 
-	void ShaderLibrary::Add(const Ref<OpenGL::GlShader>& shader)
-	{
-		s_Shaders[shader->GetName()] = shader;
-	}
-
 	Ref<OpenGL::GlShader> ShaderLibrary::Create(const std::string& name, const std::string& filepath)
 	{
 		auto shader = CreateRef<OpenGL::GlShader>(name, filepath);
@@ -70,6 +65,15 @@ namespace Engine {
 		s_Shaders[newName] = s_Shaders[oldName];
 		s_Shaders[newName]->m_Name = newName;
 		Remove(oldName);
+	}
+
+
+	void ShaderLibrary::Add(const Ref<OpenGL::GlShader>& shader)
+	{
+		if (shader == nullptr)
+			return;
+
+		s_Shaders[shader->GetName()] = shader;
 	}
 
 	// Serialization

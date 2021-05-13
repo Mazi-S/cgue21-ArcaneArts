@@ -7,11 +7,11 @@ namespace Engine::Component::Audio {
 	// 2D Sound
 	struct Sound2DComponent
 	{
-		irrklang::ISoundSource* SoundSource = nullptr;
+		std::string SoundSource;
 		irrklang::ISound* Sound = nullptr;
 		bool Loop;
 
-		Sound2DComponent(irrklang::ISoundSource* soundSource, bool loop = false)
+		Sound2DComponent(std::string soundSource, bool loop = false)
 			: SoundSource(soundSource), Loop(loop) {}
 
 		Sound2DComponent(const Sound2DComponent&) = default;
@@ -20,11 +20,11 @@ namespace Engine::Component::Audio {
 	// 3D Sound
 	struct Sound3DComponent
 	{
-		irrklang::ISoundSource* SoundSource = nullptr;
+		std::string SoundSource;
 		irrklang::ISound* Sound = nullptr;
 		bool Loop;
 
-		Sound3DComponent(irrklang::ISoundSource* soundSource, bool loop = false)
+		Sound3DComponent(std::string soundSource, bool loop = false)
 			: SoundSource(soundSource), Loop(loop) {}
 
 		Sound3DComponent(const Sound3DComponent&) = default;

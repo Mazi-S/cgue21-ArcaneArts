@@ -38,6 +38,7 @@
 // Audio
 #include "Engine/Audio/SoundEngine.h"
 #include "Engine/Audio/SoundLibrary.h"
+#include "Engine/Audio/SoundSource.h"
 
 // OpenGL
 #include "Platform/OpenGL/OpenGLAPI.h"

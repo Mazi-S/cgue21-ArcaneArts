@@ -17,6 +17,9 @@ namespace Engine {
 		static void SetListenerPosition(glm::vec3 position, glm::vec3 lookDirection);
 
 		static irrklang::ISoundEngine* Get() { return s_SoundEngine; }
+
+		static irrklang::ISoundSource* LoadSoundSource(const std::string& filepath);
+		static void RemoveSoundSource(irrklang::ISoundSource*);
 	private:
 		static irrklang::ISoundEngine* s_SoundEngine;
 	};

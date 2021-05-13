@@ -18,7 +18,7 @@
 #include "Engine/Renderer/MeshLibrary.h"
 
 // Audio
-#include "Engine/Audio/SoundEngine.h"
+#include "Engine/Audio/SoundLibrary.h"
 
 namespace Engine {
 
@@ -132,7 +132,9 @@ namespace Engine {
 	void Scene::AddSound2DComponent(entt::registry& registry, entt::entity entity)
 	{
 		auto& sound2DComp = registry.get<Component::Audio::Sound2DComponent>(entity);
-		sound2DComp.Sound = Engine::SoundEngine::Play2D(sound2DComp.SoundSource, sound2DComp.Loop, false, true);
+
+		Ref<Audio::SoundSource> soundSource = SoundLibrary::Get(sound2DComp.SoundSource);
+		sound2DComp.Sound = soundSource->Play2D(sound2DComp.Loop, false, true);
 	}
 
 	void Scene::RemoveSound2DComponent(entt::registry& registry, entt::entity entity)
@@ -140,12 +142,17 @@ namespace Engine {
 		auto& sound2DComp = registry.get<Component::Audio::Sound2DComponent>(entity);
 		sound2DComp.Sound->stop();
 		sound2DComp.Sound->drop();
+		sound2DComp.Sound = nullptr;
 	}
 
 	void Scene::AddSound3DComponent(entt::registry& registry, entt::entity entity)
 	{
-		auto& [sound3DComp, transformComp] = registry.get<Component::Audio::Sound3DComponent, Component::Core::TransformComponent>(entity);
-		sound3DComp.Sound = Engine::SoundEngine::Play3D(sound3DComp.SoundSource, transformComp.Translation, sound3DComp.Loop, false, true);
+		auto& sound3DComp = registry.get<Component::Audio::Sound3DComponent>(entity);
+
+		Ref<Audio::SoundSource> soundSource = SoundLibrary::Get(sound3DComp.SoundSource);
+		glm::vec3 position = System::Util::Position(registry, entity);
+
+		sound3DComp.Sound = soundSource->Play3D(position, sound3DComp.Loop, false, true);
 	}
 
 	void Scene::RemoveSound3DComponent(entt::registry& registry, entt::entity entity)
@@ -153,6 +160,7 @@ namespace Engine {
 		auto& sound3DComp = registry.get<Component::Audio::Sound3DComponent>(entity);
 		sound3DComp.Sound->stop();
 		sound3DComp.Sound->drop();
+		sound3DComp.Sound = nullptr;
 	}
 
 	void Scene::InitRegistry()

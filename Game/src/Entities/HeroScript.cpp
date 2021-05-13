@@ -392,7 +392,7 @@ Engine::Entity HeroScript::CreateMagicBall(MagicBallType type, glm::vec3 offset)
 
 	auto& magicBallComp = ball.GetComponent<MagicBallComponent>();
 	if (magicBallComp.CastSound != nullptr)
-		Engine::SoundEngine::Get()->play2D(magicBallComp.CastSound);
+		magicBallComp.CastSound->Play2D();
 
 	return ball;
 }
@@ -408,7 +408,7 @@ void HeroScript::Throw(Engine::Entity ball)
 	auto& heroComp = GetComponent<HeroComponent>();
 
 	if (magicBallComp.ThrowSound != nullptr)
-		Engine::SoundEngine::Get()->play2D(magicBallComp.ThrowSound);
+		magicBallComp.ThrowSound->Play2D();
 
 	glm::vec4 velocity = glm::toMat4(glm::quat(transformComp.Rotation)) * glm::vec4{ 0.0f, 0.0f, -28.0f, 0.0 };
 

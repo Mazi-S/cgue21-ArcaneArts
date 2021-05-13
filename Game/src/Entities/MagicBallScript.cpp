@@ -85,7 +85,8 @@ void MagicBallScript::OnUpdate(Engine::Timestep ts)
 		if (magicBallComp.ImpactSound != nullptr)
 		{
 			auto& transformComp = GetComponent<TransformComponent>();
-			Engine::SoundEngine::Play3D(magicBallComp.ImpactSound, transformComp.Translation);
+
+			magicBallComp.ImpactSound->Play3D(transformComp.Translation);
 		}
 
 		Destroy();

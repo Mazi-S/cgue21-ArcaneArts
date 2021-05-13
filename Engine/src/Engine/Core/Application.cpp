@@ -39,6 +39,7 @@ namespace Engine {
 		ShaderLibrary::Init();
 		MaterialLibrary::Init();
 		MeshLibrary::Init();
+		SoundLibrary::Init();
 
 		ShadowMap::Init();
 

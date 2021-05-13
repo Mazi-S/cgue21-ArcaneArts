@@ -1,0 +1,32 @@
+SoundLibrary: Untitled
+SoundSources:
+  - SoundSource: FireballCast
+    Path: assets/sounds/fireball-cast.wav
+    Volume: 0.300000012
+  - SoundSource: FireballShoot
+    Path: assets/sounds/fireball-shoot.wav
+    Volume: 0.100000001
+  - SoundSource: Forest
+    Path: assets/sounds/forest.wav
+    Volume: 0.100000001
+  - SoundSource: Impact
+    Path: assets/sounds/impact.wav
+    Volume: 0.400000006
+  - SoundSource: LightCast
+    Path: assets/sounds/light.wav
+    Volume: 0.400000006
+  - SoundSource: LightningShoot
+    Path: assets/sounds/lightning-shoot.wav
+    Volume: 0.0500000007
+  - SoundSource: Monster
+    Path: assets/sounds/monster.wav
+    Volume: 0.400000006
+  - SoundSource: MonsterDying
+    Path: assets/sounds/monster-dying.wav
+    Volume: 1
+  - SoundSource: Thunder
+    Path: assets/sounds/thunder.wav
+    Volume: 1
+  - SoundSource: Walk
+    Path: assets/sounds/walk.wav
+    Volume: 1
