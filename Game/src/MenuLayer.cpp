@@ -51,9 +51,6 @@ void MenuLayer::OnUpdate(Engine::Timestep ts)
 
 void MenuLayer::OnEvent(Engine::Event& event)
 {
-	if (m_Menu && event.IsInCategory(Engine::EventCategory::Input))
-		event.Handled = true;
-
 	Engine::EventHandler eventHandler(event);
 	eventHandler.Handle<Engine::KeyPressedEvent>(EG_BIND_EVENT_FN(MenuLayer::OnKeyPressed));
 	eventHandler.Handle<Engine::WindowResizeEvent>(EG_BIND_EVENT_FN(MenuLayer::OnWindowResize));
@@ -80,7 +77,7 @@ bool MenuLayer::OnKeyPressed(Engine::KeyPressedEvent& event)
 		Engine::Application::Get().GetWindow().ToggleFullscreen();
 	}
 
-	return m_Menu;
+	return false;
 }
 
 bool MenuLayer::OnWindowResize(Engine::WindowResizeEvent& event)
@@ -102,8 +99,8 @@ void MenuLayer::ShowMenu()
 
 	float x = Engine::Application::Get().GetWindow().GetWidth() / 2;
 	float y = Engine::Application::Get().GetWindow().GetHeight() / 2;
-	Engine::Application::Get().GetWindow().SetCursorPosition(x, y);
 	Engine::Application::Get().GetWindow().ShowCursor();
+	Engine::Application::Get().GetWindow().SetCursorPosition(x, y);
 
 }
 

@@ -32,6 +32,12 @@ namespace Engine {
 		System::Camera::SetViewportSize(registry, entity, m_ViewportWidth, m_ViewportHeight);
 	}
 
+	void Engine::Scene::DestroyCameraComponent(entt::registry& registry, entt::entity entity)
+	{
+		if (m_MainCamera == entity)
+			m_MainCamera = entt::null;
+	}
+
 	void Scene::InitStaticCollider(entt::registry& registry, entt::entity entity)
 	{
 		auto [transformComp, meshComp, staticColliderComp] = registry.try_get<Component::Core::TransformComponent, Component::Renderer::MeshComponent, Component::Physics::StaticColliderComponent>(entity);
@@ -200,6 +206,7 @@ namespace Engine {
 
 		// Renderer components ///////////////////////////////////////////////////////////////////////////
 		m_Registry.on_construct<Component::Renderer::CameraComponent>().connect<&Scene::InitCameraComponent>(*this);
+		m_Registry.on_destroy<Component::Renderer::CameraComponent>().connect<&Scene::DestroyCameraComponent>(*this);
 
 
 		// Audio //////////////////////7//////////////////////////////////////////////////////////////////

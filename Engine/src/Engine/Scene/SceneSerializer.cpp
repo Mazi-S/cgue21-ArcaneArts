@@ -369,6 +369,8 @@ namespace Engine {
 			out << YAML::Key << "MainCamera" << YAML::Value << mainCamera.GetID();
 		}
 
+		out << YAML::Key << "Spectator" << YAML::Value << m_Scene->m_SpectatorActive;
+
 		out << YAML::Key << "Entities" << YAML::BeginSeq;
 
 		m_Scene->m_Registry.each([&](auto entityID)
@@ -394,6 +396,12 @@ namespace Engine {
 		YAML::Node data = YAML::LoadFile(filepath);
 
 		ASSERT(data["Scene"], "No Scene node!");
+
+		if (data["Spectator"])
+		{
+			bool spectator = data["Spectator"].as<bool>();
+			m_Scene->m_SpectatorActive = spectator;
+		}
 
 		if (data["Entities"])
 		{

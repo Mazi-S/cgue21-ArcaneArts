@@ -1,0 +1,63 @@
+Scene: Untitled
+Spectator: true
+Entities:
+  - Entity: 3035369592
+    TagComponent:
+      Tag: Point Light
+    TransformComponent:
+      Translation: [1.91999996, 0.409999996, 0]
+      Rotation: [0, 0.357792497, 0]
+      Scale: [0.0500000007, 0.0500000007, 0.0500000007]
+    MeshComponent:
+      Mesh: Sphere
+    MaterialComponent:
+      Material: MagicBall_Light
+    PointLightComponent:
+      Color: [0.800000012, 0.800000012, 0.800000012]
+      Constant: 1
+      Linear: 0.400000006
+      Quadratic: 0.100000001
+  - Entity: 4103491812
+    TagComponent:
+      Tag: Cube
+    TransformComponent:
+      Translation: [-0.280000001, 1.19000006, 0]
+      Rotation: [0.0541052036, 0, 0]
+      Scale: [0.5, 0.5, 0.5]
+    MeshComponent:
+      Mesh: Cube
+    MaterialComponent:
+      Material: RockMaterial
+    ShadowComponent: {}
+  - Entity: 987618112
+    TagComponent:
+      Tag: Directional Light
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0.0314159244, 0]
+      Scale: [1, 1, 1]
+    DirectionalLightComponent:
+      Direction: [5.4000001, -24.7999992, 6.5999999]
+      Color: [0.800000012, 0.800000012, 0.800000012]
+  - Entity: 1495811460
+    TagComponent:
+      Tag: Camera
+    TransformComponent:
+      Translation: [-0.239999995, 0.920000017, 4.44999981]
+      Rotation: [-0.0994837657, 0.0366519131, 0]
+      Scale: [1, 1, 1]
+    CameraComponent:
+      FOV: 0.785398185
+      Near: 0.00999999978
+      Far: 1000
+  - Entity: 4024678244
+    TagComponent:
+      Tag: Terrain
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Terrain
+    MaterialComponent:
+      Material: TerrainMaterial

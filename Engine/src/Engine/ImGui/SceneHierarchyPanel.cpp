@@ -52,24 +52,31 @@ namespace Engine {
 		}
 
 		ImGuiUtil::HeaderText("Scene");
-		std::string mainCamera = m_Context->m_MainCamera != entt::null 
-			? m_Context->m_Registry.get<Component::Core::TagComponent>(m_Context->m_MainCamera).Tag 
-			: std::string();
+		std::string mainCamera = "none";
+
+		if (m_Context->m_MainCamera != entt::null)
+		{
+			Entity mcEntity = { m_Context->m_MainCamera, &m_Context->m_Registry };
+			mainCamera = mcEntity.GetComponent<Component::Core::TagComponent>().Tag + " (" + std::to_string(mcEntity.GetComponent<Component::Core::Identifier>().ID) + ")";
+		}
 
 		std::vector<std::string> cameraNames;
 		std::map<std::string, Entity> cameras;
 
-		auto view = m_Context->m_Registry.view<Component::Renderer::CameraComponent, Component::Core::TagComponent>();
+		auto view = m_Context->m_Registry.view<Component::Renderer::CameraComponent, Component::Core::TagComponent, Component::Core::Identifier>();
 		for (const entt::entity e : view)
 		{
-			auto& tagComp = view.get<Component::Core::TagComponent>(e);
-			cameraNames.push_back(tagComp.Tag);
-			cameras[tagComp.Tag] = Entity{ e, &m_Context->m_Registry };
+			auto& [tagComp, id] = view.get<Component::Core::TagComponent, Component::Core::Identifier>(e);
+
+			std::string name = tagComp.Tag + " (" + std::to_string(id.ID) + ")";
+			cameraNames.push_back(name);
+			cameras[name] = Entity{ e, &m_Context->m_Registry };
 		}
 
 		if (ImGuiUtil::DrawComboControl("Main Camera", mainCamera, cameraNames))
 			m_Context->SetMainCamera(cameras[mainCamera]);
 
+		ImGuiUtil::Checkbox("Use Spectator", m_Context->m_SpectatorActive);
 
 		ImGui::Dummy({ 0,.5 });
 		ImGuiUtil::HeaderText("Scene Hierarchy");
@@ -95,6 +102,9 @@ namespace Engine {
 			if (ImGuiUtil::Button("Add Entity", glm::vec2{ -1, 0 }, ImGuiUtil::ButtonType::Success))
 			{
 				m_SelectionContext = m_Context->CreateEntity();
+
+				if(m_Context->m_SpectatorActive)
+					m_SelectionContext.GetComponent<Engine::Component::Core::TransformComponent>().Translation = m_Context->m_Spectator.GetPosition();
 			}
 		}
 
@@ -253,7 +263,7 @@ namespace Engine {
 				ImGuiUtil::DrawFloat3Control("Translation", component.Translation, 0, 0, 0.001f);
 				if (ImGuiUtil::DrawFloat3Control("Rotation", rotation))
 					component.Rotation = glm::radians(rotation);
-				ImGuiUtil::DrawFloat3Control("Scale", component.Scale, 0.01f);
+				ImGuiUtil::DrawFloat3Control("Scale", component.Scale, 0, 0, 0.001f);
 		});
 
 		// Material Component

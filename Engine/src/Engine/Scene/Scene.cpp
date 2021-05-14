@@ -26,6 +26,7 @@ namespace Engine {
 	{
 		m_ViewportWidth = Application::Get().GetWindow().GetWidth();
 		m_ViewportHeight = Application::Get().GetWindow().GetHeight();
+		m_Spectator.SetViewportSize(m_ViewportWidth, m_ViewportHeight);
 
 		m_PhysicsScene = new Physics::PsScene();
 		m_PhysicsScene->SetEventCallback(std::bind(&Application::OnEvent, &Application::Get(), std::placeholders::_1));
@@ -68,6 +69,9 @@ namespace Engine {
 	void Scene::OnUpdate(Timestep ts)
 	{
 		// Update
+		if (m_SpectatorActive)
+			m_Spectator.OnUpdate(ts);
+
 		System::Physics::OnUpdateKinematic(m_Registry, ts);
 		System::CharacterController::OnUpdate(m_Registry, ts);
 		System::Audio::OnUpdate(m_Registry);
@@ -88,7 +92,8 @@ namespace Engine {
 	void Scene::OnRender()
 	{
 		// Render materials
-		Camera camera = m_MainCamera != entt::null ? System::Camera::GetCamera(m_Registry, m_MainCamera) : System::Camera::GetCamera(m_Registry);
+		Camera camera = GetCamera();
+
 		DirectionalLight dLight = System::Light::GetDirectionalLight(m_Registry);
 		std::vector<PointLight> pLights = System::Light::GetPointLights(m_Registry);
 		PointLight pLight = pLights.size() >= 1 ? pLights[0] : PointLight();
@@ -104,11 +109,13 @@ namespace Engine {
 
 	void Scene::OnEvent(Event& event)
 	{
+		if(m_SpectatorActive)
+			m_Spectator.OnEvent(event);
+
 		EventHandler eventHandler(event);
 		eventHandler.Handle<WindowResizeEvent>(EG_BIND_EVENT_FN(Scene::OnWindowResize));
 		eventHandler.Handle<KeyPressedEvent>(EG_BIND_EVENT_FN(Scene::OnKeyPressed));
 		eventHandler.Handle<CollisionEvent>(EG_BIND_EVENT_FN(Scene::OnCollision));
-
 
 		m_Registry.view<Component::Core::NativeScriptComponent>().each([&](auto entity, auto& nsc) { if (nsc.Active) nsc.Instance->OnEvent(event); });
 	}
@@ -139,6 +146,7 @@ namespace Engine {
 
 		// Resize camera components
 		System::Camera::SetViewportSize(m_Registry, width, height);
+		m_Spectator.SetViewportSize(width, height);
 	}
 
 	std::pair<uint32_t, uint32_t> Scene::GetVieportSize()
@@ -148,8 +156,10 @@ namespace Engine {
 
 	Camera Scene::GetCamera()
 	{
-		Camera camera = m_MainCamera != entt::null ? System::Camera::GetCamera(m_Registry, m_MainCamera) : System::Camera::GetCamera(m_Registry);
-		return camera;
+		if (m_SpectatorActive)
+			return m_Spectator.GetCamera();
+
+		return m_MainCamera != entt::null ? System::Camera::GetCamera(m_Registry, m_MainCamera) : System::Camera::GetCamera(m_Registry);
 	}
 
 }

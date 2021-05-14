@@ -1,5 +1,6 @@
 Scene: Untitled
 MainCamera: 1875099485
+Spectator: false
 Entities:
   - Entity: 0
     TagComponent:
@@ -59,8 +60,8 @@ Entities:
       Parent: 2998066991
     TransformComponent:
       Translation: [-0.209999993, 0.779999971, -0.349999994]
-      Rotation: [-1.60570288, 2.1186552, -1.5760324]
-      Scale: [-1, -1, -1]
+      Rotation: [-4.05963612, 2.1186552, -1.5760324]
+      Scale: [-1.02999997, -1, -1]
     MeshComponent:
       Mesh: Hand
     MaterialComponent:

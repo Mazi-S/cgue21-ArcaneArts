@@ -1,19 +1,20 @@
 #pragma once
 
-#include "entt.hpp"
+#include <entt.hpp>
+#include <glm/glm.hpp>
 
 #include "Engine/Core/Timestep.h"
+#include "Engine/Core/Application.h"
 #include "Engine/Events/Event.h"
 #include "Engine/Events/KeyEvent.h"
 #include "Engine/Events/PhysicsEvent.h"
-#include "Engine/Core/Application.h"
 #include "Engine/Renderer/Camera.h"
 
 #include "Engine/Physics/PhysicsAPI.h"
 #include "Engine/Physics/PhysicsScene.h"
 #include "Engine/Renderer/Camera.h"
 
-#include <glm/glm.hpp>
+#include "Spectator.h"
 
 class ExampleLayer;
 
@@ -67,6 +68,7 @@ namespace Engine {
 		
 		// Registry - Renderer
 		void InitCameraComponent(entt::registry& registry, entt::entity entity);
+		void DestroyCameraComponent(entt::registry& registry, entt::entity entity);
 
 		// Registry - PhysX
 		void InitStaticCollider(entt::registry& registry, entt::entity entity);
@@ -91,6 +93,7 @@ namespace Engine {
 		void InitSound3DComponent(entt::registry& registry, entt::entity entity);
 		void UpdateSound3DComponent(entt::registry& registry, entt::entity entity);
 		void DestroySound3DComponent(entt::registry& registry, entt::entity entity);
+
 	private:
 		entt::registry m_Registry;
 		entt::entity m_MainCamera = entt::null;
@@ -100,6 +103,10 @@ namespace Engine {
 		uint32_t m_ViewportWidth, m_ViewportHeight;
 
 		bool m_SceneFocused = true, m_SceneHovered = true;
+
+		// Spectator
+		bool m_SpectatorActive = false;
+		Spectator m_Spectator;
 	};
 
 }

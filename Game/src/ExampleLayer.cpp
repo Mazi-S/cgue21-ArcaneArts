@@ -53,7 +53,7 @@ void ExampleLayer::OnAttach()
 	srand(420);
 
 	// Monster
-	if (true) {
+	if (false) {
 		// Big Monsters
 		for (size_t i = 0; i < 2; i++)
 		{
