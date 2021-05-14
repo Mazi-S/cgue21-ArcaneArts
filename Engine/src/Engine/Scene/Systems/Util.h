@@ -16,6 +16,4 @@ namespace Engine::System::Util {
 	glm::vec3 Position(entt::registry& registry, entt::entity entity);
 
 	void RecalculateProjection(Component::Renderer::CameraComponent& cc);
-	void Activate(Component::Physics::CharacterControllerComponent& ccc);
-	void Deactivate(Component::Physics::CharacterControllerComponent& ccc);
 }

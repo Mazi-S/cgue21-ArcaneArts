@@ -55,6 +55,16 @@ namespace Engine {
 		m_MainCamera = entity.m_EntityHandle;
 	}
 
+	void Scene::OnPause()
+	{
+		m_Registry.view<Component::Physics::CharacterControllerComponent>().each([=](auto entity, auto& component) { component.Active = false; });
+	}
+
+	void Scene::OnResume()
+	{
+		m_Registry.view<Component::Physics::CharacterControllerComponent>().each([=](auto entity, auto& component) { component.Active = true; });
+	}
+
 	void Scene::OnUpdate(Timestep ts)
 	{
 		// Update

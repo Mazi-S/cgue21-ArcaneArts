@@ -48,7 +48,7 @@ namespace Engine {
 		SetDarkThemeColors();
 
 		Window* window = &Application::Get().GetWindow();
-		GLFWwindow* glfwWindow = static_cast<WindowImpl*>(window)->GetNativeWindow();
+		GLFWwindow* glfwWindow = static_cast<GLFWwindow*>(window->GetNativeWindow());
 
 		// Setup Platform/Renderer bindings
 		ImGui_ImplGlfw_InitForOpenGL(glfwWindow, true);

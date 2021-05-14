@@ -16,7 +16,7 @@ namespace Engine::Component::Physics {
 
 	struct CharacterControllerComponent
 	{
-		bool Active = false;
+		bool Active;
 
 		physx::PxController* Controller = nullptr;
 
@@ -31,8 +31,8 @@ namespace Engine::Component::Physics {
 		float Jump = 0;
 		bool Crouching = false;
 
-		CharacterControllerComponent(float standingHeight = 2.0f, float crouchingHeight = 1.2f, float radius = 0.3f, float translationSpeed = 5.0f, float rotationSpeed = 0.002f)
-			: StandingHeight(standingHeight), CrouchingHeight(crouchingHeight), Radius(radius), TranslationSpeed(translationSpeed), RotationSpeed(rotationSpeed) { }
+		CharacterControllerComponent(float standingHeight = 2.0f, float crouchingHeight = 1.2f, float radius = 0.3f, float translationSpeed = 5.0f, float rotationSpeed = 0.002f, bool active = false)
+			: StandingHeight(standingHeight), CrouchingHeight(crouchingHeight), Radius(radius), TranslationSpeed(translationSpeed), RotationSpeed(rotationSpeed), Active(active) { }
 		CharacterControllerComponent(const CharacterControllerComponent&) = default;
 	};
 

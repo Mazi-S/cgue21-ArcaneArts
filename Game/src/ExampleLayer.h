@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine.h"
 #include "Events/GameEnd.h"
+#include "Events/MenuEvent.h"
 
 class ExampleLayer : public Engine::Layer {
 public:
@@ -15,16 +16,12 @@ public:
 
 	virtual void OnEvent(Engine::Event& event) override;
 
-	bool OnKeyPressed(Engine::KeyPressedEvent& event);
 	bool OnGameEnd(GameEndEvent& event);
+	bool OnMenu(MenuEvent& event);
 
 private:
 	Engine::Ref<Engine::Scene> m_Scene;
 	Engine::Ref<Engine::Skybox> m_Skybox;
-
-	Engine::Entity m_Hero;
-
-	bool m_Menu = false;
 
 	Engine::Ref<Engine::ParticleSystem> m_ParticleSystem;
 
@@ -34,4 +31,8 @@ private:
 	Engine::Scope<Engine::Texture2DPanel> m_TexturePanel;
 	Engine::Scope<Engine::MeshPanel> m_MeshPanel;
 	Engine::Scope<Engine::SceneHierarchyPanel> m_SceneHierarchyPanel;
+
+	void SaveScene();
+	void OpenScene();
+	void NewScene();
 };

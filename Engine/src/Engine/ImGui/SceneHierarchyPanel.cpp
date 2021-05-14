@@ -12,16 +12,22 @@
 #include "Engine/Renderer/MaterialLibrary.h"
 #include "Engine/Renderer/MeshLibrary.h"
 #include "Engine/Audio/SoundLibrary.h"
+
 #include "Engine/Scene/Components.h"
 
 #include "Engine/Scene/Systems/Util.h"
-#include "Engine/Scene/SceneSerializer.h"
 
 namespace Engine {
 
-	SceneHierarchyPanel::SceneHierarchyPanel(const Ref<Scene>& context)
-		: m_Context(context)
+	SceneHierarchyPanel::SceneHierarchyPanel(CallbackFn newCallback, CallbackFn openCallback, CallbackFn saveCallback)
+		: m_NewCallback(newCallback), m_OpenCallback(openCallback), m_SaveCallback(saveCallback)
 	{ }
+
+	void SceneHierarchyPanel::SetContext(const Ref<Scene>& context)
+	{
+		m_Context = context;
+		m_SelectionContext = Entity();
+	}
 
 	void SceneHierarchyPanel::OnImGui()
 	{
@@ -31,10 +37,18 @@ namespace Engine {
 		{
 			if (ImGui::BeginMenu("File"))
 			{
-				if (ImGui::MenuItem("Save")) { Save(); }
+				if (ImGui::MenuItem("New")) { m_NewCallback(); }
+				if (ImGui::MenuItem("Open...")) { m_OpenCallback(); }
+				if (ImGui::MenuItem("Save...")) { m_SaveCallback(); }
 				ImGui::EndMenu();
 			}
 			ImGui::EndMenuBar();
+		}
+
+		if (m_Context == nullptr)
+		{
+			ImGui::End();
+			return;
 		}
 
 		ImGuiUtil::HeaderText("Scene");
@@ -442,12 +456,6 @@ namespace Engine {
 			entity.Destroy();
 			m_SelectionContext = Entity();
 		}
-	}
-
-	void SceneHierarchyPanel::Save()
-	{
-		SceneSerializer sceneSerializer = SceneSerializer(m_Context);
-		sceneSerializer.Serialize("assets/scenes/Example.yaml");
 	}
 
 }

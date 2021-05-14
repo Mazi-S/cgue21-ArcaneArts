@@ -6,10 +6,15 @@
 
 namespace Engine {
 
-	class SceneHierarchyPanel {
+	class SceneHierarchyPanel
+	{
+		using CallbackFn = std::function<void()>;
+
 	public:
-		SceneHierarchyPanel(const Ref<Scene>& context);
+		SceneHierarchyPanel(CallbackFn newCallback, CallbackFn openCallback, CallbackFn saveCallback);
 		~SceneHierarchyPanel() = default;
+
+		void SetContext(const Ref<Scene>& context);
 
 		void OnImGui();
 
@@ -17,7 +22,10 @@ namespace Engine {
 		void DrawEntityNode(Entity entity);
 		void DrawEntity(Entity entity);
 
-		void Save();
+		// Callback Functions
+		CallbackFn m_NewCallback;
+		CallbackFn m_OpenCallback;
+		CallbackFn m_SaveCallback;
 
 	private:
 		bool m_Active = true;

@@ -16,7 +16,7 @@ Entities:
       Tag: Hero
     TransformComponent:
       Translation: [-11.1841259, 1.45860171, 27.2061024]
-      Rotation: [0.19600001, -8.6779995, 0]
+      Rotation: [0.100000255, -14.4138832, 0]
       Scale: [1, 1, 1]
     CharacterControllerComponent:
       Active: false

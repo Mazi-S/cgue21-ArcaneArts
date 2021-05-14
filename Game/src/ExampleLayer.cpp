@@ -1,3 +1,4 @@
+
 #include "ExampleLayer.h"
 
 #include <Engine/Events/KeyEvent.h>
@@ -15,6 +16,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include "imgui/imgui.h"
 
+#include "Engine/Util/FileDialog.h"
+
 ExampleLayer::ExampleLayer()
 	: Layer("Example")
 { }
@@ -28,17 +31,20 @@ void ExampleLayer::OnAttach()
 	m_Scene = Engine::CreateRef<Engine::Scene>();
 
 	Engine::SceneSerializer sceneSerializer = Engine::SceneSerializer(m_Scene);
-	sceneSerializer.Deserialize("assets/scenes/Example.yaml");
+	sceneSerializer.Deserialize("assets/scenes/Example.scene");
 
 	// Hero
 	{
 		auto view = m_Scene->m_Registry.view<Engine::Component::Physics::CharacterControllerComponent>();
-		m_Hero = Engine::Entity{ *view.begin(), &m_Scene->m_Registry };
-	
+		auto m_Hero = Engine::Entity{ *view.begin(), &m_Scene->m_Registry };
+		
 		m_Hero.AddComponent<HeroComponent>();
 		m_Hero.AddNativeScript<HeroScript>();
-		Engine::System::Util::Activate(m_Hero.GetComponent<Engine::Component::Physics::CharacterControllerComponent>());
 	}
+
+	m_Scene->OnResume();
+
+	Engine::Application::Get().GetWindow().HideCursor();
 
 	// Skybox
 	m_Skybox = Engine::CreateRef<Engine::Skybox>();
@@ -66,6 +72,7 @@ void ExampleLayer::OnAttach()
 			entity.AddComponent<Engine::Component::Physics::RigidDynamicComponent>(actor);
 			entity.AddComponent<MonsterComponent>(Engine::SoundLibrary::Get("Monster"), Engine::SoundLibrary::Get("MonsterDying"));
 			entity.AddNativeScript<MonsterScript>();
+			entity.AddComponent<Engine::Component::Core::Unserializable>();
 		}
 		// Small Monsters
 		for (size_t i = 0; i < 4; i++)
@@ -85,6 +92,7 @@ void ExampleLayer::OnAttach()
 			entity.AddComponent<Engine::Component::Physics::RigidDynamicComponent>(actor);
 			entity.AddComponent<MonsterComponent>(Engine::SoundLibrary::Get("Monster"), Engine::SoundLibrary::Get("MonsterDying"), 35.0f, 10.0f, 4.5f, 30.0f, 2.5f);
 			entity.AddNativeScript<MonsterScript>();
+			entity.AddComponent<Engine::Component::Core::Unserializable>();
 		}
 	}
 
@@ -98,7 +106,9 @@ void ExampleLayer::OnAttach()
 	m_ShaderPanel = Engine::CreateScope<Engine::ShaderPanel>();
 	m_TexturePanel = Engine::CreateScope<Engine::Texture2DPanel>();
 	m_MeshPanel = Engine::CreateScope<Engine::MeshPanel>();
-	m_SceneHierarchyPanel = Engine::CreateScope<Engine::SceneHierarchyPanel>(m_Scene);
+	m_SceneHierarchyPanel = Engine::CreateScope<Engine::SceneHierarchyPanel>(std::bind(&ExampleLayer::NewScene, this), std::bind(&ExampleLayer::OpenScene, this), std::bind(&ExampleLayer::SaveScene, this));
+
+	m_SceneHierarchyPanel->SetContext(m_Scene);
 }
 
 void ExampleLayer::OnDetach()
@@ -132,32 +142,55 @@ void ExampleLayer::OnEvent(Engine::Event& event)
 	m_Scene->OnEvent(event);
 
 	Engine::EventHandler eventHandler(event);
-	eventHandler.Handle<Engine::KeyPressedEvent>(EG_BIND_EVENT_FN(ExampleLayer::OnKeyPressed));
 	eventHandler.HandleGameEvent<GameEndEvent>(EG_BIND_EVENT_FN(ExampleLayer::OnGameEnd));
-}
-
-bool ExampleLayer::OnKeyPressed(Engine::KeyPressedEvent& event)
-{
-	if (event.GetKeyCode() == Engine::Key::Escape)
-	{
-		if (m_Menu)
-		{
-			Engine::System::Util::Activate(m_Hero.GetComponent<Engine::Component::Physics::CharacterControllerComponent>());
-			m_Menu = false;
-		}
-		else
-		{
-			Engine::System::Util::Deactivate(m_Hero.GetComponent<Engine::Component::Physics::CharacterControllerComponent>());
-			m_Menu = true;
-		}
-	}
-	return false;
+	eventHandler.HandleGameEvent<MenuEvent>(EG_BIND_EVENT_FN(ExampleLayer::OnMenu));
 }
 
 bool ExampleLayer::OnGameEnd(GameEndEvent& event)
 {
 	Engine::Application::Get().Remove(this);
 	return false;
+}
+
+bool ExampleLayer::OnMenu(MenuEvent& event)
+{
+	if (event.Open())
+		m_Scene->OnPause();
+	else
+		m_Scene->OnResume();
+
+	return false;
+}
+
+void ExampleLayer::SaveScene()
+{
+	std::string filepath = Engine::FileDialog::SaveFile("Scene (*.scene)\0*.scene\0");
+
+	if (!filepath.empty())
+	{
+		Engine::SceneSerializer sceneSerializer(m_Scene);
+		sceneSerializer.Serialize(filepath);
+	}
+}
+
+void ExampleLayer::OpenScene()
+{
+	std::string filepath = Engine::FileDialog::OpenFile("Scene (*.scene)\0*.scene\0");
+
+	if (!filepath.empty())
+	{
+		m_Scene = Engine::CreateRef<Engine::Scene>();
+		m_SceneHierarchyPanel->SetContext(m_Scene);
+
+		Engine::SceneSerializer sceneSerializer(m_Scene);
+		sceneSerializer.Deserialize(filepath);
+	}
+}
+
+void ExampleLayer::NewScene()
+{
+	m_Scene = Engine::CreateRef<Engine::Scene>();
+	m_SceneHierarchyPanel->SetContext(m_Scene);
 }
 
 void ExampleLayer::OnImGui()

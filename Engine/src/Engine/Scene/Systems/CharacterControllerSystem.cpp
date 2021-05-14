@@ -14,9 +14,10 @@ namespace Engine::System::CharacterController {
 		for (const entt::entity e : view)
 		{
 			auto& [ccc, tc] = view.get<Component::Physics::CharacterControllerComponent, Component::Core::TransformComponent>(e);
+			auto [currentMouseX, currentMouseY] = Engine::Input::GetMousePosition();
+
 			if (ccc.Active)
 			{
-				auto [currentMouseX, currentMouseY] = Engine::Input::GetMousePosition();
 				glm::vec4 move = { 0.0f, 0.0f, 0.0f, 1.0 };
 				float speed = 1.0f;
 
@@ -64,9 +65,10 @@ namespace Engine::System::CharacterController {
 				tc.Rotation.x = glm::max(-glm::half_pi<float>() + glm::epsilon<float>(), tc.Rotation.x);
 
 				tc.Rotation.y -= (currentMouseX - ccc.MouseX) * (ccc.RotationSpeed);
-				ccc.MouseX = currentMouseX;
-				ccc.MouseY = currentMouseY;
 			}
+
+			ccc.MouseX = currentMouseX;
+			ccc.MouseY = currentMouseY;
 		}
 	}
 

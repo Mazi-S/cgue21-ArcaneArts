@@ -18,6 +18,10 @@ public:
 	bool OnGameEnd(GameEndEvent& event);
 
 private:
+	void ShowMenu();
+	void HideMenu();
+
+private:
 
 	enum class GameState
 	{
@@ -30,7 +34,7 @@ private:
 	bool m_Controls;
 	GameState m_GameState;
 
-	Engine::Camera m_Camera;
+	Engine::Camera m_MenuCamera;
 
 	Engine::Ref<Engine::OpenGL::GlTexture2D> m_ControlsTex;
 	Engine::Ref<Engine::OpenGL::GlTexture2D> m_Victory;

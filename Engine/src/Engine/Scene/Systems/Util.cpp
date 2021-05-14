@@ -62,26 +62,5 @@ namespace Engine::System::Util {
 		cc.Projection = glm::perspective(cc.FOV, cc.AspectRatio, cc.Near, cc.Far);
 	}
 
-	void Activate(Component::Physics::CharacterControllerComponent& ccc)
-	{
-		Application::Get().GetWindow().HideCursor();
-
-		auto [currentMouseX, currentMouseY] = Engine::Input::GetMousePosition();
-		ccc.MouseX = currentMouseX;
-		ccc.MouseY = currentMouseY;
-
-		ccc.Active = true;
-	}
-
-	void Deactivate(Component::Physics::CharacterControllerComponent& ccc)
-	{
-		ccc.Active = false;
-
-		float x = Application::Get().GetWindow().GetWidth() / 2;
-		float y = Application::Get().GetWindow().GetHeight() / 2;
-		Application::Get().GetWindow().SetCursorPosition(x, y);
-		Application::Get().GetWindow().ShowCursor();
-	}
-
 }
 

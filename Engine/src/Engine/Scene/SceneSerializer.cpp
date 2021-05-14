@@ -317,7 +317,9 @@ namespace Engine {
 			float translationSpeed = compNode["TranslationSpeed"].as<float>();
 			float rotationSpeed = compNode["RotationSpeed"].as<float>();
 
-			deserializedEntity.AddComponent<CharacterControllerComponent>(standingHeight, crouchingHeight, radius, translationSpeed, rotationSpeed);
+			bool active = compNode["Active"].as<bool>();
+
+			deserializedEntity.AddComponent<CharacterControllerComponent>(standingHeight, crouchingHeight, radius, translationSpeed, rotationSpeed, active);
 		}
 
 		// Sound 2D

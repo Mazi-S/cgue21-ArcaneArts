@@ -39,6 +39,11 @@ namespace Engine {
 
 		void SetMainCamera(Entity entity);
 
+		void OnStart();
+		void OnPause();
+		void OnResume();
+		void OnStop();
+
 		void OnUpdate(Timestep ts);
 		void OnRender();
 		void OnEvent(Event& event);

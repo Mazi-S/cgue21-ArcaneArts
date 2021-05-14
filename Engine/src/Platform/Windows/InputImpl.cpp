@@ -8,21 +8,24 @@
 namespace Engine {
 
 	bool Input::IsKeyPressed(const KeyCode keycode) {
-		auto* window = static_cast<WindowImpl*>(&Application::Get().GetWindow())->GetNativeWindow();
-		auto state = glfwGetKey(window, static_cast<int32_t>(keycode));
+		Window* window = &Application::Get().GetWindow();
+		GLFWwindow* glfwWindow = static_cast<GLFWwindow*>(window->GetNativeWindow());
+		auto state = glfwGetKey(glfwWindow, static_cast<int32_t>(keycode));
 		return state == GLFW_PRESS || state == GLFW_REPEAT;
 	}
 
 	bool Input::IsMouseButtonPressed(const MouseCode button) {
-		auto* window = static_cast<WindowImpl*>(&Application::Get().GetWindow())->GetNativeWindow();
-		auto state = glfwGetMouseButton(window, static_cast<int32_t>(button));
+		Window* window = &Application::Get().GetWindow();
+		GLFWwindow* glfwWindow = static_cast<GLFWwindow*>(window->GetNativeWindow());
+		auto state = glfwGetMouseButton(glfwWindow, static_cast<int32_t>(button));
 		return state == GLFW_PRESS;
 	}
 
 	std::pair<float, float> Input::GetMousePosition() {
-		auto* window = static_cast<WindowImpl*>(&Application::Get().GetWindow())->GetNativeWindow();
+		Window* window = &Application::Get().GetWindow();
+		GLFWwindow* glfwWindow = static_cast<GLFWwindow*>(window->GetNativeWindow());
 		double xpos, ypos;
-		glfwGetCursorPos(window, &xpos, &ypos);
+		glfwGetCursorPos(glfwWindow, &xpos, &ypos);
 		return { (float)xpos, (float)ypos };
 	}
 
