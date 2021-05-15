@@ -34,7 +34,9 @@ void MonsterScript::OnUpdate(Engine::Timestep ts)
 
 	// Get Hero
 	auto view = m_RegistryHandle->view<HeroComponent>();
-	ASSERT(view.begin() != view.end(), "No Character found!");
+	if (view.begin() == view.end())
+		return;
+
 	Engine::Entity hero{ *view.begin(), m_RegistryHandle };
 
 	float speed = 1;

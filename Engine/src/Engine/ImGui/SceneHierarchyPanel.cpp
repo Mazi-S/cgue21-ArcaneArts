@@ -165,9 +165,48 @@ namespace Engine {
 		if (entity.HasComponent<TagComponent>())
 		{
 			auto tag = entity.GetComponent<TagComponent>().Tag;
-			if (ImGuiUtil::InputText("Tag", tag, 100))
+			if (ImGuiUtil::InputText("Tag", tag))
 				entity.GetComponent<TagComponent>().Tag = tag;
 		}
+
+		DrawAddComponent(entity);
+		DrawAddGameComponent(entity);
+
+		ImGui::Separator();
+
+		DrawComponents(entity);
+		DrawGameComponents(entity);
+
+		ImGui::Separator();
+
+		if (Button("Remove Entity", glm::vec2{ -1, 0 }, ImGuiUtil::ButtonType::Danger))
+		{
+			entity.Destroy();
+			m_SelectionContext = Entity();
+		}
+	}
+
+	void SceneHierarchyPanel::DrawAddComponent(Entity entity)
+	{
+		using TransformComponent	= Engine::Component::Core::TransformComponent;
+		using ParentComponent		= Engine::Component::Core::ParentComponent;
+
+		using MeshComponent					= Engine::Component::Renderer::MeshComponent;
+		using MaterialComponent				= Engine::Component::Renderer::MaterialComponent;
+		using ShadowComponent				= Engine::Component::Renderer::ShadowComponent;
+		using DirectionalLightComponent		= Engine::Component::Renderer::DirectionalLightComponent;
+		using PointLightComponent			= Engine::Component::Renderer::PointLightComponent;
+		using CameraComponent				= Engine::Component::Renderer::CameraComponent;
+
+		using StaticColliderComponent		= Engine::Component::Physics::StaticColliderComponent;
+		using CharacterControllerComponent	= Engine::Component::Physics::CharacterControllerComponent;
+		using RigidComponent				= Engine::Component::Physics::RigidComponent;
+		using RigidDynamicComponent			= Engine::Component::Physics::RigidDynamicComponent;
+		using KinematicMovementComponent	= Engine::Component::Physics::KinematicMovementComponent;
+
+		using Sound2DComponent		= Engine::Component::Audio::Sound2DComponent;
+		using Sound3DComponent		= Engine::Component::Audio::Sound3DComponent;
+		using ListenerComponent		= Engine::Component::Audio::ListenerComponent;
 
 		std::string component = "add...";
 		std::vector<std::string> components;
@@ -199,7 +238,7 @@ namespace Engine {
 		if (!entity.HasComponent<ListenerComponent>())
 			components.push_back("AudioListener");
 
-		if (components.size() > 0 && ImGuiUtil::DrawComboControl("Add Component", component, components))
+		if (components.size() > 0 && ImGuiUtil::DrawComboControl("Add Comp.", component, components))
 		{
 			if (component == "Parent")
 				entity.AddComponent<ParentComponent>();
@@ -228,15 +267,39 @@ namespace Engine {
 			if (component == "AudioListener")
 				entity.AddComponent<ListenerComponent>();
 		}
+	}
 
-		ImGui::Separator();
+	void SceneHierarchyPanel::DrawComponents(Entity entity)
+	{
+		using Identifier = Engine::Component::Core::Identifier;
+		using Unserializable = Engine::Component::Core::Unserializable;
+		using TagComponent = Engine::Component::Core::TagComponent;
+		using TransformComponent = Engine::Component::Core::TransformComponent;
+		using ParentComponent = Engine::Component::Core::ParentComponent;
+
+		using MeshComponent = Engine::Component::Renderer::MeshComponent;
+		using MaterialComponent = Engine::Component::Renderer::MaterialComponent;
+		using ShadowComponent = Engine::Component::Renderer::ShadowComponent;
+		using DirectionalLightComponent = Engine::Component::Renderer::DirectionalLightComponent;
+		using PointLightComponent = Engine::Component::Renderer::PointLightComponent;
+		using CameraComponent = Engine::Component::Renderer::CameraComponent;
+
+		using StaticColliderComponent = Engine::Component::Physics::StaticColliderComponent;
+		using CharacterControllerComponent = Engine::Component::Physics::CharacterControllerComponent;
+		using RigidComponent = Engine::Component::Physics::RigidComponent;
+		using RigidDynamicComponent = Engine::Component::Physics::RigidDynamicComponent;
+		using KinematicMovementComponent = Engine::Component::Physics::KinematicMovementComponent;
+
+		using Sound2DComponent = Engine::Component::Audio::Sound2DComponent;
+		using Sound3DComponent = Engine::Component::Audio::Sound3DComponent;
+		using ListenerComponent = Engine::Component::Audio::ListenerComponent;
 
 		// Parent Component
 		ImGuiUtil::DrawComponent<ParentComponent>("Parent", entity, [](entt::registry* registryHandle, entt::entity entityHandle)
 			{
-				Entity entity = {entityHandle, registryHandle};
+				Entity entity = { entityHandle, registryHandle };
 				Entity parent = entity.GetParent();
-				
+
 				auto view = registryHandle->view<Identifier, TagComponent>(entt::exclude<Component::Core::Unserializable>);
 				std::map<std::string, entt::entity> entities;
 				std::vector<std::string> names;
@@ -264,7 +327,7 @@ namespace Engine {
 				if (ImGuiUtil::DrawFloat3Control("Rotation", rotation))
 					component.Rotation = glm::radians(rotation);
 				ImGuiUtil::DrawFloat3Control("Scale", component.Scale, 0, 0, 0.001f);
-		});
+			});
 
 		// Material Component
 		ImGuiUtil::DrawComponent<MeshComponent>("Mesh", entity, [](auto& component)
@@ -281,20 +344,20 @@ namespace Engine {
 				std::string material = component.Material;
 				if (ImGuiUtil::DrawComboControl("Material", material, MaterialLibrary::GetNames()))
 					component.Material = material;
-		});
+			});
 
 		// Shadow Component
 		ImGuiUtil::DrawComponent<ShadowComponent>("Shadow", entity, [](auto& component)
 			{
 				ImGuiUtil::Text("Description", "Specifies if the entity casts a shadow.");
-		});
+			});
 
 		// Directional Light Component
 		ImGuiUtil::DrawComponent<DirectionalLightComponent>("Directional Light", entity, [](auto& component)
 			{
 				ImGuiUtil::DrawFloat3Control("Direction", component.Direction, 0.01f);
 				ImGuiUtil::DrawFloat3Control("Color", component.Color, 0.01f);
-		});
+			});
 
 		// Point Light Component
 		ImGuiUtil::DrawComponent<PointLightComponent>("Point Light", entity, [](auto& component)
@@ -303,7 +366,7 @@ namespace Engine {
 				ImGuiUtil::DrawFloatControl("Constant", component.Constant, 0, 10, 0.001f);
 				ImGuiUtil::DrawFloatControl("Linear", component.Linear, 0, 10, 0.001f);
 				ImGuiUtil::DrawFloatControl("Quadratic", component.Quadratic, 0, 10, 0.001f);
-		});
+			});
 
 		// Camera Component
 		ImGuiUtil::DrawComponent<CameraComponent>("Camera", entity, [](auto& component)
@@ -323,7 +386,7 @@ namespace Engine {
 
 				if (recalculate)
 					System::Util::RecalculateProjection(component);
-		});
+			});
 
 		// Static Collider Component
 		ImGuiUtil::DrawComponent<StaticColliderComponent>("Static Collider", entity, [](auto& component)
@@ -331,7 +394,7 @@ namespace Engine {
 				ImGuiUtil::Text("Description", "Specifies if the entity has a physical collider.");
 				ImGui::Dummy({ 0, .5 });
 				ImGuiUtil::Text("Note", "Collider must be created after the TransformComponent and\nthe MeshComponent. Updates on these components will not\nbe reflected automatically to the collider.");
-		}, true);
+			}, true);
 
 		// Character Controller Component
 		ImGuiUtil::DrawComponent<CharacterControllerComponent>("Character Controller", entity, [](auto& component)
@@ -341,7 +404,7 @@ namespace Engine {
 					component.Active = active;
 
 				ImGuiUtil::DrawFloatControl("TranslationSpeed", component.TranslationSpeed, 0, 20, 0.01);
-				
+
 				float rotationSpeed = component.RotationSpeed * 1000.0f;
 				if (ImGuiUtil::DrawFloatControl("RotationSpeed", rotationSpeed, 1, 10, 0.01))
 					component.RotationSpeed = rotationSpeed / 1000.0f;
@@ -356,14 +419,14 @@ namespace Engine {
 				ImGuiUtil::Text("Mouse", std::to_string((int)component.MouseX) + ", " + std::to_string((int)component.MouseY));
 				ImGuiUtil::Text("Jump", std::to_string(component.Jump));
 				ImGuiUtil::Text("Crouching", component.Crouching ? "true" : "false");
-		}, true);
+			}, true);
 
 		// Rigid Actor
 		ImGuiUtil::DrawComponent<RigidComponent>("Rigid Actor", entity, [](auto& component)
 			{
 				ImGui::Dummy({ 0, .5 });
 				ImGuiUtil::Text("Description", "Specifies the physical representation.");
-		});
+			});
 
 		// Rigid Dynamic Actor
 		ImGuiUtil::DrawComponent<RigidDynamicComponent>("Rigid Dynamic Actor", entity, [](auto& component)
@@ -371,7 +434,7 @@ namespace Engine {
 				ImGuiUtil::Text("actor", component.Actor == nullptr ? "nullptr" : "valid");
 				ImGui::Dummy({ 0, .5 });
 				ImGuiUtil::Text("Description", "Specifies the dynamic physical representation.");
-		});
+			});
 
 		// Kinematic Movement
 		ImGuiUtil::DrawComponent<KinematicMovementComponent>("Kinematic Movement", entity, [](auto& component)
@@ -383,7 +446,7 @@ namespace Engine {
 					component.Rotation = glm::quat(euler);
 				ImGui::Dummy({ 0, .5 });
 				ImGuiUtil::Text("Description", "Specifies the movement of a kinematic actor.");
-		});
+			});
 
 		// Sound 2D
 		ImGuiUtil::DrawComponent<Sound2DComponent>("Sound [2D]", entity, [](Entity& entity)
@@ -456,16 +519,9 @@ namespace Engine {
 		ImGuiUtil::DrawComponent<ListenerComponent>("Audio Listener", entity, [](auto& component)
 			{
 				ImGuiUtil::Text("Description", "Specifies if the entity is the audio listener.");
-		});
-
-
-		ImGui::Separator();
-
-		if (Button("Remove Entity", glm::vec2{ -1, 0 }, ImGuiUtil::ButtonType::Danger))
-		{
-			entity.Destroy();
-			m_SelectionContext = Entity();
-		}
+			});
 	}
+
+
 
 }

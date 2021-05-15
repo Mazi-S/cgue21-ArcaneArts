@@ -22,6 +22,13 @@ namespace Engine {
 		void DrawEntityNode(Entity entity);
 		void DrawEntity(Entity entity);
 
+		void DrawAddComponent(Entity entity);
+		void DrawComponents(Entity entity);
+
+		// implemented on client side (game)
+		void DrawAddGameComponent(Entity entity);
+		void DrawGameComponents(Entity entity);
+
 		// Callback Functions
 		CallbackFn m_NewCallback;
 		CallbackFn m_OpenCallback;

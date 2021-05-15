@@ -1,8 +1,11 @@
 #include "Engine/Scene/SceneSerializer.h"
+#include "Engine/Scene/Components.h"
 #include "GameComponents.h"
 
 #include "Entities/HeroScript.h"
 #include "Entities/MonsterScript.h"
+
+#include "ActorFactory.h"
 
 void Engine::SceneSerializer::SerializeGameComponents(YAML::Emitter& out, Entity entity)
 {
@@ -40,6 +43,9 @@ void Engine::SceneSerializer::SerializeGameComponents(YAML::Emitter& out, Entity
 
 void Engine::SceneSerializer::DeserializeGameComponents(Entity deserializedEntity, const YAML::Node& entityNode)
 {
+	using TransformComponent = Engine::Component::Core::TransformComponent;
+	using MeshComponent = Engine::Component::Renderer::MeshComponent;
+
 	// Monster Component
 	if (entityNode["MonsterComponent"])
 	{
@@ -63,5 +69,13 @@ void Engine::SceneSerializer::DeserializeGameComponents(Entity deserializedEntit
 	{
 		deserializedEntity.AddComponent<HeroComponent>();
 		deserializedEntity.AddNativeScript<HeroScript>();
+
+		if (deserializedEntity.HasComponent<TransformComponent>() && deserializedEntity.HasComponent<MeshComponent>())
+		{
+			auto& transformComp = deserializedEntity.GetComponent<TransformComponent>();
+			auto& meshComp = deserializedEntity.GetComponent<MeshComponent>();
+			auto actor = ActorFactory::Monster(meshComp.Mesh, transformComp.Translation, transformComp.Rotation, transformComp.Scale);
+			deserializedEntity.AddComponent<Engine::Component::Physics::RigidDynamicComponent>(actor);
+		}
 	}
 }

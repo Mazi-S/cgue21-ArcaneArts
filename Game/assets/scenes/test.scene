@@ -1,6 +1,25 @@
 Scene: Untitled
 Spectator: true
 Entities:
+  - Entity: 356858730
+    TagComponent:
+      Tag: Monster
+    TransformComponent:
+      Translation: [13.3599997, 2.13000011, -31.9200001]
+      Rotation: [0.0139626339, -0.0977384374, 0.029670598]
+      Scale: [0.400000006, 0.5, 0.5]
+    MeshComponent:
+      Mesh: Monster
+    MaterialComponent:
+      Material: MonsterBigMaterial
+    MonsterComponent:
+      LiveSound: Monster
+      DeathSound: MonsterDying
+      Hitpoints: 100
+      Damage: 20
+      Speed: 2
+      ViewRange: 10
+      HitRange: 1
   - Entity: 3035369592
     TagComponent:
       Tag: Point Light
@@ -61,3 +80,25 @@ Entities:
       Mesh: Terrain
     MaterialComponent:
       Material: TerrainMaterial
+  - Entity: 363236415
+    TagComponent:
+      Tag: Cave
+    TransformComponent:
+      Translation: [14.6099997, -0.0799999982, -34.4099998]
+      Rotation: [0.00174532924, -1.63886416, -0.00523598772]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Cave
+    MaterialComponent:
+      Material: CaveMaterial
+  - Entity: 754852147
+    TagComponent:
+      Tag: Tree 01
+    TransformComponent:
+      Translation: [17.0699997, -0.170000002, -30.2999992]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1.21000004, 1]
+    MeshComponent:
+      Mesh: Spruce_1
+    MaterialComponent:
+      Material: ForestMaterial
