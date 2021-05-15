@@ -33,15 +33,6 @@ void ExampleLayer::OnAttach()
 	Engine::SceneSerializer sceneSerializer = Engine::SceneSerializer(m_Scene);
 	sceneSerializer.Deserialize("assets/scenes/Example.scene");
 
-	// Hero
-	{
-		auto view = m_Scene->m_Registry.view<Engine::Component::Physics::CharacterControllerComponent>();
-		auto m_Hero = Engine::Entity{ *view.begin(), &m_Scene->m_Registry };
-		
-		m_Hero.AddComponent<HeroComponent>();
-		m_Hero.AddNativeScript<HeroScript>();
-	}
-
 	m_Scene->OnResume();
 
 	Engine::Application::Get().GetWindow().HideCursor();
@@ -70,7 +61,7 @@ void ExampleLayer::OnAttach()
 			entity.AddComponent<Engine::Component::Renderer::MeshComponent>(mesh);
 			auto actor = ActorFactory::Monster(mesh, t, r, s);
 			entity.AddComponent<Engine::Component::Physics::RigidDynamicComponent>(actor);
-			entity.AddComponent<MonsterComponent>(Engine::SoundLibrary::Get("Monster"), Engine::SoundLibrary::Get("MonsterDying"));
+			entity.AddComponent<MonsterComponent>("Monster", "MonsterDying");
 			entity.AddNativeScript<MonsterScript>();
 			entity.AddComponent<Engine::Component::Core::Unserializable>();
 		}
@@ -90,7 +81,7 @@ void ExampleLayer::OnAttach()
 			entity.AddComponent<Engine::Component::Renderer::MeshComponent>(mesh);
 			auto actor = ActorFactory::Monster(mesh, t, r, s);
 			entity.AddComponent<Engine::Component::Physics::RigidDynamicComponent>(actor);
-			entity.AddComponent<MonsterComponent>(Engine::SoundLibrary::Get("Monster"), Engine::SoundLibrary::Get("MonsterDying"), 35.0f, 10.0f, 4.5f, 30.0f, 2.5f);
+			entity.AddComponent<MonsterComponent>("Monster", "MonsterDying", 35.0f, 10.0f, 4.5f, 30.0f, 2.5f);
 			entity.AddNativeScript<MonsterScript>();
 			entity.AddComponent<Engine::Component::Core::Unserializable>();
 		}

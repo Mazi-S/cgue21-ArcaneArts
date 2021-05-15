@@ -82,11 +82,10 @@ void MagicBallScript::OnUpdate(Engine::Timestep ts)
 			collidedEntity.GetComponent<MonsterComponent>().ViewRange += 100;
 		}
 
-		if (magicBallComp.ImpactSound != nullptr)
+		if (!magicBallComp.ImpactSound.empty())
 		{
 			auto& transformComp = GetComponent<TransformComponent>();
-
-			magicBallComp.ImpactSound->Play3D(transformComp.Translation);
+			Engine::SoundLibrary::Get(magicBallComp.ImpactSound)->Play3D(transformComp.Translation);
 		}
 
 		Destroy();

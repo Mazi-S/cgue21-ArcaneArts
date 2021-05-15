@@ -21,7 +21,9 @@ project "Game"
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.entt}",
 		"%{IncludeDir.physx}",
-		"%{IncludeDir.irrklang}"
+		"%{IncludeDir.irrklang}",
+		"%{IncludeDir.yaml_cpp}"
+
 	}
 
 	links {

@@ -72,7 +72,7 @@ namespace Engine {
 
 		// Path
 		std::string path = mesh->GetPath();
-		if (ImGuiUtil::InputText("Path", path))
+		if (ImGuiUtil::InputPath("Path", path, "Object File (*.obj)\0*.obj\0"))
 		{
 			mesh->m_Path = path;
 			mesh->Reload();

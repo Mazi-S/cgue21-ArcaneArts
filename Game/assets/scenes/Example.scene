@@ -2,2073 +2,341 @@ Scene: Untitled
 MainCamera: 1875099485
 Spectator: false
 Entities:
-  - Entity: 0
+  - Entity: 4221207969
     TagComponent:
-      Tag: Moon [Directional Light]
+      Tag: Clouds
     TransformComponent:
-      Translation: [0, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    DirectionalLightComponent:
-      Direction: [0, -1, 0.800000012]
-      Color: [0.300000012, 0.300000012, 0.300000012]
-  - Entity: 2998066991
-    TagComponent:
-      Tag: Hero
-    TransformComponent:
-      Translation: [-11.1841259, 1.45860171, 27.2061024]
-      Rotation: [0.100000255, -14.4138832, 0]
-      Scale: [1, 1, 1]
-    CharacterControllerComponent:
-      Active: false
-      TranslationSpeed: 5
-      RotationSpeed: 0.00200000009
-      StandingHeight: 2
-      CrouchingHeight: 1.20000005
-      Radius: 0.300000012
-    ListenerComponent: {}
-  - Entity: 1875099485
-    TagComponent:
-      Tag: Camera
-    ParentComponent:
-      Parent: 2998066991
-    TransformComponent:
-      Translation: [0, 0.899999976, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    CameraComponent:
-      FOV: 0.785398185
-      Near: 0.00999999978
-      Far: 1000
-  - Entity: 1370146698
-    TagComponent:
-      Tag: Right Hand
-    ParentComponent:
-      Parent: 2998066991
-    TransformComponent:
-      Translation: [0.270000011, 0.75, -0.349999994]
-      Rotation: [1.17111588, -2.36300135, 1.60744822]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Hand
-    MaterialComponent:
-      Material: SkinMaterial
-  - Entity: 371873078
-    TagComponent:
-      Tag: Left Hand
-    ParentComponent:
-      Parent: 2998066991
-    TransformComponent:
-      Translation: [-0.209999993, 0.779999971, -0.349999994]
-      Rotation: [-4.05963612, 2.1186552, -1.5760324]
-      Scale: [-1.02999997, -1, -1]
-    MeshComponent:
-      Mesh: Hand
-    MaterialComponent:
-      Material: SkinMaterial
-  - Entity: 2185275739
-    TagComponent:
-      Tag: Background Sound
-    TransformComponent:
-      Translation: [0, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Sound2DComponent:
-      SoundSource: Forest
-      Loop: true
-      Volume: 0.100000001
-  - Entity: 2939652229
-    TagComponent:
-      Tag: Monster [Small]
-    TransformComponent:
-      Translation: [20, 5.5, -22]
-      Rotation: [0, 0, 0]
-      Scale: [0.5, 0.5, 0.5]
-    MeshComponent:
-      Mesh: Monster
-    MaterialComponent:
-      Material: MonsterSmallMaterial
-    ShadowComponent: {}
-  - Entity: 262162667
-    TagComponent:
-      Tag: House
-    TransformComponent:
-      Translation: [20, 0, 0]
-      Rotation: [0, -1.5, 0]
-      Scale: [1.5, 1.5, 1.5]
-    MeshComponent:
-      Mesh: House
-    MaterialComponent:
-      Material: HouseMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 2987553410
-    TagComponent:
-      Tag: House
-    TransformComponent:
-      Translation: [-20, 0, -20]
-      Rotation: [0, 0.5, 0]
-      Scale: [1.5, 1.5, 1.5]
-    MeshComponent:
-      Mesh: House
-    MaterialComponent:
-      Material: HouseMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 4085659122
-    TagComponent:
-      Tag: Cave
-    TransformComponent:
-      Translation: [-40, 0, -40]
-      Rotation: [0, -1.20000005, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Cave
-    MaterialComponent:
-      Material: CaveMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 1319850221
-    TagComponent:
-      Tag: Pedestal
-    TransformComponent:
-      Translation: [0, -0.200000003, 0]
+      Translation: [0, 60, -6]
       Rotation: [0, 0, 0]
       Scale: [3, 3, 3]
     MeshComponent:
-      Mesh: Pedestal
+      Mesh: Cloud_1
     MaterialComponent:
-      Material: PedestalMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 2365598570
+      Material: CloudMaterial
+  - Entity: 1520607595
     TagComponent:
-      Tag: Terrain
+      Tag: Clouds
     TransformComponent:
-      Translation: [0, -0.449999988, 0]
+      Translation: [57, 60, 72]
       Rotation: [0, 0, 0]
-      Scale: [1.5, 1.5, 1.5]
+      Scale: [3, 3, 3]
     MeshComponent:
-      Mesh: Terrain
+      Mesh: Cloud_2
     MaterialComponent:
-      Material: TerrainMaterial
-    StaticColliderComponent: {}
-  - Entity: 197128225
+      Material: CloudMaterial
+  - Entity: 3621010177
     TagComponent:
-      Tag: Spruce
+      Tag: Clouds
     TransformComponent:
-      Translation: [-28, -1, 15]
+      Translation: [-33, 60, -56]
       Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
+      Scale: [3, 3, 3]
     MeshComponent:
-      Mesh: Spruce_2
+      Mesh: Cloud_2
     MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 2578817940
+      Material: CloudMaterial
+  - Entity: 469788696
     TagComponent:
-      Tag: Spruce
+      Tag: Clouds
     TransformComponent:
-      Translation: [-40, -1, -19]
+      Translation: [-8, 60, 89]
       Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
+      Scale: [3, 3, 3]
     MeshComponent:
-      Mesh: Spruce_4
+      Mesh: Cloud_1
     MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 1707843413
+      Material: CloudMaterial
+  - Entity: 2388902833
     TagComponent:
-      Tag: Spruce
+      Tag: Clouds
     TransformComponent:
-      Translation: [23, -1, 10]
+      Translation: [-34, 60, -10]
       Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
+      Scale: [3, 3, 3]
     MeshComponent:
-      Mesh: Spruce_1
+      Mesh: Cloud_2
     MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 434705565
+      Material: CloudMaterial
+  - Entity: 1242136058
     TagComponent:
-      Tag: Spruce
+      Tag: Clouds
     TransformComponent:
-      Translation: [9, -1, -33]
+      Translation: [69, 60, 52]
       Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
+      Scale: [3, 3, 3]
     MeshComponent:
-      Mesh: Spruce_4
+      Mesh: Cloud_1
     MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 483900174
+      Material: CloudMaterial
+  - Entity: 1619580132
     TagComponent:
-      Tag: Spruce
+      Tag: Clouds
     TransformComponent:
-      Translation: [-27, -1, -11]
+      Translation: [-9, 60, 47]
       Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
+      Scale: [3, 3, 3]
     MeshComponent:
-      Mesh: Spruce_2
+      Mesh: Cloud_2
     MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 2930597189
+      Material: CloudMaterial
+  - Entity: 4111495246
     TagComponent:
-      Tag: Spruce
+      Tag: Clouds
     TransformComponent:
-      Translation: [15, -1, 39]
+      Translation: [-29, 60, -33]
       Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
+      Scale: [3, 3, 3]
     MeshComponent:
-      Mesh: Spruce_1
+      Mesh: Cloud_1
     MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3177535085
+      Material: CloudMaterial
+  - Entity: 817894775
     TagComponent:
-      Tag: Spruce
+      Tag: Clouds
     TransformComponent:
-      Translation: [12, -1, 20]
+      Translation: [-9, 60, 14]
       Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
+      Scale: [3, 3, 3]
     MeshComponent:
-      Mesh: Spruce_5
+      Mesh: Cloud_2
     MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 1696542896
+      Material: CloudMaterial
+  - Entity: 3268655217
     TagComponent:
-      Tag: Spruce
+      Tag: Clouds
     TransformComponent:
-      Translation: [-46, -1, -10]
+      Translation: [7, 60, 17]
       Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
+      Scale: [3, 3, 3]
     MeshComponent:
-      Mesh: Spruce_1
+      Mesh: Cloud_2
     MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3056955997
+      Material: CloudMaterial
+  - Entity: 2385705503
     TagComponent:
-      Tag: Spruce
+      Tag: Clouds
     TransformComponent:
-      Translation: [-25, -1, -20]
+      Translation: [11, 60, 71]
       Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
+      Scale: [3, 3, 3]
     MeshComponent:
-      Mesh: Spruce_1
+      Mesh: Cloud_3
     MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 2889897366
+      Material: CloudMaterial
+  - Entity: 542397137
     TagComponent:
-      Tag: Spruce
+      Tag: Clouds
     TransformComponent:
-      Translation: [44, -1, 3]
+      Translation: [-66, 60, 53]
       Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
+      Scale: [3, 3, 3]
     MeshComponent:
-      Mesh: Spruce_2
+      Mesh: Cloud_1
     MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 2839258320
+      Material: CloudMaterial
+  - Entity: 3176181685
     TagComponent:
-      Tag: Spruce
+      Tag: Clouds
     TransformComponent:
-      Translation: [48, -1, 23]
+      Translation: [-77, 60, 26]
       Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
+      Scale: [3, 3, 3]
     MeshComponent:
-      Mesh: Spruce_1
+      Mesh: Cloud_2
     MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 4261816920
+      Material: CloudMaterial
+  - Entity: 1418522757
     TagComponent:
-      Tag: Spruce
+      Tag: Clouds
     TransformComponent:
-      Translation: [-48, -1, -24]
+      Translation: [-79, 60, 83]
       Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
+      Scale: [3, 3, 3]
     MeshComponent:
-      Mesh: Spruce_1
+      Mesh: Cloud_2
     MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3204361408
+      Material: CloudMaterial
+  - Entity: 1133283489
     TagComponent:
-      Tag: Spruce
+      Tag: Clouds
     TransformComponent:
-      Translation: [-16, -1, -27]
+      Translation: [-100, 60, -28]
       Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
+      Scale: [3, 3, 3]
     MeshComponent:
-      Mesh: Spruce_1
+      Mesh: Cloud_3
     MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3852284297
+      Material: CloudMaterial
+  - Entity: 2056823656
     TagComponent:
-      Tag: Spruce
+      Tag: Clouds
     TransformComponent:
-      Translation: [-32, -1, 7]
+      Translation: [-44, 60, 4]
       Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
+      Scale: [3, 3, 3]
     MeshComponent:
-      Mesh: Spruce_1
+      Mesh: Cloud_1
     MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 1563048155
+      Material: CloudMaterial
+  - Entity: 807335915
     TagComponent:
-      Tag: Spruce
+      Tag: Clouds
     TransformComponent:
-      Translation: [-9, -1, -28]
+      Translation: [-53, 60, 7]
       Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
+      Scale: [3, 3, 3]
     MeshComponent:
-      Mesh: Spruce_4
+      Mesh: Cloud_2
     MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 1975671913
+      Material: CloudMaterial
+  - Entity: 1730129427
     TagComponent:
-      Tag: Spruce
+      Tag: Clouds
     TransformComponent:
-      Translation: [33, -1, -38]
+      Translation: [-32, 60, -78]
       Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
+      Scale: [3, 3, 3]
     MeshComponent:
-      Mesh: Spruce_2
+      Mesh: Cloud_2
     MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 678329711
+      Material: CloudMaterial
+  - Entity: 3926122074
     TagComponent:
-      Tag: Spruce
+      Tag: Clouds
     TransformComponent:
-      Translation: [9, -1, -24]
+      Translation: [-80, 60, -90]
       Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
+      Scale: [3, 3, 3]
     MeshComponent:
-      Mesh: Spruce_2
+      Mesh: Cloud_2
     MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3164006045
+      Material: CloudMaterial
+  - Entity: 786140345
     TagComponent:
-      Tag: Spruce
+      Tag: Clouds
     TransformComponent:
-      Translation: [-25, -1, 11]
+      Translation: [-94, 60, 12]
       Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
+      Scale: [3, 3, 3]
     MeshComponent:
-      Mesh: Spruce_1
+      Mesh: Cloud_1
     MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3999388170
+      Material: CloudMaterial
+  - Entity: 1362666982
     TagComponent:
-      Tag: Spruce
+      Tag: Clouds
     TransformComponent:
-      Translation: [30, -1, 40]
+      Translation: [-99, 60, -22]
       Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
+      Scale: [3, 3, 3]
     MeshComponent:
-      Mesh: Spruce_1
+      Mesh: Cloud_2
     MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3681634251
+      Material: CloudMaterial
+  - Entity: 3198569849
     TagComponent:
-      Tag: Spruce
+      Tag: Clouds
     TransformComponent:
-      Translation: [28, -1, -17]
+      Translation: [-77, 60, -36]
       Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
+      Scale: [3, 3, 3]
     MeshComponent:
-      Mesh: Spruce_2
+      Mesh: Cloud_1
     MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 1075950134
+      Material: CloudMaterial
+  - Entity: 1630176983
     TagComponent:
-      Tag: Spruce
+      Tag: Clouds
     TransformComponent:
-      Translation: [-48, -1, -17]
+      Translation: [59, 60, 30]
       Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
+      Scale: [3, 3, 3]
     MeshComponent:
-      Mesh: Spruce_5
+      Mesh: Cloud_3
     MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3138783116
+      Material: CloudMaterial
+  - Entity: 1544923774
     TagComponent:
-      Tag: Spruce
+      Tag: Clouds
     TransformComponent:
-      Translation: [43, -1, 38]
+      Translation: [-45, 60, 3]
       Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
+      Scale: [3, 3, 3]
     MeshComponent:
-      Mesh: Spruce_5
+      Mesh: Cloud_2
     MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 4109609039
+      Material: CloudMaterial
+  - Entity: 1696385799
     TagComponent:
-      Tag: Spruce
+      Tag: Clouds
     TransformComponent:
-      Translation: [47, -1, -29]
+      Translation: [-94, 60, 13]
       Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
+      Scale: [3, 3, 3]
     MeshComponent:
-      Mesh: Spruce_3
+      Mesh: Cloud_2
     MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 4271406709
+      Material: CloudMaterial
+  - Entity: 648559507
     TagComponent:
-      Tag: Spruce
+      Tag: Clouds
     TransformComponent:
-      Translation: [8, -1, -3]
+      Translation: [67, 60, 84]
       Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
+      Scale: [3, 3, 3]
     MeshComponent:
-      Mesh: Spruce_5
+      Mesh: Cloud_2
     MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3970761039
+      Material: CloudMaterial
+  - Entity: 865096064
     TagComponent:
-      Tag: Spruce
+      Tag: Clouds
     TransformComponent:
-      Translation: [17, -1, -50]
+      Translation: [78, 60, 8]
       Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
+      Scale: [3, 3, 3]
     MeshComponent:
-      Mesh: Spruce_2
+      Mesh: Cloud_2
     MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 695762454
+      Material: CloudMaterial
+  - Entity: 2870692651
     TagComponent:
-      Tag: Spruce
+      Tag: Clouds
     TransformComponent:
-      Translation: [27, -1, 21]
+      Translation: [93, 60, 24]
       Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
+      Scale: [3, 3, 3]
     MeshComponent:
-      Mesh: Spruce_4
+      Mesh: Cloud_1
     MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3679245352
+      Material: CloudMaterial
+  - Entity: 4230283362
     TagComponent:
-      Tag: Spruce
+      Tag: Clouds
     TransformComponent:
-      Translation: [48, -1, -7]
+      Translation: [-75, 60, 0]
       Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
+      Scale: [3, 3, 3]
     MeshComponent:
-      Mesh: Spruce_3
+      Mesh: Cloud_1
     MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 28159797
+      Material: CloudMaterial
+  - Entity: 3795058407
     TagComponent:
-      Tag: Spruce
+      Tag: Clouds
     TransformComponent:
-      Translation: [12, -1, 47]
+      Translation: [74, 60, -94]
       Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
+      Scale: [3, 3, 3]
     MeshComponent:
-      Mesh: Spruce_1
+      Mesh: Cloud_2
     MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 666020303
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [11, -1, -18]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_5
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3373140461
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [36, -1, -26]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_4
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 2012788743
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [-44, -1, 5]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_4
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 2444824509
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [5, -1, 39]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_3
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 319091967
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [-22, -1, 43]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_3
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3157876073
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [30, -1, 30]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_5
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 4007700409
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [-34, -1, 14]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_5
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 2752534827
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [-3, -1, -32]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3981677262
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [13, -1, 17]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_4
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 1056508974
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [-1, -1, 20]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_2
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3831306569
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [0, -1, -18]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 34164427
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [36, -1, -13]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_5
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 2686781420
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [-48, -1, 26]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 1929935330
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [-26, -1, 6]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_4
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3066650715
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [-24, -1, 21]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 114309347
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [-19, -1, -30]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_4
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3950420596
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [30, -1, 18]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_2
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 2769599182
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [-31, -1, -13]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_4
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 1121234815
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [0, -1, -17]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_2
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 1492822164
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [22, -1, 28]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_5
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3612530455
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [20, -1, -27]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_4
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3029005813
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [-49, -1, 6]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_3
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3629497962
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [8, -1, 9]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_3
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 56176536
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [36, -1, -30]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_3
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 2588003845
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [39, -1, -19]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_4
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3887910568
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [20, -1, 4]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_4
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3756225851
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [19, -1, 5]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_4
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 375855535
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [25, -1, 46]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_2
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 4162156738
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [3, -1, -36]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_4
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 1233256853
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [30, -1, -39]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_2
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 649666056
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [1, -1, 15]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_5
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3342904708
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [-13, -1, -37]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_4
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 2535042771
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [47, -1, -44]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_3
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3248888429
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [18, -1, -11]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_4
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 405346273
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [-24, -1, 15]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_5
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 2870460385
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [24, -1, -28]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_3
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 331466418
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [-41, -1, -47]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_3
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 408876600
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [-18, -1, 16]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3001279135
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [-36, -1, 17]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_3
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3548155969
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [14, -1, -27]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_5
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 2745372084
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [36, -1, 22]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_4
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 1184213234
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [-4, -1, -21]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3787899197
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [-46, -1, -49]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_2
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3525086700
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [-22, -1, 22]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 57962905
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [11, -1, -13]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_3
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3204421487
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [48, -1, 44]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_5
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 1018117667
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [-20, -1, 45]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_2
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3588979365
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [48, -1, 6]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 1729087651
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [9, -1, -33]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_4
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 712632796
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [-30, -1, 37]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_3
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 1020130310
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [29, -1, -38]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_2
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 2257094433
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [25, -1, -29]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_3
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 141105482
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [18, -1, 5]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_3
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3552894822
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [-10, -1, 4]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_2
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3173079368
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [24, -1, 13]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_5
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3904847045
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [-36, -1, 18]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_5
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3401961575
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [28, -1, -48]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_3
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 2274130332
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [7, -1, -2]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_3
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 1746481518
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [8, -1, -30]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3331826198
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [-23, -1, 10]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_3
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 2944833031
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [33, -1, 18]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_4
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 2959248708
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [-15, -1, -46]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_4
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 1697594749
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [-49, -1, -13]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_2
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 630769643
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [-25, -1, -4]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3810783807
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [-48, -1, 17]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_3
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 1309830627
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [-9, -1, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_5
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 1007788090
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [19, -1, 37]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3060651476
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [32, -1, -41]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_3
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 2372516700
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [3, -1, -7]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_5
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 2782191385
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [2, -1, -2]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_3
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 538487074
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [-19, -1, 32]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 2075182567
-    TagComponent:
-      Tag: Spruce
-    TransformComponent:
-      Translation: [47, -1, -42]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Spruce_2
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3203462631
-    TagComponent:
-      Tag: Stump
-    TransformComponent:
-      Translation: [33, -0.100000001, -24]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Stump_2
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 1309753837
-    TagComponent:
-      Tag: Stump
-    TransformComponent:
-      Translation: [27, -0.100000001, 30]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Stump_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 2689447447
-    TagComponent:
-      Tag: Stump
-    TransformComponent:
-      Translation: [-35, -0.100000001, -50]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Stump_2
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 2957997568
-    TagComponent:
-      Tag: Stump
-    TransformComponent:
-      Translation: [34, -0.100000001, -31]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Stump_2
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 2455492145
-    TagComponent:
-      Tag: Stump
-    TransformComponent:
-      Translation: [19, -0.100000001, -40]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Stump_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 211384528
-    TagComponent:
-      Tag: Stump
-    TransformComponent:
-      Translation: [46, -0.100000001, -12]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Stump_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 1310224569
-    TagComponent:
-      Tag: Stump
-    TransformComponent:
-      Translation: [46, -0.100000001, 19]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Stump_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 965926970
-    TagComponent:
-      Tag: Stump
-    TransformComponent:
-      Translation: [-20, -0.100000001, 39]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Stump_2
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 813811979
-    TagComponent:
-      Tag: Stump
-    TransformComponent:
-      Translation: [-15, -0.100000001, -26]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Stump_2
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 2189285379
-    TagComponent:
-      Tag: Stump
-    TransformComponent:
-      Translation: [-6, -0.100000001, 37]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Stump_2
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 1537713799
-    TagComponent:
-      Tag: Fallen Tree
-    TransformComponent:
-      Translation: [46, 0.200000003, 13]
-      Rotation: [0, 0, 0]
-      Scale: [0.5, 0.5, 0.5]
-    MeshComponent:
-      Mesh: Fallen_Tree_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 1945109113
-    TagComponent:
-      Tag: Fallen Tree
-    TransformComponent:
-      Translation: [9, 0.200000003, 31]
-      Rotation: [0, 0, 0]
-      Scale: [0.5, 0.5, 0.5]
-    MeshComponent:
-      Mesh: Fallen_Tree_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 10902399
-    TagComponent:
-      Tag: Fallen Tree
-    TransformComponent:
-      Translation: [-33, 0.200000003, 23]
-      Rotation: [0, 0, 0]
-      Scale: [0.5, 0.5, 0.5]
-    MeshComponent:
-      Mesh: Fallen_Tree_2
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 1428163787
-    TagComponent:
-      Tag: Fallen Tree
-    TransformComponent:
-      Translation: [40, 0.200000003, -32]
-      Rotation: [0, 0, 0]
-      Scale: [0.5, 0.5, 0.5]
-    MeshComponent:
-      Mesh: Fallen_Tree_2
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 2039320032
-    TagComponent:
-      Tag: Fallen Tree
-    TransformComponent:
-      Translation: [-45, 0.200000003, -39]
-      Rotation: [0, 0, 0]
-      Scale: [0.5, 0.5, 0.5]
-    MeshComponent:
-      Mesh: Fallen_Tree_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 4094911386
-    TagComponent:
-      Tag: Fallen Tree
-    TransformComponent:
-      Translation: [24, 0.200000003, -26]
-      Rotation: [0, 0, 0]
-      Scale: [0.5, 0.5, 0.5]
-    MeshComponent:
-      Mesh: Fallen_Tree_2
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 2514636215
-    TagComponent:
-      Tag: Fallen Tree
-    TransformComponent:
-      Translation: [-5, 0.200000003, -24]
-      Rotation: [0, 0, 0]
-      Scale: [0.5, 0.5, 0.5]
-    MeshComponent:
-      Mesh: Fallen_Tree_2
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 2495585353
-    TagComponent:
-      Tag: Fallen Tree
-    TransformComponent:
-      Translation: [32, 0.200000003, 44]
-      Rotation: [0, 0, 0]
-      Scale: [0.5, 0.5, 0.5]
-    MeshComponent:
-      Mesh: Fallen_Tree_2
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3251579002
-    TagComponent:
-      Tag: Fallen Tree
-    TransformComponent:
-      Translation: [-33, 0.200000003, -42]
-      Rotation: [0, 0, 0]
-      Scale: [0.5, 0.5, 0.5]
-    MeshComponent:
-      Mesh: Fallen_Tree_2
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3132298889
-    TagComponent:
-      Tag: Fallen Tree
-    TransformComponent:
-      Translation: [48, 0.200000003, 9]
-      Rotation: [0, 0, 0]
-      Scale: [0.5, 0.5, 0.5]
-    MeshComponent:
-      Mesh: Fallen_Tree_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 4152746312
+      Material: CloudMaterial
+  - Entity: 3980347864
     TagComponent:
       Tag: Rock
     TransformComponent:
-      Translation: [-27, 0.200000003, -8]
-      Rotation: [0, 0.200000003, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Rock_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 1900722881
-    TagComponent:
-      Tag: Rock
-    TransformComponent:
-      Translation: [-15, 0.200000003, 26]
-      Rotation: [0, 0.200000003, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Rock_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 2232141047
-    TagComponent:
-      Tag: Rock
-    TransformComponent:
-      Translation: [-18, 0.200000003, 4]
-      Rotation: [0, 0.200000003, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Rock_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 1294111191
-    TagComponent:
-      Tag: Rock
-    TransformComponent:
-      Translation: [10, 0.200000003, -4]
-      Rotation: [0, 0.200000003, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Rock_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3444166287
-    TagComponent:
-      Tag: Rock
-    TransformComponent:
-      Translation: [20, 0.200000003, -19]
-      Rotation: [0, 0.200000003, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Rock_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 1880238015
-    TagComponent:
-      Tag: Rock
-    TransformComponent:
-      Translation: [36, 0.200000003, -15]
-      Rotation: [0, 0.200000003, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Rock_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 926242579
-    TagComponent:
-      Tag: Rock
-    TransformComponent:
-      Translation: [27, 0.200000003, -40]
-      Rotation: [0, 0.200000003, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Rock_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 4051583095
-    TagComponent:
-      Tag: Rock
-    TransformComponent:
-      Translation: [-22, 0.200000003, -2]
-      Rotation: [0, 0.200000003, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Rock_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3030995775
-    TagComponent:
-      Tag: Rock
-    TransformComponent:
-      Translation: [-49, 0.200000003, 19]
-      Rotation: [0, 0.200000003, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Rock_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 2852442158
-    TagComponent:
-      Tag: Rock
-    TransformComponent:
-      Translation: [-33, 0.200000003, 40]
-      Rotation: [0, 0.200000003, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Rock_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 2029373256
-    TagComponent:
-      Tag: Rock
-    TransformComponent:
-      Translation: [-23, 0.200000003, -10]
-      Rotation: [0, 0.200000003, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Rock_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 97582120
-    TagComponent:
-      Tag: Rock
-    TransformComponent:
-      Translation: [-40, 0.200000003, 6]
-      Rotation: [0, 0.200000003, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Rock_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 4245342023
-    TagComponent:
-      Tag: Rock
-    TransformComponent:
-      Translation: [29, 0.200000003, -28]
-      Rotation: [0, 0.200000003, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Rock_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 2218843660
-    TagComponent:
-      Tag: Rock
-    TransformComponent:
-      Translation: [-36, 0.200000003, 4]
-      Rotation: [0, 0.200000003, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Rock_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 2416138500
-    TagComponent:
-      Tag: Rock
-    TransformComponent:
-      Translation: [42, 0.200000003, 8]
-      Rotation: [0, 0.200000003, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Rock_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 1748600209
-    TagComponent:
-      Tag: Rock
-    TransformComponent:
-      Translation: [-46, 0.200000003, -46]
-      Rotation: [0, 0.200000003, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Rock_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3551993605
-    TagComponent:
-      Tag: Rock
-    TransformComponent:
-      Translation: [-31, 0.200000003, -19]
-      Rotation: [0, 0.200000003, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Rock_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 725488476
-    TagComponent:
-      Tag: Rock
-    TransformComponent:
-      Translation: [45, 0.200000003, 18]
-      Rotation: [0, 0.200000003, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Rock_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 673973065
-    TagComponent:
-      Tag: Rock
-    TransformComponent:
-      Translation: [-16, 0.200000003, -18]
-      Rotation: [0, 0.200000003, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Rock_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3762448969
-    TagComponent:
-      Tag: Rock
-    TransformComponent:
-      Translation: [-17, 0.200000003, -26]
-      Rotation: [0, 0.200000003, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Rock_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 1565161435
-    TagComponent:
-      Tag: Rock
-    TransformComponent:
-      Translation: [-47, 0.200000003, 20]
-      Rotation: [0, 0.200000003, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Rock_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 843493233
-    TagComponent:
-      Tag: Rock
-    TransformComponent:
-      Translation: [-27, 0.200000003, -15]
-      Rotation: [0, 0.200000003, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Rock_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3274744677
-    TagComponent:
-      Tag: Rock
-    TransformComponent:
-      Translation: [-38, 0.200000003, -23]
-      Rotation: [0, 0.200000003, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Rock_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 1789690930
-    TagComponent:
-      Tag: Rock
-    TransformComponent:
-      Translation: [30, 0.200000003, 39]
-      Rotation: [0, 0.200000003, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Rock_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 3689726958
-    TagComponent:
-      Tag: Rock
-    TransformComponent:
-      Translation: [-49, 0.200000003, -12]
-      Rotation: [0, 0.200000003, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Rock_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 2433229612
-    TagComponent:
-      Tag: Rock
-    TransformComponent:
-      Translation: [48, 0.200000003, -5]
-      Rotation: [0, 0.200000003, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Rock_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 2805837224
-    TagComponent:
-      Tag: Rock
-    TransformComponent:
-      Translation: [9, 0.200000003, 40]
-      Rotation: [0, 0.200000003, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Rock_1
-    MaterialComponent:
-      Material: ForestMaterial
-    ShadowComponent: {}
-    StaticColliderComponent: {}
-  - Entity: 141988414
-    TagComponent:
-      Tag: Rock
-    TransformComponent:
-      Translation: [32, 0.200000003, 29]
+      Translation: [6, 0.200000003, 48]
       Rotation: [0, 0.200000003, 0]
       Scale: [1, 1, 1]
     MeshComponent:
@@ -2090,11 +358,11 @@ Entities:
       Material: ForestMaterial
     ShadowComponent: {}
     StaticColliderComponent: {}
-  - Entity: 3980347864
+  - Entity: 141988414
     TagComponent:
       Tag: Rock
     TransformComponent:
-      Translation: [6, 0.200000003, 48]
+      Translation: [32, 0.200000003, 29]
       Rotation: [0, 0.200000003, 0]
       Scale: [1, 1, 1]
     MeshComponent:
@@ -2103,333 +371,2066 @@ Entities:
       Material: ForestMaterial
     ShadowComponent: {}
     StaticColliderComponent: {}
-  - Entity: 3795058407
+  - Entity: 2805837224
     TagComponent:
-      Tag: Clouds
+      Tag: Rock
     TransformComponent:
-      Translation: [74, 60, -94]
+      Translation: [9, 0.200000003, 40]
+      Rotation: [0, 0.200000003, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Rock_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 2433229612
+    TagComponent:
+      Tag: Rock
+    TransformComponent:
+      Translation: [48, 0.200000003, -5]
+      Rotation: [0, 0.200000003, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Rock_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3689726958
+    TagComponent:
+      Tag: Rock
+    TransformComponent:
+      Translation: [-49, 0.200000003, -12]
+      Rotation: [0, 0.200000003, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Rock_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 1789690930
+    TagComponent:
+      Tag: Rock
+    TransformComponent:
+      Translation: [30, 0.200000003, 39]
+      Rotation: [0, 0.200000003, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Rock_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3274744677
+    TagComponent:
+      Tag: Rock
+    TransformComponent:
+      Translation: [-38, 0.200000003, -23]
+      Rotation: [0, 0.200000003, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Rock_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 843493233
+    TagComponent:
+      Tag: Rock
+    TransformComponent:
+      Translation: [-27, 0.200000003, -15]
+      Rotation: [0, 0.200000003, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Rock_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 1565161435
+    TagComponent:
+      Tag: Rock
+    TransformComponent:
+      Translation: [-47, 0.200000003, 20]
+      Rotation: [0, 0.200000003, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Rock_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3762448969
+    TagComponent:
+      Tag: Rock
+    TransformComponent:
+      Translation: [-17, 0.200000003, -26]
+      Rotation: [0, 0.200000003, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Rock_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 673973065
+    TagComponent:
+      Tag: Rock
+    TransformComponent:
+      Translation: [-16, 0.200000003, -18]
+      Rotation: [0, 0.200000003, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Rock_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 725488476
+    TagComponent:
+      Tag: Rock
+    TransformComponent:
+      Translation: [45, 0.200000003, 18]
+      Rotation: [0, 0.200000003, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Rock_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3551993605
+    TagComponent:
+      Tag: Rock
+    TransformComponent:
+      Translation: [-31, 0.200000003, -19]
+      Rotation: [0, 0.200000003, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Rock_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 1748600209
+    TagComponent:
+      Tag: Rock
+    TransformComponent:
+      Translation: [-46, 0.200000003, -46]
+      Rotation: [0, 0.200000003, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Rock_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 2416138500
+    TagComponent:
+      Tag: Rock
+    TransformComponent:
+      Translation: [42, 0.200000003, 8]
+      Rotation: [0, 0.200000003, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Rock_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 2218843660
+    TagComponent:
+      Tag: Rock
+    TransformComponent:
+      Translation: [-36, 0.200000003, 4]
+      Rotation: [0, 0.200000003, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Rock_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 4245342023
+    TagComponent:
+      Tag: Rock
+    TransformComponent:
+      Translation: [29, 0.200000003, -28]
+      Rotation: [0, 0.200000003, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Rock_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 97582120
+    TagComponent:
+      Tag: Rock
+    TransformComponent:
+      Translation: [-40, 0.200000003, 6]
+      Rotation: [0, 0.200000003, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Rock_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 2029373256
+    TagComponent:
+      Tag: Rock
+    TransformComponent:
+      Translation: [-23, 0.200000003, -10]
+      Rotation: [0, 0.200000003, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Rock_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 2852442158
+    TagComponent:
+      Tag: Rock
+    TransformComponent:
+      Translation: [-33, 0.200000003, 40]
+      Rotation: [0, 0.200000003, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Rock_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3030995775
+    TagComponent:
+      Tag: Rock
+    TransformComponent:
+      Translation: [-49, 0.200000003, 19]
+      Rotation: [0, 0.200000003, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Rock_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 4051583095
+    TagComponent:
+      Tag: Rock
+    TransformComponent:
+      Translation: [-22, 0.200000003, -2]
+      Rotation: [0, 0.200000003, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Rock_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 926242579
+    TagComponent:
+      Tag: Rock
+    TransformComponent:
+      Translation: [27, 0.200000003, -40]
+      Rotation: [0, 0.200000003, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Rock_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 1880238015
+    TagComponent:
+      Tag: Rock
+    TransformComponent:
+      Translation: [36, 0.200000003, -15]
+      Rotation: [0, 0.200000003, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Rock_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3444166287
+    TagComponent:
+      Tag: Rock
+    TransformComponent:
+      Translation: [20, 0.200000003, -19]
+      Rotation: [0, 0.200000003, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Rock_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 1294111191
+    TagComponent:
+      Tag: Rock
+    TransformComponent:
+      Translation: [10, 0.200000003, -4]
+      Rotation: [0, 0.200000003, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Rock_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 2232141047
+    TagComponent:
+      Tag: Rock
+    TransformComponent:
+      Translation: [-18, 0.200000003, 4]
+      Rotation: [0, 0.200000003, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Rock_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 1900722881
+    TagComponent:
+      Tag: Rock
+    TransformComponent:
+      Translation: [-15, 0.200000003, 26]
+      Rotation: [0, 0.200000003, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Rock_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 4152746312
+    TagComponent:
+      Tag: Rock
+    TransformComponent:
+      Translation: [-27, 0.200000003, -8]
+      Rotation: [0, 0.200000003, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Rock_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3132298889
+    TagComponent:
+      Tag: Fallen Tree
+    TransformComponent:
+      Translation: [48, 0.200000003, 9]
+      Rotation: [0, 0, 0]
+      Scale: [0.5, 0.5, 0.5]
+    MeshComponent:
+      Mesh: Fallen_Tree_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3251579002
+    TagComponent:
+      Tag: Fallen Tree
+    TransformComponent:
+      Translation: [-33, 0.200000003, -42]
+      Rotation: [0, 0, 0]
+      Scale: [0.5, 0.5, 0.5]
+    MeshComponent:
+      Mesh: Fallen_Tree_2
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 2495585353
+    TagComponent:
+      Tag: Fallen Tree
+    TransformComponent:
+      Translation: [32, 0.200000003, 44]
+      Rotation: [0, 0, 0]
+      Scale: [0.5, 0.5, 0.5]
+    MeshComponent:
+      Mesh: Fallen_Tree_2
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 2514636215
+    TagComponent:
+      Tag: Fallen Tree
+    TransformComponent:
+      Translation: [-5, 0.200000003, -24]
+      Rotation: [0, 0, 0]
+      Scale: [0.5, 0.5, 0.5]
+    MeshComponent:
+      Mesh: Fallen_Tree_2
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 4094911386
+    TagComponent:
+      Tag: Fallen Tree
+    TransformComponent:
+      Translation: [24, 0.200000003, -26]
+      Rotation: [0, 0, 0]
+      Scale: [0.5, 0.5, 0.5]
+    MeshComponent:
+      Mesh: Fallen_Tree_2
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 2039320032
+    TagComponent:
+      Tag: Fallen Tree
+    TransformComponent:
+      Translation: [-45, 0.200000003, -39]
+      Rotation: [0, 0, 0]
+      Scale: [0.5, 0.5, 0.5]
+    MeshComponent:
+      Mesh: Fallen_Tree_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 1428163787
+    TagComponent:
+      Tag: Fallen Tree
+    TransformComponent:
+      Translation: [40, 0.200000003, -32]
+      Rotation: [0, 0, 0]
+      Scale: [0.5, 0.5, 0.5]
+    MeshComponent:
+      Mesh: Fallen_Tree_2
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 10902399
+    TagComponent:
+      Tag: Fallen Tree
+    TransformComponent:
+      Translation: [-33, 0.200000003, 23]
+      Rotation: [0, 0, 0]
+      Scale: [0.5, 0.5, 0.5]
+    MeshComponent:
+      Mesh: Fallen_Tree_2
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 1945109113
+    TagComponent:
+      Tag: Fallen Tree
+    TransformComponent:
+      Translation: [9, 0.200000003, 31]
+      Rotation: [0, 0, 0]
+      Scale: [0.5, 0.5, 0.5]
+    MeshComponent:
+      Mesh: Fallen_Tree_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 1537713799
+    TagComponent:
+      Tag: Fallen Tree
+    TransformComponent:
+      Translation: [46, 0.200000003, 13]
+      Rotation: [0, 0, 0]
+      Scale: [0.5, 0.5, 0.5]
+    MeshComponent:
+      Mesh: Fallen_Tree_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 2189285379
+    TagComponent:
+      Tag: Stump
+    TransformComponent:
+      Translation: [-6, -0.100000001, 37]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Stump_2
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 813811979
+    TagComponent:
+      Tag: Stump
+    TransformComponent:
+      Translation: [-15, -0.100000001, -26]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Stump_2
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 965926970
+    TagComponent:
+      Tag: Stump
+    TransformComponent:
+      Translation: [-20, -0.100000001, 39]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Stump_2
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 1310224569
+    TagComponent:
+      Tag: Stump
+    TransformComponent:
+      Translation: [46, -0.100000001, 19]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Stump_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 211384528
+    TagComponent:
+      Tag: Stump
+    TransformComponent:
+      Translation: [46, -0.100000001, -12]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Stump_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 2455492145
+    TagComponent:
+      Tag: Stump
+    TransformComponent:
+      Translation: [19, -0.100000001, -40]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Stump_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 2957997568
+    TagComponent:
+      Tag: Stump
+    TransformComponent:
+      Translation: [34, -0.100000001, -31]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Stump_2
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 2689447447
+    TagComponent:
+      Tag: Stump
+    TransformComponent:
+      Translation: [-35, -0.100000001, -50]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Stump_2
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 1309753837
+    TagComponent:
+      Tag: Stump
+    TransformComponent:
+      Translation: [27, -0.100000001, 30]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Stump_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3203462631
+    TagComponent:
+      Tag: Stump
+    TransformComponent:
+      Translation: [33, -0.100000001, -24]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Stump_2
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 2075182567
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [47, -1, -42]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_2
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 538487074
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-19, -1, 32]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 2782191385
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [2, -1, -2]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_3
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 2372516700
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [3, -1, -7]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_5
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3060651476
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [32, -1, -41]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_3
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 1007788090
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [19, -1, 37]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 1309830627
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-9, -1, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_5
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3810783807
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-48, -1, 17]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_3
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 630769643
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-25, -1, -4]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 1697594749
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-49, -1, -13]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_2
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 2959248708
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-15, -1, -46]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_4
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 2944833031
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [33, -1, 18]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_4
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3331826198
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-23, -1, 10]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_3
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 1746481518
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [8, -1, -30]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 2274130332
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [7, -1, -2]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_3
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3401961575
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [28, -1, -48]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_3
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3904847045
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-36, -1, 18]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_5
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3173079368
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [24, -1, 13]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_5
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3552894822
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-10, -1, 4]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_2
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 141105482
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [18, -1, 5]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_3
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 2257094433
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [25, -1, -29]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_3
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 1020130310
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [29, -1, -38]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_2
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 712632796
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-30, -1, 37]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_3
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 1729087651
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [9, -1, -33]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_4
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3588979365
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [48, -1, 6]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 1018117667
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-20, -1, 45]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_2
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3204421487
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [48, -1, 44]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_5
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 57962905
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [11, -1, -13]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_3
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3525086700
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-22, -1, 22]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3787899197
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-46, -1, -49]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_2
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 1184213234
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-4, -1, -21]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 2745372084
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [36, -1, 22]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_4
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3548155969
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [14, -1, -27]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_5
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3001279135
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-36, -1, 17]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_3
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 408876600
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-18, -1, 16]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 331466418
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-41, -1, -47]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_3
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 2870460385
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [24, -1, -28]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_3
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 405346273
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-24, -1, 15]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_5
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3248888429
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [18, -1, -11]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_4
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 2535042771
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [47, -1, -44]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_3
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3342904708
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-13, -1, -37]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_4
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 649666056
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [1, -1, 15]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_5
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 1233256853
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [30, -1, -39]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_2
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 4162156738
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [3, -1, -36]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_4
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 375855535
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [25, -1, 46]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_2
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3756225851
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [19, -1, 5]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_4
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3887910568
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [20, -1, 4]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_4
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 2588003845
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [39, -1, -19]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_4
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 56176536
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [36, -1, -30]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_3
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3629497962
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [8, -1, 9]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_3
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3029005813
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-49, -1, 6]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_3
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3612530455
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [20, -1, -27]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_4
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 1492822164
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [22, -1, 28]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_5
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 1121234815
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [0, -1, -17]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_2
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 2769599182
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-31, -1, -13]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_4
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3950420596
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [30, -1, 18]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_2
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 114309347
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-19, -1, -30]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_4
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3066650715
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-24, -1, 21]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 1929935330
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-26, -1, 6]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_4
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 2686781420
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-48, -1, 26]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 34164427
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [36, -1, -13]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_5
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3831306569
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [0, -1, -18]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 1056508974
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-1, -1, 20]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_2
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3981677262
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [13, -1, 17]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_4
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 2752534827
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-3, -1, -32]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 4007700409
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-34, -1, 14]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_5
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3157876073
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [30, -1, 30]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_5
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 319091967
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-22, -1, 43]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_3
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 2444824509
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [5, -1, 39]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_3
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 2012788743
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-44, -1, 5]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_4
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3373140461
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [36, -1, -26]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_4
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 666020303
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [11, -1, -18]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_5
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 28159797
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [12, -1, 47]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3679245352
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [48, -1, -7]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_3
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 695762454
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [27, -1, 21]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_4
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3970761039
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [17, -1, -50]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_2
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 4271406709
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [8, -1, -3]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_5
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 4109609039
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [47, -1, -29]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_3
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3138783116
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [43, -1, 38]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_5
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 1075950134
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-48, -1, -17]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_5
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3681634251
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [28, -1, -17]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_2
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3999388170
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [30, -1, 40]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3164006045
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-25, -1, 11]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 678329711
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [9, -1, -24]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_2
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 1975671913
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [33, -1, -38]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_2
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 1563048155
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-9, -1, -28]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_4
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3852284297
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-32, -1, 7]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3204361408
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-16, -1, -27]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 4261816920
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-48, -1, -24]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 2839258320
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [48, -1, 23]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 2889897366
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [44, -1, 3]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_2
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3056955997
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-25, -1, -20]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 1696542896
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-46, -1, -10]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3177535085
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [12, -1, 20]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_5
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 2930597189
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [15, -1, 39]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 483900174
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-27, -1, -11]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_2
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 434705565
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [9, -1, -33]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_4
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 1707843413
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [23, -1, 10]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 2578817940
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-40, -1, -19]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_4
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 197128225
+    TagComponent:
+      Tag: Spruce
+    TransformComponent:
+      Translation: [-28, -1, 15]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_2
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 2365598570
+    TagComponent:
+      Tag: Terrain
+    TransformComponent:
+      Translation: [0, -0.449999988, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1.5, 1.5, 1.5]
+    MeshComponent:
+      Mesh: Terrain
+    MaterialComponent:
+      Material: TerrainMaterial
+    StaticColliderComponent: {}
+  - Entity: 1319850221
+    TagComponent:
+      Tag: Pedestal
+    TransformComponent:
+      Translation: [0, -0.200000003, 0]
       Rotation: [0, 0, 0]
       Scale: [3, 3, 3]
     MeshComponent:
-      Mesh: Cloud_2
+      Mesh: Pedestal
     MaterialComponent:
-      Material: CloudMaterial
-  - Entity: 4230283362
+      Material: PedestalMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 4085659122
     TagComponent:
-      Tag: Clouds
+      Tag: Cave
     TransformComponent:
-      Translation: [-75, 60, 0]
-      Rotation: [0, 0, 0]
-      Scale: [3, 3, 3]
+      Translation: [-40, 0, -40]
+      Rotation: [0, -1.20000005, 0]
+      Scale: [1, 1, 1]
     MeshComponent:
-      Mesh: Cloud_1
+      Mesh: Cave
     MaterialComponent:
-      Material: CloudMaterial
-  - Entity: 2870692651
+      Material: CaveMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 2987553410
     TagComponent:
-      Tag: Clouds
+      Tag: House
     TransformComponent:
-      Translation: [93, 60, 24]
-      Rotation: [0, 0, 0]
-      Scale: [3, 3, 3]
+      Translation: [-20, 0, -20]
+      Rotation: [0, 0.5, 0]
+      Scale: [1.5, 1.5, 1.5]
     MeshComponent:
-      Mesh: Cloud_1
+      Mesh: House
     MaterialComponent:
-      Material: CloudMaterial
-  - Entity: 865096064
+      Material: HouseMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 262162667
     TagComponent:
-      Tag: Clouds
+      Tag: House
     TransformComponent:
-      Translation: [78, 60, 8]
-      Rotation: [0, 0, 0]
-      Scale: [3, 3, 3]
+      Translation: [20, 0, 0]
+      Rotation: [0, -1.5, 0]
+      Scale: [1.5, 1.5, 1.5]
     MeshComponent:
-      Mesh: Cloud_2
+      Mesh: House
     MaterialComponent:
-      Material: CloudMaterial
-  - Entity: 648559507
+      Material: HouseMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 2939652229
     TagComponent:
-      Tag: Clouds
+      Tag: Monster [Small]
     TransformComponent:
-      Translation: [67, 60, 84]
+      Translation: [20, 5.5, -22]
       Rotation: [0, 0, 0]
-      Scale: [3, 3, 3]
+      Scale: [0.5, 0.5, 0.5]
     MeshComponent:
-      Mesh: Cloud_2
+      Mesh: Monster
     MaterialComponent:
-      Material: CloudMaterial
-  - Entity: 1696385799
+      Material: MonsterSmallMaterial
+    ShadowComponent: {}
+  - Entity: 2185275739
     TagComponent:
-      Tag: Clouds
+      Tag: Background Sound
     TransformComponent:
-      Translation: [-94, 60, 13]
+      Translation: [0, 0, 0]
       Rotation: [0, 0, 0]
-      Scale: [3, 3, 3]
-    MeshComponent:
-      Mesh: Cloud_2
-    MaterialComponent:
-      Material: CloudMaterial
-  - Entity: 1544923774
+      Scale: [1, 1, 1]
+    Sound2DComponent:
+      SoundSource: Forest
+      Loop: true
+      Volume: 0.100000001
+  - Entity: 371873078
     TagComponent:
-      Tag: Clouds
+      Tag: Left Hand
+    ParentComponent:
+      Parent: 2998066991
     TransformComponent:
-      Translation: [-45, 60, 3]
-      Rotation: [0, 0, 0]
-      Scale: [3, 3, 3]
+      Translation: [-0.209999993, 0.779999971, -0.349999994]
+      Rotation: [-4.05963612, 2.1186552, -1.5760324]
+      Scale: [-1.02999997, -1, -1]
     MeshComponent:
-      Mesh: Cloud_2
+      Mesh: Hand
     MaterialComponent:
-      Material: CloudMaterial
-  - Entity: 1630176983
+      Material: SkinMaterial
+  - Entity: 1370146698
     TagComponent:
-      Tag: Clouds
+      Tag: Right Hand
+    ParentComponent:
+      Parent: 2998066991
     TransformComponent:
-      Translation: [59, 60, 30]
-      Rotation: [0, 0, 0]
-      Scale: [3, 3, 3]
+      Translation: [0.270000011, 0.75, -0.349999994]
+      Rotation: [1.17111588, -2.36300135, 1.60744822]
+      Scale: [1, 1, 1]
     MeshComponent:
-      Mesh: Cloud_3
+      Mesh: Hand
     MaterialComponent:
-      Material: CloudMaterial
-  - Entity: 3198569849
+      Material: SkinMaterial
+  - Entity: 1875099485
     TagComponent:
-      Tag: Clouds
+      Tag: Camera
+    ParentComponent:
+      Parent: 2998066991
     TransformComponent:
-      Translation: [-77, 60, -36]
+      Translation: [0, 0.899999976, 0]
       Rotation: [0, 0, 0]
-      Scale: [3, 3, 3]
-    MeshComponent:
-      Mesh: Cloud_1
-    MaterialComponent:
-      Material: CloudMaterial
-  - Entity: 1362666982
+      Scale: [1, 1, 1]
+    CameraComponent:
+      FOV: 0.785398185
+      Near: 0.00999999978
+      Far: 1000
+  - Entity: 2998066991
     TagComponent:
-      Tag: Clouds
+      Tag: Hero
     TransformComponent:
-      Translation: [-99, 60, -22]
-      Rotation: [0, 0, 0]
-      Scale: [3, 3, 3]
-    MeshComponent:
-      Mesh: Cloud_2
-    MaterialComponent:
-      Material: CloudMaterial
-  - Entity: 786140345
+      Translation: [11.2840395, 0.876976907, 31.2928734]
+      Rotation: [-0.082003057, -14.1338539, 0]
+      Scale: [1, 1, 1]
+    CharacterControllerComponent:
+      Active: false
+      TranslationSpeed: 5
+      RotationSpeed: 0.00200000009
+      StandingHeight: 2
+      CrouchingHeight: 1.20000005
+      Radius: 0.300000012
+    ListenerComponent: {}
+    HeroComponent: {}
+  - Entity: 0
     TagComponent:
-      Tag: Clouds
+      Tag: Moon [Directional Light]
     TransformComponent:
-      Translation: [-94, 60, 12]
+      Translation: [0, 0, 0]
       Rotation: [0, 0, 0]
-      Scale: [3, 3, 3]
-    MeshComponent:
-      Mesh: Cloud_1
-    MaterialComponent:
-      Material: CloudMaterial
-  - Entity: 3926122074
-    TagComponent:
-      Tag: Clouds
-    TransformComponent:
-      Translation: [-80, 60, -90]
-      Rotation: [0, 0, 0]
-      Scale: [3, 3, 3]
-    MeshComponent:
-      Mesh: Cloud_2
-    MaterialComponent:
-      Material: CloudMaterial
-  - Entity: 1730129427
-    TagComponent:
-      Tag: Clouds
-    TransformComponent:
-      Translation: [-32, 60, -78]
-      Rotation: [0, 0, 0]
-      Scale: [3, 3, 3]
-    MeshComponent:
-      Mesh: Cloud_2
-    MaterialComponent:
-      Material: CloudMaterial
-  - Entity: 807335915
-    TagComponent:
-      Tag: Clouds
-    TransformComponent:
-      Translation: [-53, 60, 7]
-      Rotation: [0, 0, 0]
-      Scale: [3, 3, 3]
-    MeshComponent:
-      Mesh: Cloud_2
-    MaterialComponent:
-      Material: CloudMaterial
-  - Entity: 2056823656
-    TagComponent:
-      Tag: Clouds
-    TransformComponent:
-      Translation: [-44, 60, 4]
-      Rotation: [0, 0, 0]
-      Scale: [3, 3, 3]
-    MeshComponent:
-      Mesh: Cloud_1
-    MaterialComponent:
-      Material: CloudMaterial
-  - Entity: 1133283489
-    TagComponent:
-      Tag: Clouds
-    TransformComponent:
-      Translation: [-100, 60, -28]
-      Rotation: [0, 0, 0]
-      Scale: [3, 3, 3]
-    MeshComponent:
-      Mesh: Cloud_3
-    MaterialComponent:
-      Material: CloudMaterial
-  - Entity: 1418522757
-    TagComponent:
-      Tag: Clouds
-    TransformComponent:
-      Translation: [-79, 60, 83]
-      Rotation: [0, 0, 0]
-      Scale: [3, 3, 3]
-    MeshComponent:
-      Mesh: Cloud_2
-    MaterialComponent:
-      Material: CloudMaterial
-  - Entity: 3176181685
-    TagComponent:
-      Tag: Clouds
-    TransformComponent:
-      Translation: [-77, 60, 26]
-      Rotation: [0, 0, 0]
-      Scale: [3, 3, 3]
-    MeshComponent:
-      Mesh: Cloud_2
-    MaterialComponent:
-      Material: CloudMaterial
-  - Entity: 542397137
-    TagComponent:
-      Tag: Clouds
-    TransformComponent:
-      Translation: [-66, 60, 53]
-      Rotation: [0, 0, 0]
-      Scale: [3, 3, 3]
-    MeshComponent:
-      Mesh: Cloud_1
-    MaterialComponent:
-      Material: CloudMaterial
-  - Entity: 2385705503
-    TagComponent:
-      Tag: Clouds
-    TransformComponent:
-      Translation: [11, 60, 71]
-      Rotation: [0, 0, 0]
-      Scale: [3, 3, 3]
-    MeshComponent:
-      Mesh: Cloud_3
-    MaterialComponent:
-      Material: CloudMaterial
-  - Entity: 3268655217
-    TagComponent:
-      Tag: Clouds
-    TransformComponent:
-      Translation: [7, 60, 17]
-      Rotation: [0, 0, 0]
-      Scale: [3, 3, 3]
-    MeshComponent:
-      Mesh: Cloud_2
-    MaterialComponent:
-      Material: CloudMaterial
-  - Entity: 817894775
-    TagComponent:
-      Tag: Clouds
-    TransformComponent:
-      Translation: [-9, 60, 14]
-      Rotation: [0, 0, 0]
-      Scale: [3, 3, 3]
-    MeshComponent:
-      Mesh: Cloud_2
-    MaterialComponent:
-      Material: CloudMaterial
-  - Entity: 4111495246
-    TagComponent:
-      Tag: Clouds
-    TransformComponent:
-      Translation: [-29, 60, -33]
-      Rotation: [0, 0, 0]
-      Scale: [3, 3, 3]
-    MeshComponent:
-      Mesh: Cloud_1
-    MaterialComponent:
-      Material: CloudMaterial
-  - Entity: 1619580132
-    TagComponent:
-      Tag: Clouds
-    TransformComponent:
-      Translation: [-9, 60, 47]
-      Rotation: [0, 0, 0]
-      Scale: [3, 3, 3]
-    MeshComponent:
-      Mesh: Cloud_2
-    MaterialComponent:
-      Material: CloudMaterial
-  - Entity: 1242136058
-    TagComponent:
-      Tag: Clouds
-    TransformComponent:
-      Translation: [69, 60, 52]
-      Rotation: [0, 0, 0]
-      Scale: [3, 3, 3]
-    MeshComponent:
-      Mesh: Cloud_1
-    MaterialComponent:
-      Material: CloudMaterial
-  - Entity: 2388902833
-    TagComponent:
-      Tag: Clouds
-    TransformComponent:
-      Translation: [-34, 60, -10]
-      Rotation: [0, 0, 0]
-      Scale: [3, 3, 3]
-    MeshComponent:
-      Mesh: Cloud_2
-    MaterialComponent:
-      Material: CloudMaterial
-  - Entity: 469788696
-    TagComponent:
-      Tag: Clouds
-    TransformComponent:
-      Translation: [-8, 60, 89]
-      Rotation: [0, 0, 0]
-      Scale: [3, 3, 3]
-    MeshComponent:
-      Mesh: Cloud_1
-    MaterialComponent:
-      Material: CloudMaterial
-  - Entity: 3621010177
-    TagComponent:
-      Tag: Clouds
-    TransformComponent:
-      Translation: [-33, 60, -56]
-      Rotation: [0, 0, 0]
-      Scale: [3, 3, 3]
-    MeshComponent:
-      Mesh: Cloud_2
-    MaterialComponent:
-      Material: CloudMaterial
-  - Entity: 1520607595
-    TagComponent:
-      Tag: Clouds
-    TransformComponent:
-      Translation: [57, 60, 72]
-      Rotation: [0, 0, 0]
-      Scale: [3, 3, 3]
-    MeshComponent:
-      Mesh: Cloud_2
-    MaterialComponent:
-      Material: CloudMaterial
-  - Entity: 4221207969
-    TagComponent:
-      Tag: Clouds
-    TransformComponent:
-      Translation: [0, 60, -6]
-      Rotation: [0, 0, 0]
-      Scale: [3, 3, 3]
-    MeshComponent:
-      Mesh: Cloud_1
-    MaterialComponent:
-      Material: CloudMaterial
+      Scale: [1, 1, 1]
+    DirectionalLightComponent:
+      Direction: [0, -1, 0.800000012]
+      Color: [0.300000012, 0.300000012, 0.300000012]

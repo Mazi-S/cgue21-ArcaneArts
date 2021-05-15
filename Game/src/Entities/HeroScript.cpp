@@ -352,7 +352,7 @@ Engine::Entity HeroScript::CreateMagicBall(MagicBallType type, glm::vec3 offset)
 		transformComp.Scale = { 0.1f, 0.1f, 0.1f };
 		ball.AddComponent<MaterialComponent>("MagicBall_Light");
 		ball.AddComponent<MagicBallComponent>(
-			nullptr, Engine::SoundLibrary::Get("LightCast"), nullptr,
+			std::string(), "LightCast", std::string(),
 			MagicBallEffect(type), MagicBallMana(type), MagicBallCastTime(type)
 		);
 		ball.AddComponent<PointLightComponent>(glm::vec3{ 0.85f, 0.7f, 0.4f }, 0.4f, 0.1f, 0.05f);
@@ -361,7 +361,7 @@ Engine::Entity HeroScript::CreateMagicBall(MagicBallType type, glm::vec3 offset)
 		transformComp.Scale = { 0.1f, 0.1f, 0.1f };
 		ball.AddComponent<MaterialComponent>("MagicBall_Heal");
 		ball.AddComponent<MagicBallComponent>(
-			nullptr, nullptr, nullptr,
+			std::string(), std::string(), std::string(),
 			MagicBallEffect(type), MagicBallMana(type), MagicBallCastTime(type)
 		);
 		ball.AddComponent<PointLightComponent>(glm::vec3{ 0.7f, 0.57f, 0.2f }, 0.8f, 0.2f, 0.1f);
@@ -372,7 +372,7 @@ Engine::Entity HeroScript::CreateMagicBall(MagicBallType type, glm::vec3 offset)
 		ball.AddComponent<MaterialComponent>("MagicBall_Fire");
 		ball.AddNativeScript<MagicBallScript>();
 		ball.AddComponent<MagicBallComponent>(
-			nullptr, Engine::SoundLibrary::Get("FireballShoot"), Engine::SoundLibrary::Get("Impact"),
+			std::string(), "FireballShoot", "Impact",
 			MagicBallEffect(type), MagicBallMana(type), MagicBallCastTime(type)
 		);
 		ball.GetComponent<NativeScriptComponent>().Active = false;
@@ -383,7 +383,7 @@ Engine::Entity HeroScript::CreateMagicBall(MagicBallType type, glm::vec3 offset)
 		ball.AddComponent<MaterialComponent>("MagicBall_Lightning");
 		ball.AddNativeScript<MagicBallScript>();
 		ball.AddComponent<MagicBallComponent>(
-			Engine::SoundLibrary::Get("LightningShoot"), nullptr, Engine::SoundLibrary::Get("Thunder"),
+			"LightningShoot", std::string(), "Thunder",
 			MagicBallEffect(type), MagicBallMana(type), MagicBallCastTime(type)
 		);
 		ball.GetComponent<NativeScriptComponent>().Active = false;
@@ -393,8 +393,8 @@ Engine::Entity HeroScript::CreateMagicBall(MagicBallType type, glm::vec3 offset)
 	}
 
 	auto& magicBallComp = ball.GetComponent<MagicBallComponent>();
-	if (magicBallComp.CastSound != nullptr)
-		magicBallComp.CastSound->Play2D();
+	if (!magicBallComp.CastSound.empty())
+		Engine::SoundLibrary::Get(magicBallComp.CastSound)->Play2D();
 
 	return ball;
 }
@@ -409,8 +409,8 @@ void HeroScript::Throw(Engine::Entity ball)
 
 	auto& heroComp = GetComponent<HeroComponent>();
 
-	if (magicBallComp.ThrowSound != nullptr)
-		magicBallComp.ThrowSound->Play2D();
+	if (!magicBallComp.ThrowSound.empty())
+		Engine::SoundLibrary::Get(magicBallComp.ThrowSound)->Play2D();
 
 	glm::vec4 velocity = glm::toMat4(glm::quat(transformComp.Rotation)) * glm::vec4{ 0.0f, 0.0f, -28.0f, 0.0 };
 

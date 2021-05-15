@@ -3,7 +3,6 @@
 
 #include "Components.h"
 
-#include <yaml-cpp/yaml.h>
 #include "Engine/Util/Serialization.h"
 
 namespace Engine {
@@ -12,29 +11,130 @@ namespace Engine {
 		: m_Scene(scene)
 	{ }
 
-	static void SerializeEntity(YAML::Emitter& out, Entity entity)
+	
+	void SceneSerializer::Serialize(const std::string& filepath)
 	{
-		using TagComponent			= Engine::Component::Core::TagComponent;
-		using TransformComponent	= Engine::Component::Core::TransformComponent;
-		using ParentComponent		= Engine::Component::Core::ParentComponent;
+		LOG_INFO("Serialize Scene...\n\tfile: {}", filepath);
 
-		using MeshComponent					= Engine::Component::Renderer::MeshComponent;
-		using MaterialComponent				= Engine::Component::Renderer::MaterialComponent;
-		using ShadowComponent				= Engine::Component::Renderer::ShadowComponent;
-		using DirectionalLightComponent		= Engine::Component::Renderer::DirectionalLightComponent;
-		using PointLightComponent			= Engine::Component::Renderer::PointLightComponent;
-		using CameraComponent				= Engine::Component::Renderer::CameraComponent;
+		YAML::Emitter out;
 
-		using StaticColliderComponent		= Engine::Component::Physics::StaticColliderComponent;
-		using CharacterControllerComponent	= Engine::Component::Physics::CharacterControllerComponent;
+		out << YAML::BeginMap;
+		out << YAML::Key << "Scene" << YAML::Value << "Untitled";
 
-		using Sound2DComponent		= Engine::Component::Audio::Sound2DComponent;
-		using Sound3DComponent		= Engine::Component::Audio::Sound3DComponent;
-		using ListenerComponent		= Engine::Component::Audio::ListenerComponent;
+		if (m_Scene->m_MainCamera != entt::null)
+		{
+			Entity mainCamera = { m_Scene->m_MainCamera, &m_Scene->m_Registry };
+			out << YAML::Key << "MainCamera" << YAML::Value << mainCamera.GetID();
+		}
 
-		out << YAML::BeginMap; // Entity
+		out << YAML::Key << "Spectator" << YAML::Value << m_Scene->m_SpectatorActive;
 
-		out << YAML::Key << "Entity" << YAML::Value << entity.GetID();
+		out << YAML::Key << "Entities" << YAML::BeginSeq;
+
+		m_Scene->m_Registry.each([&](auto entityID)
+			{
+				Entity entity = { entityID, &m_Scene->m_Registry };
+				if (!entity || entity.HasComponent<Component::Core::Unserializable>())
+					return;
+
+				out << YAML::BeginMap; // Entity
+				out << YAML::Key << "Entity" << YAML::Value << entity.GetID();
+
+				SerializeComponents(out, entity);
+				SerializeGameComponents(out, entity);
+
+				out << YAML::EndMap; // Entity
+
+			});
+
+		out << YAML::EndSeq;
+		out << YAML::EndMap;
+
+		std::ofstream fout(filepath);
+		fout << out.c_str();
+	}
+
+	void SceneSerializer::Deserialize(const std::string& filepath)
+	{
+		LOG_INFO("Deserialize Scene...\n\tfile: {}", filepath);
+
+		YAML::Node data = YAML::LoadFile(filepath);
+
+		ASSERT(data["Scene"], "No Scene node!");
+
+		if (data["Spectator"])
+		{
+			bool spectator = data["Spectator"].as<bool>();
+			m_Scene->m_SpectatorActive = spectator;
+		}
+
+		if (data["Entities"])
+		{
+			std::map<uint32_t, Entity> associations;
+			std::map<Entity, uint32_t> parents;
+
+			for (YAML::Node entityNode : data["Entities"])
+			{
+				std::string name = entityNode["TagComponent"]
+					? entityNode["TagComponent"]["Tag"].as<std::string>()
+					: "Unknown Entity";
+				uint32_t id = entityNode["Entity"].as<uint32_t>();
+
+				Entity deserializedEntity = m_Scene->CreateEntity(name, id);
+
+				// Association
+				associations[id] = deserializedEntity;
+
+				// Parent
+				if (entityNode["ParentComponent"])
+				{
+					uint32_t parentID = entityNode["ParentComponent"]["Parent"].as<uint32_t>();
+					parents[deserializedEntity] = parentID;
+				}
+
+				DeserializeComponents(deserializedEntity, entityNode);
+				DeserializeGameComponents(deserializedEntity, entityNode);
+			}
+
+			if (data["MainCamera"])
+			{
+				uint32_t mainCameraID = data["MainCamera"].as<uint32_t>();
+
+				if (associations[mainCameraID])
+					m_Scene->SetMainCamera(associations[mainCameraID]);
+			}
+
+			for (auto& entry : parents)
+			{
+				uint32_t parentID = entry.second;
+				Entity child = entry.first;
+
+				if (associations[parentID])
+					child.AddComponent<Engine::Component::Core::ParentComponent>(associations[parentID]);
+			}
+
+		}
+	}
+
+	void SceneSerializer::SerializeComponents(YAML::Emitter& out, Entity entity)
+	{
+		using TagComponent = Engine::Component::Core::TagComponent;
+		using TransformComponent = Engine::Component::Core::TransformComponent;
+		using ParentComponent = Engine::Component::Core::ParentComponent;
+
+		using MeshComponent = Engine::Component::Renderer::MeshComponent;
+		using MaterialComponent = Engine::Component::Renderer::MaterialComponent;
+		using ShadowComponent = Engine::Component::Renderer::ShadowComponent;
+		using DirectionalLightComponent = Engine::Component::Renderer::DirectionalLightComponent;
+		using PointLightComponent = Engine::Component::Renderer::PointLightComponent;
+		using CameraComponent = Engine::Component::Renderer::CameraComponent;
+
+		using StaticColliderComponent = Engine::Component::Physics::StaticColliderComponent;
+		using CharacterControllerComponent = Engine::Component::Physics::CharacterControllerComponent;
+
+		using Sound2DComponent = Engine::Component::Audio::Sound2DComponent;
+		using Sound3DComponent = Engine::Component::Audio::Sound3DComponent;
+		using ListenerComponent = Engine::Component::Audio::ListenerComponent;
 
 		// Tag
 		if (entity.HasComponent<TagComponent>())
@@ -182,13 +282,13 @@ namespace Engine {
 		{
 			out << YAML::Key << "Sound2DComponent";
 			out << YAML::BeginMap; // Sound2DComponent
-		
+
 			auto& sound2DComp = entity.GetComponent<Sound2DComponent>();
-		
+
 			out << YAML::Key << "SoundSource" << YAML::Value << sound2DComp.SoundSource;
 			out << YAML::Key << "Loop" << YAML::Value << sound2DComp.Loop;
 			out << YAML::Key << "Volume" << YAML::Value << sound2DComp.Volume;
-		
+
 			out << YAML::EndMap; // Sound2DComponent
 		}
 
@@ -216,27 +316,26 @@ namespace Engine {
 			out << YAML::EndMap; // ListenerComponent
 		}
 
-		out << YAML::EndMap; // Entity
 	}
 
-	static void DeserializeEntity(Entity deserializedEntity, const YAML::Node& entityNode)
+	void SceneSerializer::DeserializeComponents(Entity deserializedEntity, const YAML::Node& entityNode)
 	{
-		using TagComponent			= Engine::Component::Core::TagComponent;
-		using TransformComponent	= Engine::Component::Core::TransformComponent;
+		using TagComponent = Engine::Component::Core::TagComponent;
+		using TransformComponent = Engine::Component::Core::TransformComponent;
 
-		using MeshComponent					= Engine::Component::Renderer::MeshComponent;
-		using MaterialComponent				= Engine::Component::Renderer::MaterialComponent;
-		using ShadowComponent				= Engine::Component::Renderer::ShadowComponent;
-		using DirectionalLightComponent		= Engine::Component::Renderer::DirectionalLightComponent;
-		using PointLightComponent			= Engine::Component::Renderer::PointLightComponent;
-		using CameraComponent				= Engine::Component::Renderer::CameraComponent;
+		using MeshComponent = Engine::Component::Renderer::MeshComponent;
+		using MaterialComponent = Engine::Component::Renderer::MaterialComponent;
+		using ShadowComponent = Engine::Component::Renderer::ShadowComponent;
+		using DirectionalLightComponent = Engine::Component::Renderer::DirectionalLightComponent;
+		using PointLightComponent = Engine::Component::Renderer::PointLightComponent;
+		using CameraComponent = Engine::Component::Renderer::CameraComponent;
 
-		using StaticColliderComponent		= Engine::Component::Physics::StaticColliderComponent;
-		using CharacterControllerComponent	= Engine::Component::Physics::CharacterControllerComponent;
+		using StaticColliderComponent = Engine::Component::Physics::StaticColliderComponent;
+		using CharacterControllerComponent = Engine::Component::Physics::CharacterControllerComponent;
 
-		using Sound2DComponent				= Engine::Component::Audio::Sound2DComponent;
-		using Sound3DComponent				= Engine::Component::Audio::Sound3DComponent;
-		using ListenerComponent				= Engine::Component::Audio::ListenerComponent;
+		using Sound2DComponent = Engine::Component::Audio::Sound2DComponent;
+		using Sound3DComponent = Engine::Component::Audio::Sound3DComponent;
+		using ListenerComponent = Engine::Component::Audio::ListenerComponent;
 
 		// Transform
 		if (entityNode["TransformComponent"])
@@ -352,102 +451,6 @@ namespace Engine {
 			deserializedEntity.AddComponent<ListenerComponent>();
 		}
 
-	}
-
-	void SceneSerializer::Serialize(const std::string& filepath)
-	{
-		LOG_INFO("Serialize Scene...\n\tfile: {}", filepath);
-
-		YAML::Emitter out;
-
-		out << YAML::BeginMap;
-		out << YAML::Key << "Scene" << YAML::Value << "Untitled";
-
-		if (m_Scene->m_MainCamera != entt::null)
-		{
-			Entity mainCamera = { m_Scene->m_MainCamera, &m_Scene->m_Registry };
-			out << YAML::Key << "MainCamera" << YAML::Value << mainCamera.GetID();
-		}
-
-		out << YAML::Key << "Spectator" << YAML::Value << m_Scene->m_SpectatorActive;
-
-		out << YAML::Key << "Entities" << YAML::BeginSeq;
-
-		m_Scene->m_Registry.each([&](auto entityID)
-			{
-				Entity entity = { entityID, &m_Scene->m_Registry };
-				if (!entity || entity.HasComponent<Component::Core::Unserializable>())
-					return;
-
-				SerializeEntity(out, entity);
-			});
-
-		out << YAML::EndSeq;
-		out << YAML::EndMap;
-
-		std::ofstream fout(filepath);
-		fout << out.c_str();
-	}
-
-	void SceneSerializer::Deserialize(const std::string& filepath)
-	{
-		LOG_INFO("Deserialize Scene...\n\tfile: {}", filepath);
-
-		YAML::Node data = YAML::LoadFile(filepath);
-
-		ASSERT(data["Scene"], "No Scene node!");
-
-		if (data["Spectator"])
-		{
-			bool spectator = data["Spectator"].as<bool>();
-			m_Scene->m_SpectatorActive = spectator;
-		}
-
-		if (data["Entities"])
-		{
-			std::map<uint32_t, Entity> associations;
-			std::map<Entity, uint32_t> parents;
-
-			for (YAML::Node entityNode : data["Entities"])
-			{
-				std::string name = entityNode["TagComponent"]
-					? entityNode["TagComponent"]["Tag"].as<std::string>()
-					: "Unknown Entity";
-				uint32_t id = entityNode["Entity"].as<uint32_t>();
-
-				Entity deserializedEntity = m_Scene->CreateEntity(name, id);
-
-				// Association
-				associations[id] = deserializedEntity;
-
-				// Parent
-				if (entityNode["ParentComponent"])
-				{
-					uint32_t parentID = entityNode["ParentComponent"]["Parent"].as<uint32_t>();
-					parents[deserializedEntity] = parentID;
-				}
-
-				DeserializeEntity(deserializedEntity, entityNode);
-			}
-
-			if (data["MainCamera"])
-			{
-				uint32_t mainCameraID = data["MainCamera"].as<uint32_t>();
-
-				if (associations[mainCameraID])
-					m_Scene->SetMainCamera(associations[mainCameraID]);
-			}
-
-			for (auto& entry : parents)
-			{
-				uint32_t parentID = entry.second;
-				Entity child = entry.first;
-
-				if (associations[parentID])
-					child.AddComponent<Engine::Component::Core::ParentComponent>(associations[parentID]);
-			}
-
-		}
 	}
 
 }

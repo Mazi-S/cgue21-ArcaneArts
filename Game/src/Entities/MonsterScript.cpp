@@ -16,20 +16,20 @@ void MonsterScript::OnUpdate(Engine::Timestep ts)
 
 	if (monsterComp.Hitpoints <= 0.0f)
 	{
-		if (monsterComp.DeathSound != nullptr)
+		if (!monsterComp.DeathSound.empty())
 		{
 			auto& transformComp = GetComponent<TransformComponent>();
-			monsterComp.DeathSound->Play3D(transformComp.Translation);
+			Engine::SoundLibrary::Get(monsterComp.DeathSound)->Play3D(transformComp.Translation);
 		}
 		Engine::Application::Get().OnEvent(MonsterDiedEvent());
 		Destroy();
 		return;
 	}
 
-	if (monsterComp.LiveSound != nullptr)
+	if (!monsterComp.LiveSound.empty())
 	{
 		auto& transformComp = GetComponent<TransformComponent>();
-		//Engine::SoundEngine::Play3D(monsterComp.LiveSound, transformComp.Translation, true);
+		//Engine::SoundLibrary::Get(monsterComp.LiveSound)->Play3D(transformComp.Translation, true, true);
 	}
 
 	// Get Hero

@@ -3,6 +3,7 @@
 
 #include <imgui.h>
 #include <glm/gtc/type_ptr.hpp>
+#include "Engine/Util/FileDialog.h"
 
 namespace Engine::ImGuiUtil {
 
@@ -110,12 +111,12 @@ namespace Engine::ImGuiUtil {
 		ImGui::Columns(2, 0, false);
 		ImGui::SetColumnWidth(0, columnWidth);
 		ImGui::Text(label.c_str());
-		ImGui::NextColumn();
-		ImGui::PushItemWidth(0);
-		bool update = ImGui::DragFloat("##DragFloat", &value, speed, min, max, "%.2f");
-		ImGui::Columns(1);
-		ImGui::PopID();
-		return update;
+ImGui::NextColumn();
+ImGui::PushItemWidth(0);
+bool update = ImGui::DragFloat("##DragFloat", &value, speed, min, max, "%.2f");
+ImGui::Columns(1);
+ImGui::PopID();
+return update;
 	}
 
 	bool DrawFloat3Control(const std::string& label, glm::vec3& values, float min, float max, float speed, float columnWidth)
@@ -176,6 +177,54 @@ namespace Engine::ImGuiUtil {
 			ImGuiInputTextFlags_EnterReturnsTrue);
 		if (update)
 			text = std::string(buffer);
+
+		ImGui::Columns(1);
+		ImGui::PopID();
+		return update;
+	}
+
+	static std::string GetPath(const char* filter)
+	{
+		std::string path = FileDialog::OpenFile(filter);
+		std::size_t pos = path.find("assets");
+
+		if (pos == std::string::npos)
+			return std::string();
+
+		return path.substr(pos);
+	}
+
+	bool InputPath(const std::string& label, std::string& path, const char* filter, float columnWidth)
+	{
+		ImGui::PushID(label.c_str());
+		ImGui::Columns(2, 0, false);
+		ImGui::SetColumnWidth(0, columnWidth);
+		ImGui::Text(label.c_str());
+		ImGui::NextColumn();
+		ImGui::PushItemWidth(0);
+
+		char buffer[256];
+		memset(buffer, 0, sizeof(buffer));
+		strcpy_s(buffer, sizeof(buffer), path.c_str());
+		bool update = false;
+
+		if (ImGui::InputText("##InputText", buffer, sizeof(buffer), ImGuiInputTextFlags_EnterReturnsTrue))
+		{
+			path = std::string(buffer);
+			update = true;
+		}
+
+		ImGui::SameLine();
+
+		if (update = ImGui::Button("..."))
+		{
+			std::string newPath = GetPath(filter);
+			if (!newPath.empty())
+			{
+				path = newPath;
+				update = true;
+			}
+		}
 
 		ImGui::Columns(1);
 		ImGui::PopID();

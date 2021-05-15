@@ -29,6 +29,8 @@ namespace Engine::ImGuiUtil {
 
 	bool InputText(const std::string& label, std::string& text, float columnWidth = 100.0f);
 
+	bool InputPath(const std::string& label, std::string& path, const char* filter, float columnWidth = 100.0f);
+
 	void Text(const std::string& label, const std::string& text, float columnWidth = 100.0f);
 
 	bool Button(const std::string& label, const std::string& buttonLable, ButtonType type = ButtonType::Default, float columnWidth = 100.0f);

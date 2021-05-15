@@ -73,7 +73,7 @@ namespace Engine {
 
 		// Path
 		std::string path = shader->GetPath();
-		if (ImGuiUtil::InputText("Path", path))
+		if (ImGuiUtil::InputPath("Path", path, "GLSL (*.glsl)\0*.glsl\0"))
 		{
 			shader->m_Path = path;
 			shader->Reload();
