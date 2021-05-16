@@ -12,7 +12,7 @@ namespace Engine {
 	{
 		using Identifier = Engine::Component::Core::Identifier;
 
-		if (!HasComponent<Identifier>())
+		if (m_Registry == nullptr || m_EntityHandle == entt::null || !HasComponent<Identifier>())
 			return 0;
 
 		return m_Registry->get<Identifier>(m_EntityHandle).ID;
@@ -36,6 +36,7 @@ namespace Engine {
 
 		if (HasComponent<Component::Core::TagComponent>())
 		ss << "Tag:" << m_Registry->get<Component::Core::TagComponent>(m_EntityHandle).Tag;
+		ss << "ID:" << m_Registry->get<Component::Core::Identifier>(m_EntityHandle).ID;
 
 		ss << "}";
 		return ss.str();

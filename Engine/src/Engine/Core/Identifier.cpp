@@ -4,7 +4,7 @@
 
 namespace Engine {
 
-	std::set<uint32_t> Identifier::s_Used;
+	std::set<uint32_t> Identifier::s_Used = { 0 };
 
 	uint32_t Engine::Identifier::newID()
 	{

@@ -1,5 +1,6 @@
 #include "egpch.h"
 #include "SceneHierarchyPanel.h"
+#include "SceneHierarchy.h"
 
 #include <imgui.h>
 #include "ImGuiUtil.h"
@@ -81,12 +82,16 @@ namespace Engine {
 		ImGui::Dummy({ 0,.5 });
 		ImGuiUtil::HeaderText("Scene Hierarchy");
 
+		SceneHierarchy sceneHierarchy;
+
 		m_Context->m_Registry.each(
 			[&](auto entityID)
 			{
-				DrawEntityNode(Entity(entityID, &m_Context->m_Registry));
+				sceneHierarchy.Add(Entity(entityID, &m_Context->m_Registry));
 			}
 		);
+
+		sceneHierarchy.Draw(m_SelectionContext);
 
 		ImGui::End();
 
@@ -109,21 +114,6 @@ namespace Engine {
 		}
 
 		ImGui::End();
-	}
-
-	void SceneHierarchyPanel::DrawEntityNode(Entity entity)
-	{
-		auto& tag = entity.GetComponent<Engine::Component::Core::TagComponent>().Tag;
-
-		ImGuiTreeNodeFlags flags = ImGuiTreeNodeFlags_SpanAvailWidth;
-		flags |= (m_SelectionContext == entity) ? ImGuiTreeNodeFlags_Selected : 0;
-
-		bool opened = ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)entity, flags, tag.c_str());
-		if (ImGui::IsItemClicked())
-			m_SelectionContext = m_SelectionContext != entity ? entity : Entity();
-
-		if (opened)
-			ImGui::TreePop();
 	}
 
 	void SceneHierarchyPanel::DrawEntity(Entity entity)
@@ -521,7 +511,6 @@ namespace Engine {
 				ImGuiUtil::Text("Description", "Specifies if the entity is the audio listener.");
 			});
 	}
-
 
 
 }

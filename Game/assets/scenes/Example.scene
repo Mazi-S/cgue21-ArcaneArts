@@ -2092,9 +2092,9 @@ Entities:
       Material: ForestMaterial
     ShadowComponent: {}
     StaticColliderComponent: {}
-  - Entity: 3795058407
+  - Entity: 0
     TagComponent:
-      Tag: Clouds
+      Tag: Clouds 0
     TransformComponent:
       Translation: [74, 60, -94]
       Rotation: [0, 0, 0]

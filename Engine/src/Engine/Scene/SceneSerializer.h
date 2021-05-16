@@ -17,6 +17,7 @@ namespace Engine {
 
 	private:
 		void SerializeComponents(YAML::Emitter& out, Entity entity);
+		void DeserializeCoreComponents(Entity deserializedEntity, const YAML::Node& entityNode, std::map<uint32_t, Entity> entities);
 		void DeserializeComponents(Entity deserializedEntity, const YAML::Node& entityNode);
 
 		// implemented on client side (game)

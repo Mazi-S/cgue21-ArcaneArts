@@ -17,7 +17,7 @@ namespace Engine::System::Renderer2D {
 			for (auto entity : view)
 			{
 				auto& spriteRendererComp = view.get<SpriteRendererComponent>(entity);
-				Engine::Renderer2D::DrawQuad(Util::Transform(registry, entity), spriteRendererComp.Color);
+				Engine::Renderer2D::DrawQuad(Util::GlobalTransformMatrix(registry, entity), spriteRendererComp.Color);
 			}
 		}
 
@@ -26,7 +26,7 @@ namespace Engine::System::Renderer2D {
 			for (auto entity : view)
 			{
 				auto [spriteRendererComp, spriteRendererTextureComp] = view.get<SpriteRendererComponent, SpriteRendererTextureComponent>(entity);
-				Engine::Renderer2D::DrawQuad(Util::Transform(registry, entity), spriteRendererTextureComp.Texture, spriteRendererComp.Color);
+				Engine::Renderer2D::DrawQuad(Util::GlobalTransformMatrix(registry, entity), spriteRendererTextureComp.Texture, spriteRendererComp.Color);
 			}
 		}
 	}

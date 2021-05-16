@@ -70,27 +70,36 @@ namespace Engine {
 
 		if (data["Entities"])
 		{
-			std::map<uint32_t, Entity> associations;
-			std::map<Entity, uint32_t> parents;
+			std::map<uint32_t, Entity> entities;
+			std::map<uint32_t, YAML::Node> nodes;
 
 			for (YAML::Node entityNode : data["Entities"])
 			{
 				std::string name = entityNode["TagComponent"]
 					? entityNode["TagComponent"]["Tag"].as<std::string>()
 					: "Unknown Entity";
+
 				uint32_t id = entityNode["Entity"].as<uint32_t>();
 
 				Entity deserializedEntity = m_Scene->CreateEntity(name, id);
 
 				// Association
-				associations[id] = deserializedEntity;
+				entities[id] = deserializedEntity;
+				nodes[id] = entityNode;
+			}
 
-				// Parent
-				if (entityNode["ParentComponent"])
-				{
-					uint32_t parentID = entityNode["ParentComponent"]["Parent"].as<uint32_t>();
-					parents[deserializedEntity] = parentID;
-				}
+			for (auto entry : nodes)
+			{
+				auto& entityNode = entry.second;
+				auto& deserializedEntity = entities[entry.first];
+
+				DeserializeCoreComponents(deserializedEntity, entityNode, entities);
+			}
+
+			for (auto entry : nodes)
+			{
+				auto& entityNode = entry.second;
+				auto& deserializedEntity = entities[entry.first];
 
 				DeserializeComponents(deserializedEntity, entityNode);
 				DeserializeGameComponents(deserializedEntity, entityNode);
@@ -100,17 +109,8 @@ namespace Engine {
 			{
 				uint32_t mainCameraID = data["MainCamera"].as<uint32_t>();
 
-				if (associations[mainCameraID])
-					m_Scene->SetMainCamera(associations[mainCameraID]);
-			}
-
-			for (auto& entry : parents)
-			{
-				uint32_t parentID = entry.second;
-				Entity child = entry.first;
-
-				if (associations[parentID])
-					child.AddComponent<Engine::Component::Core::ParentComponent>(associations[parentID]);
+				if (entities[mainCameraID])
+					m_Scene->SetMainCamera(entities[mainCameraID]);
 			}
 
 		}
@@ -318,11 +318,32 @@ namespace Engine {
 
 	}
 
-	void SceneSerializer::DeserializeComponents(Entity deserializedEntity, const YAML::Node& entityNode)
+	void SceneSerializer::DeserializeCoreComponents(Entity deserializedEntity, const YAML::Node& entityNode, std::map<uint32_t, Entity> entities)
 	{
-		using TagComponent = Engine::Component::Core::TagComponent;
+		using ParentComponent = Engine::Component::Core::ParentComponent;
 		using TransformComponent = Engine::Component::Core::TransformComponent;
 
+		// Parent
+		if (entityNode["ParentComponent"])
+		{
+			uint32_t parentID = entityNode["ParentComponent"]["Parent"].as<uint32_t>();
+			Entity parent = entities[parentID];
+			deserializedEntity.AddComponent<ParentComponent>(parent);
+		}
+
+		// Transform
+		if (entityNode["TransformComponent"])
+		{
+			auto compNode = entityNode["TransformComponent"];
+			auto& transformComp = deserializedEntity.GetComponent<TransformComponent>();
+			transformComp.Translation = compNode["Translation"].as<glm::vec3>();
+			transformComp.Rotation = compNode["Rotation"].as<glm::vec3>();
+			transformComp.Scale = compNode["Scale"].as<glm::vec3>();
+		}
+	}
+
+	void SceneSerializer::DeserializeComponents(Entity deserializedEntity, const YAML::Node& entityNode)
+	{
 		using MeshComponent = Engine::Component::Renderer::MeshComponent;
 		using MaterialComponent = Engine::Component::Renderer::MaterialComponent;
 		using ShadowComponent = Engine::Component::Renderer::ShadowComponent;
@@ -337,16 +358,7 @@ namespace Engine {
 		using Sound3DComponent = Engine::Component::Audio::Sound3DComponent;
 		using ListenerComponent = Engine::Component::Audio::ListenerComponent;
 
-		// Transform
-		if (entityNode["TransformComponent"])
-		{
-			auto compNode = entityNode["TransformComponent"];
-			auto& transformComp = deserializedEntity.GetComponent<TransformComponent>();
-			transformComp.Translation = compNode["Translation"].as<glm::vec3>();
-			transformComp.Rotation = compNode["Rotation"].as<glm::vec3>();
-			transformComp.Scale = compNode["Scale"].as<glm::vec3>();
-		}
-
+		
 		// Mesh
 		if (entityNode["MeshComponent"])
 		{

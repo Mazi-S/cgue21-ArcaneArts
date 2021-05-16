@@ -1,6 +1,203 @@
 Scene: Untitled
+MainCamera: 1495811460
 Spectator: true
 Entities:
+  - Entity: 351936553
+    TagComponent:
+      Tag: Tree 1
+    ParentComponent:
+      Parent: 2504390032
+    TransformComponent:
+      Translation: [-3.6500001, -3.27999997, -5.3499999]
+      Rotation: [0, 0.244346097, 0]
+      Scale: [0.899999976, 0.970000029, 0.889999986]
+    MeshComponent:
+      Mesh: Spruce_2
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 2504390032
+    TagComponent:
+      Tag: group 1
+    TransformComponent:
+      Translation: [-20.8212299, 3.34744644, -14.195694]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+  - Entity: 1392241822
+    TagComponent:
+      Tag: Fallen Tree 2
+    ParentComponent:
+      Parent: 2504390032
+    TransformComponent:
+      Translation: [-2.53999996, -0.819999993, -2.97000003]
+      Rotation: [-0.181514233, 0.479965538, -0.0471238904]
+      Scale: [1.70000005, 1.70000005, 1.20000005]
+    MeshComponent:
+      Mesh: Fallen_Tree_2
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3261847391
+    TagComponent:
+      Tag: Fallen Tree 1
+    ParentComponent:
+      Parent: 2504390032
+    TransformComponent:
+      Translation: [0, -2.5999999, 0]
+      Rotation: [0.116937056, -3.64250207, 0.0890117884]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Fallen_Tree_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 817504822
+    TagComponent:
+      Tag: View Direction
+    ParentComponent:
+      Parent: 1495811460
+    TransformComponent:
+      Translation: [0, 0, -0.5]
+      Rotation: [0, 0, 0]
+      Scale: [0.100000001, 0.100000001, 0.5]
+    MeshComponent:
+      Mesh: Cube
+    MaterialComponent:
+      Material: MagicBall_Heal
+  - Entity: 3912992722
+    TagComponent:
+      Tag: Body (Controller)
+    ParentComponent:
+      Parent: 1528856030
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [0.200000003, 1, 0.200000003]
+    MeshComponent:
+      Mesh: Cube
+    MaterialComponent:
+      Material: SkinMaterial
+    ShadowComponent: {}
+  - Entity: 402180325
+    TagComponent:
+      Tag: Head (Camera)
+    ParentComponent:
+      Parent: 1495811460
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [0.300000012, 0.300000012, 0.300000012]
+    MeshComponent:
+      Mesh: Sphere
+    MaterialComponent:
+      Material: MagicBall_Fire
+    ShadowComponent: {}
+  - Entity: 1528856030
+    TagComponent:
+      Tag: Character
+    TransformComponent:
+      Translation: [-15.5551805, 1.27143943, 2.33410764]
+      Rotation: [-0.119196631, 0.193958983, 0]
+      Scale: [1, 1, 1]
+    CharacterControllerComponent:
+      Active: false
+      TranslationSpeed: 5
+      RotationSpeed: 0.00200000009
+      StandingHeight: 2
+      CrouchingHeight: 1.20000005
+      Radius: 0.300000012
+  - Entity: 754852147
+    TagComponent:
+      Tag: Tree 01
+    TransformComponent:
+      Translation: [17.0699997, -0.170000002, -30.2999992]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1.21000004, 1]
+    MeshComponent:
+      Mesh: Spruce_1
+    MaterialComponent:
+      Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 363236415
+    TagComponent:
+      Tag: Cave
+    TransformComponent:
+      Translation: [14.6099997, -0.0799999982, -34.4099998]
+      Rotation: [0.00174532924, -1.63886416, -0.00523598772]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Cave
+    MaterialComponent:
+      Material: CaveMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 4024678244
+    TagComponent:
+      Tag: Terrain
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Terrain
+    MaterialComponent:
+      Material: TerrainMaterial
+    StaticColliderComponent: {}
+  - Entity: 1495811460
+    TagComponent:
+      Tag: Camera
+    ParentComponent:
+      Parent: 1528856030
+    TransformComponent:
+      Translation: [0, 1, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    CameraComponent:
+      FOV: 0.785398185
+      Near: 0.00999999978
+      Far: 1000
+  - Entity: 987618112
+    TagComponent:
+      Tag: Directional Light
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0.0314159244, 0]
+      Scale: [1, 1, 1]
+    DirectionalLightComponent:
+      Direction: [-4.5999999, -12, 16.3999996]
+      Color: [2.0999999, 2.0999999, 1.5]
+  - Entity: 4103491812
+    TagComponent:
+      Tag: Cube
+    TransformComponent:
+      Translation: [-0.280000001, 1.19000006, 0]
+      Rotation: [0.0541052036, 0, 0]
+      Scale: [0.5, 0.5, 0.5]
+    MeshComponent:
+      Mesh: Cube
+    MaterialComponent:
+      Material: RockMaterial
+    ShadowComponent: {}
+  - Entity: 3035369592
+    TagComponent:
+      Tag: Point Light
+    TransformComponent:
+      Translation: [1.91999996, 0.409999996, 0]
+      Rotation: [0, 0.357792497, 0]
+      Scale: [0.0500000007, 0.0500000007, 0.0500000007]
+    MeshComponent:
+      Mesh: Sphere
+    MaterialComponent:
+      Material: MagicBall_Light
+    PointLightComponent:
+      Color: [0.800000012, 0.800000012, 0.800000012]
+      Constant: 1
+      Linear: 0.400000006
+      Quadratic: 0.100000001
   - Entity: 356858730
     TagComponent:
       Tag: Monster
@@ -20,85 +217,57 @@ Entities:
       Speed: 2
       ViewRange: 10
       HitRange: 1
-  - Entity: 3035369592
+  - Entity: 2389675829
     TagComponent:
-      Tag: Point Light
+      Tag: group 1.2
+    ParentComponent:
+      Parent: 2504390032
     TransformComponent:
-      Translation: [1.91999996, 0.409999996, 0]
-      Rotation: [0, 0.357792497, 0]
-      Scale: [0.0500000007, 0.0500000007, 0.0500000007]
-    MeshComponent:
-      Mesh: Sphere
-    MaterialComponent:
-      Material: MagicBall_Light
-    PointLightComponent:
-      Color: [0.800000012, 0.800000012, 0.800000012]
-      Constant: 1
-      Linear: 0.400000006
-      Quadratic: 0.100000001
-  - Entity: 4103491812
+      Translation: [-3.5, -2.53999996, -2.48000002]
+      Rotation: [0.0122173047, -0.363028467, 0]
+      Scale: [1, 1, 1]
+  - Entity: 1843845003
     TagComponent:
-      Tag: Cube
+      Tag: Rock 1
+    ParentComponent:
+      Parent: 2389675829
     TransformComponent:
-      Translation: [-0.280000001, 1.19000006, 0]
-      Rotation: [0.0541052036, 0, 0]
-      Scale: [0.5, 0.5, 0.5]
+      Translation: [0.00999999978, -0.0199999996, 0.340000004]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
     MeshComponent:
-      Mesh: Cube
+      Mesh: Rock_1
     MaterialComponent:
       Material: RockMaterial
     ShadowComponent: {}
-  - Entity: 987618112
+    StaticColliderComponent: {}
+  - Entity: 3650942379
     TagComponent:
-      Tag: Directional Light
+      Tag: Stump 1
+    ParentComponent:
+      Parent: 2389675829
     TransformComponent:
-      Translation: [0, 0, 0]
-      Rotation: [0, 0.0314159244, 0]
-      Scale: [1, 1, 1]
-    DirectionalLightComponent:
-      Direction: [5.4000001, -24.7999992, 6.5999999]
-      Color: [0.800000012, 0.800000012, 0.800000012]
-  - Entity: 1495811460
-    TagComponent:
-      Tag: Camera
-    TransformComponent:
-      Translation: [-0.239999995, 0.920000017, 4.44999981]
-      Rotation: [-0.0994837657, 0.0366519131, 0]
-      Scale: [1, 1, 1]
-    CameraComponent:
-      FOV: 0.785398185
-      Near: 0.00999999978
-      Far: 1000
-  - Entity: 4024678244
-    TagComponent:
-      Tag: Terrain
-    TransformComponent:
-      Translation: [0, 0, 0]
+      Translation: [-2.38000011, 0.370000005, 0.0500000007]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     MeshComponent:
-      Mesh: Terrain
-    MaterialComponent:
-      Material: TerrainMaterial
-  - Entity: 363236415
-    TagComponent:
-      Tag: Cave
-    TransformComponent:
-      Translation: [14.6099997, -0.0799999982, -34.4099998]
-      Rotation: [0.00174532924, -1.63886416, -0.00523598772]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Cave
-    MaterialComponent:
-      Material: CaveMaterial
-  - Entity: 754852147
-    TagComponent:
-      Tag: Tree 01
-    TransformComponent:
-      Translation: [17.0699997, -0.170000002, -30.2999992]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1.21000004, 1]
-    MeshComponent:
-      Mesh: Spruce_1
+      Mesh: Stump_1
     MaterialComponent:
       Material: ForestMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}
+  - Entity: 3279506944
+    TagComponent:
+      Tag: Rock 2
+    ParentComponent:
+      Parent: 2389675829
+    TransformComponent:
+      Translation: [-0.800000012, -0.430000007, 1.12]
+      Rotation: [2.80125332, -3.81528974, 0]
+      Scale: [0.439999998, 0.430000007, 0.50999999]
+    MeshComponent:
+      Mesh: Rock_1
+    MaterialComponent:
+      Material: RockMaterial
+    ShadowComponent: {}
+    StaticColliderComponent: {}

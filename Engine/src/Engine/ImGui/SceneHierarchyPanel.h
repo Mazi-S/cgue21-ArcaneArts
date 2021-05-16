@@ -19,7 +19,6 @@ namespace Engine {
 		void OnImGui();
 
 	private:
-		void DrawEntityNode(Entity entity);
 		void DrawEntity(Entity entity);
 
 		void DrawAddComponent(Entity entity);

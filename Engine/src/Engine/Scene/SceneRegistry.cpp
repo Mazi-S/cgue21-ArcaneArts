@@ -40,14 +40,15 @@ namespace Engine {
 
 	void Scene::InitStaticCollider(entt::registry& registry, entt::entity entity)
 	{
-		auto [transformComp, meshComp, staticColliderComp] = registry.try_get<Component::Core::TransformComponent, Component::Renderer::MeshComponent, Component::Physics::StaticColliderComponent>(entity);
-		if (transformComp != nullptr && meshComp != nullptr && staticColliderComp != nullptr)
+		auto [meshComp, staticColliderComp] = registry.try_get<Component::Renderer::MeshComponent, Component::Physics::StaticColliderComponent>(entity);
+		if (meshComp != nullptr && staticColliderComp != nullptr)
 		{
-			auto actor = Engine::PhysicsAPI::CreateRigidStatic(transformComp->Translation, transformComp->Rotation);
+			auto transformComp = System::Util::GlobalTransform(registry, entity);
+			auto actor = Engine::PhysicsAPI::CreateRigidStatic(transformComp.Translation, transformComp.Rotation);
 
 			Ref<Physics::PsMesh> pxMesh = MeshLibrary::Get(meshComp->Mesh)->GetPsMesh();
 			physx::PxTriangleMesh* triMesh = pxMesh->GetPxTriangleMesh();
-			auto shape = Engine::PhysicsAPI::CreateShape(triMesh, transformComp->Scale);
+			auto shape = Engine::PhysicsAPI::CreateShape(triMesh, transformComp.Scale);
 
 			actor->attachShape(*shape);
 			shape->release();

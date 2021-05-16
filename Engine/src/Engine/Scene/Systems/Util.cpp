@@ -8,19 +8,25 @@ namespace Engine::System::Util {
 
 	void MakeIndependent(entt::registry& registry, entt::entity entity)
 	{
+		registry.replace<Component::Core::TransformComponent>(entity, GlobalTransform(registry, entity));
+		registry.remove<Engine::Component::Core::ParentComponent>(entity);
+	}
+
+	Component::Core::TransformComponent GlobalTransform(entt::registry& registry, entt::entity entity)
+	{
+		Component::Core::TransformComponent transformComp = registry.get<Component::Core::TransformComponent>(entity);
+
 		auto* parentComp = registry.try_get<Component::Core::ParentComponent>(entity);
 
-		if (parentComp == nullptr || parentComp->Parent == entt::null) return;
+		if (parentComp == nullptr || parentComp->Parent == entt::null)
+			return transformComp;
 
-		auto& transformComp = registry.get<Component::Core::TransformComponent>(entity);
-
-		auto& transformComp_parent = registry.get<Component::Core::TransformComponent>(parentComp->Parent);
-		
+		const auto& transformComp_parent = GlobalTransform(registry, parentComp->Parent);
 		transformComp.Rotation += transformComp_parent.Rotation;
 		transformComp.Scale *= transformComp_parent.Scale;
 		transformComp.Translation = Engine::System::Util::Transform(transformComp_parent, transformComp.Translation);
-		
-		registry.remove<Engine::Component::Core::ParentComponent>(entity);
+
+		return transformComp;
 	}
 
 	glm::mat4 Transform(const Component::Core::TransformComponent& tc)
@@ -36,7 +42,7 @@ namespace Engine::System::Util {
 		return { v4.x, v4.y, v4.z };
 	}
 
-	glm::mat4 Transform(entt::registry& registry, entt::entity entity)
+	glm::mat4 GlobalTransformMatrix(entt::registry& registry, entt::entity entity)
 	{
 		glm::mat4 transform = glm::mat4(1.0f);
 
@@ -46,14 +52,14 @@ namespace Engine::System::Util {
 
 		auto* pc = registry.try_get<Component::Core::ParentComponent>(entity);
 		if (pc != nullptr && pc->Parent != entt::null)
-			transform = Transform(registry, pc->Parent) * transform;
+			transform = GlobalTransformMatrix(registry, pc->Parent) * transform;
 
 		return transform;
 	}
 
 	glm::vec3 Position(entt::registry& registry, entt::entity entity)
 	{
-		glm::mat4 transform = Transform(registry, entity);
+		glm::mat4 transform = GlobalTransformMatrix(registry, entity);
 		return { transform[3][0], transform[3][1], transform[3][2] };
 	}
 

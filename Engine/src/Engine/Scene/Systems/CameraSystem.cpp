@@ -13,7 +13,7 @@ namespace Engine::System::Camera {
 		for (const entt::entity e : view)
 		{
 			auto& cc = view.get<Component::Renderer::CameraComponent>(e);
-			return Engine::Camera(cc.Projection, Util::Transform(registry, e));
+			return Engine::Camera(cc.Projection, Util::GlobalTransformMatrix(registry, e));
 		}
 		return Engine::Camera();
 	}
@@ -22,7 +22,7 @@ namespace Engine::System::Camera {
 	{
 		auto* cc = registry.try_get<Component::Renderer::CameraComponent>(camera);
 		if (cc != nullptr)
-			return Engine::Camera(cc->Projection, Util::Transform(registry, camera));
+			return Engine::Camera(cc->Projection, Util::GlobalTransformMatrix(registry, camera));
 
 		return Engine::Camera();
 	}
