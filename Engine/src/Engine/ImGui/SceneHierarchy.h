@@ -12,6 +12,9 @@ namespace Engine {
 			: m_ID(id), m_Entity(entity) { }
 
 		~SceneHierarchyNode();
+		void Duplicate(Entity parent);
+
+		void Delete();
 
 		bool operator<(SceneHierarchyNode other) const { return m_ID < other.m_ID; }
 
@@ -28,6 +31,9 @@ namespace Engine {
 		~SceneHierarchy();
 
 		void Add(Entity entity);
+		void Duplicate(Entity entity);
+		void Delete(Entity entity);
+		void Clear();
 
 		void Draw(Entity& selection);
 

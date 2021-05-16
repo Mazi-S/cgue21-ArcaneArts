@@ -16,7 +16,8 @@ namespace Engine::Component::Audio {
 		Sound2DComponent(std::string soundSource = std::string(), bool loop = false, float volume = 0.5)
 			: SoundSource(soundSource), Loop(loop), Volume(volume) {}
 
-		Sound2DComponent(const Sound2DComponent&) = default;
+		Sound2DComponent(const Sound2DComponent& other)
+			: SoundSource(other.SoundSource), Sound(nullptr), Loop(other.Loop), Volume(other.Volume) { }
 	};
 
 	// 3D Sound
@@ -31,7 +32,8 @@ namespace Engine::Component::Audio {
 		Sound3DComponent(std::string soundSource = std::string(), bool loop = false, float volume = 0.5)
 			: SoundSource(soundSource), Loop(loop), Volume(volume) {}
 
-		Sound3DComponent(const Sound3DComponent&) = default;
+		Sound3DComponent(const Sound3DComponent& other)
+			: SoundSource(other.SoundSource), Sound(nullptr), Loop(other.Loop), Volume(other.Volume) { }
 	};
 
 	// Listener

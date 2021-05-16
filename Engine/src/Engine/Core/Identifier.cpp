@@ -22,9 +22,9 @@ namespace Engine {
 
 	uint32_t Identifier::randomID()
 	{
-		std::random_device rand_dev;
-		std::mt19937 generator(rand_dev());
-		std::uniform_int_distribution<uint32_t> distr(0, UINT32_MAX);
+		static std::random_device rand_dev;
+		static std::mt19937 generator(rand_dev());
+		static std::uniform_int_distribution<uint32_t> distr(0, UINT32_MAX);
 		return distr(generator);
 	}
 

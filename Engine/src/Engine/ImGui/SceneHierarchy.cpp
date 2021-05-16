@@ -33,6 +33,44 @@ namespace Engine {
 		m_Nodes[parent.GetID()]->m_Children[entity.ToString()] = node;
 	}
 
+	void SceneHierarchy::Duplicate(Entity entity)
+	{
+		uint32_t id = entity.GetID();
+		if (id == 0 || m_Nodes.find(id) == m_Nodes.end())
+			return;
+
+		auto* node = m_Nodes[id];
+
+		node->Duplicate(entity.GetParent());
+	}
+
+	void SceneHierarchy::Delete(Entity entity)
+	{
+		uint32_t id = entity.GetID();
+		if (id == 0 || m_Nodes.find(id) == m_Nodes.end())
+			return;
+
+		uint32_t parentID = entity.GetParent().GetID();
+
+		auto* node = m_Nodes[id];
+		m_Nodes.erase(id);
+
+		auto* parentNode = m_Nodes[parentID];
+		parentNode->m_Children.erase(entity.ToString());
+
+		node->Delete();
+		delete node;
+	}
+
+	void SceneHierarchy::Clear()
+	{
+		delete m_Tree;
+		m_Nodes.clear();
+
+		m_Tree = new SceneHierarchyNode(0);
+		m_Nodes[0] = m_Tree;
+	}
+
 	void SceneHierarchy::Draw(Entity& selection)
 	{
 		for (auto& entry : m_Tree->m_Children)
@@ -65,6 +103,27 @@ namespace Engine {
 	{
 		for (auto entry : m_Children)
 			delete entry.second;
+	}
+
+	void SceneHierarchyNode::Duplicate(Entity parent)
+	{
+		using ParentComponent = Component::Core::ParentComponent;
+
+		Entity duplicatedEntity = m_Entity.Copy();
+
+		if (duplicatedEntity.HasComponent<ParentComponent>())
+			duplicatedEntity.GetComponent<ParentComponent>().Parent = parent;
+		
+		for (auto& entry : m_Children)
+			entry.second->Duplicate(duplicatedEntity);
+	}
+
+	void SceneHierarchyNode::Delete()
+	{
+		for (auto entry : m_Children)
+			entry.second->Delete();
+
+		m_Entity.Destroy();
 	}
 
 }

@@ -1,5 +1,6 @@
 #pragma once
 #include "Engine/Core/Base.h"
+#include "SceneHierarchy.h"
 
 #include "Engine/Scene/Scene.h"
 #include "Engine/Scene/Entity.h"
@@ -35,6 +36,8 @@ namespace Engine {
 
 	private:
 		bool m_Active = true;
+
+		SceneHierarchy m_Hierarchy;
 
 		Ref<Scene> m_Context;
 		Entity m_SelectionContext;

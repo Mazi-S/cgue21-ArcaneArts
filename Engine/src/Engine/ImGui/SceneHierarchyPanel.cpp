@@ -1,6 +1,5 @@
 #include "egpch.h"
 #include "SceneHierarchyPanel.h"
-#include "SceneHierarchy.h"
 
 #include <imgui.h>
 #include "ImGuiUtil.h"
@@ -82,16 +81,16 @@ namespace Engine {
 		ImGui::Dummy({ 0,.5 });
 		ImGuiUtil::HeaderText("Scene Hierarchy");
 
-		SceneHierarchy sceneHierarchy;
+		m_Hierarchy.Clear();
 
 		m_Context->m_Registry.each(
 			[&](auto entityID)
 			{
-				sceneHierarchy.Add(Entity(entityID, &m_Context->m_Registry));
+				m_Hierarchy.Add(Entity(entityID, &m_Context->m_Registry));
 			}
 		);
 
-		sceneHierarchy.Draw(m_SelectionContext);
+		m_Hierarchy.Draw(m_SelectionContext);
 
 		ImGui::End();
 
@@ -121,25 +120,13 @@ namespace Engine {
 		using Identifier			= Engine::Component::Core::Identifier;
 		using Unserializable		= Engine::Component::Core::Unserializable;
 		using TagComponent			= Engine::Component::Core::TagComponent;
-		using TransformComponent	= Engine::Component::Core::TransformComponent;
-		using ParentComponent		= Engine::Component::Core::ParentComponent;
 
-		using MeshComponent				= Engine::Component::Renderer::MeshComponent;
-		using MaterialComponent			= Engine::Component::Renderer::MaterialComponent;
-		using ShadowComponent			= Engine::Component::Renderer::ShadowComponent;
-		using DirectionalLightComponent	= Engine::Component::Renderer::DirectionalLightComponent;
-		using PointLightComponent		= Engine::Component::Renderer::PointLightComponent;
-		using CameraComponent			= Engine::Component::Renderer::CameraComponent;
-
-		using StaticColliderComponent		= Engine::Component::Physics::StaticColliderComponent;
-		using CharacterControllerComponent	= Engine::Component::Physics::CharacterControllerComponent;
-		using RigidComponent				= Engine::Component::Physics::RigidComponent;
-		using RigidDynamicComponent			= Engine::Component::Physics::RigidDynamicComponent;
-		using KinematicMovementComponent	= Engine::Component::Physics::KinematicMovementComponent;
-
-		using Sound2DComponent		= Engine::Component::Audio::Sound2DComponent;
-		using Sound3DComponent		= Engine::Component::Audio::Sound3DComponent;
-		using ListenerComponent		= Engine::Component::Audio::ListenerComponent;
+		if (entity.HasComponent<TagComponent>())
+		{
+			auto tag = entity.GetComponent<TagComponent>().Tag;
+			if (ImGuiUtil::InputText("Tag", tag))
+				entity.GetComponent<TagComponent>().Tag = tag;
+		}
 
 		ImGuiUtil::Text("ID", std::to_string(entity.GetID()));
 
@@ -152,13 +139,6 @@ namespace Engine {
 				entity.AddComponent<Unserializable>();
 		}
 
-		if (entity.HasComponent<TagComponent>())
-		{
-			auto tag = entity.GetComponent<TagComponent>().Tag;
-			if (ImGuiUtil::InputText("Tag", tag))
-				entity.GetComponent<TagComponent>().Tag = tag;
-		}
-
 		DrawAddComponent(entity);
 		DrawAddGameComponent(entity);
 
@@ -169,9 +149,16 @@ namespace Engine {
 
 		ImGui::Separator();
 
+		ImGui::Dummy({ 0, .3 });
+		if (Button("Duplicate Entity", glm::vec2{ -1, 0 }, ImGuiUtil::ButtonType::Default))
+		{
+			m_Hierarchy.Duplicate(entity);
+		}
+
+		ImGui::Dummy({ 0, .3 });
 		if (Button("Remove Entity", glm::vec2{ -1, 0 }, ImGuiUtil::ButtonType::Danger))
 		{
-			entity.Destroy();
+			m_Hierarchy.Delete(entity);
 			m_SelectionContext = Entity();
 		}
 	}
@@ -313,7 +300,7 @@ namespace Engine {
 			{
 				glm::vec3 rotation = glm::degrees(component.Rotation);
 
-				ImGuiUtil::DrawFloat3Control("Translation", component.Translation, 0, 0, 0.001f);
+				ImGuiUtil::DrawFloat3Control("Translation", component.Translation, 0, 0, 0.01f);
 				if (ImGuiUtil::DrawFloat3Control("Rotation", rotation))
 					component.Rotation = glm::radians(rotation);
 				ImGuiUtil::DrawFloat3Control("Scale", component.Scale, 0, 0, 0.001f);

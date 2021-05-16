@@ -9,4 +9,5 @@ namespace Engine::Factory {
 
 	entt::entity CreateEntity(entt::registry& registry, const std::string& name, uint32_t id);
 
+	entt::entity Copy(entt::registry& registry, entt::entity entity);
 }

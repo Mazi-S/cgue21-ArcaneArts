@@ -1,5 +1,5 @@
 #pragma once
-
+#include "Engine/Core/Assert.h"
 #include "entt.hpp"
 
 namespace Engine {
@@ -19,6 +19,8 @@ namespace Engine {
 		const uint32_t GetID() const;
 
 		Entity GetParent();
+
+		Entity Copy();
 
 		template <typename T, typename... Args>
 		T& AddComponent(Args&&... args)
