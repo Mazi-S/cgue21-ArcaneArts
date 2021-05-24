@@ -1,5 +1,7 @@
 MeshLibrary: Untitled
 Meshes:
+  - Mesh: Campfire
+    Path: assets\objects\campfire.obj
   - Mesh: Cave
     Path: assets/objects/cave.obj
   - Mesh: Cloud_1
