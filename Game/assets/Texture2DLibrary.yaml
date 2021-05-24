@@ -1,12 +1,12 @@
 Texture2DLibrary: Untitled
 Textures:
-  - Texture: House
-    Path: assets/textures/house.png
+  - Texture: Bricks
+    Path: assets/textures/Bricks.jpg
     Specification:
-      Width: 512
-      Height: 512
-      Internalformat: 32856
-      Format: 6408
+      Width: 2048
+      Height: 2048
+      Internalformat: 32849
+      Format: 6407
       Type: 5121
       Wrap_S: 10497
       Wrap_T: 10497
@@ -15,13 +15,13 @@ Textures:
       Mag_Filter: 9729
       ComparisonMode: 0
       Mipmaps: true
-  - Texture: Bricks
-    Path: assets/textures/Bricks.jpg
+  - Texture: House
+    Path: assets/textures/house.png
     Specification:
-      Width: 2048
-      Height: 2048
-      Internalformat: 32849
-      Format: 6407
+      Width: 512
+      Height: 512
+      Internalformat: 32856
+      Format: 6408
       Type: 5121
       Wrap_S: 10497
       Wrap_T: 10497
@@ -60,13 +60,13 @@ Textures:
       Mag_Filter: 9729
       ComparisonMode: 0
       Mipmaps: true
-  - Texture: Forest
-    Path: assets/textures/forest.png
+  - Texture: MonsterSmall
+    Path: assets/textures/monster-small.png
     Specification:
       Width: 1024
       Height: 1024
-      Internalformat: 32849
-      Format: 6407
+      Internalformat: 32856
+      Format: 6408
       Type: 5121
       Wrap_S: 10497
       Wrap_T: 10497
@@ -80,8 +80,8 @@ Textures:
     Specification:
       Width: 4096
       Height: 4096
-      Internalformat: 32849
-      Format: 6407
+      Internalformat: 32856
+      Format: 6408
       Type: 5121
       Wrap_S: 10497
       Wrap_T: 10497
@@ -90,11 +90,26 @@ Textures:
       Mag_Filter: 9729
       ComparisonMode: 0
       Mipmaps: true
-  - Texture: MonsterSmall
-    Path: assets/textures/monster-small.png
+  - Texture: Forest
+    Path: assets/textures/forest.png
     Specification:
       Width: 1024
       Height: 1024
+      Internalformat: 32856
+      Format: 6408
+      Type: 5121
+      Wrap_S: 10497
+      Wrap_T: 10497
+      Border: [0, 0, 0, 0]
+      Min_Filter: 9729
+      Mag_Filter: 9729
+      ComparisonMode: 0
+      Mipmaps: true
+  - Texture: CampfireTex
+    Path: assets/textures/campfire.png
+    Specification:
+      Width: 2048
+      Height: 2048
       Internalformat: 32856
       Format: 6408
       Type: 5121

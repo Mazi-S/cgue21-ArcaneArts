@@ -1,5 +1,14 @@
 MaterialLibrary: Untitled
 Materials:
+  - Material: CampfireMaterial
+    Shader: TextureShader
+    Ambient: [0.0399999991, 0.0399999991, 0.0399999991]
+    Diffuse: [0.600000024, 0.600000024, 0.600000024]
+    Specular: [0.0900000036, 0.0799999982, 0.0799999982]
+    Shininess: 1
+    Textures:
+      0: ShadowMap
+      1: CampfireTex
   - Material: CaveMaterial
     Shader: TextureShader
     Ambient: [0.100000001, 0.100000001, 0.100000001]
