@@ -1,15 +1,21 @@
 #type vertex
-#version 330 core
+#version 420 core
 
 layout (location = 0) in vec3 a_Position; 
+layout (location = 1) in float a_Power;
+
+out float g_Power;
 
 void main() 
 {
 	gl_Position = vec4(a_Position, 1.0);
+	g_Power = a_Power;
 }
 
 #type geometry
-#version 330 core
+#version 420 core
+
+in float g_Power[];
 
 layout(points) in;
 layout(triangle_strip) out;
@@ -20,6 +26,7 @@ uniform vec3 u_CameraPos;
 uniform float u_BillboardSize;
 
 out vec2 v_TexCoord;
+out float v_Power;
 
 void main()
 {
@@ -31,44 +38,49 @@ void main()
 	Pos -= right;
 	gl_Position = u_ViewProjection * vec4(Pos, 1.0);
 	v_TexCoord = vec2(0.0, 0.0);
+	v_Power = g_Power[0];
 	EmitVertex();
 
 	Pos.y += u_BillboardSize;
 	gl_Position = u_ViewProjection * vec4(Pos, 1.0);
 	v_TexCoord = vec2(0.0, 1.0);
+	v_Power = g_Power[0];
 	EmitVertex();
 
 	Pos.y -= u_BillboardSize;
 	Pos += right;
 	gl_Position = u_ViewProjection * vec4(Pos, 1.0);
 	v_TexCoord = vec2(1.0, 0.0);
+	v_Power = g_Power[0];
 	EmitVertex();
 
 	Pos.y += u_BillboardSize;
 	gl_Position = u_ViewProjection * vec4(Pos, 1.0);
 	v_TexCoord = vec2(1.0, 1.0);
+	v_Power = g_Power[0];
 	EmitVertex();
 
 	EndPrimitive(); 
 } 
 
 #type fragment
-#version 330 core
+#version 420 core
 
 // illumination multiplier
 uniform float u_Brightness = 1.0;
 
-uniform sampler2D u_ColorMap;
+layout(binding = 0) uniform sampler2D u_ColorMap;
+uniform vec4 u_ColorStart;
+uniform vec4 u_ColorEnd;
 
 in vec2 v_TexCoord;
+in float v_Power;
+
 out vec4 FragColor;
 
 void main()
 { 
-	FragColor = texture2D(u_ColorMap, v_TexCoord);
+	vec4 color = u_ColorStart * v_Power + u_ColorEnd * (1.0 - v_Power);
+	FragColor = color * texture2D(u_ColorMap, v_TexCoord);
 	FragColor.xyz *= u_Brightness;
-
-	if (FragColor.r >= 0.9 && FragColor.g >= 0.9 && FragColor.b >= 0.9) {
-		discard;
-	}
 }

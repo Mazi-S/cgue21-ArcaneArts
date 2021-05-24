@@ -14,25 +14,33 @@ namespace Engine {
 	class ParticleSystem
 	{
 	public:
-		ParticleSystem();
+		ParticleSystem(const glm::vec3& position, float emitPower = 0.001f, float cooling = 0.05f, float particleSize = 0.01f, glm::vec4 colorStart = { 1, 1, 0, 1 }, glm::vec4 colorEnd = { 1, 0, 0, 0 });
 		~ParticleSystem();
-
-		void InitParticleSystem(const glm::vec3& Pos);
-
-		void Render(Timestep timestep, const glm::mat4& viewProjection, const glm::vec3& cameraPos);
+		
+		void OnUpdate(Timestep timestep);
+		void OnUpdate(Timestep timestep, const glm::vec3& position, float emitPower, float cooling, float particleSize, glm::vec4 colorStart, glm::vec4 colorEnd);
+		void OnRender(const glm::mat4& viewProjection, const glm::vec3& cameraPos);
 
 		static void Init();
 
 	private:
-		void UpdateParticles(Timestep timestep);
-		void RenderParticles(const glm::mat4& viewProjection, const glm::vec3& cameraPos);
+		void InitParticleSystem();
 
 		void Swap();
 	public:
 		static float Random();
+
 	private:
 		float m_Time;
 		bool m_isFirst;
+
+		glm::vec3 m_Position;
+		float m_EmitPower;
+		float m_Cooling;
+
+		float m_ParticleSize;
+		glm::vec4 m_ColorStart;
+		glm::vec4 m_ColorEnd;
 
 		uint16_t m_currVB;
 		uint16_t m_currTFB;

@@ -1,120 +1,108 @@
 #type vertex
-#version 330 core
+#version 420 core
 
 layout (location = 0) in float a_Type;
 layout (location = 1) in vec3 a_Position;
 layout (location = 2) in vec3 a_Velocity;
-layout (location = 3) in float a_Age;
+layout (location = 3) in float a_Power;
 
-out float v_Type0;
-out vec3 v_Position0;
-out vec3 v_Velocity0;
-out float v_Age0;
+out float v_Type;
+out vec3 v_Position;
+out vec3 v_Velocity;
+out float v_Power;
 
 void main()
 {
-	v_Type0 = a_Type;
-	v_Position0 = a_Position;
-	v_Velocity0 = a_Velocity;
-	v_Age0 = a_Age;
+	v_Type = a_Type;
+	v_Position = a_Position;
+	v_Velocity = a_Velocity;
+	v_Power = a_Power;
 }
 
 #type geometry
-#version 330 core
+#version 420 core
+
+#define TYPE_EMITTER 0.0f
+#define TYPE_PARTICLE 1.0f
 
 layout(points) in;
 layout(points) out;
-layout(max_vertices = 30) out;
+layout(max_vertices = 500) out;
 
-in float v_Type0[];
-in vec3 v_Position0[];
-in vec3 v_Velocity0[];
-in float v_Age0[];
+in float v_Type[];
+in vec3 v_Position[];
+in vec3 v_Velocity[];
+in float v_Power[];
 
-out float Type1;
-out vec3 Position1;
-out vec3 Velocity1;
-out float Age1;
+out float Type;
+out vec3 Position;
+out vec3 Velocity;
+out float Power;
 
-uniform float u_DeltaTimeMillis;
+// DeltaTime in milliseconds
+uniform float u_DeltaTime_ms;
 uniform float u_Time;
-uniform sampler1D u_RandomTexture;
-uniform float u_LauncherLifetime;
-uniform float u_ShellLifetime;
-uniform float u_SecondaryShellLifetime;
 
-#define PARTICLE_TYPE_LAUNCHER 0.0f
-#define PARTICLE_TYPE_SHELL 1.0f
-#define PARTICLE_TYPE_SECONDARY_SHELL 2.0f
+layout(binding = 0) uniform sampler1D u_RandomTexture;
+
+uniform vec3 u_EmitterPosition;
+uniform float u_EmitPower;
+uniform float u_Cooling;
 
 vec3 GetRandomDir(float TexCoord)
 {
-	vec3 Dir = texture(u_RandomTexture, TexCoord).xyz;
-	Dir -= vec3(0.5, 0.5, 0.5);
-	return Dir;
+	vec3 direction = texture(u_RandomTexture, TexCoord).xyz;
+	direction -= vec3(0.5, 0.5, 0.5);
+	return direction;
 }
 
 void main()
 {
-	float Age = v_Age0[0] + u_DeltaTimeMillis;
+	float deltaTime_s = u_DeltaTime_ms / 1000.0;
+	float deltaPower = deltaTime_s * u_Cooling;
+	
+	if (v_Type[0] == TYPE_EMITTER)
+	{
+		float power = v_Power[0] + deltaPower;
 
-	if (v_Type0[0] == PARTICLE_TYPE_LAUNCHER) {
-		if (Age >= u_LauncherLifetime) {
-			Type1 = PARTICLE_TYPE_SHELL;
-			Position1 = v_Position0[0];
-			vec3 Dir = GetRandomDir(u_Time/1000.0);
-			Dir.y = max(Dir.y, 0.5);
-			Velocity1 = normalize(Dir) / 20.0;
-			Age1 = 0.0;
-			EmitVertex();
-			EndPrimitive();
-			Age = 0.0;
+		if (power > u_EmitPower)
+		{
+			for (int i = 1 ; i < 10 ; i++)
+			{
+				vec3 direction = GetRandomDir(u_Time/ (1001.0 * i));
+				direction.y = max(direction.y, 0.5);
+				Velocity = normalize(direction) / 20.0;
+				Type = TYPE_PARTICLE;
+				Position = u_EmitterPosition;
+				Power = 1.0;
+				EmitVertex();
+				EndPrimitive();
+			}
+			power = 0;
 		}
 
-		Type1 = PARTICLE_TYPE_LAUNCHER;
-		Position1 = v_Position0[0];
-		Velocity1 = v_Velocity0[0];
-		Age1 = Age;
+		Type = TYPE_EMITTER;
+		Position = u_EmitterPosition;
+		Velocity = v_Velocity[0];
+		Power = power;
 		EmitVertex();
 		EndPrimitive();
 	}
-	else {
-		float DeltaTimeSecs = u_DeltaTimeMillis / 1000.0f;
-		float t1 = v_Age0[0] / 1000.0;
-		float t2 = Age / 1000.0;
-		vec3 DeltaP = DeltaTimeSecs * v_Velocity0[0];
-		vec3 DeltaV = vec3(DeltaTimeSecs) * (0.0, -9.81, 0.0);
+	else
+	{
+		float power = v_Power[0] - deltaPower;
 
-		if (v_Type0[0] == PARTICLE_TYPE_SHELL)  {
-			if (Age < u_ShellLifetime) {
-				Type1 = PARTICLE_TYPE_SHELL;
-				Position1 = v_Position0[0] + DeltaP;
-				Velocity1 = v_Velocity0[0] + DeltaV;
-				Age1 = Age;
-				EmitVertex();
-				EndPrimitive();
-			}
-			else {
-				for (int i = 0 ; i < 10 ; i++) {
-					 Type1 = PARTICLE_TYPE_SECONDARY_SHELL;
-					 Position1 = v_Position0[0];
-					 vec3 Dir = GetRandomDir((u_Time + i)/1000.0);
-					 Velocity1 = normalize(Dir) / 20.0;
-					 Age1 = 0.0f;
-					 EmitVertex();
-					 EndPrimitive();
-				}
-			}
-		}
-		else {
-			if (Age < u_SecondaryShellLifetime) {
-				Type1 = PARTICLE_TYPE_SECONDARY_SHELL;
-				Position1 = v_Position0[0] + DeltaP;
-				Velocity1 = v_Velocity0[0] + DeltaV;
-				Age1 = Age;
-				EmitVertex();
-				EndPrimitive();
-			}
+		vec3 DeltaPosition = deltaTime_s * v_Velocity[0];
+		vec3 DeltaVelocity = vec3(deltaTime_s) * (0.0, -9.81, 0.0);
+
+		if (power > 0)
+		{
+			Type = TYPE_PARTICLE;
+			Position = v_Position[0] + DeltaPosition;
+			Velocity = v_Velocity[0] + DeltaVelocity;
+			Power = power;
+			EmitVertex();
+			EndPrimitive();
 		}
 	}
 }

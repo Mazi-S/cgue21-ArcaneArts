@@ -174,6 +174,7 @@ namespace Engine {
 		using DirectionalLightComponent		= Engine::Component::Renderer::DirectionalLightComponent;
 		using PointLightComponent			= Engine::Component::Renderer::PointLightComponent;
 		using CameraComponent				= Engine::Component::Renderer::CameraComponent;
+		using ParticleSystemComponent		= Engine::Component::Renderer::ParticleSystemComponent;
 
 		using StaticColliderComponent		= Engine::Component::Physics::StaticColliderComponent;
 		using CharacterControllerComponent	= Engine::Component::Physics::CharacterControllerComponent;
@@ -204,6 +205,8 @@ namespace Engine {
 			components.push_back("PointLight");
 		if (!entity.HasComponent<CameraComponent>())
 			components.push_back("Camera");
+		if (!entity.HasComponent<ParticleSystemComponent>())
+			components.push_back("ParticleSystem");
 		if (!entity.HasComponent<StaticColliderComponent>())
 			components.push_back("StaticCollider");
 		if (!entity.HasComponent<CharacterControllerComponent>())
@@ -233,6 +236,8 @@ namespace Engine {
 				entity.AddComponent<PointLightComponent>();
 			if (component == "Camera")
 				entity.AddComponent<CameraComponent>();
+			if (component == "ParticleSystem")
+				entity.AddComponent<ParticleSystemComponent>();
 			if (component == "StaticCollider")
 				entity.AddComponent<StaticColliderComponent>();
 			if (component == "CharacterController")
@@ -248,28 +253,29 @@ namespace Engine {
 
 	void SceneHierarchyPanel::DrawComponents(Entity entity)
 	{
-		using Identifier = Engine::Component::Core::Identifier;
-		using Unserializable = Engine::Component::Core::Unserializable;
-		using TagComponent = Engine::Component::Core::TagComponent;
-		using TransformComponent = Engine::Component::Core::TransformComponent;
-		using ParentComponent = Engine::Component::Core::ParentComponent;
+		using Identifier				= Engine::Component::Core::Identifier;
+		using Unserializable			= Engine::Component::Core::Unserializable;
+		using TagComponent				= Engine::Component::Core::TagComponent;
+		using TransformComponent		= Engine::Component::Core::TransformComponent;
+		using ParentComponent			= Engine::Component::Core::ParentComponent;
 
-		using MeshComponent = Engine::Component::Renderer::MeshComponent;
-		using MaterialComponent = Engine::Component::Renderer::MaterialComponent;
-		using ShadowComponent = Engine::Component::Renderer::ShadowComponent;
-		using DirectionalLightComponent = Engine::Component::Renderer::DirectionalLightComponent;
-		using PointLightComponent = Engine::Component::Renderer::PointLightComponent;
-		using CameraComponent = Engine::Component::Renderer::CameraComponent;
+		using MeshComponent					= Engine::Component::Renderer::MeshComponent;
+		using MaterialComponent				= Engine::Component::Renderer::MaterialComponent;
+		using ShadowComponent				= Engine::Component::Renderer::ShadowComponent;
+		using DirectionalLightComponent		= Engine::Component::Renderer::DirectionalLightComponent;
+		using PointLightComponent			= Engine::Component::Renderer::PointLightComponent;
+		using CameraComponent				= Engine::Component::Renderer::CameraComponent;
+		using ParticleSystemComponent		= Engine::Component::Renderer::ParticleSystemComponent;
 
-		using StaticColliderComponent = Engine::Component::Physics::StaticColliderComponent;
-		using CharacterControllerComponent = Engine::Component::Physics::CharacterControllerComponent;
-		using RigidComponent = Engine::Component::Physics::RigidComponent;
-		using RigidDynamicComponent = Engine::Component::Physics::RigidDynamicComponent;
-		using KinematicMovementComponent = Engine::Component::Physics::KinematicMovementComponent;
+		using StaticColliderComponent		= Engine::Component::Physics::StaticColliderComponent;
+		using CharacterControllerComponent	= Engine::Component::Physics::CharacterControllerComponent;
+		using RigidComponent				= Engine::Component::Physics::RigidComponent;
+		using RigidDynamicComponent			= Engine::Component::Physics::RigidDynamicComponent;
+		using KinematicMovementComponent	= Engine::Component::Physics::KinematicMovementComponent;
 
-		using Sound2DComponent = Engine::Component::Audio::Sound2DComponent;
-		using Sound3DComponent = Engine::Component::Audio::Sound3DComponent;
-		using ListenerComponent = Engine::Component::Audio::ListenerComponent;
+		using Sound2DComponent		= Engine::Component::Audio::Sound2DComponent;
+		using Sound3DComponent		= Engine::Component::Audio::Sound3DComponent;
+		using ListenerComponent		= Engine::Component::Audio::ListenerComponent;
 
 		// Parent Component
 		ImGuiUtil::DrawComponent<ParentComponent>("Parent", entity, [](entt::registry* registryHandle, entt::entity entityHandle)
@@ -364,6 +370,17 @@ namespace Engine {
 				if (recalculate)
 					System::Util::RecalculateProjection(component);
 			});
+
+		// Particle System Component
+		ImGuiUtil::DrawComponent<ParticleSystemComponent>("Particle System", entity, [](ParticleSystemComponent& component)
+			{
+				ImGuiUtil::DrawFloatControl("Emit Power", component.EmitPower, 0.001, 1, 0.001);
+				ImGuiUtil::DrawFloatControl("Cooling", component.Cooling, 0.001, 1, 0.001);
+				ImGui::Dummy({ 0, 0.1 });
+				ImGuiUtil::DrawFloatControl("Particle Size", component.ParticleSize, 0.0001, 0.1, 0.0001);
+				ImGuiUtil::DrawColorControl("Color (start)", component.ColorStart);
+				ImGuiUtil::DrawColorControl("Color (end)", component.ColorEnd);
+		});
 
 		// Static Collider Component
 		ImGuiUtil::DrawComponent<StaticColliderComponent>("Static Collider", entity, [](auto& component)

@@ -42,6 +42,7 @@ namespace Engine {
 		SoundLibrary::Init();
 
 		ShadowMap::Init();
+		ParticleSystem::Init();
 
 		m_LayerStack = new LayerStack();
 	}

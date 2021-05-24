@@ -76,6 +76,8 @@ namespace Engine {
 		System::CharacterController::OnUpdate(m_Registry, ts);
 		System::Audio::OnUpdate(m_Registry);
 
+		System::Renderer::OnUpdateParticleSystem(m_Registry, ts);
+
 		m_Registry.view<Component::Core::NativeScriptComponent>().each([=](auto entity, auto& nsc) { if (nsc.Active) nsc.Instance->OnUpdate(ts); });
 		
 		static float t = 0;
@@ -105,6 +107,8 @@ namespace Engine {
 
 		ShadowMap::EndScene();
 		Renderer::EndScene();
+
+		System::Renderer::OnRenderParticleSystem(m_Registry, camera.ViewProjection(), camera.Position());
 	}
 
 	void Scene::OnEvent(Event& event)

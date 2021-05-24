@@ -13,6 +13,12 @@ namespace Engine {
 			: Projection(projection), Transform(transform)
 		{ }
 
+		const glm::mat4 ViewProjection() const
+		{
+			return Projection * glm::inverse(Transform);
+		}
+
+
 		const glm::vec3 Position() const { return { Transform[3][0], Transform[3][1], Transform[3][2] }; }
 	};
 

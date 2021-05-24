@@ -23,8 +23,6 @@ private:
 	Engine::Ref<Engine::Scene> m_Scene;
 	Engine::Ref<Engine::Skybox> m_Skybox;
 
-	Engine::Ref<Engine::ParticleSystem> m_ParticleSystem;
-
 	// ImGui
 	Engine::Scope<Engine::MaterialPanel> m_MaterialPanel;
 	Engine::Scope<Engine::ShaderPanel> m_ShaderPanel;

@@ -70,6 +70,9 @@ namespace Engine {
 		void InitCameraComponent(entt::registry& registry, entt::entity entity);
 		void DestroyCameraComponent(entt::registry& registry, entt::entity entity);
 
+		void InitParticleSystem(entt::registry& registry, entt::entity entity);
+		void DestroyParticleSystem(entt::registry& registry, entt::entity entity);
+
 		// Registry - PhysX
 		void InitStaticCollider(entt::registry& registry, entt::entity entity);
 		void UpdateStaticCollider(entt::registry& registry, entt::entity entity);

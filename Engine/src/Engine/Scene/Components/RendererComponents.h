@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include "Engine/Renderer/ParticleSystem.h"
 
 namespace Engine::Component::Renderer {
 
@@ -72,6 +73,25 @@ namespace Engine::Component::Renderer {
 		CameraComponent(const CameraComponent&) = default;
 		CameraComponent(float fov, float nearPlane, float farPlane)
 			: FOV(fov), Near(nearPlane), Far(farPlane) { }
+	};
+
+	// Effects
+
+	struct ParticleSystemComponent
+	{
+		ParticleSystem* ParticleSystem = nullptr;
+
+		float EmitPower = 0.001f;
+		float Cooling = 0.05f;
+
+		float ParticleSize = 0.01f;
+		glm::vec4 ColorStart = { 1, 1, 0, 1 };
+		glm::vec4 ColorEnd = { 1, 0, 0, 0 };
+
+		ParticleSystemComponent() = default;
+		ParticleSystemComponent(const ParticleSystemComponent&) = default;
+		ParticleSystemComponent(float emitPower, float cooling, float particleSize, glm::vec4 colorStart, glm::vec4 colorEnd)
+			: EmitPower(emitPower), Cooling(cooling), ParticleSize(particleSize), ColorStart(colorStart), ColorEnd(colorEnd) { }
 	};
 
 }

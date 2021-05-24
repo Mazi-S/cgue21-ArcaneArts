@@ -32,10 +32,25 @@ namespace Engine {
 		System::Camera::SetViewportSize(registry, entity, m_ViewportWidth, m_ViewportHeight);
 	}
 
-	void Engine::Scene::DestroyCameraComponent(entt::registry& registry, entt::entity entity)
+	void Scene::DestroyCameraComponent(entt::registry& registry, entt::entity entity)
 	{
 		if (m_MainCamera == entity)
 			m_MainCamera = entt::null;
+	}
+
+	void Scene::InitParticleSystem(entt::registry& registry, entt::entity entity)
+	{
+		auto& psComp = registry.get<Component::Renderer::ParticleSystemComponent>(entity);
+
+		glm::vec3 position = System::Util::Position(registry, entity);
+		psComp.ParticleSystem = new ParticleSystem(position, psComp.EmitPower, psComp.Cooling, psComp.ParticleSize, psComp.ColorStart, psComp.ColorEnd);
+	}
+
+	void Scene::DestroyParticleSystem(entt::registry& registry, entt::entity entity)
+	{
+		auto& particleSystemComp = registry.get<Component::Renderer::ParticleSystemComponent>(entity);
+		delete particleSystemComp.ParticleSystem;
+		particleSystemComp.ParticleSystem = nullptr;
 	}
 
 	void Scene::InitStaticCollider(entt::registry& registry, entt::entity entity)
@@ -208,6 +223,9 @@ namespace Engine {
 		// Renderer components ///////////////////////////////////////////////////////////////////////////
 		m_Registry.on_construct<Component::Renderer::CameraComponent>().connect<&Scene::InitCameraComponent>(*this);
 		m_Registry.on_destroy<Component::Renderer::CameraComponent>().connect<&Scene::DestroyCameraComponent>(*this);
+
+		m_Registry.on_construct<Component::Renderer::ParticleSystemComponent>().connect<&Scene::InitParticleSystem>(*this);
+		m_Registry.on_destroy<Component::Renderer::ParticleSystemComponent>().connect<&Scene::DestroyParticleSystem>(*this);
 
 
 		// Audio //////////////////////7//////////////////////////////////////////////////////////////////

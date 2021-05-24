@@ -47,7 +47,7 @@ namespace Engine {
 	void Renderer::BeginScene(const Camera& camera, const DirectionalLight& directionalLight, const PointLight& pointLight)
 	{
 		// Update SceneUB
-		glm::mat4 viewProjectionMatrix = camera.Projection * glm::inverse(camera.Transform);
+		glm::mat4 viewProjectionMatrix = camera.ViewProjection();
 		s_SceneUB->SetData(glm::value_ptr(viewProjectionMatrix), "ViewProjection");
 		s_SceneUB->SetData(glm::value_ptr(camera.Position()), "CameraPosition");
 

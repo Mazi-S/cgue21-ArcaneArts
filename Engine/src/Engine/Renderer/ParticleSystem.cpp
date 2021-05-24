@@ -4,6 +4,9 @@
 #include "Platform/OpenGL/OpenGLAPI.h"
 #include "Platform/OpenGL/OpenGLShader.h"
 
+#include <imgui.h>
+#include "Engine/ImGui/ImGuiUtil.h"
+
 #include "glad/glad.h"
 namespace Engine {
 
@@ -18,27 +21,16 @@ namespace Engine {
 		s_UpdateShader = CreateScope<OpenGL::GlShader>("UpdateShader", "assets/shaders/ParticleSystem_update.glsl", false);
 
 		char* varyings[4];
-		varyings[0] = "Type1";
-		varyings[1] = "Position1";
-		varyings[2] = "Velocity1";
-		varyings[3] = "Age1";
+		varyings[0] = "Type";
+		varyings[1] = "Position";
+		varyings[2] = "Velocity";
+		varyings[3] = "Power";
 
 		s_UpdateShader->SetTransformFeedbackVaryings(4, varyings, 0x8C8C);
 		s_UpdateShader->Link();
 
-		s_UpdateShader->Bind();
-
-		s_UpdateShader->SetInt("u_RandomTexture", 3);
-
-		s_UpdateShader->SetFloat("u_LauncherLifetime", 100.0f);
-		s_UpdateShader->SetFloat("u_ShellLifetime", 10000.0f);
-		s_UpdateShader->SetFloat("u_SecondaryShellLifetime", 2500.0f);
-
 		// Billboard Shader
 		s_BillboardShader = CreateScope<OpenGL::GlShader>("BillboardShader", "assets/shaders/ParticleSystem_billboard.glsl");
-		s_BillboardShader->Bind();
-		s_BillboardShader->SetInt("u_ColorMap", 0);
-		s_BillboardShader->SetFloat("u_BillboardSize", 0.01f);
 
 		OpenGL::Texture1DSpecification spec;
 		spec.Width = 1000;
@@ -62,27 +54,28 @@ namespace Engine {
 		delete[] randomData;
 
 		// Particle Texture
-		s_ParticleTexture = CreateScope<OpenGL::GlTexture2D>("ParticleTexture", "assets/textures/fireworks_red.png");
+		s_ParticleTexture = CreateScope<OpenGL::GlTexture2D>("ParticleTexture", "assets/textures/particle_mask.png");
 	}
 
-#define MAX_PARTICLES 1000
-#define PARTICLE_LIFETIME 10.0f
 
 	struct Particle
 	{
 		float Type;
-		glm::vec3 Pos;
-		glm::vec3 Vel;
-		float LifetimeMillis;
+		glm::vec3 Position;
+		glm::vec3 Velocity;
+		float Power;
 	};
 
-	Engine::ParticleSystem::ParticleSystem()
+	Engine::ParticleSystem::ParticleSystem(const glm::vec3& position, float emitPower, float cooling, float particleSize, glm::vec4 colorStart, glm::vec4 colorEnd)
+		: m_Position(position), m_EmitPower(emitPower), m_Cooling(cooling), m_ParticleSize(particleSize), m_ColorStart(colorStart), m_ColorEnd(colorEnd)
 	{
 		m_Time = 0;
 		m_isFirst = true;
 
 		m_currVB = 0;
 		m_currTFB = 1;
+
+		InitParticleSystem();
 	}
 
 	Engine::ParticleSystem::~ParticleSystem()
@@ -93,50 +86,22 @@ namespace Engine {
 		delete m_TransformFeedback[1];
 	}
 
-	void ParticleSystem::InitParticleSystem(const glm::vec3& Pos)
+	void ParticleSystem::OnUpdate(Timestep timestep)
 	{
-		uint32_t size = sizeof(Particle) * MAX_PARTICLES;
+		Swap();
 
-		Particle particles[10];
-		memset(particles, 0, sizeof(particles));
-		particles[0].Type = 0.0f;
-		particles[0].Pos = Pos;
-		particles[0].Vel = glm::vec3(0.0f, 0.0001f, 0.0f);
-		particles[0].LifetimeMillis = 0.0f;
-
-		m_VertexBuffer[0] = new OpenGL::GlVertexBuffer(size);
-		m_VertexBuffer[1] = new OpenGL::GlVertexBuffer(size);
-		m_VertexBuffer[0]->SetData(&particles, sizeof(particles), 0);
-		m_VertexBuffer[1]->SetData(&particles, sizeof(particles), 0);
-
-		m_TransformFeedback[0] = new OpenGL::GlTransformFeedback();
-		m_TransformFeedback[1] = new OpenGL::GlTransformFeedback();
-
-		m_TransformFeedback[0]->BindBuffer(*m_VertexBuffer[0], 0);
-		m_TransformFeedback[1]->BindBuffer(*m_VertexBuffer[1], 0);
-	}
-
-	void ParticleSystem::Render(Timestep timestep, const glm::mat4& viewProjection, const glm::vec3& cameraPos)
-	{
 		m_Time += timestep.GetMilliseconds();
 
 		OpenGL::API::UnbindVertexArray();
 
-		UpdateParticles(timestep);
-
-		RenderParticles(viewProjection, cameraPos);
-
-		Swap();
-	}
-
-
-	void ParticleSystem::UpdateParticles(Timestep timestep)
-	{
 		s_UpdateShader->Bind();
-		s_UpdateShader->SetFloat("u_DeltaTimeMillis", timestep.GetMilliseconds());
+		s_UpdateShader->SetFloat("u_DeltaTime_ms", timestep.GetMilliseconds());
 		s_UpdateShader->SetFloat("u_Time", m_Time);
+		s_UpdateShader->SetFloat3("u_EmitterPosition", m_Position);
+		s_UpdateShader->SetFloat("u_EmitPower", m_EmitPower);
+		s_UpdateShader->SetFloat("u_Cooling", m_Cooling);
 
-		s_RandomTexture->Bind(3);
+		s_RandomTexture->Bind();
 
 		m_VertexBuffer[m_currVB]->Bind();
 		m_TransformFeedback[m_currTFB]->Bind();
@@ -151,7 +116,7 @@ namespace Engine {
 		glVertexAttribPointer(0, 1, GL_FLOAT, GL_FALSE, sizeof(Particle), 0);					// type
 		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Particle), (const GLvoid*)4);	// position
 		glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Particle), (const GLvoid*)16);	// velocity
-		glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(Particle), (const GLvoid*)28);	// lifetime
+		glVertexAttribPointer(3, 1, GL_FLOAT, GL_FALSE, sizeof(Particle), (const GLvoid*)28);	// power
 
 		glBeginTransformFeedback(GL_POINTS);
 
@@ -174,23 +139,68 @@ namespace Engine {
 		glDisable(GL_RASTERIZER_DISCARD);
 	}
 
-	void ParticleSystem::RenderParticles(const glm::mat4& viewProjection, const glm::vec3& cameraPos)
+	void ParticleSystem::OnUpdate(Timestep timestep, const glm::vec3& position, float emitPower, float cooling, float particleSize, glm::vec4 colorStart, glm::vec4 colorEnd)
+	{
+		m_Position = position;
+		m_EmitPower = emitPower;
+		m_Cooling = cooling;
+		m_ParticleSize = particleSize;
+		m_ColorStart = colorStart;
+		m_ColorEnd = colorEnd;
+
+		OnUpdate(timestep);
+	}
+
+	void ParticleSystem::OnRender(const glm::mat4& viewProjection, const glm::vec3& cameraPos)
 	{
 		s_BillboardShader->Bind();
 		s_BillboardShader->SetFloat3("u_CameraPos", cameraPos);
 		s_BillboardShader->SetMat4("u_ViewProjection", viewProjection);
+		s_BillboardShader->SetFloat("u_BillboardSize", m_ParticleSize);
+		s_BillboardShader->SetFloat4("u_ColorStart", m_ColorStart);
+		s_BillboardShader->SetFloat4("u_ColorEnd", m_ColorEnd);
 		s_ParticleTexture->Bind();
 
 
 		m_VertexBuffer[m_currTFB]->Bind();
 
+		glDepthMask(GL_FALSE);
 		glEnableVertexAttribArray(0);
+		glEnableVertexAttribArray(1);
 
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Particle), (const GLvoid*)4);  // position
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Particle), (const GLvoid*)4);	// position
+		glVertexAttribPointer(1, 1, GL_FLOAT, GL_FALSE, sizeof(Particle), (const GLvoid*)28);	// power
 
 		glDrawTransformFeedback(GL_POINTS, m_TransformFeedback[m_currTFB]->GetRendererID());
 
 		glDisableVertexAttribArray(0);
+		glDisableVertexAttribArray(1);
+		glDepthMask(GL_TRUE);
+	}
+
+#define MAX_PARTICLES 10000000
+
+	void ParticleSystem::InitParticleSystem()
+	{
+		uint32_t size = sizeof(Particle) * MAX_PARTICLES;
+
+		Particle particles[10];
+		memset(particles, 0, sizeof(particles));
+		particles[0].Type = 0.0f;
+		particles[0].Position = m_Position;
+		particles[0].Velocity = glm::vec3(0.0f, 0.0001f, 0.0f);
+		particles[0].Power = 0.0f;
+
+		m_VertexBuffer[0] = new OpenGL::GlVertexBuffer(size);
+		m_VertexBuffer[1] = new OpenGL::GlVertexBuffer(size);
+		m_VertexBuffer[0]->SetData(&particles, sizeof(particles), 0);
+		m_VertexBuffer[1]->SetData(&particles, sizeof(particles), 0);
+
+		m_TransformFeedback[0] = new OpenGL::GlTransformFeedback();
+		m_TransformFeedback[1] = new OpenGL::GlTransformFeedback();
+
+		m_TransformFeedback[0]->BindBuffer(*m_VertexBuffer[0], 0);
+		m_TransformFeedback[1]->BindBuffer(*m_VertexBuffer[1], 0);
 	}
 
 	void ParticleSystem::Swap()

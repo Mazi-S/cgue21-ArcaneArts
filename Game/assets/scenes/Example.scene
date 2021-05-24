@@ -2,7 +2,7 @@ Scene: Untitled
 MainCamera: 1875099485
 Spectator: false
 Entities:
-  - Entity: 0
+  - Entity: 2998066992
     TagComponent:
       Tag: Moon [Directional Light]
     TransformComponent:

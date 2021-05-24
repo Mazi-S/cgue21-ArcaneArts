@@ -128,6 +128,7 @@ namespace Engine {
 		using DirectionalLightComponent = Engine::Component::Renderer::DirectionalLightComponent;
 		using PointLightComponent = Engine::Component::Renderer::PointLightComponent;
 		using CameraComponent = Engine::Component::Renderer::CameraComponent;
+		using ParticleSystemComponent = Engine::Component::Renderer::ParticleSystemComponent;
 
 		using StaticColliderComponent = Engine::Component::Physics::StaticColliderComponent;
 		using CharacterControllerComponent = Engine::Component::Physics::CharacterControllerComponent;
@@ -247,6 +248,23 @@ namespace Engine {
 			out << YAML::Key << "Far" << YAML::Value << cameraComp.Far;
 
 			out << YAML::EndMap; // CameraComponent
+		}	
+		
+		// Particle System
+		if (entity.HasComponent<ParticleSystemComponent>())
+		{
+			out << YAML::Key << "ParticleSystemComponent";
+			out << YAML::BeginMap; // ParticleSystemComponent
+
+			auto& particleSystemComp = entity.GetComponent<ParticleSystemComponent>();
+			out << YAML::Key << "EmitPower" << YAML::Value << particleSystemComp.EmitPower;
+			out << YAML::Key << "Cooling" << YAML::Value << particleSystemComp.Cooling;
+
+			out << YAML::Key << "ParticleSize" << YAML::Value << particleSystemComp.ParticleSize;
+			out << YAML::Key << "ColorStart" << YAML::Value << particleSystemComp.ColorStart;
+			out << YAML::Key << "ColorEnd" << YAML::Value << particleSystemComp.ColorEnd;
+
+			out << YAML::EndMap; // ParticleSystemComponent
 		}
 
 		// Static Collider
@@ -350,6 +368,7 @@ namespace Engine {
 		using DirectionalLightComponent = Engine::Component::Renderer::DirectionalLightComponent;
 		using PointLightComponent = Engine::Component::Renderer::PointLightComponent;
 		using CameraComponent = Engine::Component::Renderer::CameraComponent;
+		using ParticleSystemComponent = Engine::Component::Renderer::ParticleSystemComponent;
 
 		using StaticColliderComponent = Engine::Component::Physics::StaticColliderComponent;
 		using CharacterControllerComponent = Engine::Component::Physics::CharacterControllerComponent;
@@ -409,6 +428,19 @@ namespace Engine {
 			float nearPlane = compNode["Near"].as<float>();
 			float farPlane = compNode["Far"].as<float>();
 			deserializedEntity.AddComponent<CameraComponent>(fov, nearPlane, farPlane);
+		}
+
+		// Particle System
+		if (entityNode["ParticleSystemComponent"])
+		{
+			auto compNode = entityNode["ParticleSystemComponent"];
+			float emitPower = compNode["EmitPower"].as<float>();
+			float cooling = compNode["Cooling"].as<float>();
+
+			float particleSize = compNode["ParticleSize"].as<float>();
+			glm::vec4 colorStart = compNode["ColorStart"].as<glm::vec4>();
+			glm::vec4 colorEnd = compNode["ColorEnd"].as<glm::vec4>();
+			deserializedEntity.AddComponent<ParticleSystemComponent>(emitPower, cooling, particleSize, colorStart, colorEnd);
 		}
 
 		// Shadow
