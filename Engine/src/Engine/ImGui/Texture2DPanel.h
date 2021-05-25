@@ -19,6 +19,8 @@ namespace Engine {
 	private:
 		void DrawTextureNode(Ref<OpenGL::GlTexture2D> texture);
 		void DrawTexture(Ref<OpenGL::GlTexture2D> texture);
+
+		void Save();
 	};
 
 }

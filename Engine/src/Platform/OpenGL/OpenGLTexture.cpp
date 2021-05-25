@@ -40,6 +40,12 @@ namespace Engine::OpenGL {
 		glTextureSubImage2D(m_TextureID, 0, 0, 0, m_Specification.Width, m_Specification.Height, m_Specification.Format, m_Specification.Type, data);
 	}
 
+	void GlTexture2D::Reload()
+	{
+		glDeleteTextures(1, &m_TextureID);
+		Create(m_Specification, m_Path);
+	}
+
 	void GlTexture2D::Create(const Texture2DSpecification& spec)
 	{
 		m_Specification = spec;

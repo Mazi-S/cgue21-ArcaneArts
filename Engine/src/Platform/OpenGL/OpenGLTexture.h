@@ -54,6 +54,8 @@ namespace Engine::OpenGL {
 		virtual bool IsSystem() const { return m_System; }
 
 	private:
+		void Reload();
+
 		void Create(const Texture2DSpecification& spec);
 		void Create(Texture2DSpecification& spec, const std::string& filepath);
 

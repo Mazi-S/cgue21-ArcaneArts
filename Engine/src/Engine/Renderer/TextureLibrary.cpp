@@ -147,11 +147,6 @@ namespace Engine {
 		auto& spec = texture->GetSpecification();
 		out << YAML::Value << YAML::BeginMap; // Specification
 
-		out << YAML::Key << "Width" << YAML::Value << spec.Width;
-		out << YAML::Key << "Height" << YAML::Value << spec.Height;
-		out << YAML::Key << "Internalformat" << YAML::Value << spec.Internalformat;
-		out << YAML::Key << "Format" << YAML::Value << spec.Format;
-		out << YAML::Key << "Type" << YAML::Value << spec.Type;
 		out << YAML::Key << "Wrap_S" << YAML::Value << spec.Wrap_S;
 		out << YAML::Key << "Wrap_T" << YAML::Value << spec.Wrap_T;
 		out << YAML::Key << "Border" << YAML::Value << spec.Border;
@@ -176,16 +171,6 @@ namespace Engine {
 		YAML::Node specNode = texture["Specification"];
 		OpenGL::Texture2DSpecification spec;
 
-		if (specNode["Width"])
-			spec.Width = specNode["Width"].as<uint32_t>();
-		if (specNode["Height"])
-			spec.Height = specNode["Height"].as<uint32_t>();
-		if (specNode["Internalformat"])
-			spec.Internalformat = specNode["Internalformat"].as<uint32_t>();
-		if (specNode["Format"])
-			spec.Format = specNode["Format"].as<uint32_t>();
-		if (specNode["Type"])
-			spec.Type = specNode["Type"].as<uint32_t>();
 		if (specNode["Wrap_S"])
 			spec.Wrap_S = specNode["Wrap_S"].as<uint32_t>();
 		if (specNode["Wrap_T"])
