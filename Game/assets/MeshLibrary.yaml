@@ -1,5 +1,7 @@
 MeshLibrary: Untitled
 Meshes:
+  - Mesh: Beholder
+    Path: assets\objects\Beholder.obj
   - Mesh: Campfire
     Path: assets\objects\campfire.obj
   - Mesh: Cave

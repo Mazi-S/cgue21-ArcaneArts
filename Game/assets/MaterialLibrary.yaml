@@ -110,6 +110,38 @@ Materials:
     Textures:
       0: ShadowMap
       1: MonsterSmall
+  - Material: Monster_body_purple
+    Shader: ColorShader
+    Ambient: [0.0399999991, 0.0399999991, 0.0500000007]
+    Diffuse: [0.140000001, 0.109999999, 0.209999993]
+    Specular: [0.0299999993, 0.0299999993, 0]
+    Shininess: 9
+    Textures:
+      0: ShadowMap
+  - Material: Monster_eye_big
+    Shader: ColorShader
+    Ambient: [0.109999999, 0, 0]
+    Diffuse: [0.0299999993, 0, 0]
+    Specular: [0.100000001, 0, 0]
+    Shininess: 13.1999998
+    Textures:
+      0: ShadowMap
+  - Material: Monster_eye_small
+    Shader: ColorShader
+    Ambient: [0.0799999982, 0, 0]
+    Diffuse: [0.140000001, 0, 0]
+    Specular: [0.129999995, 0.00999999978, 0.129999995]
+    Shininess: 13.8000002
+    Textures:
+      0: ShadowMap
+  - Material: Monster_teeth
+    Shader: ColorShader
+    Ambient: [0.150000006, 0.150000006, 0.150000006]
+    Diffuse: [0.330000013, 0.340000004, 0.349999994]
+    Specular: [0.119999997, 0.100000001, 0.100000001]
+    Shininess: 41.4000015
+    Textures:
+      0: ShadowMap
   - Material: PedestalMaterial
     Shader: ColorShader
     Ambient: [0.109999999, 0.0500000007, 0.0199999996]

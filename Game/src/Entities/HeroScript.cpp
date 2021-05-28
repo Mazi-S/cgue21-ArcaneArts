@@ -240,10 +240,10 @@ bool HeroScript::UseActive(Engine::Timestep ts)
 		switch (m_ActiveSpell)
 		{
 		case MagicBallType::Fire:
-			materialComp.Material = "MagicBall_Fire_ready";
+			materialComp.Materials[0] = "MagicBall_Fire_ready";
 			break;
 		case MagicBallType::Lightning:
-			materialComp.Material = "MagicBall_Lightning_ready";
+			materialComp.Materials[0] = "MagicBall_Lightning_ready";
 			break;
 		}
 	}

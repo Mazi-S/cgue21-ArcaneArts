@@ -322,11 +322,28 @@ namespace Engine {
 
 
 		// Material Component
-		ImGuiUtil::DrawComponent<MaterialComponent>("Material", entity, [](auto& component)
+		ImGuiUtil::DrawComponent<MaterialComponent>("Material", entity, [](MaterialComponent& component)
 			{
-				std::string material = component.Material;
-				if (ImGuiUtil::DrawComboControl("Material", material, MaterialLibrary::GetNames()))
-					component.Material = material;
+				for (size_t i = 0; i < component.Materials.size(); i++)
+				{
+					std::string material = component.Materials[i];
+					if (ImGuiUtil::DrawComboControl("Material " + std::to_string(i), material, MaterialLibrary::GetNames()))
+						component.Materials[i] = material;
+				}
+
+				bool add = false;
+				bool remove = false;
+				if (ImGuiUtil::Button("", "Add Material", add, ImGuiUtil::ButtonType::Default, "Remove Material", remove, ImGuiUtil::ButtonType::Default))
+				{
+					if (add)
+					{
+						component.Materials.push_back("default");
+					}
+					else if (remove)
+					{
+						component.Materials.pop_back();
+					}
+				}
 			});
 
 		// Shadow Component

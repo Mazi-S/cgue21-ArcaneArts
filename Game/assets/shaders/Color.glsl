@@ -161,7 +161,7 @@ vec3 CalcDirLight(vec3 normal, vec3 viewDir)
 	vec3 resultSpecular = u_Specular * specular;
 
 	// result
-	return(lightColor  * (resultDiffuse * u_Ambient + resultSpecular));
+	return(lightColor  * (resultDiffuse + resultSpecular));
 }
 
 vec3 CalcPointLight(vec3 normal, vec3 viewDir) 
@@ -188,5 +188,5 @@ vec3 CalcPointLight(vec3 normal, vec3 viewDir)
 	float attenuation = 1.0f / (constant + distance * linear + (distance * distance) * quadratic);
 
 	// result
-	return(lightColor * attenuation * (resultDiffuse * u_Ambient + resultSpecular));
+	return(lightColor * attenuation * (resultDiffuse + resultSpecular));
 }

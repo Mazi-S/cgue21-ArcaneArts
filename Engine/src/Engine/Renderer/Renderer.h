@@ -30,7 +30,7 @@ namespace Engine {
 		static void EndScene();
 
 		static void Submit(const Ref<OpenGL::GlVertexArray>& vertexArray, const Ref<Material>& material, const glm::mat4& transform);
-		static void Submit(const std::string& meshName, const std::string& materialName, const glm::mat4& transform);
+		static void Submit(const std::string& meshName, const std::vector<std::string>& materials, const glm::mat4& transform);
 
 	private:
 		static void Render();

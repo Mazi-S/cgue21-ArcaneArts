@@ -194,7 +194,7 @@ namespace Engine {
 			out << YAML::BeginMap; // MaterialComponent
 
 			auto& materialComp = entity.GetComponent<MaterialComponent>();
-			out << YAML::Key << "Material" << YAML::Value << materialComp.Material;
+			out << YAML::Key << "Materials" << YAML::Value << materialComp.Materials;
 
 			out << YAML::EndMap; // MaterialComponent
 		}
@@ -390,8 +390,8 @@ namespace Engine {
 		if (entityNode["MaterialComponent"])
 		{
 			auto compNode = entityNode["MaterialComponent"];
-			std::string material = compNode["Material"].as<std::string>();
-			deserializedEntity.AddComponent<MaterialComponent>(material);
+			std::vector<std::string> materials = compNode["Materials"].as<std::vector<std::string>>();
+			deserializedEntity.AddComponent<MaterialComponent>(materials);
 		}
 
 		// Shadow

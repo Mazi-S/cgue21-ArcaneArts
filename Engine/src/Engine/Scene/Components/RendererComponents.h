@@ -19,14 +19,14 @@ namespace Engine::Component::Renderer {
 
 	struct MaterialComponent
 	{
-		std::string Material;
-
-		operator std::string() { return Material; }
+		std::vector<std::string> Materials;
 
 		MaterialComponent() = default;
 		MaterialComponent(const MaterialComponent&) = default;
 		MaterialComponent(std::string material)
-			: Material(material) { }
+			: Materials({ material }) { }
+		MaterialComponent(std::vector<std::string> materials)
+			: Materials(materials) { }
 	};
 	
 	struct ShadowComponent

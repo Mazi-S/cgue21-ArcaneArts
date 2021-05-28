@@ -40,7 +40,7 @@ namespace Engine {
 		operator Ref<Physics::PsMesh>() { return m_PxMesh; }
 
 	private:
-		OpenGL::GlMesh* CreateGlMesh(bool positions, bool texcoords, bool normals, OpenGL::GlVertexBufferLayout layout);
+		OpenGL::GlMesh* CreateGlMesh(bool positions, bool texcoords, bool normals);
 		Physics::PsMesh* CreatePsMesh();
 
 		void Reload();

@@ -20,7 +20,7 @@ namespace Engine::System::Renderer {
 			{
 				auto [material, mesh] = view.get<Component::Renderer::MaterialComponent, Component::Renderer::MeshComponent>(entity);
 				glm::mat4 transform = Util::GlobalTransformMatrix(registry, entity);
-				Engine::Renderer::Submit(mesh, material, transform);
+				Engine::Renderer::Submit(mesh, material.Materials, transform);
 				Engine::ShadowMap::Submit(mesh, transform);
 			}
 		}
@@ -31,7 +31,7 @@ namespace Engine::System::Renderer {
 			for (auto entity : view)
 			{
 				auto [material, mesh] = view.get<Component::Renderer::MaterialComponent, Component::Renderer::MeshComponent>(entity);
-				Engine::Renderer::Submit(mesh, material, Util::GlobalTransformMatrix(registry, entity));
+				Engine::Renderer::Submit(mesh, material.Materials, Util::GlobalTransformMatrix(registry, entity));
 			}
 		}
 	}
