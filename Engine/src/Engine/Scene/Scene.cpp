@@ -98,9 +98,8 @@ namespace Engine {
 
 		DirectionalLight dLight = System::Light::GetDirectionalLight(m_Registry);
 		std::vector<PointLight> pLights = System::Light::GetPointLights(m_Registry);
-		PointLight pLight = pLights.size() >= 1 ? pLights[0] : PointLight();
 
-		Renderer::BeginScene(camera, dLight, pLight);
+		Renderer::BeginScene(camera, dLight, pLights);
 		ShadowMap::BeginScene(camera, dLight);
 
 		System::Renderer::Submit(m_Registry);

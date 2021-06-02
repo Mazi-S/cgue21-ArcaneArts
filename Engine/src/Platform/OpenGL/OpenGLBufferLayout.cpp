@@ -13,6 +13,7 @@ namespace Engine::OpenGL {
 		switch (Type)
 		{
 		case GlShaderDataType::None:		return 0;
+		case GlShaderDataType::Struct:		return 0;
 		case GlShaderDataType::Float:		return 1;
 		case GlShaderDataType::Float2:		return 2;
 		case GlShaderDataType::Float3:		return 3;

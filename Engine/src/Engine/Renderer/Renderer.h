@@ -26,7 +26,7 @@ namespace Engine {
 
 		static void OnWindowResize(uint32_t width, uint32_t height);
 
-		static void BeginScene(const Camera& camera, const DirectionalLight& directionalLight = DirectionalLight(), const PointLight& pointLight = PointLight());
+		static void BeginScene(const Camera& camera, const DirectionalLight& directionalLight = DirectionalLight(), const std::vector<PointLight>& pointLights = {});
 		static void EndScene();
 
 		static void Submit(const Ref<OpenGL::GlVertexArray>& vertexArray, const Ref<Material>& material, const glm::mat4& transform);

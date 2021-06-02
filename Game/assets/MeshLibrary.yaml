@@ -19,7 +19,11 @@ Meshes:
   - Mesh: Fallen_Tree_2
     Path: assets/objects/forest/fallen_tree_2.obj
   - Mesh: Hand
-    Path: assets/objects/hand.obj
+    Path: assets\objects\hand.obj
+  - Mesh: Hand (left)
+    Path: assets\objects\hand_left.obj
+  - Mesh: Hand (right)
+    Path: assets\objects\hand_right.obj
   - Mesh: House
     Path: assets/objects/house.obj
   - Mesh: Knight

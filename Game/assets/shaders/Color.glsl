@@ -1,6 +1,14 @@
 #type vertex
 #version 420 core
 
+struct PointLight {
+	vec3 Position;
+	vec3 Color;
+	float Constant;
+	float Linear;
+	float Quadratic;
+};
+
 layout(location = 0) in vec3 a_Position;
 layout(location = 1) in vec2 a_TexCoord;
 layout(location = 2) in vec3 a_Normals;
@@ -10,11 +18,8 @@ layout (std140, binding = 0) uniform SceneData {
 	vec3 u_CameraPosition;
 	vec3 u_DirectionalLight_Direction;
 	vec3 u_DirectionalLight_Color;
-	vec3 u_PointLight_Position;
-	vec3 u_PointLight_Color;
-	float u_PointLight_Constant;
-	float u_PointLight_Linear;
-	float u_PointLight_Quadratic;
+	int u_PointLightCount;
+	PointLight[5] u_PointLight;
 };
 
 layout (std140, binding = 6) uniform LightSpace
@@ -41,6 +46,14 @@ void main() {
 #type fragment
 #version 420 core
 
+struct PointLight {
+	vec3 Position;
+	vec3 Color;
+	float Constant;
+	float Linear;
+	float Quadratic;
+};
+
 // illumination multiplier
 uniform float u_Brightness = 1.0;
 
@@ -49,11 +62,8 @@ layout (std140, binding = 0) uniform SceneData {
 	vec3 u_CameraPosition;
 	vec3 u_DirectionalLight_Direction;
 	vec3 u_DirectionalLight_Color;
-	vec3 u_PointLight_Position;
-	vec3 u_PointLight_Color;
-	float u_PointLight_Constant;
-	float u_PointLight_Linear;
-	float u_PointLight_Quadratic;
+	int u_PointLightCount;
+	PointLight[5] u_PointLight;
 };
 
 layout (std140, binding = 1) uniform MaterialData {
@@ -73,7 +83,7 @@ in vec4 v_FragPosLightSpace;
 out vec4 color;
 
 vec3 CalcDirLight(vec3 normal, vec3 viewDir);
-vec3 CalcPointLight(vec3 normal, vec3 viewDir); 
+vec3 CalcPointLight(vec3 normal, vec3 viewDir, vec3 lightPos, vec3 lightColor, float constant, float linear, float quadratic);
 
 float ShadowCalculation(vec4 fragPosLightSpace, vec3 normal, vec3 lightDir)
 {
@@ -138,7 +148,10 @@ void main() {
     result += (1.0 - shadow) * CalcDirLight(normal, viewDir);
 
 	// point light
-    result += CalcPointLight(normal, viewDir);
+	for(int i = 0; i < u_PointLightCount; i++)
+	{
+		result += CalcPointLight(normal, viewDir, u_PointLight[i].Position, u_PointLight[i].Color, u_PointLight[i].Constant, u_PointLight[i].Linear, u_PointLight[i].Quadratic);
+	}
 		
 	// final color
 	color = vec4(result * u_Brightness, 1.0);
@@ -164,14 +177,8 @@ vec3 CalcDirLight(vec3 normal, vec3 viewDir)
 	return(lightColor  * (resultDiffuse + resultSpecular));
 }
 
-vec3 CalcPointLight(vec3 normal, vec3 viewDir) 
+vec3 CalcPointLight(vec3 normal, vec3 viewDir, vec3 lightPos, vec3 lightColor, float constant, float linear, float quadratic)
 {
-	vec3 lightPos = u_PointLight_Position;
-	vec3 lightColor = u_PointLight_Color;
-	float constant = u_PointLight_Constant;
-	float linear = u_PointLight_Linear;
-	float quadratic = u_PointLight_Quadratic;
-
 	vec3 lightDir = normalize(lightPos - v_Position);
 
 	// diffuse

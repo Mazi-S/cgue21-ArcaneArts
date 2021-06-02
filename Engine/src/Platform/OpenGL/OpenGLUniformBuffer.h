@@ -15,8 +15,10 @@ namespace Engine::OpenGL {
 		virtual void Bind(uint32_t bindingPoint);
 		virtual void SetData(const void* data, std::string name);
 
-	private:
 		void SetData(const void* data, uint32_t size, uint32_t offset);
+		const GlBufferElement& GetElement(const std::string& name);
+
+	private:
 		void SetData(const void* data, uint32_t elemCount, uint32_t elemSize, uint32_t elemOffset, uint32_t offset);
 
 	private:

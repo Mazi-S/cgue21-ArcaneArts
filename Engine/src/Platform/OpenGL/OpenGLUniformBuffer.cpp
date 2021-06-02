@@ -38,6 +38,11 @@ namespace Engine::OpenGL {
 		glBufferSubData(GL_UNIFORM_BUFFER, offset, size, data);
 	}
 
+	const GlBufferElement& GlUniformBuffer::GetElement(const std::string& name)
+	{
+		return m_Layout.GetElement(name);
+	}
+
 	void GlUniformBuffer::SetData(const void* data, uint32_t elemCount, uint32_t elemSize, uint32_t elemOffset, uint32_t offset)
 	{
 		for (uint32_t i = 0; i < elemCount; i++)
