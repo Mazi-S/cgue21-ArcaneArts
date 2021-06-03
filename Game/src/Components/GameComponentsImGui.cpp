@@ -3,6 +3,7 @@
 #include <imgui/imgui.h>
 
 #include "GameComponents.h"
+#include "Entities/PointLightFlickerScript.h"
 
 void Engine::SceneHierarchyPanel::DrawAddGameComponent(Entity entity)
 {
@@ -13,6 +14,8 @@ void Engine::SceneHierarchyPanel::DrawAddGameComponent(Entity entity)
 		components.push_back("Monster");
 	if (!entity.HasComponent<HeroComponent>())
 		components.push_back("Hero");
+	if (!entity.HasComponent<PointLightFlickerComponent>())
+		components.push_back("PointLightFlicker");
 
 	if (components.size() > 0 && ImGuiUtil::DrawComboControl("Add Game Comp.", component, components))
 	{
@@ -20,6 +23,15 @@ void Engine::SceneHierarchyPanel::DrawAddGameComponent(Entity entity)
 			entity.AddComponent<MonsterComponent>();
 		if (component == "Hero")
 			entity.AddComponent<HeroComponent>();
+		if (component == "PointLightFlicker")
+		{
+			if (entity.HasComponent<Engine::Component::Renderer::PointLightComponent>())
+				entity.AddComponent<PointLightFlickerComponent>(entity.GetComponent<Engine::Component::Renderer::PointLightComponent>().Color);
+			else
+				entity.AddComponent<PointLightFlickerComponent>();
+
+			entity.AddNativeScript<PointLightFlickerScript>();
+		}
 	}
 }
 
@@ -55,5 +67,28 @@ void Engine::SceneHierarchyPanel::DrawGameComponents(Entity entity)
 
 			ImGui::Dummy({ 0, .5 });
 			ImGuiUtil::Text("Description", "Defines the entity as the hero.");
+	});
+
+	// Hero Component
+	ImGuiUtil::DrawComponent<PointLightFlickerComponent>("PointLightFlicker", entity, [](PointLightFlickerComponent& component)
+		{
+			ImGuiUtil::DrawFloat3Control("Color", component.Color);
+
+			ImGui::Dummy({ 0, 0.3 });
+
+			ImGuiUtil::DrawFloatControl("Duration", component.Duration, 0, 100);
+			ImGuiUtil::DrawFloatControl("Variation (D)", component.DurationVariation, 0, 10);
+			
+			ImGui::Dummy({ 0, 0.3 });
+
+			ImGuiUtil::DrawFloatControl("Intensity", component.Intensity, 0, 100);
+			ImGuiUtil::DrawFloatControl("Variation (I)", component.IntensityVariation, 0, 10);
+
+			ImGui::Dummy({ 0, 0.5 });
+
+			ImGuiUtil::Text("TimeLeft", std::to_string(component.TimeLeft));
+			std::stringstream ss;
+			ss << component.IntensityDelta.x << " " << component.IntensityDelta.y << " " << component.IntensityDelta.z;
+			ImGuiUtil::Text("IntensityDelta", ss.str());
 		});
 }

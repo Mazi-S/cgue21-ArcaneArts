@@ -1,6 +1,11 @@
 #type vertex
 #version 420 core
 
+struct DirectionalLight {
+	vec3 Direction;
+	vec3 Color;
+};
+
 struct PointLight {
 	vec3 Position;
 	vec3 Color;
@@ -16,9 +21,8 @@ layout(location = 2) in vec3 a_Normals;
 layout (std140, binding = 0) uniform SceneData {
 	mat4 u_ViewProjection;
 	vec3 u_CameraPosition;
-	vec3 u_DirectionalLight_Direction;
-	vec3 u_DirectionalLight_Color;
 	int u_PointLightCount;
+	DirectionalLight u_DirectionalLight;
 	PointLight[5] u_PointLight;
 };
 
@@ -46,6 +50,11 @@ void main() {
 #type fragment
 #version 420 core
 
+struct DirectionalLight {
+	vec3 Direction;
+	vec3 Color;
+};
+
 struct PointLight {
 	vec3 Position;
 	vec3 Color;
@@ -60,9 +69,8 @@ uniform float u_Brightness = 1.0;
 layout (std140, binding = 0) uniform SceneData {
 	mat4 u_ViewProjection;
 	vec3 u_CameraPosition;
-	vec3 u_DirectionalLight_Direction;
-	vec3 u_DirectionalLight_Color;
 	int u_PointLightCount;
+	DirectionalLight u_DirectionalLight;
 	PointLight[5] u_PointLight;
 };
 
@@ -74,7 +82,7 @@ layout (std140, binding = 1) uniform MaterialData {
 };
 
 layout(binding = 0) uniform sampler2DShadow u_ShadowMap;
-layout(binding = 1) uniform sampler2D u_Texture;
+layout(binding = 1) uniform sampler2D u_ColorTexture;
 
 in vec3 v_Position;
 in vec3 v_Normals;
@@ -83,8 +91,74 @@ in vec4 v_FragPosLightSpace;
 
 out vec4 color;
 
-vec3 CalcDirLight(vec3 normal, vec3 viewDir);
-vec3 CalcPointLight(vec3 normal, vec3 viewDir, vec3 lightPos, vec3 lightColor, float constant, float linear, float quadratic);
+vec3 CalcDirLight(vec4 color, vec3 diffuse, vec3 specular, float shininess, vec3 normal, vec3 viewDir, DirectionalLight directionalLight);
+vec3 CalcPointLight(vec4 color, vec3 diffuse, vec3 specular, float shininess, vec3 position, vec3 normal, vec3 viewDir, PointLight pointLight);
+float ShadowCalculation(vec4 fragPosLightSpace, vec3 normal, vec3 lightDir);
+
+void main() {
+	// normalize normal
+	vec3 normal = normalize(v_Normals);
+	vec3 viewDir = normalize(u_CameraPosition - v_Position);
+	vec4 fragmentColor = texture(u_ColorTexture, v_TexCoord);
+
+	// shadow
+	float shadow = ShadowCalculation(v_FragPosLightSpace, normal, u_DirectionalLight.Direction);
+
+	// ambient
+	vec3 resultAmbient = u_Ambient;
+
+	vec3 result = resultAmbient * fragmentColor.rgb;
+
+	// directional light
+	result += (1.0 - shadow) * CalcDirLight(fragmentColor, u_Diffuse, u_Specular, u_Shininess, normal, viewDir, u_DirectionalLight);
+
+	// point light
+	for(int i = 0; i < u_PointLightCount; i++)
+	{
+		result += CalcPointLight(fragmentColor, u_Diffuse, u_Specular, u_Shininess, v_Position, normal, viewDir, u_PointLight[i]);
+	}
+
+	// final color
+	color = vec4(result * u_Brightness, 1.0);
+}
+
+
+
+vec3 CalcDirLight(vec4 color, vec3 diffuse, vec3 specular, float shininess, vec3 normal, vec3 viewDir, DirectionalLight directionalLight)
+{
+	vec3 newLightDir = normalize(-directionalLight.Direction);
+	vec3 reflectDir = normalize(reflect(-newLightDir, normal));
+
+	// diffuse
+	vec3 resultDiffuse = diffuse * clamp(dot(newLightDir, normal), 0, 1);
+
+	// specular
+	vec3 resultSpecular = specular * pow(max(dot(viewDir, reflectDir), 0), u_Shininess);
+
+	// result
+	return(directionalLight.Color  * (resultDiffuse * color.rgb + resultSpecular));
+}
+
+// Blinn-Phong shading
+vec3 CalcPointLight(vec4 color, vec3 diffuse, vec3 specular, float shininess, vec3 position, vec3 normal, vec3 viewDir, PointLight pointLight)
+{
+	vec3 lightDir = normalize(pointLight.Position - position);
+	vec3 halfwayDir = normalize(lightDir + viewDir);
+	//vec3 reflectDir = normalize(reflect(-lightDir, normal));
+
+	// diffuse
+	vec3 resultDiffuse = diffuse * clamp(dot(lightDir, normal), 0, 1);
+
+	// specular
+	vec3 resultSpecular = specular * pow(max(dot(normal, halfwayDir), 0.0), shininess);
+
+	// calculate attenuation
+	float distance = length(pointLight.Position - v_Position);
+	float attenuation = 1.0 / (pointLight.Constant + distance * pointLight.Linear + (distance * distance) * pointLight.Quadratic);
+
+	// result
+	return(pointLight.Color * attenuation * (resultDiffuse * color.rgb + resultSpecular));
+}
 
 float ShadowCalculation(vec4 fragPosLightSpace, vec3 normal, vec3 lightDir)
 {
@@ -130,71 +204,4 @@ float ShadowCalculation(vec4 fragPosLightSpace, vec3 normal, vec3 lightDir)
 
 	return min(shadow, 0.8);
 	//return shadow;
-}
-
-void main() {
-	// normalize normal
-	vec3 normal = normalize(v_Normals);
-	vec3 viewDir = normalize(u_CameraPosition - v_Position);
-
-	// shadow
-	float shadow = ShadowCalculation(v_FragPosLightSpace, normal, u_DirectionalLight_Direction);
-
-	// ambient
-	vec3 resultAmbient = u_Ambient;
-
-	vec3 result = resultAmbient * texture(u_Texture, v_TexCoord).rgb;
-
-	// directional light
-	result += (1.0 - shadow) * CalcDirLight(normal, viewDir);
-
-	// point light
-	for(int i = 0; i < u_PointLightCount; i++)
-	{
-		result += CalcPointLight(normal, viewDir, u_PointLight[i].Position, u_PointLight[i].Color, u_PointLight[i].Constant, u_PointLight[i].Linear, u_PointLight[i].Quadratic);
-	}
-
-	// final color
-	color = vec4(result * u_Brightness, 1.0);
-}
-
-vec3 CalcDirLight(vec3 normal, vec3 viewDir) 
-{
-	vec3 lightDir = u_DirectionalLight_Direction;
-	vec3 lightColor = u_DirectionalLight_Color;
-
-	vec3 newLightDir = normalize(-lightDir);
-
-	// diffuse
-	float diffuse = clamp(dot(newLightDir, normal), 0, 1);
-	vec3 resultDiffuse = u_Diffuse * diffuse;
-
-	// specular
-	vec3 reflectDir = normalize(reflect(-newLightDir, normal));
-	float specular = pow(max(dot(viewDir, reflectDir), 0), u_Shininess);
-	vec3 resultSpecular = u_Specular * specular;
-
-	// result
-	return(lightColor  * (resultDiffuse * texture(u_Texture, v_TexCoord).rgb + resultSpecular));
-}
-
-vec3 CalcPointLight(vec3 normal, vec3 viewDir, vec3 lightPos, vec3 lightColor, float constant, float linear, float quadratic)
-{
-	vec3 lightDir = normalize(lightPos - v_Position);
-
-	// diffuse
-	float diffuse = clamp(dot(lightDir, normal), 0, 1);
-	vec3 resultDiffuse = u_Diffuse * diffuse;
-
-	// specular
-	vec3 reflectDir = normalize(reflect(-lightDir, normal));
-	float specular = pow(max(dot(viewDir, reflectDir), 0), u_Shininess);
-	vec3 resultSpecular = u_Specular * specular;
-
-	// calculate attenuation
-	float distance = length(lightPos - v_Position);
-	float attenuation = 1.0f / (constant + distance * linear + (distance * distance) * quadratic);
-
-	// result
-	return(lightColor * attenuation * (resultDiffuse * texture(u_Texture, v_TexCoord).rgb + resultSpecular));
 }

@@ -22,11 +22,8 @@ namespace Engine {
 			{OpenGL::GlShaderDataType::Mat4, "ViewProjection", 0},
 			{OpenGL::GlShaderDataType::Float3, "CameraPosition", 4 * 4 * 4},
 
-			{OpenGL::GlShaderDataType::Float3,	"DirectionalLight_Direction", 4 * 4 * 5},
-			{OpenGL::GlShaderDataType::Float3,	"DirectionalLight_Color", 4 * 4 * 6},
-
-			{OpenGL::GlShaderDataType::Int,		"PointLightCount", 4 * 4 * 6 + 4 * 3},
-
+			{OpenGL::GlShaderDataType::Int,		"PointLightCount", 4 * 4 * 4 + 4 * 3},
+			{OpenGL::GlShaderDataType::Struct,	"DirectionalLight", 4 * 4 * 5},
 			{OpenGL::GlShaderDataType::Struct,	"PointLight0", 4 * 4 * 7},
 			{OpenGL::GlShaderDataType::Struct,	"PointLight1", 4 * 4 * 10},
 			{OpenGL::GlShaderDataType::Struct,	"PointLight2", 4 * 4 * 13},
@@ -55,21 +52,27 @@ namespace Engine {
 		s_SceneUB->SetData(glm::value_ptr(camera.Position()), "CameraPosition");
 
 		// Lights
-		s_SceneUB->SetData(glm::value_ptr(directionalLight.Direction), "DirectionalLight_Direction");
-		s_SceneUB->SetData(glm::value_ptr(directionalLight.Color), "DirectionalLight_Color");
+		{
+			const static int offsetDirection = 0;
+			const static int offsetColor = 4 * 4 * 1;
+
+			const OpenGL::GlBufferElement& dirLightBE = s_SceneUB->GetElement("DirectionalLight");
+			s_SceneUB->SetData(glm::value_ptr(directionalLight.Direction),	 OpenGL::Util::ShaderDataTypeSize(OpenGL::GlShaderDataType::Float3), dirLightBE.Offset + offsetDirection);
+			s_SceneUB->SetData(glm::value_ptr(directionalLight.Color),		OpenGL::Util::ShaderDataTypeSize(OpenGL::GlShaderDataType::Float3), dirLightBE.Offset + offsetColor);
+		}
 
 		int pointLightCount = std::min(5, (int)pointLights.size());
 		s_SceneUB->SetData(&pointLightCount, "PointLightCount");
 
-		const static std::string bufferElementName[] = { "PointLight0", "PointLight1", "PointLight2", "PointLight3", "PointLight4" };
-		const static int offsetPosition = 0;
-		const static int offsetColor = 4 * 4 * 1;
-		const static int offsetConstant = 4 * 4 * 1 + 4 * 3;
-		const static int offsetLinear = 4 * 4 * 2;
-		const static int offsetQuadratic = 4 * 4 * 2 + 4;
-
 		for (size_t i = 0; i < pointLightCount; i++)
 		{
+			const static std::string bufferElementName[] = { "PointLight0", "PointLight1", "PointLight2", "PointLight3", "PointLight4" };
+			const static int offsetPosition = 0;
+			const static int offsetColor = 4 * 4 * 1;
+			const static int offsetConstant = 4 * 4 * 1 + 4 * 3;
+			const static int offsetLinear = 4 * 4 * 2;
+			const static int offsetQuadratic = 4 * 4 * 2 + 4;
+
 			const PointLight& pointLight = pointLights[i];
 			const OpenGL::GlBufferElement& bufferElement = s_SceneUB->GetElement(bufferElementName[i]);
 

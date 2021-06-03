@@ -51,3 +51,24 @@ struct HeroComponent
 	HeroComponent() = default;
 	HeroComponent(const HeroComponent&) = default;
 };
+
+struct PointLightFlickerComponent
+{
+	glm::vec3 Color;
+
+	float Duration = 1;
+	float DurationVariation = 1;
+	float Intensity = 1.2f;
+	float IntensityVariation = 0.2f;
+
+	float TimeLeft = 0;
+	glm::vec3 IntensityDelta = { 0, 0, 0 };
+	
+	PointLightFlickerComponent(glm::vec3 color = { 1.0f, 1.0f, 1.0f })
+		: Color(color) { }
+
+	PointLightFlickerComponent(glm::vec3 color, float duration, float durationVariation, float intensity, float intensityVariation)
+		: Color(color), Duration(duration), DurationVariation(durationVariation), Intensity(intensity), IntensityVariation(intensityVariation) { }
+
+	PointLightFlickerComponent(const PointLightFlickerComponent&) = default;
+};

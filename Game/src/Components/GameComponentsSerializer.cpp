@@ -1,9 +1,12 @@
 #include "Engine/Scene/SceneSerializer.h"
+
+#include "Engine/Util/Serialization.h"
 #include "Engine/Scene/Components.h"
 #include "GameComponents.h"
 
 #include "Entities/HeroScript.h"
 #include "Entities/MonsterScript.h"
+#include "Entities/PointLightFlickerScript.h"
 
 #include "ActorFactory.h"
 
@@ -37,6 +40,23 @@ void Engine::SceneSerializer::SerializeGameComponents(YAML::Emitter& out, Entity
 		out << YAML::Flow;
 		out << YAML::BeginMap; // HeroComponent
 		out << YAML::EndMap; // HeroComponent
+	}
+
+	// PLF
+	if (entity.HasComponent<PointLightFlickerComponent>())
+	{
+		out << YAML::Key << "PointLightFlickerComponent";
+		out << YAML::BeginMap; // PointLightFlickerComponent
+
+		auto& flickerComp = entity.GetComponent<PointLightFlickerComponent>();
+
+		out << YAML::Key << "Color" << YAML::Value << flickerComp.Color;
+		out << YAML::Key << "Duration" << YAML::Value << flickerComp.Duration;
+		out << YAML::Key << "DurationVariation" << YAML::Value << flickerComp.DurationVariation;
+		out << YAML::Key << "Intensity" << YAML::Value << flickerComp.Intensity;
+		out << YAML::Key << "IntensityVariation" << YAML::Value << flickerComp.IntensityVariation;
+
+		out << YAML::EndMap; // PointLightFlickerComponent
 	}
 
 }
@@ -77,5 +97,20 @@ void Engine::SceneSerializer::DeserializeGameComponents(Entity deserializedEntit
 			auto actor = ActorFactory::Monster(meshComp.Mesh, transformComp.Translation, transformComp.Rotation, transformComp.Scale);
 			deserializedEntity.AddComponent<Engine::Component::Physics::RigidDynamicComponent>(actor);
 		}
+	}
+
+	// Hero Component
+	if (entityNode["PointLightFlickerComponent"])
+	{
+		auto compNode = entityNode["PointLightFlickerComponent"];
+
+		glm::vec3 color = compNode["Color"].as<glm::vec3>();
+		float duration = compNode["Duration"].as<float>();
+		float durationVariation = compNode["DurationVariation"].as<float>();
+		float intensity = compNode["Intensity"].as<float>();
+		float intensityVariation = compNode["IntensityVariation"].as<float>();
+
+		deserializedEntity.AddComponent<PointLightFlickerComponent>(color, duration, durationVariation, intensity, intensityVariation);
+		deserializedEntity.AddNativeScript<PointLightFlickerScript>();
 	}
 }

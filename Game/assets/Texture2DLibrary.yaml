@@ -1,13 +1,8 @@
 Texture2DLibrary: Untitled
 Textures:
-  - Texture: Bricks
-    Path: assets/textures/Bricks.jpg
+  - Texture: House
+    Path: assets/textures/house.png
     Specification:
-      Width: 2048
-      Height: 2048
-      Internalformat: 32849
-      Format: 6407
-      Type: 5121
       Wrap_S: 10497
       Wrap_T: 10497
       Border: [0, 0, 0, 0]
@@ -15,14 +10,9 @@ Textures:
       Mag_Filter: 9729
       ComparisonMode: 0
       Mipmaps: true
-  - Texture: House
-    Path: assets/textures/house.png
+  - Texture: Bricks
+    Path: assets/textures/Bricks.jpg
     Specification:
-      Width: 512
-      Height: 512
-      Internalformat: 32856
-      Format: 6408
-      Type: 5121
       Wrap_S: 10497
       Wrap_T: 10497
       Border: [0, 0, 0, 0]
@@ -33,11 +23,6 @@ Textures:
   - Texture: WoodFloor
     Path: assets/textures/WoodFloor.jpg
     Specification:
-      Width: 2048
-      Height: 2048
-      Internalformat: 32849
-      Format: 6407
-      Type: 5121
       Wrap_S: 10497
       Wrap_T: 10497
       Border: [0, 0, 0, 0]
@@ -48,41 +33,6 @@ Textures:
   - Texture: MonsterBig
     Path: assets/textures/monster-big.png
     Specification:
-      Width: 1024
-      Height: 1024
-      Internalformat: 32856
-      Format: 6408
-      Type: 5121
-      Wrap_S: 10497
-      Wrap_T: 10497
-      Border: [0, 0, 0, 0]
-      Min_Filter: 9729
-      Mag_Filter: 9729
-      ComparisonMode: 0
-      Mipmaps: true
-  - Texture: MonsterSmall
-    Path: assets/textures/monster-small.png
-    Specification:
-      Width: 1024
-      Height: 1024
-      Internalformat: 32856
-      Format: 6408
-      Type: 5121
-      Wrap_S: 10497
-      Wrap_T: 10497
-      Border: [0, 0, 0, 0]
-      Min_Filter: 9729
-      Mag_Filter: 9729
-      ComparisonMode: 0
-      Mipmaps: true
-  - Texture: Cave
-    Path: assets/textures/cave.png
-    Specification:
-      Width: 4096
-      Height: 4096
-      Internalformat: 32856
-      Format: 6408
-      Type: 5121
       Wrap_S: 10497
       Wrap_T: 10497
       Border: [0, 0, 0, 0]
@@ -93,11 +43,26 @@ Textures:
   - Texture: Forest
     Path: assets/textures/forest.png
     Specification:
-      Width: 1024
-      Height: 1024
-      Internalformat: 32856
-      Format: 6408
-      Type: 5121
+      Wrap_S: 10497
+      Wrap_T: 10497
+      Border: [0, 0, 0, 0]
+      Min_Filter: 9729
+      Mag_Filter: 9729
+      ComparisonMode: 0
+      Mipmaps: true
+  - Texture: Cave
+    Path: assets/textures/cave.png
+    Specification:
+      Wrap_S: 10497
+      Wrap_T: 10497
+      Border: [0, 0, 0, 0]
+      Min_Filter: 9729
+      Mag_Filter: 9729
+      ComparisonMode: 0
+      Mipmaps: true
+  - Texture: MonsterSmall
+    Path: assets/textures/monster-small.png
+    Specification:
       Wrap_S: 10497
       Wrap_T: 10497
       Border: [0, 0, 0, 0]
@@ -108,11 +73,26 @@ Textures:
   - Texture: CampfireTex
     Path: assets/textures/campfire.png
     Specification:
-      Width: 2048
-      Height: 2048
-      Internalformat: 32856
-      Format: 6408
-      Type: 5121
+      Wrap_S: 10497
+      Wrap_T: 10497
+      Border: [0, 0, 0, 0]
+      Min_Filter: 9729
+      Mag_Filter: 9729
+      ComparisonMode: 0
+      Mipmaps: true
+  - Texture: Ground (color)
+    Path: assets\textures\ground\ground14.jpg
+    Specification:
+      Wrap_S: 10497
+      Wrap_T: 10497
+      Border: [0, 0, 0, 0]
+      Min_Filter: 9729
+      Mag_Filter: 9729
+      ComparisonMode: 0
+      Mipmaps: true
+  - Texture: Ground (normal)
+    Path: assets\textures\ground\ground14n.jpg
+    Specification:
       Wrap_S: 10497
       Wrap_T: 10497
       Border: [0, 0, 0, 0]

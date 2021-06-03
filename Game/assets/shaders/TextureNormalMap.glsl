@@ -32,15 +32,12 @@ layout (std140, binding = 6) uniform LightSpace
 };
 
 uniform mat4 u_Transform;
-uniform mat3 u_NormalMatrix;
 
 out vec3 v_Position;
-out vec3 v_Normals;
 out vec2 v_TexCoord;
 out vec4 v_FragPosLightSpace;
 
 void main() {
-	v_Normals = u_NormalMatrix * a_Normals;
 	v_TexCoord = a_TexCoord;
 	v_Position = vec3(u_Transform * vec4(a_Position, 1.0));
 	v_FragPosLightSpace = u_LightSpaceMatrix * u_Transform * vec4(a_Position, 1.0);
@@ -82,45 +79,50 @@ layout (std140, binding = 1) uniform MaterialData {
 };
 
 layout(binding = 0) uniform sampler2DShadow u_ShadowMap;
+layout(binding = 1) uniform sampler2D u_ColorTexture;
+layout(binding = 2) uniform sampler2D u_NormalTexture;
 
 in vec3 v_Position;
-in vec3 v_Normals;
 in vec2 v_TexCoord;
 in vec4 v_FragPosLightSpace;
 
+uniform mat3 u_NormalMatrix;
+
 out vec4 color;
 
-vec3 CalcDirLight(vec3 diffuse, vec3 specular, float shininess, vec3 normal, vec3 viewDir, DirectionalLight directionalLight);
-vec3 CalcPointLight(vec3 diffuse, vec3 specular, float shininess, vec3 position, vec3 normal, vec3 viewDir, PointLight pointLight);
+vec3 CalcDirLight(vec4 color, vec3 diffuse, vec3 specular, float shininess, vec3 normal, vec3 viewDir, DirectionalLight directionalLight);
+vec3 CalcPointLight(vec4 color, vec3 diffuse, vec3 specular, float shininess, vec3 position, vec3 normal, vec3 viewDir, PointLight pointLight);
 float ShadowCalculation(vec4 fragPosLightSpace, vec3 normal, vec3 lightDir);
 
 void main() {
-	// normalize normal
-	vec3 normal = normalize(v_Normals);
 	vec3 viewDir = normalize(u_CameraPosition - v_Position);
+	vec4 fragmentColor = texture(u_ColorTexture, v_TexCoord);
+	vec3 normal = texture(u_NormalTexture, v_TexCoord).rgb;
+	normal = normalize(normal * 2.0 - 1.0);
+	//vec3 normal = normalize(u_NormalMatrix * texture(u_NormalTexture, v_TexCoord).xyz);
 
 	// shadow
 	float shadow = ShadowCalculation(v_FragPosLightSpace, normal, u_DirectionalLight.Direction);
 
 	// ambient
-	vec3 resultAmbient = u_Ambient;
-
-	vec3 result = resultAmbient;
+	vec3 result = u_Ambient * fragmentColor.rgb;
 
 	// directional light
-	result += (1.0 - shadow) * CalcDirLight(u_Diffuse, u_Specular, u_Shininess, normal, viewDir, u_DirectionalLight);
+	result += (1.0 - shadow) * CalcDirLight(fragmentColor, u_Diffuse, u_Specular, u_Shininess, normal, viewDir, u_DirectionalLight);
 
 	// point light
 	for(int i = 0; i < u_PointLightCount; i++)
 	{
-		result += CalcPointLight(u_Diffuse, u_Specular, u_Shininess, v_Position, normal, viewDir, u_PointLight[i]);
+		result += CalcPointLight(fragmentColor, u_Diffuse, u_Specular, u_Shininess, v_Position, normal, viewDir, u_PointLight[i]);
 	}
-		
+
 	// final color
 	color = vec4(result * u_Brightness, 1.0);
 }
 
-vec3 CalcDirLight(vec3 diffuse, vec3 specular, float shininess, vec3 normal, vec3 viewDir, DirectionalLight directionalLight)
+
+
+vec3 CalcDirLight(vec4 color, vec3 diffuse, vec3 specular, float shininess, vec3 normal, vec3 viewDir, DirectionalLight directionalLight)
 {
 	vec3 newLightDir = normalize(-directionalLight.Direction);
 	vec3 reflectDir = normalize(reflect(-newLightDir, normal));
@@ -132,15 +134,14 @@ vec3 CalcDirLight(vec3 diffuse, vec3 specular, float shininess, vec3 normal, vec
 	vec3 resultSpecular = specular * pow(max(dot(viewDir, reflectDir), 0), u_Shininess);
 
 	// result
-	return(directionalLight.Color  * (resultDiffuse + resultSpecular));
+	return(directionalLight.Color  * (resultDiffuse * color.rgb + resultSpecular));
 }
 
 // Blinn-Phong shading
-vec3 CalcPointLight(vec3 diffuse, vec3 specular, float shininess, vec3 position, vec3 normal, vec3 viewDir, PointLight pointLight)
+vec3 CalcPointLight(vec4 color, vec3 diffuse, vec3 specular, float shininess, vec3 position, vec3 normal, vec3 viewDir, PointLight pointLight)
 {
 	vec3 lightDir = normalize(pointLight.Position - position);
 	vec3 halfwayDir = normalize(lightDir + viewDir);
-	//vec3 reflectDir = normalize(reflect(-lightDir, normal));
 
 	// diffuse
 	vec3 resultDiffuse = diffuse * clamp(dot(lightDir, normal), 0, 1);
@@ -153,9 +154,8 @@ vec3 CalcPointLight(vec3 diffuse, vec3 specular, float shininess, vec3 position,
 	float attenuation = 1.0 / (pointLight.Constant + distance * pointLight.Linear + (distance * distance) * pointLight.Quadratic);
 
 	// result
-	return(pointLight.Color * attenuation * (resultDiffuse + resultSpecular));
+	return(pointLight.Color * attenuation * (resultDiffuse * color.rgb + resultSpecular));
 }
-
 
 float ShadowCalculation(vec4 fragPosLightSpace, vec3 normal, vec3 lightDir)
 {

@@ -83,7 +83,7 @@ namespace Engine {
 
 			// Path
 			std::string path = texture->GetPath();
-			if (ImGuiUtil::InputPath("Path", path, "PNG (*.png)\0*.png\0"))
+			if (ImGuiUtil::InputPath("Path", path, "PNG (*.png)\0*.png\0JPG (*.jpg)\0*.jpg\0All files (*.*)\0*.*\0"))
 			{
 				texture->m_Path = path;
 				texture->Reload();

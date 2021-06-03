@@ -31,7 +31,7 @@ void ExampleLayer::OnAttach()
 	m_Scene = Engine::CreateRef<Engine::Scene>();
 
 	Engine::SceneSerializer sceneSerializer = Engine::SceneSerializer(m_Scene);
-	sceneSerializer.Deserialize("assets/scenes/Example.scene");
+	sceneSerializer.Deserialize("assets/scenes/test.scene");
 
 	m_Scene->OnResume();
 

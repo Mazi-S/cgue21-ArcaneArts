@@ -4,3 +4,5 @@ Shaders:
     Path: assets/shaders/Color.glsl
   - Shader: TextureShader
     Path: assets/shaders/Texture.glsl
+  - Shader: TextureShader2
+    Path: assets\shaders\TextureNormalMap.glsl

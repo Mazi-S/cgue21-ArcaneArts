@@ -9,6 +9,7 @@ namespace Engine::OpenGL::Util {
 		switch (type)
 		{
 		case GlShaderDataType::None:		return 0;
+		case GlShaderDataType::Struct:		return 0;
 		case GlShaderDataType::Float:		return 4;
 		case GlShaderDataType::Float2:		return 4 * 2;
 		case GlShaderDataType::Float3:		return 4 * 3;

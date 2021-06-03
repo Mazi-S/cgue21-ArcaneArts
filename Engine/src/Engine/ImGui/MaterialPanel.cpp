@@ -114,7 +114,7 @@ namespace Engine {
 		if (ImGuiUtil::DrawFloat3Control("Specular", specular, 0, 1, 0.001))
 			material->SetSpecular(specular);
 
-		if (ImGuiUtil::DrawFloatControl("Shininess", shininess, 1, 50))
+		if (ImGuiUtil::DrawFloatControl("Shininess", shininess, 0.1f, 50))
 			material->SetShininess(shininess);
 
 		ImGui::NewLine();

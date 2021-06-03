@@ -20,8 +20,8 @@ using ShadowComponent				= Engine::Component::Renderer::ShadowComponent;
 using PointLightComponent			= Engine::Component::Renderer::PointLightComponent;
 using MeshComponent					= Engine::Component::Renderer::MeshComponent;
 
-static glm::vec3 s_ActiveHandOffset = { 0.42f, 0.68f, -1.0f };
-static glm::vec3 s_PassiveHandOffset = { -0.5f, 0.65f, -1.0f };
+static glm::vec3 s_ActiveHandOffset = { 0.77f, 0.65f, -1.58f };
+static glm::vec3 s_PassiveHandOffset = { -0.67f, 0.7f, -1.58f };
 
 static glm::vec3 s_MagicBallScale = { 0.1f, 0.1f, 0.1f };
 
