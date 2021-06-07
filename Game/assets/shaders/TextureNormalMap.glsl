@@ -29,12 +29,15 @@ layout (std140, binding = 0) uniform SceneData {
 	PointLight[5] u_PointLight;
 };
 
+layout (std140, binding = 1) uniform ModelData {
+	mat4 u_Transform;
+	mat3 u_NormalMatrix;
+};
+
 layout (std140, binding = 6) uniform LightSpace
 {
 	mat4 u_LightSpaceMatrix;
 };
-
-uniform mat4 u_Transform;
 
 out vec3 v_Position;
 out vec2 v_TexCoord;
@@ -81,7 +84,7 @@ layout (std140, binding = 0) uniform SceneData {
 	PointLight[5] u_PointLight;
 };
 
-layout (std140, binding = 1) uniform MaterialData {
+layout (std140, binding = 2) uniform MaterialData {
 	vec3 u_Ambient;
 	vec3 u_Diffuse;
 	vec3 u_Specular;

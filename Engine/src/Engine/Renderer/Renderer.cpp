@@ -9,6 +9,7 @@
 namespace Engine {
 
 	Ref<OpenGL::GlUniformBuffer> Renderer::s_SceneUB;
+	Ref<OpenGL::GlUniformBuffer> Renderer::s_ModelUB;
 
 	std::map<Material*, std::set<RenderableObject, RenderableObject>> Renderer::s_RenderQueue;
 	std::set<Ref<Material>> Renderer::s_Materials;
@@ -18,10 +19,11 @@ namespace Engine {
 	{
 		LOG_INFO("Renderer::Init...");
 		OpenGL::API::Init();
-		OpenGL::GlUniformBufferLayout_std140 layout(4 * 4 * 22, {
+
+		// Scene UB
+		OpenGL::GlUniformBufferLayout_std140 layout_SceneUB(4 * 4 * 22, {
 			{OpenGL::GlShaderDataType::Mat4, "ViewProjection", 0},
 			{OpenGL::GlShaderDataType::Float3, "CameraPosition", 4 * 4 * 4},
-
 			{OpenGL::GlShaderDataType::Int,		"PointLightCount", 4 * 4 * 4 + 4 * 3},
 			{OpenGL::GlShaderDataType::Struct,	"DirectionalLight", 4 * 4 * 5},
 			{OpenGL::GlShaderDataType::Struct,	"PointLight0", 4 * 4 * 7},
@@ -30,8 +32,16 @@ namespace Engine {
 			{OpenGL::GlShaderDataType::Struct,	"PointLight3", 4 * 4 * 16},
 			{OpenGL::GlShaderDataType::Struct,	"PointLight4", 4 * 4 * 19},
 		});
-		s_SceneUB = CreateRef<OpenGL::GlUniformBuffer>(layout);
+		s_SceneUB = CreateRef<OpenGL::GlUniformBuffer>(layout_SceneUB);
 		s_SceneUB->Bind(0);
+
+		// Model UB
+		OpenGL::GlUniformBufferLayout_std140 layout_ModelUB(4 * 4 * 8, {
+			{OpenGL::GlShaderDataType::Mat4, "Transform", 0},
+			{OpenGL::GlShaderDataType::Mat3, "NormalMatrix", 4 * 4 * 4},
+		});
+		s_ModelUB = CreateRef<OpenGL::GlUniformBuffer>(layout_ModelUB);
+		s_ModelUB->Bind(1);
 	}
 
 	void Renderer::Shutdown()
@@ -82,8 +92,6 @@ namespace Engine {
 			s_SceneUB->SetData(&pointLight.Linear,						OpenGL::Util::ShaderDataTypeSize(OpenGL::GlShaderDataType::Float),		bufferElement.Offset + offsetLinear);
 			s_SceneUB->SetData(&pointLight.Quadratic,					OpenGL::Util::ShaderDataTypeSize(OpenGL::GlShaderDataType::Float),		bufferElement.Offset + offsetQuadratic);
 		}
-
-
 	}
 
 	void Renderer::EndScene()
@@ -124,9 +132,9 @@ namespace Engine {
 
 			for (const auto& obj : material.second)
 			{
-				shader->SetMat4("u_Transform", obj.Transform);
-				glm::mat4 normalMatrix = glm::mat3(glm::transpose(glm::inverse(obj.Transform)));
-				shader->SetMat3("u_NormalMatrix", normalMatrix);
+				glm::mat3 normalMatrix = glm::mat3(glm::transpose(glm::inverse(obj.Transform)));
+				s_ModelUB->SetData(glm::value_ptr(obj.Transform), "Transform");
+				s_ModelUB->SetData(glm::value_ptr(normalMatrix), "NormalMatrix");
 
 				obj.VertexArray->Bind();
 				OpenGL::API::DrawIndexed(obj.VertexArray, obj.VertexArray->GetIndexBuffer()->GetCount());

@@ -38,9 +38,8 @@ namespace Engine {
 
 	void Material::Bind()
 	{
-		m_BindingPoint = 0;
 		ShaderLibrary::Get(m_Shader)->Bind();
-		m_MaterialUB->Bind(1);
+		m_MaterialUB->Bind(2);
 
 		for (auto& entry : m_Textures)
 			Texture2DLibrary::Get(entry.second)->Bind(entry.first);

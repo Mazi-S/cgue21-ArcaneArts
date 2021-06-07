@@ -38,8 +38,7 @@ namespace Engine {
 	private:
 		// shared over all shaders
 		static Ref<OpenGL::GlUniformBuffer> s_SceneUB;
-
-		//static std::
+		static Ref<OpenGL::GlUniformBuffer> s_ModelUB;
 
 		static std::map<Material*, std::set<RenderableObject, RenderableObject>> s_RenderQueue;
 
