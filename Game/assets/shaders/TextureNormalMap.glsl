@@ -16,7 +16,10 @@ struct PointLight {
 
 layout(location = 0) in vec3 a_Position;
 layout(location = 1) in vec2 a_TexCoord;
-layout(location = 2) in vec3 a_Normals;
+layout(location = 2) in vec3 a_Normal;
+
+layout(location = 3) in vec3 a_Tangent;
+layout(location = 4) in vec3 a_Bitangent;
 
 layout (std140, binding = 0) uniform SceneData {
 	mat4 u_ViewProjection;
@@ -36,11 +39,18 @@ uniform mat4 u_Transform;
 out vec3 v_Position;
 out vec2 v_TexCoord;
 out vec4 v_FragPosLightSpace;
+out mat3 v_TBN;
 
 void main() {
+	vec3 T = normalize(vec3(u_Transform * vec4(a_Tangent,   0.0)));
+	vec3 B = normalize(vec3(u_Transform * vec4(a_Bitangent, 0.0)));
+	vec3 N = normalize(vec3(u_Transform * vec4(a_Normal,    0.0)));
+	v_TBN = mat3(T, B, N);
+	
 	v_TexCoord = a_TexCoord;
 	v_Position = vec3(u_Transform * vec4(a_Position, 1.0));
 	v_FragPosLightSpace = u_LightSpaceMatrix * u_Transform * vec4(a_Position, 1.0);
+
 	gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);
 }
 
@@ -85,6 +95,7 @@ layout(binding = 2) uniform sampler2D u_NormalTexture;
 in vec3 v_Position;
 in vec2 v_TexCoord;
 in vec4 v_FragPosLightSpace;
+in mat3 v_TBN;
 
 uniform mat3 u_NormalMatrix;
 
@@ -98,7 +109,8 @@ void main() {
 	vec3 viewDir = normalize(u_CameraPosition - v_Position);
 	vec4 fragmentColor = texture(u_ColorTexture, v_TexCoord);
 	vec3 normal = texture(u_NormalTexture, v_TexCoord).rgb;
-	normal = normalize(normal * 2.0 - 1.0);
+	normal = normal * 2.0 - 1.0;
+	normal = normalize(v_TBN * normal);
 	//vec3 normal = normalize(u_NormalMatrix * texture(u_NormalTexture, v_TexCoord).xyz);
 
 	// shadow

@@ -19,6 +19,8 @@ namespace Engine::OpenGL {
 		virtual const Ref<GlIndexBuffer>& GetIndexBuffer() const { return m_IndexBuffer; }
 	private:
 		uint32_t m_RendererID;
+
+		uint32_t m_AttributIndex = 0;
 		std::vector<Ref<GlVertexBuffer>> m_VertexBuffers;
 		Ref<GlIndexBuffer> m_IndexBuffer;
 	};

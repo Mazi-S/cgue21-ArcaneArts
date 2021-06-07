@@ -35,20 +35,19 @@ namespace Engine::OpenGL {
 		glBindVertexArray(m_RendererID);
 		vertexBuffer->Bind();
 
-		uint32_t index = 0;
 		const auto& layout = vertexBuffer->GetLayout();
 		for (const auto& element : layout)
 		{
-			glEnableVertexAttribArray(index);
+			glEnableVertexAttribArray(m_AttributIndex);
 			glVertexAttribPointer(
-				index,
+				m_AttributIndex,
 				element.GetComponentCount(),
 				Util::ShaderDataTypeToOpenGLBaseType(element.Type),
 				element.Normalized ? GL_TRUE : GL_FALSE,
 				layout.GetStride(),
 				(const void*)element.Offset
 			);
-			index++;
+			m_AttributIndex++;
 		}
 
 		m_VertexBuffers.push_back(vertexBuffer);

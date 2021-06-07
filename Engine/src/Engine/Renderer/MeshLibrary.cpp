@@ -123,6 +123,9 @@ namespace Engine {
 		out << YAML::Key << "Path";
 		out << YAML::Value << mesh->GetPath();
 
+		out << YAML::Key << "TangentSpace";
+		out << YAML::Value << mesh->TangentSpace();
+
 		out << YAML::EndMap; // Mesh
 	}
 
@@ -133,8 +136,9 @@ namespace Engine {
 
 		std::string name = mesh["Mesh"].as<std::string>();
 		std::string path = mesh["Path"].as<std::string>();
+		bool tangentSpace = mesh["TangentSpace"].as<bool>();
 
-		return CreateRef<Mesh>(name, path);
+		return CreateRef<Mesh>(name, path, tangentSpace);
 	}
 
 }

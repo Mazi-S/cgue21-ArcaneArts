@@ -13,7 +13,7 @@
 
 namespace Engine {
 
-	void ObjectLoader::LoadMesh(const std::string& name, const std::string& path, std::vector<glm::vec3>& positions_out, std::vector<glm::vec3>& normals_out, std::vector<glm::vec2>& textureCoordinates_out, std::vector<Submesh>& submeshes_out)
+	void ObjectLoader::LoadMesh(const std::string& path, std::vector<glm::vec3>& positions_out, std::vector<glm::vec3>& normals_out, std::vector<glm::vec2>& textureCoordinates_out, std::vector<Submesh>& submeshes_out)
 	{
 		std::set<std::vector<uint32_t>> submeshIndices;
 
@@ -86,6 +86,62 @@ namespace Engine {
 				submesh.Faces.push_back(face);
 			}
 			submeshes_out.push_back(submesh);
+		}
+	}
+
+	void ObjectLoader::LoadMesh(const std::string& path, std::vector<glm::vec3>& positions_out, std::vector<glm::vec3>& normals_out, std::vector<glm::vec2>& textureCoordinates_out, std::vector<glm::vec3>& tangent_out, std::vector<glm::vec3>& bitangent_out, std::vector<Submesh>& submeshes_out)
+	{
+		LoadMesh(path, positions_out, normals_out, textureCoordinates_out, submeshes_out);
+		
+		for (Submesh& submesh : submeshes_out)
+		{
+			for (Face& face : submesh.Faces)
+			{
+				ASSERT(face.vertices == 3, "Invalid count of vertices!");
+
+				glm::vec3 pos1 = positions_out[face.positionIndex[0]];
+				glm::vec3 pos2 = positions_out[face.positionIndex[1]];
+				glm::vec3 pos3 = positions_out[face.positionIndex[2]];
+				glm::vec2 textureCoord1 = textureCoordinates_out[face.textureCoordinateIndex[0]];
+				glm::vec2 textureCoord2 = textureCoordinates_out[face.textureCoordinateIndex[1]];
+				glm::vec2 textureCoord3 = textureCoordinates_out[face.textureCoordinateIndex[2]];
+
+				glm::vec3 v = pos2 - pos1;
+				glm::vec3 w = pos3 - pos1;
+
+				glm::vec2 deltaTextureCoord1 = textureCoord2 - textureCoord1;
+				glm::vec2 deltaTextureCoord2 = textureCoord3 - textureCoord1;
+				
+				float dirCorrection = (deltaTextureCoord2.x * deltaTextureCoord1.y - deltaTextureCoord2.y * deltaTextureCoord1.x) < 0.0f ? -1.0f : 1.0f;
+
+				if (deltaTextureCoord1.x * deltaTextureCoord2.y == deltaTextureCoord1.y * deltaTextureCoord2.x)
+				{
+					deltaTextureCoord1 = { 0, 1 };
+					deltaTextureCoord2 = { 1, 0 };
+				}
+
+				glm::vec3 tangent;
+				glm::vec3 bitangent;
+				tangent.x = (w.x * deltaTextureCoord1.y - v.x * deltaTextureCoord2.y) * dirCorrection;
+				tangent.y = (w.y * deltaTextureCoord1.y - v.y * deltaTextureCoord2.y) * dirCorrection;
+				tangent.z = (w.z * deltaTextureCoord1.y - v.z * deltaTextureCoord2.y) * dirCorrection;
+				bitangent.x = (w.x * deltaTextureCoord1.x - v.x * deltaTextureCoord2.x) * dirCorrection;
+				bitangent.y = (w.y * deltaTextureCoord1.x - v.y * deltaTextureCoord2.x) * dirCorrection;
+				bitangent.z = (w.z * deltaTextureCoord1.x - v.z * deltaTextureCoord2.x) * dirCorrection;
+
+				for (unsigned int i = 0; i < 3; i++)
+				{
+					glm::vec3 normal = normals_out[face.normalIndex[i]];
+
+					glm::vec3 localTangent   = glm::normalize(tangent - normal * (tangent * normal));
+					glm::vec3 localBitangent = glm::normalize(bitangent - normal * (bitangent * normal));
+
+					face.tangentIndex.push_back(tangent_out.size());
+
+					tangent_out.push_back(localTangent);
+					bitangent_out.push_back(localBitangent);
+				}
+			}
 		}
 	}
 

@@ -78,6 +78,12 @@ namespace Engine {
 			mesh->Reload();
 		}
 
+		// Tangent space
+		if (ImGuiUtil::Checkbox("Tangent space", mesh->m_TangentSpace))
+		{
+			mesh->Reload();
+		}
+
 		ImGui::Separator();
 
 		ImGuiUtil::Text("Vertices", std::to_string(mesh->m_Positions.size()));

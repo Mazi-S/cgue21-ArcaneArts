@@ -2,53 +2,79 @@ MeshLibrary: Untitled
 Meshes:
   - Mesh: Beholder
     Path: assets\objects\Beholder.obj
+    TangentSpace: false
   - Mesh: Campfire
     Path: assets\objects\campfire.obj
+    TangentSpace: false
   - Mesh: Cave
     Path: assets/objects/cave.obj
+    TangentSpace: false
   - Mesh: Cloud_1
     Path: assets/objects/clouds/cloud_1.obj
+    TangentSpace: false
   - Mesh: Cloud_2
     Path: assets/objects/clouds/cloud_2.obj
+    TangentSpace: false
   - Mesh: Cloud_3
     Path: assets/objects/clouds/cloud_3.obj
+    TangentSpace: false
   - Mesh: Cube
     Path: assets/objects/cube.obj
+    TangentSpace: false
   - Mesh: Fallen_Tree_1
     Path: assets/objects/forest/fallen_tree_1.obj
+    TangentSpace: false
   - Mesh: Fallen_Tree_2
     Path: assets/objects/forest/fallen_tree_2.obj
+    TangentSpace: false
   - Mesh: Hand
     Path: assets\objects\hand.obj
+    TangentSpace: false
   - Mesh: Hand (left)
     Path: assets\objects\hand_left.obj
+    TangentSpace: false
   - Mesh: Hand (right)
     Path: assets\objects\hand_right.obj
+    TangentSpace: false
   - Mesh: House
     Path: assets/objects/house.obj
+    TangentSpace: false
   - Mesh: Knight
     Path: assets/objects/knight.obj
+    TangentSpace: false
   - Mesh: Monster
     Path: assets/objects/monster.obj
+    TangentSpace: false
   - Mesh: Pedestal
     Path: assets/objects/pedestal.obj
+    TangentSpace: false
   - Mesh: Rock_1
     Path: assets/objects/forest/rock_1.obj
+    TangentSpace: false
   - Mesh: Sphere
     Path: assets/objects/sphere.obj
+    TangentSpace: false
   - Mesh: Spruce_1
     Path: assets/objects/forest/spruce_1.obj
+    TangentSpace: false
   - Mesh: Spruce_2
     Path: assets/objects/forest/spruce_2.obj
+    TangentSpace: false
   - Mesh: Spruce_3
     Path: assets/objects/forest/spruce_3.obj
+    TangentSpace: false
   - Mesh: Spruce_4
     Path: assets/objects/forest/spruce_4.obj
+    TangentSpace: false
   - Mesh: Spruce_5
     Path: assets/objects/forest/spruce_5.obj
+    TangentSpace: false
   - Mesh: Stump_1
     Path: assets/objects/forest/stump_1.obj
+    TangentSpace: false
   - Mesh: Stump_2
     Path: assets/objects/forest/stump_2.obj
+    TangentSpace: false
   - Mesh: Terrain
     Path: assets/objects/terrain.obj
+    TangentSpace: true

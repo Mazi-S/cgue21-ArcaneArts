@@ -1,7 +1,7 @@
 Texture2DLibrary: Untitled
 Textures:
-  - Texture: House
-    Path: assets/textures/house.png
+  - Texture: Bricks
+    Path: assets/textures/Bricks.jpg
     Specification:
       Wrap_S: 10497
       Wrap_T: 10497
@@ -10,8 +10,8 @@ Textures:
       Mag_Filter: 9729
       ComparisonMode: 0
       Mipmaps: true
-  - Texture: Bricks
-    Path: assets/textures/Bricks.jpg
+  - Texture: House
+    Path: assets/textures/house.png
     Specification:
       Wrap_S: 10497
       Wrap_T: 10497
@@ -40,8 +40,8 @@ Textures:
       Mag_Filter: 9729
       ComparisonMode: 0
       Mipmaps: true
-  - Texture: Forest
-    Path: assets/textures/forest.png
+  - Texture: MonsterSmall
+    Path: assets/textures/monster-small.png
     Specification:
       Wrap_S: 10497
       Wrap_T: 10497
@@ -60,8 +60,8 @@ Textures:
       Mag_Filter: 9729
       ComparisonMode: 0
       Mipmaps: true
-  - Texture: MonsterSmall
-    Path: assets/textures/monster-small.png
+  - Texture: Forest
+    Path: assets/textures/forest.png
     Specification:
       Wrap_S: 10497
       Wrap_T: 10497
@@ -83,20 +83,20 @@ Textures:
   - Texture: Ground (color)
     Path: assets\textures\ground\ground14.jpg
     Specification:
-      Wrap_S: 10497
-      Wrap_T: 10497
+      Wrap_S: 33648
+      Wrap_T: 33648
       Border: [0, 0, 0, 0]
-      Min_Filter: 9729
-      Mag_Filter: 9729
+      Min_Filter: 9987
+      Mag_Filter: 9987
       ComparisonMode: 0
       Mipmaps: true
   - Texture: Ground (normal)
     Path: assets\textures\ground\ground14n.jpg
     Specification:
-      Wrap_S: 10497
-      Wrap_T: 10497
+      Wrap_S: 33648
+      Wrap_T: 33648
       Border: [0, 0, 0, 0]
-      Min_Filter: 9729
-      Mag_Filter: 9729
+      Min_Filter: 9987
+      Mag_Filter: 9987
       ComparisonMode: 0
       Mipmaps: true
