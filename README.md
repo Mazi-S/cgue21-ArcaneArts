@@ -45,3 +45,5 @@ To generate the project files, run: `scripts/GenerateProjects.bat`
 * Cubemaps / Skyboxes / Environment Mapping
   * [learnopengl.com](https://learnopengl.com/Advanced-OpenGL/Cubemaps)
   * [YouTube - Brian Will](https://www.youtube.com/watch?v=QYvi1akO_Po)
+* Normal Mapping
+  * [learnopengl.com](https://learnopengl.com/Advanced-Lighting/Normal-Mapping)
