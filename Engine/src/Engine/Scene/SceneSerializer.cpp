@@ -88,6 +88,8 @@ namespace Engine {
 				nodes[id] = entityNode;
 			}
 
+			entities[0] = Entity();
+
 			for (auto entry : nodes)
 			{
 				auto& entityNode = entry.second;
@@ -101,7 +103,7 @@ namespace Engine {
 				auto& entityNode = entry.second;
 				auto& deserializedEntity = entities[entry.first];
 
-				DeserializeComponents(deserializedEntity, entityNode);
+				DeserializeComponents(deserializedEntity, entityNode, entities);
 				DeserializeGameComponents(deserializedEntity, entityNode);
 			}
 
@@ -285,6 +287,10 @@ namespace Engine {
 			auto& characterControllerComp = entity.GetComponent<CharacterControllerComponent>();
 
 			out << YAML::Key << "Active" << YAML::Value << characterControllerComp.Active;
+
+			Entity head = { characterControllerComp.Head, entity.m_Registry };
+			out << YAML::Key << "Head" << YAML::Value << head.GetID();
+
 			out << YAML::Key << "TranslationSpeed" << YAML::Value << characterControllerComp.TranslationSpeed;
 			out << YAML::Key << "RotationSpeed" << YAML::Value << characterControllerComp.RotationSpeed;
 
@@ -360,7 +366,7 @@ namespace Engine {
 		}
 	}
 
-	void SceneSerializer::DeserializeComponents(Entity deserializedEntity, const YAML::Node& entityNode)
+	void SceneSerializer::DeserializeComponents(Entity deserializedEntity, const YAML::Node& entityNode, std::map<uint32_t, Entity> entities)
 	{
 		using MeshComponent = Engine::Component::Renderer::MeshComponent;
 		using MaterialComponent = Engine::Component::Renderer::MaterialComponent;
@@ -454,6 +460,8 @@ namespace Engine {
 		{
 			auto compNode = entityNode["CharacterControllerComponent"];
 
+			uint32_t headID = compNode["Head"].as<uint32_t>();
+			Entity head = entities[headID];
 			float standingHeight = compNode["StandingHeight"].as<float>();
 			float crouchingHeight = compNode["CrouchingHeight"].as<float>();
 			float radius = compNode["Radius"].as<float>();
@@ -462,7 +470,7 @@ namespace Engine {
 
 			bool active = compNode["Active"].as<bool>();
 
-			deserializedEntity.AddComponent<CharacterControllerComponent>(standingHeight, crouchingHeight, radius, translationSpeed, rotationSpeed, active);
+			deserializedEntity.AddComponent<CharacterControllerComponent>(standingHeight, crouchingHeight, radius, translationSpeed, rotationSpeed, active, head);
 		}
 
 		// Sound 2D

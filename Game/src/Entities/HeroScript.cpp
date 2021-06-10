@@ -20,8 +20,8 @@ using ShadowComponent				= Engine::Component::Renderer::ShadowComponent;
 using PointLightComponent			= Engine::Component::Renderer::PointLightComponent;
 using MeshComponent					= Engine::Component::Renderer::MeshComponent;
 
-static glm::vec3 s_ActiveHandOffset = { 0.77f, 0.65f, -1.58f };
-static glm::vec3 s_PassiveHandOffset = { -0.67f, 0.7f, -1.58f };
+static glm::vec3 s_ActiveHandOffset = { 0.77f, -0.35f, -1.58f };
+static glm::vec3 s_PassiveHandOffset = { -0.67f, -0.3f, -1.58f };
 
 static glm::vec3 s_MagicBallScale = { 0.1f, 0.1f, 0.1f };
 
@@ -159,6 +159,9 @@ bool HeroScript::OnKeyPressed(Engine::KeyPressedEvent& e)
 
 void HeroScript::UpdateMana(Engine::Timestep ts, bool restore)
 {
+	if (!HasComponent<HeroComponent>())
+		return;
+
 	auto& heroComp = GetComponent<HeroComponent>();
 
 	if (restore)
@@ -173,6 +176,9 @@ void HeroScript::UpdateMana(Engine::Timestep ts, bool restore)
 
 void HeroScript::UpdateHealth()
 {
+	if (!HasComponent<HeroComponent>())
+		return;
+
 	static float lastUpdate = -1.0f;
 
 	auto& heroComp = GetComponent<HeroComponent>();

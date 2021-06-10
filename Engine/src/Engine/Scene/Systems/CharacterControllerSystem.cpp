@@ -5,12 +5,15 @@
 #include "Engine/Core/Input.h"
 #include "Engine/Core/Application.h"
 #include "Engine/Events/KeyEvent.h"
+#include "Util.h"
 
 namespace Engine::System::CharacterController {
 
 	void OnUpdate(entt::registry& registry, Timestep ts)
 	{
-		auto view = registry.view<Component::Physics::CharacterControllerComponent, Component::Core::TransformComponent>();
+		using TransformComponent = Engine::Component::Core::TransformComponent;
+
+		auto view = registry.view<Component::Physics::CharacterControllerComponent, TransformComponent>();
 		for (const entt::entity e : view)
 		{
 			auto& [ccc, tc] = view.get<Component::Physics::CharacterControllerComponent, Component::Core::TransformComponent>(e);
@@ -18,6 +21,9 @@ namespace Engine::System::CharacterController {
 
 			if (ccc.Active)
 			{
+				glm::vec3 currentOrientation = ccc.Head != entt::null ? Util::GlobalTransform(registry, ccc.Head).Rotation : tc.Rotation;
+				TransformComponent& transformComp_head = ccc.Head != entt::null ? registry.get<TransformComponent>(ccc.Head) : tc;
+
 				glm::vec4 move = { 0.0f, 0.0f, 0.0f, 1.0 };
 				float speed = 1.0f;
 
@@ -50,7 +56,7 @@ namespace Engine::System::CharacterController {
 				if (Engine::Input::IsKeyPressed(Engine::Key::W))
 					move.z -= ccc.TranslationSpeed * speed * ts;
 
-				move = glm::toMat4(glm::quat({ 0.0f, tc.Rotation.y, 0.0f })) * move;
+				move = glm::toMat4(glm::quat({ 0.0f, currentOrientation.y, 0.0f })) * move;
 
 				{ // todo: improve
 					float jump = 8 * ts;
@@ -60,11 +66,11 @@ namespace Engine::System::CharacterController {
 				physx::PxControllerCollisionFlags collisionFlags = ccc.Controller->move({ move.x, move.y, move.z } , 0.001f, ts, physx::PxControllerFilters());
 
 				// mouse
-				tc.Rotation.x -= (currentMouseY - ccc.MouseY) * (ccc.RotationSpeed);
-				tc.Rotation.x = glm::min(glm::half_pi<float>() - glm::epsilon<float>(), tc.Rotation.x);
-				tc.Rotation.x = glm::max(-glm::half_pi<float>() + glm::epsilon<float>(), tc.Rotation.x);
+				transformComp_head.Rotation.x -= (currentMouseY - ccc.MouseY) * (ccc.RotationSpeed);
+				transformComp_head.Rotation.x = glm::min(glm::half_pi<float>() - glm::epsilon<float>(), transformComp_head.Rotation.x);
+				transformComp_head.Rotation.x = glm::max(-glm::half_pi<float>() + glm::epsilon<float>(), transformComp_head.Rotation.x);
 
-				tc.Rotation.y -= (currentMouseX - ccc.MouseX) * (ccc.RotationSpeed);
+				transformComp_head.Rotation.y -= (currentMouseX - ccc.MouseX) * (ccc.RotationSpeed);
 			}
 
 			ccc.MouseX = currentMouseX;

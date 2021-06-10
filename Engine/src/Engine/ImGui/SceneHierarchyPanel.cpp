@@ -408,11 +408,31 @@ namespace Engine {
 			}, true);
 
 		// Character Controller Component
-		ImGuiUtil::DrawComponent<CharacterControllerComponent>("Character Controller", entity, [](auto& component)
+		ImGuiUtil::DrawComponent<CharacterControllerComponent>("Character Controller", entity, [](entt::registry* registryHandle, entt::entity entityHandle)
 			{
+				Entity entity = { entityHandle, registryHandle };
+				auto& component = entity.GetComponent<CharacterControllerComponent>();
+
+				Entity head = { component.Head, registryHandle };
+
+				auto view = registryHandle->view<Identifier, TagComponent>(entt::exclude<Component::Core::Unserializable>);
+				std::map<std::string, entt::entity> entities;
+				std::vector<std::string> entityNames;
+				for (auto e : view)
+				{
+					auto& [id, tagComp] = view.get<Identifier, TagComponent>(e);
+					std::string name = tagComp.Tag + " (" + std::to_string(id.ID) + ")";
+					entities[name] = e;
+					entityNames.push_back(name);
+				}
+
 				int active = component.Active;
 				if (ImGuiUtil::DrawComboControl("Active", active, { "false", "true" }))
 					component.Active = active;
+
+				std::string headName = head ? head.GetComponent<TagComponent>().Tag + " (" + std::to_string(head.GetID()) + ")" : "none";
+				if (ImGuiUtil::DrawComboControl("Head", headName, entityNames))
+					component.Head = entities[headName];
 
 				ImGuiUtil::DrawFloatControl("TranslationSpeed", component.TranslationSpeed, 0, 20, 0.01);
 
@@ -421,16 +441,19 @@ namespace Engine {
 					component.RotationSpeed = rotationSpeed / 1000.0f;
 
 				ImGui::Dummy({ 0, .5 });
-				ImGuiUtil::DrawFloatControl("Standing Height", component.StandingHeight, 0, 10, 0.01);
-				ImGuiUtil::DrawFloatControl("Crouching Height", component.CrouchingHeight, 0, 10, 0.01);
-				ImGuiUtil::DrawFloatControl("Radius", component.Radius, 0, 10, 0.01);
+				if (ImGuiUtil::DrawFloatControl("Standing Height", component.StandingHeight, 0, 10, 0.01))
+					entity.Update<CharacterControllerComponent>();
+				if (ImGuiUtil::DrawFloatControl("Crouching Height", component.CrouchingHeight, 0, 10, 0.01))
+					entity.Update<CharacterControllerComponent>();
+				if (ImGuiUtil::DrawFloatControl("Radius", component.Radius, 0, 10, 0.01))
+					entity.Update<CharacterControllerComponent>();
 
 				ImGui::Dummy({ 0, .5 });
 
 				ImGuiUtil::Text("Mouse", std::to_string((int)component.MouseX) + ", " + std::to_string((int)component.MouseY));
 				ImGuiUtil::Text("Jump", std::to_string(component.Jump));
 				ImGuiUtil::Text("Crouching", component.Crouching ? "true" : "false");
-			}, true);
+			}, & m_Context->m_Registry, entity);
 
 		// Rigid Actor
 		ImGuiUtil::DrawComponent<RigidComponent>("Rigid Actor", entity, [](auto& component)
