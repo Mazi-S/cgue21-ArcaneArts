@@ -80,6 +80,14 @@ void Engine::SceneSerializer::DeserializeGameComponents(Entity deserializedEntit
 		float viewRange = compNode["ViewRange"].as<float>();
 		float hitRange = compNode["HitRange"].as<float>();
 
+		if (deserializedEntity.HasComponent<MeshComponent>())
+		{
+			TransformComponent transformComp = Engine::System::Util::GlobalTransform(*deserializedEntity.m_Registry, deserializedEntity);
+			MeshComponent& meshComp = deserializedEntity.GetComponent<MeshComponent>();
+			auto actor = ActorFactory::Monster(meshComp.Mesh, transformComp.Translation, transformComp.Rotation, transformComp.Scale);
+			deserializedEntity.AddComponent<Engine::Component::Physics::RigidDynamicComponent>(actor);
+		}
+
 		deserializedEntity.AddComponent<MonsterComponent>(liveSound, deathSound, hitpoints, damage, speed, viewRange, hitRange);
 		deserializedEntity.AddNativeScript<MonsterScript>();
 	}

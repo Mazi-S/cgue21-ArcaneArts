@@ -5,6 +5,7 @@
 
 using TransformComponent			= Engine::Component::Core::TransformComponent;
 using KinematicMovementComponent	= Engine::Component::Physics::KinematicMovementComponent;
+using RigidDynamicComponent			= Engine::Component::Physics::RigidDynamicComponent;
 using CharacterControllerComponent	= Engine::Component::Physics::CharacterControllerComponent;
 
 void MonsterScript::OnUpdate(Engine::Timestep ts)
@@ -26,10 +27,11 @@ void MonsterScript::OnUpdate(Engine::Timestep ts)
 		return;
 	}
 
+	TransformComponent worldTransformComp_Monster = Engine::System::Util::GlobalTransform(*m_RegistryHandle, m_EntityHandle);
+
 	if (!monsterComp.LiveSound.empty())
 	{
-		auto& transformComp = GetComponent<TransformComponent>();
-		//Engine::SoundLibrary::Get(monsterComp.LiveSound)->Play3D(transformComp.Translation, true, true);
+		// Engine::SoundLibrary::Get(monsterComp.LiveSound)->Play3D(worldTransformComp_Monster.Translation, true, true);
 	}
 
 	// Get Hero
@@ -39,9 +41,10 @@ void MonsterScript::OnUpdate(Engine::Timestep ts)
 
 	Engine::Entity hero{ *view.begin(), m_RegistryHandle };
 
-	float speed = 1;
+	TransformComponent worldTransformComp_Hero = Engine::System::Util::GlobalTransform(*m_RegistryHandle, hero);
 
-	float distanceToHero = glm::length(GetComponent<TransformComponent>().Translation - hero.GetComponent<TransformComponent>().Translation);
+	float distanceToHero = glm::length(worldTransformComp_Monster.Translation - worldTransformComp_Hero.Translation);
+
 	if (distanceToHero < monsterComp.HitRange)
 	{
 		auto& heroComp = hero.GetComponent<HeroComponent>();
@@ -49,15 +52,28 @@ void MonsterScript::OnUpdate(Engine::Timestep ts)
 		
 		CharacterHealthEvent event(heroComp.Hitpoints);
 		Engine::Application::Get().OnEvent(event);
-		speed = -200;
+
+		if (HasComponent<RigidDynamicComponent>())
+		{
+			RigidDynamicComponent& rigidDynamicComp = GetComponent<RigidDynamicComponent>();
+
+			if (rigidDynamicComp.Actor != nullptr)
+			{
+				glm::vec3 movement = glm::normalize(worldTransformComp_Hero.Translation - worldTransformComp_Monster.Translation) * -5.0f;
+				glm::quat rotation = glm::quatLookAt(glm::normalize(-movement), { 0,1,0 });
+
+				GetComponent<TransformComponent>().Translation += movement;
+				worldTransformComp_Monster = Engine::System::Util::GlobalTransform(*m_RegistryHandle, m_EntityHandle);
+
+				physx::PxTransform transform({ worldTransformComp_Monster.Translation.x, worldTransformComp_Monster.Translation.y, worldTransformComp_Monster.Translation.z }, physx::PxQuat(rotation.x, rotation.y, rotation.z, rotation.w));
+				rigidDynamicComp.Actor->setKinematicTarget(transform);
+			}
+		}
 	}
 
 	if (distanceToHero < monsterComp.ViewRange)
 	{
-		auto& characterTransformComponent = hero.GetComponent<TransformComponent>();
-		auto& monsterTransformComponent = GetComponent<TransformComponent>();
-
-		glm::vec3 movement = glm::normalize(characterTransformComponent.Translation - monsterTransformComponent.Translation) * monsterComp.Speed * speed;
+		glm::vec3 movement = glm::normalize(worldTransformComp_Hero.Translation - worldTransformComp_Monster.Translation) * monsterComp.Speed;
 		glm::quat rotation = glm::quatLookAt(glm::normalize(-movement), { 0,1,0 });
 		EmplaceOrReplace<KinematicMovementComponent>(movement, rotation);
 	}

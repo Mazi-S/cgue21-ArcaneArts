@@ -17,7 +17,8 @@ namespace Engine::System::Audio {
 		auto listeners = registry.view<ListenerComponent, TransformComponent>();
 		if (listeners.begin() != listeners.end())
 		{
-			auto& [listenerComp, transformComp] = listeners.get<ListenerComponent, TransformComponent>(*listeners.begin());
+			auto& listenerComp = listeners.get<ListenerComponent>(*listeners.begin());
+			TransformComponent transformComp = Util::GlobalTransform(registry, *listeners.begin());
 			glm::vec4 direction = glm::toMat4(glm::quat(transformComp.Rotation)) * glm::vec4(0, 0, 1, 1);
 
 			SoundEngine::SetListenerPosition(transformComp.Translation, { direction.x, direction.y, direction.z });

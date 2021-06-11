@@ -6,6 +6,9 @@ SoundSources:
   - SoundSource: FireballShoot
     Path: assets/sounds/fireball-shoot.wav
     Volume: 0.100000001
+  - SoundSource: Campfire
+    Path: assets/sounds/campfire.wav
+    Volume: 0.050000001
   - SoundSource: Forest
     Path: assets/sounds/forest.wav
     Volume: 0.100000001

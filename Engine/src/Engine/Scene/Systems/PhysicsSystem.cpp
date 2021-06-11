@@ -2,11 +2,11 @@
 #include "PhysicsSystem.h"
 #include "Engine/Scene/Components.h"
 #include "Engine/Util/Math.h"
+#include "Util.h"
 
 #include "PxPhysicsAPI.h"
 
 namespace Engine::System::Physics {
-
 	
 	void OnUpdate(entt::registry& registry)
 	{
@@ -42,10 +42,11 @@ namespace Engine::System::Physics {
 		for (const entt::entity e : view)
 		{
 			auto& [rdc, kmc, tc] = view.get<Component::Physics::RigidDynamicComponent, Component::Physics::KinematicMovementComponent, Component::Core::TransformComponent>(e);
-
 			tc.Translation += kmc.Movement * float(ts);
 
-			physx::PxTransform transform({ tc.Translation.x, tc.Translation.y, tc.Translation.z }, physx::PxQuat(kmc.Rotation.x, kmc.Rotation.y, kmc.Rotation.z, kmc.Rotation.w));
+			Component::Core::TransformComponent transformComp = Engine::System::Util::GlobalTransform(registry, e);
+
+			physx::PxTransform transform({ transformComp.Translation.x, transformComp.Translation.y, transformComp.Translation.z }, physx::PxQuat(kmc.Rotation.x, kmc.Rotation.y, kmc.Rotation.z, kmc.Rotation.w));
 			rdc.Actor->setKinematicTarget(transform);
 		}
 	}
