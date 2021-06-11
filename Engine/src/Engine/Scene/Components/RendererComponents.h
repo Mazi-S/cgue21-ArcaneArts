@@ -81,6 +81,7 @@ namespace Engine::Component::Renderer {
 	{
 		ParticleSystem* ParticleSystem = nullptr;
 
+		ParticleSystemType Type = ParticleSystemType::Fire;
 		float EmitPower = 0.001f;
 		float Cooling = 0.05f;
 
@@ -90,8 +91,8 @@ namespace Engine::Component::Renderer {
 
 		ParticleSystemComponent() = default;
 		ParticleSystemComponent(const ParticleSystemComponent&) = default;
-		ParticleSystemComponent(float emitPower, float cooling, float particleSize, glm::vec4 colorStart, glm::vec4 colorEnd)
-			: EmitPower(emitPower), Cooling(cooling), ParticleSize(particleSize), ColorStart(colorStart), ColorEnd(colorEnd) { }
+		ParticleSystemComponent(ParticleSystemType type, float emitPower, float cooling, float particleSize, glm::vec4 colorStart, glm::vec4 colorEnd)
+			: Type(type), EmitPower(emitPower), Cooling(cooling), ParticleSize(particleSize), ColorStart(colorStart), ColorEnd(colorEnd) { }
 	};
 
 }

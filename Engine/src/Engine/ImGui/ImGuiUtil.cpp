@@ -111,12 +111,26 @@ namespace Engine::ImGuiUtil {
 		ImGui::Columns(2, 0, false);
 		ImGui::SetColumnWidth(0, columnWidth);
 		ImGui::Text(label.c_str());
-ImGui::NextColumn();
-ImGui::PushItemWidth(0);
-bool update = ImGui::DragFloat("##DragFloat", &value, speed, min, max, "%.2f");
-ImGui::Columns(1);
-ImGui::PopID();
-return update;
+		ImGui::NextColumn();
+		ImGui::PushItemWidth(0);
+		bool update = ImGui::DragFloat("##DragFloat", &value, speed, min, max, "%.2f");
+		ImGui::Columns(1);
+		ImGui::PopID();
+		return update;
+	}
+
+	bool DrawSmallFloatControl(const std::string& label, float& value, float min, float max, float speed, float columnWidth)
+	{
+		ImGui::PushID(label.c_str());
+		ImGui::Columns(2, 0, false);
+		ImGui::SetColumnWidth(0, columnWidth);
+		ImGui::Text(label.c_str());
+		ImGui::NextColumn();
+		ImGui::PushItemWidth(0);
+		bool update = ImGui::DragFloat("##DragFloat", &value, speed, min, max, "%.5f");
+		ImGui::Columns(1);
+		ImGui::PopID();
+		return update;
 	}
 
 	bool DrawFloat3Control(const std::string& label, glm::vec3& values, float min, float max, float speed, float columnWidth)

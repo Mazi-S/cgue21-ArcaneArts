@@ -27,7 +27,7 @@ Entities:
       Rotation: [0, 0.357792497, 0]
       Scale: [0.0500000007, 0.0500000007, 0.0500000007]
     PointLightComponent:
-      Color: [3.40122247, 1.85521173, 0.824538648]
+      Color: [3.52331591, 1.92180932, 0.854137063]
       Constant: 0.680000007
       Linear: 0.150000006
       Quadratic: 0.0500000007
@@ -94,6 +94,7 @@ Entities:
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     ParticleSystemComponent:
+      Type: 0
       EmitPower: 0.00100000005
       Cooling: 0.0500000007
       ParticleSize: 0.0599999987
@@ -214,7 +215,7 @@ Entities:
       Tag: Beholder
     TransformComponent:
       Translation: [28.7688198, 1.10000002, -28.2862473]
-      Rotation: [0.0139626358, -0.617846727, 0.0296705943]
+      Rotation: [0.0139626348, -0.617846727, 0.0296705924]
       Scale: [0.400000006, 0.5, 0.5]
     MeshComponent:
       Mesh: Beholder
@@ -319,7 +320,7 @@ Entities:
     TagComponent:
       Tag: Character
     TransformComponent:
-      Translation: [-13.9289207, 1.28711426, -1.21794283]
+      Translation: [13.704216, 1.2464329, 11.669836]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     CharacterControllerComponent:
@@ -337,7 +338,7 @@ Entities:
       Parent: 3578204107
     TransformComponent:
       Translation: [0, 1, 0]
-      Rotation: [-0.081999287, -1.03199971, 0]
+      Rotation: [-0.00200153352, -6.41808748, 0]
       Scale: [1, 1, 1]
     ListenerComponent: {}
     HeroComponent: {}
@@ -513,21 +514,6 @@ Entities:
       Materials:
         - ForestMaterial
     ShadowComponent: {}
-  - Entity: 3749959116
-    TagComponent:
-      Tag: Fire (Particle System)
-    ParentComponent:
-      Parent: 587002455
-    TransformComponent:
-      Translation: [2.00999999, 2.67000008, -8.44999981]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    ParticleSystemComponent:
-      EmitPower: 0.00100000005
-      Cooling: 0.0500000007
-      ParticleSize: 0.0599999987
-      ColorStart: [1, 1, 0, 1]
-      ColorEnd: [1, 0, 0, 0]
   - Entity: 1298550969
     TagComponent:
       Tag: Hand (right)

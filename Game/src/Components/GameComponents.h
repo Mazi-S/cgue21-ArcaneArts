@@ -28,7 +28,7 @@ struct MagicBallComponent
 
 	float Progress = 0;
 
-	float Lifetime = 100.0f;
+	float Lifetime = 5.0f;
 
 	std::string CastSound;
 	std::string ThrowSound;

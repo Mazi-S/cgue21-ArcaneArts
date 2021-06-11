@@ -257,8 +257,9 @@ namespace Engine {
 		{
 			out << YAML::Key << "ParticleSystemComponent";
 			out << YAML::BeginMap; // ParticleSystemComponent
-
+			
 			auto& particleSystemComp = entity.GetComponent<ParticleSystemComponent>();
+			out << YAML::Key << "Type" << YAML::Value << static_cast<uint32_t>(particleSystemComp.Type);
 			out << YAML::Key << "EmitPower" << YAML::Value << particleSystemComp.EmitPower;
 			out << YAML::Key << "Cooling" << YAML::Value << particleSystemComp.Cooling;
 
@@ -440,13 +441,14 @@ namespace Engine {
 		if (entityNode["ParticleSystemComponent"])
 		{
 			auto compNode = entityNode["ParticleSystemComponent"];
+			ParticleSystemType type = static_cast<ParticleSystemType>(compNode["Type"].as<uint32_t>());
 			float emitPower = compNode["EmitPower"].as<float>();
 			float cooling = compNode["Cooling"].as<float>();
 
 			float particleSize = compNode["ParticleSize"].as<float>();
 			glm::vec4 colorStart = compNode["ColorStart"].as<glm::vec4>();
 			glm::vec4 colorEnd = compNode["ColorEnd"].as<glm::vec4>();
-			deserializedEntity.AddComponent<ParticleSystemComponent>(emitPower, cooling, particleSize, colorStart, colorEnd);
+			deserializedEntity.AddComponent<ParticleSystemComponent>(type, emitPower, cooling, particleSize, colorStart, colorEnd);
 		}
 
 		// Shadow

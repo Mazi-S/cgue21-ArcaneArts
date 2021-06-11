@@ -43,7 +43,7 @@ namespace Engine {
 		auto& psComp = registry.get<Component::Renderer::ParticleSystemComponent>(entity);
 
 		glm::vec3 position = System::Util::Position(registry, entity);
-		psComp.ParticleSystem = new ParticleSystem(position, psComp.EmitPower, psComp.Cooling, psComp.ParticleSize, psComp.ColorStart, psComp.ColorEnd);
+		psComp.ParticleSystem = new ParticleSystem(psComp.Type, position, psComp.EmitPower, psComp.Cooling, psComp.ParticleSize, psComp.ColorStart, psComp.ColorEnd);
 	}
 
 	void Scene::DestroyParticleSystem(entt::registry& registry, entt::entity entity)

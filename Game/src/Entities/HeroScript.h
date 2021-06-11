@@ -6,8 +6,7 @@
 class HeroScript : public Engine::ScriptableEntity
 {
 public:
-	HeroScript(Engine::Entity entity) : ScriptableEntity(entity)
-	{ }
+	HeroScript(Engine::Entity entity);
 
 	virtual void OnUpdate(Engine::Timestep ts) override;
 	virtual void OnEvent(Engine::Event& e) override;
@@ -34,14 +33,16 @@ private:
 	void CancelPassive();
 
 	Engine::Entity CreateMagicBall(MagicBallType type, glm::vec3 offset);
+	Engine::Entity CreateMagicBallParticleSystem(MagicBallType type, glm::vec3 offset);
 
 	void Throw(Engine::Entity ball);
 
 private:
-	MagicBallType m_ActiveSpell = MagicBallType::Fire;
-	MagicBallType m_PassiveSpell = MagicBallType::Light;
+	MagicBallType m_ActiveSpell = MagicBallType::None;
+	MagicBallType m_PassiveSpell = MagicBallType::None;
 
 	Engine::Entity m_PassiveHand;
 	Engine::Entity m_ActiveHand;
+	Engine::Entity m_ActiveParticleSystem;
 };
 

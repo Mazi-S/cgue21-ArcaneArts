@@ -10,7 +10,8 @@
 #include "glad/glad.h"
 namespace Engine {
 
-	Scope<OpenGL::GlShader> ParticleSystem::s_UpdateShader;
+	Scope<OpenGL::GlShader> ParticleSystem::s_FireUpdateShader;
+	Scope<OpenGL::GlShader> ParticleSystem::s_MagicBallUpdateShader;
 	Scope<OpenGL::GlShader> ParticleSystem::s_BillboardShader;
 	Scope<OpenGL::GlTexture2D> ParticleSystem::s_ParticleTexture;
 	Scope<OpenGL::GlTexture1D> ParticleSystem::s_RandomTexture;
@@ -18,7 +19,8 @@ namespace Engine {
 	void ParticleSystem::Init()
 	{
 		// Update Shader
-		s_UpdateShader = CreateScope<OpenGL::GlShader>("UpdateShader", "assets/shaders/ParticleSystem_update.glsl", false);
+		s_FireUpdateShader = CreateScope<OpenGL::GlShader>("FireUpdateShader", "assets/shaders/ParticleSystem_update_fire.glsl", false);
+		s_MagicBallUpdateShader = CreateScope<OpenGL::GlShader>("MagicBallUpdateShader", "assets/shaders/ParticleSystem_update_magicBall.glsl", false);
 
 		char* varyings[4];
 		varyings[0] = "Type";
@@ -26,8 +28,11 @@ namespace Engine {
 		varyings[2] = "Velocity";
 		varyings[3] = "Power";
 
-		s_UpdateShader->SetTransformFeedbackVaryings(4, varyings, 0x8C8C);
-		s_UpdateShader->Link();
+		s_FireUpdateShader->SetTransformFeedbackVaryings(4, varyings, 0x8C8C);
+		s_FireUpdateShader->Link();
+
+		s_MagicBallUpdateShader->SetTransformFeedbackVaryings(4, varyings, 0x8C8C);
+		s_MagicBallUpdateShader->Link();
 
 		// Billboard Shader
 		s_BillboardShader = CreateScope<OpenGL::GlShader>("BillboardShader", "assets/shaders/ParticleSystem_billboard.glsl");
@@ -66,8 +71,8 @@ namespace Engine {
 		float Power;
 	};
 
-	Engine::ParticleSystem::ParticleSystem(const glm::vec3& position, float emitPower, float cooling, float particleSize, glm::vec4 colorStart, glm::vec4 colorEnd)
-		: m_Position(position), m_EmitPower(emitPower), m_Cooling(cooling), m_ParticleSize(particleSize), m_ColorStart(colorStart), m_ColorEnd(colorEnd)
+	Engine::ParticleSystem::ParticleSystem(ParticleSystemType type, const glm::vec3& position, float emitPower, float cooling, float particleSize, glm::vec4 colorStart, glm::vec4 colorEnd)
+		: m_Type(type), m_Position(position), m_EmitPower(emitPower), m_Cooling(cooling), m_ParticleSize(particleSize), m_ColorStart(colorStart), m_ColorEnd(colorEnd)
 	{
 		m_Time = 0;
 		m_isFirst = true;
@@ -94,12 +99,16 @@ namespace Engine {
 
 		OpenGL::API::UnbindVertexArray();
 
-		s_UpdateShader->Bind();
-		s_UpdateShader->SetFloat("u_DeltaTime_ms", timestep.GetMilliseconds());
-		s_UpdateShader->SetFloat("u_Time", m_Time);
-		s_UpdateShader->SetFloat3("u_EmitterPosition", m_Position);
-		s_UpdateShader->SetFloat("u_EmitPower", m_EmitPower);
-		s_UpdateShader->SetFloat("u_Cooling", m_Cooling);
+		OpenGL::GlShader* shader = s_FireUpdateShader.get();
+		if (m_Type == ParticleSystemType::MagicBall)
+			shader = s_MagicBallUpdateShader.get();
+
+		shader->Bind();
+		shader->SetFloat("u_DeltaTime_ms", timestep.GetMilliseconds());
+		shader->SetFloat("u_Time", m_Time);
+		shader->SetFloat3("u_EmitterPosition", m_Position);
+		shader->SetFloat("u_EmitPower", m_EmitPower);
+		shader->SetFloat("u_Cooling", m_Cooling);
 
 		s_RandomTexture->Bind();
 
@@ -159,6 +168,16 @@ namespace Engine {
 		s_BillboardShader->SetFloat("u_BillboardSize", m_ParticleSize);
 		s_BillboardShader->SetFloat4("u_ColorStart", m_ColorStart);
 		s_BillboardShader->SetFloat4("u_ColorEnd", m_ColorEnd);
+		if (m_Type == ParticleSystemType::MagicBall)
+		{
+			// TODO: improve
+			static float r = m_Time / 10000;
+			glm::mat4 transform = glm::translate(glm::mat4(1), m_Position) * glm::rotate(glm::mat4(1), r, {0,1,0});
+			s_BillboardShader->SetMat4("u_Offset", transform);
+		}
+		else
+			s_BillboardShader->SetMat4("u_Offset", glm::mat4(1));
+
 		s_ParticleTexture->Bind();
 
 

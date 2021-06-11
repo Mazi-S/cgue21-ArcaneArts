@@ -107,6 +107,8 @@ namespace Engine {
 
 		bool m_SceneFocused = true, m_SceneHovered = true;
 
+		float m_PhysicsTime = 0;
+
 		// Spectator
 		bool m_SpectatorActive = false;
 		Spectator m_Spectator;

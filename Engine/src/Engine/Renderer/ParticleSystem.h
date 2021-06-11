@@ -11,15 +11,29 @@
 
 namespace Engine {
 
+	enum class ParticleSystemType
+	{
+		Fire,
+		MagicBall
+	};
+
 	class ParticleSystem
 	{
 	public:
-		ParticleSystem(const glm::vec3& position, float emitPower = 0.001f, float cooling = 0.05f, float particleSize = 0.01f, glm::vec4 colorStart = { 1, 1, 0, 1 }, glm::vec4 colorEnd = { 1, 0, 0, 0 });
+		ParticleSystem(
+			ParticleSystemType type,
+			const glm::vec3& position, float emitPower = 0.001f,
+			float cooling = 0.05f, float particleSize = 0.01f,
+			glm::vec4 colorStart = { 1, 1, 0, 1 },
+			glm::vec4 colorEnd = { 1, 0, 0, 0 }
+		);
 		~ParticleSystem();
 		
 		void OnUpdate(Timestep timestep);
 		void OnUpdate(Timestep timestep, const glm::vec3& position, float emitPower, float cooling, float particleSize, glm::vec4 colorStart, glm::vec4 colorEnd);
 		void OnRender(const glm::mat4& viewProjection, const glm::vec3& cameraPos);
+
+		void SetType(ParticleSystemType type) { m_Type = type; }
 
 		static void Init();
 
@@ -34,6 +48,7 @@ namespace Engine {
 		float m_Time;
 		bool m_isFirst;
 
+		ParticleSystemType m_Type;
 		glm::vec3 m_Position;
 		float m_EmitPower;
 		float m_Cooling;
@@ -48,7 +63,8 @@ namespace Engine {
 		OpenGL::GlVertexBuffer* m_VertexBuffer[2];
 		OpenGL::GlTransformFeedback* m_TransformFeedback[2];
 
-		static Scope<OpenGL::GlShader> s_UpdateShader;
+		static Scope<OpenGL::GlShader> s_FireUpdateShader;
+		static Scope<OpenGL::GlShader> s_MagicBallUpdateShader;
 		static Scope<OpenGL::GlShader> s_BillboardShader;
 		static Scope<OpenGL::GlTexture2D> s_ParticleTexture;
 		static Scope<OpenGL::GlTexture1D> s_RandomTexture;

@@ -67,7 +67,16 @@ namespace Engine {
 	}
 
 	void Scene::OnUpdate(Timestep ts)
-	{
+	{		
+		
+		m_PhysicsTime += ts;
+		if (m_PhysicsTime > (1.0f / 60.0f))
+		{
+			m_PhysicsTime -= (1.0f / 60.0f);
+			m_PhysicsScene->Simulate(1.0f / 60.0f);
+
+			System::Physics::OnUpdate(m_Registry);
+		}
 		// Update
 		if (m_SpectatorActive)
 			m_Spectator.OnUpdate(ts);
@@ -80,15 +89,7 @@ namespace Engine {
 
 		m_Registry.view<Component::Core::NativeScriptComponent>().each([=](auto entity, auto& nsc) { if (nsc.Active) nsc.Instance->OnUpdate(ts); });
 		
-		static float t = 0;
-		t += ts;
-		if (t > (1.0f / 60.0f))
-		{
-			t -= (1.0f / 60.0f);
-			m_PhysicsScene->Simulate(1.0f / 60.0f);
 
-			System::Physics::OnUpdate(m_Registry);
-		}
 	}
 
 	void Scene::OnRender()

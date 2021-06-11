@@ -22,6 +22,8 @@ namespace Engine::ImGuiUtil {
 	bool DrawComboControl(const std::string& label, std::string& selection, const std::vector<std::string> values, float columnWidth = 150.0f);
 
 	bool DrawFloatControl(const std::string& label, float& value, float min = 0, float max = 0, float speed = 0.1f, float columnWidth = 150.0f);
+	bool DrawSmallFloatControl(const std::string& label, float& value, float min = 0, float max = 0, float speed = 0.00001f, float columnWidth = 150.0f);
+
 	bool DrawFloat3Control(const std::string& label, glm::vec3& values, float min = 0, float max = 0, float speed = 0.1f, float columnWidth = 150.0f);
 
 	bool DrawColorControl(const std::string& label, glm::vec4& values, float columnWidth = 150.0f);

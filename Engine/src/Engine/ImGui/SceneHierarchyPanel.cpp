@@ -391,10 +391,30 @@ namespace Engine {
 		// Particle System Component
 		ImGuiUtil::DrawComponent<ParticleSystemComponent>("Particle System", entity, [](ParticleSystemComponent& component)
 			{
-				ImGuiUtil::DrawFloatControl("Emit Power", component.EmitPower, 0.001, 1, 0.001);
-				ImGuiUtil::DrawFloatControl("Cooling", component.Cooling, 0.001, 1, 0.001);
+				std::string type;
+				if (component.Type == ParticleSystemType::Fire)
+					type = "Fire";
+				else if (component.Type == ParticleSystemType::MagicBall)
+					type = "MagicBall";
+
+				if (ImGuiUtil::DrawComboControl("Type", type, { "Fire", "MagicBall" }))
+				{
+					if (type == "Fire")
+					{
+						component.Type = ParticleSystemType::Fire;
+						if (component.ParticleSystem != nullptr) component.ParticleSystem->SetType(ParticleSystemType::Fire);
+					}
+					else if (type == "MagicBall")
+					{
+						component.Type = ParticleSystemType::MagicBall;
+						if (component.ParticleSystem != nullptr) component.ParticleSystem->SetType(ParticleSystemType::MagicBall);
+					}
+				}
+
+				ImGuiUtil::DrawSmallFloatControl("Emit Power", component.EmitPower, 0.00001, 1, 0.00001);
+				ImGuiUtil::DrawSmallFloatControl("Cooling", component.Cooling, 0.00001, 1, 0.00001);
 				ImGui::Dummy({ 0, 0.1 });
-				ImGuiUtil::DrawFloatControl("Particle Size", component.ParticleSize, 0.0001, 0.1, 0.0001);
+				ImGuiUtil::DrawSmallFloatControl("Particle Size", component.ParticleSize, 0.00001, 0.1, 0.00001);
 				ImGuiUtil::DrawColorControl("Color (start)", component.ColorStart);
 				ImGuiUtil::DrawColorControl("Color (end)", component.ColorEnd);
 		});
@@ -490,7 +510,7 @@ namespace Engine {
 				bool update = false;
 
 				int loop = component.Loop;
-				if (ImGuiUtil::DrawComboControl("Active", loop, { "false", "true" }))
+				if (ImGuiUtil::DrawComboControl("Loop", loop, { "false", "true" }))
 				{
 					component.Loop = loop;
 					update = true;
@@ -524,7 +544,7 @@ namespace Engine {
 				bool update = false;
 
 				int loop = component.Loop;
-				if (ImGuiUtil::DrawComboControl("Active", loop, { "false", "true" }))
+				if (ImGuiUtil::DrawComboControl("Loop", loop, { "false", "true" }))
 				{
 					component.Loop = loop;
 					update = true;

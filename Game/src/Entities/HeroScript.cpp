@@ -19,11 +19,17 @@ using MaterialComponent				= Engine::Component::Renderer::MaterialComponent;
 using ShadowComponent				= Engine::Component::Renderer::ShadowComponent;
 using PointLightComponent			= Engine::Component::Renderer::PointLightComponent;
 using MeshComponent					= Engine::Component::Renderer::MeshComponent;
+using ParticleSystemComponent		= Engine::Component::Renderer::ParticleSystemComponent;
 
 static glm::vec3 s_ActiveHandOffset = { 0.77f, -0.35f, -1.58f };
 static glm::vec3 s_PassiveHandOffset = { -0.67f, -0.3f, -1.58f };
 
 static glm::vec3 s_MagicBallScale = { 0.1f, 0.1f, 0.1f };
+
+HeroScript::HeroScript(Engine::Entity entity) : ScriptableEntity(entity)
+{
+	EquipActive(MagicBallType::Fire);
+}
 
 void HeroScript::OnUpdate(Engine::Timestep ts)
 {
@@ -125,7 +131,6 @@ bool HeroScript::OnKeyPressed(Engine::KeyPressedEvent& e)
 				break;
 		case MagicBallType::Heal:
 				EquipPassive(MagicBallType::None);
-				StartPassive();
 			break;
 		default:
 			EquipPassive(MagicBallType::None);
@@ -143,7 +148,6 @@ bool HeroScript::OnKeyPressed(Engine::KeyPressedEvent& e)
 			break;
 		case MagicBallType::Light:
 			EquipPassive(MagicBallType::None);
-			StartPassive();
 			break;
 		case MagicBallType::Heal:
 			EquipPassive(MagicBallType::Light);
@@ -199,7 +203,19 @@ void HeroScript::EquipActive(MagicBallType type)
 	if (m_ActiveSpell != MagicBallType::None)
 		CancelActive();
 
-	// TODO: start particle system
+	if (type != MagicBallType::None)
+	{
+		if (m_ActiveParticleSystem)
+			m_ActiveParticleSystem.Destroy();
+
+		m_ActiveParticleSystem = CreateMagicBallParticleSystem(type, s_ActiveHandOffset);
+	}
+	else if (m_ActiveParticleSystem)
+	{
+		m_ActiveParticleSystem.Destroy();
+		m_ActiveParticleSystem = Engine::Entity();
+	}
+
 	m_ActiveSpell = type;
 }
 
@@ -242,14 +258,17 @@ bool HeroScript::UseActive(Engine::Timestep ts)
 	if (magicBallComp.Progress >= 1)
 	{
 		auto& materialComp = m_ActiveHand.GetComponent<MaterialComponent>();
+		auto& pointLightComp = m_ActiveHand.GetComponent<PointLightComponent>();
 
 		switch (m_ActiveSpell)
 		{
 		case MagicBallType::Fire:
 			materialComp.Materials[0] = "MagicBall_Fire_ready";
+			pointLightComp.Color *= 1.5;
 			break;
 		case MagicBallType::Lightning:
 			materialComp.Materials[0] = "MagicBall_Lightning_ready";
+			pointLightComp.Color *= 1.5;
 			break;
 		}
 	}
@@ -343,6 +362,9 @@ void HeroScript::CancelPassive()
 
 Engine::Entity HeroScript::CreateMagicBall(MagicBallType type, glm::vec3 offset)
 {
+	if (type == MagicBallType::None)
+		return Engine::Entity();
+
 	Engine::Entity ball{ Engine::Factory::CreateEntity(*m_RegistryHandle, "MagicBall"), m_RegistryHandle };
 	auto& transformComp = ball.GetComponent<TransformComponent>();
 
@@ -382,6 +404,7 @@ Engine::Entity HeroScript::CreateMagicBall(MagicBallType type, glm::vec3 offset)
 			MagicBallEffect(type), MagicBallMana(type), MagicBallCastTime(type)
 		);
 		ball.GetComponent<NativeScriptComponent>().Active = false;
+		ball.AddComponent<PointLightComponent>(glm::vec3{ 0.5f, 0.3f, 0.1f }, 0.4f, 0.1f, 0.05f);
 		break;
 	case MagicBallType::Lightning:
 		transformComp.Scale = { 0.001f, 0.001f, 0.001f };
@@ -393,6 +416,7 @@ Engine::Entity HeroScript::CreateMagicBall(MagicBallType type, glm::vec3 offset)
 			MagicBallEffect(type), MagicBallMana(type), MagicBallCastTime(type)
 		);
 		ball.GetComponent<NativeScriptComponent>().Active = false;
+		ball.AddComponent<PointLightComponent>(glm::vec3{ 0.3f, 0.3f, 0.5f }, 0.4f, 0.1f, 0.05f);
 		break;
 	default:
 		return Engine::Entity();
@@ -403,6 +427,32 @@ Engine::Entity HeroScript::CreateMagicBall(MagicBallType type, glm::vec3 offset)
 		Engine::SoundLibrary::Get(magicBallComp.CastSound)->Play2D();
 
 	return ball;
+}
+
+Engine::Entity HeroScript::CreateMagicBallParticleSystem(MagicBallType type, glm::vec3 offset)
+{
+
+	Engine::Entity particleSystem{ Engine::Factory::CreateEntity(*m_RegistryHandle, "ParticleSystem (MagicBall)"), m_RegistryHandle };
+	auto& transformComp = particleSystem.GetComponent<TransformComponent>();
+
+	transformComp.Translation = offset;
+
+	particleSystem.AddComponent<ParentComponent>(m_EntityHandle);
+	particleSystem.AddComponent<Unserializable>();
+
+	switch (type)
+	{
+	case MagicBallType::Fire:
+		particleSystem.AddComponent<ParticleSystemComponent>(Engine::ParticleSystemType::MagicBall, 0.00163f, 0.4649f, 0.0080f, glm::vec4(1, 1, 0, 1), glm::vec4(1, 0, 0, 0));
+		break;
+	case MagicBallType::Lightning:
+		particleSystem.AddComponent<ParticleSystemComponent>(Engine::ParticleSystemType::MagicBall, 0.00163f, 0.4649f, 0.0080f, glm::vec4(0, 1, 1, 1), glm::vec4(1, 1, 0, 0));
+		break;
+	default:
+		return Engine::Entity();
+	}
+
+	return particleSystem;
 }
 
 void HeroScript::Throw(Engine::Entity ball)
