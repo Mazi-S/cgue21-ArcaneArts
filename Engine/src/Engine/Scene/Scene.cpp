@@ -68,28 +68,26 @@ namespace Engine {
 
 	void Scene::OnUpdate(Timestep ts)
 	{		
-		
 		m_PhysicsTime += ts;
-		if (m_PhysicsTime > (1.0f / 60.0f))
+		static float delta = 1.0f / 60.0f;
+		if (m_PhysicsTime > delta)
 		{
-			m_PhysicsTime -= (1.0f / 60.0f);
-			m_PhysicsScene->Simulate(1.0f / 60.0f);
+			m_PhysicsTime -= delta;
+
+			System::Physics::OnUpdateKinematic(m_Registry, delta);
+			System::ScriptableEntity::OnUpdate(m_Registry, delta);
+			System::CharacterController::OnUpdate(m_Registry, delta);
+			m_PhysicsScene->Simulate(delta);
 
 			System::Physics::OnUpdate(m_Registry);
 		}
-		// Update
+
 		if (m_SpectatorActive)
 			m_Spectator.OnUpdate(ts);
 
-		System::Physics::OnUpdateKinematic(m_Registry, ts);
-		System::CharacterController::OnUpdate(m_Registry, ts);
+		//System::CharacterController::OnUpdate(m_Registry, ts);
 		System::Audio::OnUpdate(m_Registry);
-
 		System::Renderer::OnUpdateParticleSystem(m_Registry, ts);
-
-		m_Registry.view<Component::Core::NativeScriptComponent>().each([=](auto entity, auto& nsc) { if (nsc.Active) nsc.Instance->OnUpdate(ts); });
-		
-
 	}
 
 	void Scene::OnRender()

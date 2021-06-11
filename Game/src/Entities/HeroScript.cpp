@@ -470,7 +470,7 @@ void HeroScript::Throw(Engine::Entity ball)
 
 	glm::vec4 velocity = glm::toMat4(glm::quat(transformComp.Rotation)) * glm::vec4{ 0.0f, 0.0f, -28.0f, 0.0 };
 
-	auto* actor = ActorFactory::MagicBall(transformComp_ball.Translation, transformComp_ball.Rotation, transformComp_ball.Scale.x);
+	auto* actor = ActorFactory::MagicBall(transformComp_ball.Translation, transformComp_ball.Rotation, transformComp_ball.Scale.x * 3);
 
 	ball.AddComponent<RigidDynamicComponent>(actor);
 	ball.AddComponent<KinematicMovementComponent>(glm::vec3{ velocity.x, velocity.y, velocity.z });
