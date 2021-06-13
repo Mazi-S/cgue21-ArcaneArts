@@ -1,6 +1,7 @@
 #include "egpch.h"
 #include "Renderer.h"
 
+#include "Platform/Platform.h"
 #include "Platform/OpenGL/OpenGLAPI.h"
 #include "Platform/OpenGL/OpenGLUtil.h"
 #include <glm/gtc/type_ptr.hpp>
@@ -21,16 +22,17 @@ namespace Engine {
 		OpenGL::API::Init();
 
 		// Scene UB
-		OpenGL::GlUniformBufferLayout_std140 layout_SceneUB(4 * 4 * 22, {
-			{OpenGL::GlShaderDataType::Mat4, "ViewProjection", 0},
-			{OpenGL::GlShaderDataType::Float3, "CameraPosition", 4 * 4 * 4},
-			{OpenGL::GlShaderDataType::Int,		"PointLightCount", 4 * 4 * 4 + 4 * 3},
-			{OpenGL::GlShaderDataType::Struct,	"DirectionalLight", 4 * 4 * 5},
-			{OpenGL::GlShaderDataType::Struct,	"PointLight0", 4 * 4 * 7},
-			{OpenGL::GlShaderDataType::Struct,	"PointLight1", 4 * 4 * 10},
-			{OpenGL::GlShaderDataType::Struct,	"PointLight2", 4 * 4 * 13},
-			{OpenGL::GlShaderDataType::Struct,	"PointLight3", 4 * 4 * 16},
-			{OpenGL::GlShaderDataType::Struct,	"PointLight4", 4 * 4 * 19},
+		OpenGL::GlUniformBufferLayout_std140 layout_SceneUB(4 * 4 * 23, {
+			{OpenGL::GlShaderDataType::Mat4,	"ViewProjection", 0},
+			{OpenGL::GlShaderDataType::Float3,	"CameraPosition", 4 * 4 * 4},
+			{OpenGL::GlShaderDataType::Float,	"Time", 4 * 4 * 4 + 4 * 3},
+			{OpenGL::GlShaderDataType::Int,		"PointLightCount", 4 * 4 * 5},
+			{OpenGL::GlShaderDataType::Struct,	"DirectionalLight", 4 * 4 * 6},
+			{OpenGL::GlShaderDataType::Struct,	"PointLight0", 4 * 4 * 8},
+			{OpenGL::GlShaderDataType::Struct,	"PointLight1", 4 * 4 * 11},
+			{OpenGL::GlShaderDataType::Struct,	"PointLight2", 4 * 4 * 14},
+			{OpenGL::GlShaderDataType::Struct,	"PointLight3", 4 * 4 * 17},
+			{OpenGL::GlShaderDataType::Struct,	"PointLight4", 4 * 4 * 20},
 		});
 		s_SceneUB = CreateRef<OpenGL::GlUniformBuffer>(layout_SceneUB);
 		s_SceneUB->Bind(0);
@@ -60,6 +62,8 @@ namespace Engine {
 		glm::mat4 viewProjectionMatrix = camera.ViewProjection();
 		s_SceneUB->SetData(glm::value_ptr(viewProjectionMatrix), "ViewProjection");
 		s_SceneUB->SetData(glm::value_ptr(camera.Position()), "CameraPosition");
+		const float time = Platform::GetTime();
+		s_SceneUB->SetData(&time, "Time");
 
 		// Lights
 		{

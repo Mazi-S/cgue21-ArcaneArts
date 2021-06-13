@@ -6,3 +6,5 @@ Shaders:
     Path: assets/shaders/Texture.glsl
   - Shader: TextureShader2
     Path: assets\shaders\TextureNormalMap.glsl
+  - Shader: Vertex Displacement Animation
+    Path: assets\shaders\VertexDisplacementAnimation.glsl

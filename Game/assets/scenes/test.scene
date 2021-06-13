@@ -27,7 +27,7 @@ Entities:
       Rotation: [0, 0.357792497, 0]
       Scale: [0.0500000007, 0.0500000007, 0.0500000007]
     PointLightComponent:
-      Color: [3.52331591, 1.92180932, 0.854137063]
+      Color: [3.75728655, 2.04943252, 0.910855174]
       Constant: 0.680000007
       Linear: 0.150000006
       Quadratic: 0.0500000007
@@ -238,19 +238,6 @@ Entities:
       Speed: 2
       ViewRange: 22
       HitRange: 3
-  - Entity: 502256637
-    TagComponent:
-      Tag: Cube
-    TransformComponent:
-      Translation: [-0.280000001, 1.19000006, 0]
-      Rotation: [0.0541052036, 0, 0]
-      Scale: [0.5, 0.5, 0.5]
-    MeshComponent:
-      Mesh: Cube
-    MaterialComponent:
-      Materials:
-        - RockMaterial
-    ShadowComponent: {}
   - Entity: 2241433423
     TagComponent:
       Tag: Directional Light
@@ -320,7 +307,7 @@ Entities:
     TagComponent:
       Tag: Character
     TransformComponent:
-      Translation: [13.704216, 1.2464329, 11.669836]
+      Translation: [14.889493, 1.36195815, 18.4830208]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     CharacterControllerComponent:
@@ -338,7 +325,7 @@ Entities:
       Parent: 3578204107
     TransformComponent:
       Translation: [0, 1, 0]
-      Rotation: [-0.00200153352, -6.41808748, 0]
+      Rotation: [-0.0120021384, -11.9140816, 0]
       Scale: [1, 1, 1]
     ListenerComponent: {}
     HeroComponent: {}
@@ -757,3 +744,16 @@ Entities:
       SoundSource: Campfire
       Loop: true
       Volume: 1
+  - Entity: 2915118616
+    TagComponent:
+      Tag: Cube
+    TransformComponent:
+      Translation: [-0.280000001, 1.19000006, 0]
+      Rotation: [0.0541052036, 0, 0]
+      Scale: [0.5, 0.5, 0.5]
+    MeshComponent:
+      Mesh: Cube
+    MaterialComponent:
+      Materials:
+        - RockMaterial
+    ShadowComponent: {}

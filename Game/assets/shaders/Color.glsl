@@ -18,10 +18,13 @@ layout(location = 0) in vec3 a_Position;
 layout(location = 1) in vec2 a_TexCoord;
 layout(location = 2) in vec3 a_Normals;
 
+// Scene Data
 layout (std140, binding = 0) uniform SceneData {
 	mat4 u_ViewProjection;
 	vec3 u_CameraPosition;
+	float u_Time;
 	int u_PointLightCount;
+	vec2 placeholder;
 	DirectionalLight u_DirectionalLight;
 	PointLight[5] u_PointLight;
 };
@@ -68,10 +71,13 @@ struct PointLight {
 // illumination multiplier
 uniform float u_Brightness = 1.0;
 
+// Scene Data
 layout (std140, binding = 0) uniform SceneData {
 	mat4 u_ViewProjection;
 	vec3 u_CameraPosition;
+	float u_Time;
 	int u_PointLightCount;
+	vec2 placeholder;
 	DirectionalLight u_DirectionalLight;
 	PointLight[5] u_PointLight;
 };

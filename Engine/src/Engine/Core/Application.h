@@ -51,8 +51,8 @@ namespace Engine {
 	private:
 		Scope<Window> m_Window;
 
-		float m_Brightness = 1.0;
-		float m_Brightness2D = 1.0;
+		float m_Brightness = 1.0f;
+		float m_Brightness2D = 1.0f;
 		bool m_Running = true;
 		bool m_Minimized = false;
 		bool m_ImGui = false;

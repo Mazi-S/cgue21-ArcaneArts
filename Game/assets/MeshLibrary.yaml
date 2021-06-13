@@ -48,12 +48,18 @@ Meshes:
   - Mesh: Pedestal
     Path: assets/objects/pedestal.obj
     TangentSpace: false
+  - Mesh: Plane
+    Path: assets\objects\plane.obj
+    TangentSpace: true
   - Mesh: Rock_1
     Path: assets/objects/forest/rock_1.obj
     TangentSpace: false
   - Mesh: Sphere
     Path: assets/objects/sphere.obj
     TangentSpace: false
+  - Mesh: Sphere UV
+    Path: assets\objects\sphere_uv.obj
+    TangentSpace: true
   - Mesh: Spruce_1
     Path: assets/objects/forest/spruce_1.obj
     TangentSpace: false

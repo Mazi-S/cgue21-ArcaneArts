@@ -20,6 +20,7 @@ using ShadowComponent				= Engine::Component::Renderer::ShadowComponent;
 using PointLightComponent			= Engine::Component::Renderer::PointLightComponent;
 using MeshComponent					= Engine::Component::Renderer::MeshComponent;
 using ParticleSystemComponent		= Engine::Component::Renderer::ParticleSystemComponent;
+using ShadowComponent = Engine::Component::Renderer::ShadowComponent;
 
 static glm::vec3 s_ActiveHandOffset = { 0.77f, -0.35f, -1.58f };
 static glm::vec3 s_PassiveHandOffset = { -0.67f, -0.3f, -1.58f };
@@ -371,13 +372,13 @@ Engine::Entity HeroScript::CreateMagicBall(MagicBallType type, glm::vec3 offset)
 	transformComp.Translation = offset;
 
 	ball.AddComponent<ParentComponent>(m_EntityHandle);
-	ball.AddComponent<MeshComponent>("Sphere");
 	ball.AddComponent<Unserializable>();
 
 	switch (type)
 	{
 	case MagicBallType::Light:
 		transformComp.Scale = { 0.1f, 0.1f, 0.1f };
+		ball.AddComponent<MeshComponent>("Sphere UV");
 		ball.AddComponent<MaterialComponent>("MagicBall_Light");
 		ball.AddComponent<MagicBallComponent>(
 			std::string(), "LightCast", std::string(),
@@ -387,6 +388,7 @@ Engine::Entity HeroScript::CreateMagicBall(MagicBallType type, glm::vec3 offset)
 		break;
 	case MagicBallType::Heal:
 		transformComp.Scale = { 0.1f, 0.1f, 0.1f };
+		ball.AddComponent<MeshComponent>("Sphere UV");
 		ball.AddComponent<MaterialComponent>("MagicBall_Heal");
 		ball.AddComponent<MagicBallComponent>(
 			std::string(), std::string(), std::string(),
@@ -396,6 +398,7 @@ Engine::Entity HeroScript::CreateMagicBall(MagicBallType type, glm::vec3 offset)
 		break;
 	case MagicBallType::Fire:
 		transformComp.Scale = { 0.001f, 0.001f, 0.001f };
+		ball.AddComponent<MeshComponent>("Sphere");
 		ball.AddComponent<ShadowComponent>();
 		ball.AddComponent<MaterialComponent>("MagicBall_Fire");
 		ball.AddNativeScript<MagicBallScript>();
@@ -408,6 +411,7 @@ Engine::Entity HeroScript::CreateMagicBall(MagicBallType type, glm::vec3 offset)
 		break;
 	case MagicBallType::Lightning:
 		transformComp.Scale = { 0.001f, 0.001f, 0.001f };
+		ball.AddComponent<MeshComponent>("Sphere");
 		ball.AddComponent<ShadowComponent>();
 		ball.AddComponent<MaterialComponent>("MagicBall_Lightning");
 		ball.AddNativeScript<MagicBallScript>();

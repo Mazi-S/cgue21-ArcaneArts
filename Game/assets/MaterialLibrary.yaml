@@ -45,7 +45,7 @@ Materials:
       0: ShadowMap
       1: House
   - Material: MagicBall_Fire
-    Shader: ColorShader
+    Shader: Vertex Displacement Animation
     Ambient: [0.5, 0.0500000007, 0.100000001]
     Diffuse: [0.5, 0.0500000007, 0.100000001]
     Specular: [0.5, 0.0500000007, 0.100000001]
@@ -53,7 +53,7 @@ Materials:
     Textures:
       0: ShadowMap
   - Material: MagicBall_Fire_ready
-    Shader: ColorShader
+    Shader: Vertex Displacement Animation
     Ambient: [0.600000024, 0.150000006, 0.200000003]
     Diffuse: [0.600000024, 0.150000006, 0.200000003]
     Specular: [0.600000024, 0.150000006, 0.200000003]
@@ -61,23 +61,23 @@ Materials:
     Textures:
       0: ShadowMap
   - Material: MagicBall_Heal
-    Shader: ColorShader
-    Ambient: [0.899999976, 0.899999976, 0]
-    Diffuse: [0.899999976, 0.899999976, 0]
-    Specular: [0.899999976, 0.899999976, 0]
-    Shininess: 1
+    Shader: Vertex Displacement Animation
+    Ambient: [0.699999988, 0.699999988, 0]
+    Diffuse: [0.400000006, 0.400000006, 0]
+    Specular: [0.600000024, 0.600000024, 0.600000024]
+    Shininess: 4.0999999
     Textures:
       0: ShadowMap
   - Material: MagicBall_Light
-    Shader: ColorShader
-    Ambient: [0.899999976, 0.899999976, 0.899999976]
-    Diffuse: [0.899999976, 0.899999976, 0.899999976]
-    Specular: [0.899999976, 0.899999976, 0.899999976]
-    Shininess: 1
+    Shader: Vertex Displacement Animation
+    Ambient: [0.699999988, 0.699999988, 0.699999988]
+    Diffuse: [0.550000012, 0.550000012, 0.550000012]
+    Specular: [1, 1, 1]
+    Shininess: 15.3000002
     Textures:
       0: ShadowMap
   - Material: MagicBall_Lightning
-    Shader: ColorShader
+    Shader: Vertex Displacement Animation
     Ambient: [0.100000001, 0.0500000007, 0.5]
     Diffuse: [0.100000001, 0.0500000007, 0.5]
     Specular: [0.100000001, 0.0500000007, 0.5]
@@ -85,7 +85,7 @@ Materials:
     Textures:
       0: ShadowMap
   - Material: MagicBall_Lightning_ready
-    Shader: ColorShader
+    Shader: Vertex Displacement Animation
     Ambient: [0.200000003, 0.150000006, 0.600000024]
     Diffuse: [0.200000003, 0.150000006, 0.600000024]
     Specular: [0.200000003, 0.150000006, 0.600000024]
