@@ -79,11 +79,15 @@ uniform vec4 u_ColorEnd;
 in vec2 v_TexCoord;
 in float v_Power;
 
-out vec4 FragColor;
+layout (location = 0) out vec4 color;
+layout (location = 1) out vec4 color_bright; 
 
 void main()
 { 
-	vec4 color = u_ColorStart * v_Power + u_ColorEnd * (1.0 - v_Power);
-	FragColor = color * texture2D(u_ColorMap, v_TexCoord);
-	FragColor.xyz *= u_Brightness;
+	vec4 color_T = u_ColorStart * v_Power + u_ColorEnd * (1.0 - v_Power);
+	color = color_T * texture2D(u_ColorMap, v_TexCoord);
+	color.xyz *= u_Brightness;
+
+	color_bright = color;
+	color_bright.w *= 2.5;
 }

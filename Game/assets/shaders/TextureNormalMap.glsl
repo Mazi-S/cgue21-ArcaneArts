@@ -108,7 +108,8 @@ in mat3 v_TBN;
 
 uniform mat3 u_NormalMatrix;
 
-out vec4 color;
+layout (location = 0) out vec4 color;
+layout (location = 1) out vec4 color_bright; 
 
 vec3 CalcDirLight(vec4 color, vec3 diffuse, vec3 specular, float shininess, vec3 normal, vec3 viewDir, DirectionalLight directionalLight);
 vec3 CalcPointLight(vec4 color, vec3 diffuse, vec3 specular, float shininess, vec3 position, vec3 normal, vec3 viewDir, PointLight pointLight);
@@ -139,6 +140,13 @@ void main() {
 
 	// final color
 	color = vec4(result * u_Brightness, 1.0);
+
+	// bright color
+	float brightness = dot(color.rgb, vec3(0.2126, 0.7152, 0.0722));
+	if(brightness > 1.0)
+		color_bright = vec4(color.rgb, 1.0);
+	else
+		color_bright = vec4(0.0, 0.0, 0.0, 1.0);
 }
 
 

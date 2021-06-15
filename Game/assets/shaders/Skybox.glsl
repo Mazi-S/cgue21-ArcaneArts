@@ -24,10 +24,13 @@ uniform samplerCube u_Skybox;
 
 in vec3 v_Texture;
 
-out vec4 color;
+layout (location = 0) out vec4 color;
+layout (location = 1) out vec4 color_bright;
 
 void main()
 {
 	color = texture(u_Skybox, -v_Texture);
 	color.xyz *= u_Brightness;
+
+	color_bright = vec4(0.0, 0.0, 0.0, 1.0);
 }

@@ -37,11 +37,9 @@ void ExampleLayer::OnAttach()
 
 	Engine::Application::Get().GetWindow().HideCursor();
 
-	// Skybox
-	m_Skybox = Engine::CreateRef<Engine::Skybox>();
-
-	// Seed
-	srand(420);
+	// SkyBox
+	auto skybox = Engine::CreateRef<Engine::Skybox>();
+	m_Scene->SetSkybox(skybox);
 
 	// Monster
 	if (false) {
@@ -89,6 +87,7 @@ void ExampleLayer::OnAttach()
 
 	// ImGui
 	m_MaterialPanel = Engine::CreateScope<Engine::MaterialPanel>();
+	m_RendererPanel = Engine::CreateScope<Engine::RendererPanel>();
 	m_ShaderPanel = Engine::CreateScope<Engine::ShaderPanel>();
 	m_TexturePanel = Engine::CreateScope<Engine::Texture2DPanel>();
 	m_MeshPanel = Engine::CreateScope<Engine::MeshPanel>();
@@ -109,9 +108,6 @@ void ExampleLayer::OnUpdate(Engine::Timestep ts)
 	m_Scene->OnUpdate(ts);
 
 	// Render here
-
-	// Render Skybox and CubeMap
-	m_Skybox->Draw(m_Scene->GetCamera());
 
 	// Render Scene
 	m_Scene->OnRender();
@@ -175,9 +171,8 @@ void ExampleLayer::NewScene()
 
 void ExampleLayer::OnImGui()
 {
-	ImGui::ShowDemoWindow();
-
 	m_MaterialPanel->OnImGui();
+	m_RendererPanel->OnImGui();
 	m_ShaderPanel->OnImGui();
 	m_TexturePanel->OnImGui();
 	m_MeshPanel->OnImGui();

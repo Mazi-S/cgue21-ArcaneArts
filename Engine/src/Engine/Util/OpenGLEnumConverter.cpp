@@ -30,6 +30,8 @@ namespace Engine::Util {
 			return "GL_POINT";
 		case GL_LINE:
 			return "GL_LINE";
+		case GL_RGBA16F:
+			return "GL_RGBA16F";
 		case GL_FILL:
 			return "GL_FILL";
 		case GL_NEAREST:

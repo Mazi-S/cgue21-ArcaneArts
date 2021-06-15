@@ -21,10 +21,10 @@ public:
 
 private:
 	Engine::Ref<Engine::Scene> m_Scene;
-	Engine::Ref<Engine::Skybox> m_Skybox;
 
 	// ImGui
 	Engine::Scope<Engine::MaterialPanel> m_MaterialPanel;
+	Engine::Scope<Engine::RendererPanel> m_RendererPanel;
 	Engine::Scope<Engine::ShaderPanel> m_ShaderPanel;
 	Engine::Scope<Engine::Texture2DPanel> m_TexturePanel;
 	Engine::Scope<Engine::MeshPanel> m_MeshPanel;

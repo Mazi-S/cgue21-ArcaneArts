@@ -99,6 +99,12 @@ namespace Engine {
 		std::vector<PointLight> pLights = System::Light::GetPointLights(m_Registry);
 
 		Renderer::BeginScene(camera, dLight, pLights);
+
+		Renderer::GetFramebuffer()->Bind();
+		if (m_Skybox != nullptr)
+			m_Skybox->Draw(camera);
+		Renderer::GetFramebuffer()->Unbind();
+
 		ShadowMap::BeginScene(camera, dLight);
 
 		System::Renderer::Submit(m_Registry);
@@ -106,7 +112,11 @@ namespace Engine {
 		ShadowMap::EndScene();
 		Renderer::EndScene();
 
+		Renderer::GetFramebuffer()->Bind();
 		System::Renderer::OnRenderParticleSystem(m_Registry, camera.ViewProjection(), camera.Position());
+		Renderer::GetFramebuffer()->Unbind();
+
+		Renderer::DrawToScreen();
 	}
 
 	void Scene::OnEvent(Event& event)

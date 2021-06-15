@@ -19,7 +19,9 @@ void main()
 
 #type fragment
 #version 330 core
-out vec4 color;
+
+layout (location = 0) out vec4 color;
+layout (location = 1) out vec4 color_bright; 
 
 in vec3 v_Normal;
 in vec3 v_Position;
@@ -33,4 +35,6 @@ void main()
     vec3 viewR = reflect(I, normalize(v_Normal));
     vec3 worldR = inverse(mat3(u_View)) * viewR;
     color = vec4(texture(u_Skybox, -worldR).rgb, 1.0);
+
+	color_bright = vec4(0.0, 0.0, 0.0, 1.0);
 }

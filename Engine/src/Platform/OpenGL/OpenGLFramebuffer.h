@@ -41,6 +41,8 @@ namespace Engine::OpenGL {
 		uint32_t Width = 0, Height = 0;
 
 		FramebufferAttachmentSpecification ColorAttachment;
+		FramebufferAttachmentSpecification ColorAttachment1;
+
 		FramebufferAttachmentSpecification DepthAttachment;
 
 		// FramebufferFormat Format = 
@@ -61,7 +63,7 @@ namespace Engine::OpenGL {
 
 		virtual void Resize(uint32_t width, uint32_t height);
 
-		virtual Ref<GlTexture2D> GetColorAttachment() const { return m_ColorAttachment; }
+		virtual Ref<GlTexture2D> GetColorAttachment(uint32_t attachment = 0) const;
 		virtual Ref<GlTexture2D> GetDepthAttachment() const { return m_DepthAttachment; }
 
 		virtual const FramebufferSpecification& GetSpecification() const { return m_Specification; }
@@ -73,6 +75,7 @@ namespace Engine::OpenGL {
 	private:
 		uint32_t m_RendererID = 0;
 		Ref<GlTexture2D> m_ColorAttachment;
+		Ref<GlTexture2D> m_ColorAttachment1;
 		Ref<GlTexture2D> m_DepthAttachment;
 		FramebufferSpecification m_Specification;
 	};

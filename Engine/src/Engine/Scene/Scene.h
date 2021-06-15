@@ -9,10 +9,10 @@
 #include "Engine/Events/KeyEvent.h"
 #include "Engine/Events/PhysicsEvent.h"
 #include "Engine/Renderer/Camera.h"
+#include "Engine/Renderer/Skybox.h"
 
 #include "Engine/Physics/PhysicsAPI.h"
 #include "Engine/Physics/PhysicsScene.h"
-#include "Engine/Renderer/Camera.h"
 
 #include "Spectator.h"
 
@@ -39,6 +39,7 @@ namespace Engine {
 		void DestroyEntity(Entity entity);
 
 		void SetMainCamera(Entity entity);
+		void SetSkybox(Ref<Skybox> skybox) { m_Skybox = skybox; }
 
 		void OnStart();
 		void OnPause();
@@ -101,6 +102,7 @@ namespace Engine {
 		entt::registry m_Registry;
 		entt::entity m_MainCamera = entt::null;
 
+		Engine::Ref<Engine::Skybox> m_Skybox;
 		Physics::PsScene* m_PhysicsScene;
 
 		uint32_t m_ViewportWidth, m_ViewportHeight;

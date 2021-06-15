@@ -57,6 +57,13 @@ namespace Engine::OpenGL {
 	{
 		glTransformFeedbackVaryings(m_RendererID, 4, varyings, bufferMode);
 	}
+	
+	void GlShader::SetBool(const std::string& name, bool value)
+	{
+		GLint location = glGetUniformLocation(m_RendererID, name.c_str());
+		ASSERT(location != -1, "'" + name + "' does not correspond to an active uniform variable in this shader!", name);
+		glUniform1i(location, value);
+	}
 
 	void GlShader::SetInt(const std::string& name, int value)
 	{

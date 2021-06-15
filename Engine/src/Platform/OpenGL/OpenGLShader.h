@@ -26,6 +26,7 @@ namespace Engine::OpenGL {
 		virtual void SetBlockBinding(const std::string& name, uint32_t bindingPoint);
 		virtual void SetTransformFeedbackVaryings(uint32_t count, char* varyings[], uint32_t bufferMode);
 
+		virtual void SetBool(const std::string& name, bool value);
 		virtual void SetInt(const std::string& name, int value);
 		virtual void SetIntArray(const std::string& name, int* values, uint32_t count);
 		virtual void SetFloat(const std::string& name, float value);
