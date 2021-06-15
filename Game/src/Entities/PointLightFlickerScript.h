@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Engine.h"
 
 class PointLightFlickerScript : public Engine::ScriptableEntity

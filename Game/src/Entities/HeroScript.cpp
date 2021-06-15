@@ -429,7 +429,7 @@ Engine::Entity HeroScript::CreateMagicBall(MagicBallType type, glm::vec3 offset)
 		ball.AddComponent<MaterialComponent>("MagicBall_Fire");
 		ball.AddNativeScript<MagicBallScript>();
 		ball.AddComponent<MagicBallComponent>(
-			std::string(), "FireballShoot", "Impact",
+			"FireballCast", "FireballShoot", "Impact",
 			MagicBallEffect(type), MagicBallMana(type), MagicBallCastTime(type)
 		);
 		ball.GetComponent<NativeScriptComponent>().Active = false;
@@ -442,7 +442,7 @@ Engine::Entity HeroScript::CreateMagicBall(MagicBallType type, glm::vec3 offset)
 		ball.AddComponent<MaterialComponent>("MagicBall_Lightning");
 		ball.AddNativeScript<MagicBallScript>();
 		ball.AddComponent<MagicBallComponent>(
-			"LightningShoot", std::string(), "Thunder",
+			"LightningCast", "LightningShoot", "Thunder",
 			MagicBallEffect(type), MagicBallMana(type), MagicBallCastTime(type)
 		);
 		ball.GetComponent<NativeScriptComponent>().Active = false;
@@ -465,7 +465,12 @@ Engine::Entity HeroScript::CreateMagicBall(MagicBallType type, glm::vec3 offset)
 	{
 		auto& magicBallComp = ball.GetComponent<MagicBallComponent>();
 		if (!magicBallComp.CastSound.empty())
-			Engine::SoundLibrary::Get(magicBallComp.CastSound)->Play2D();
+		{
+			auto& sound2DComp = ball.EmplaceOrReplace<Engine::Component::Audio::Sound2DComponent>(magicBallComp.CastSound, false, Engine::SoundLibrary::Get(magicBallComp.CastSound)->GetVolume());
+
+			if(type == MagicBallType::Fire)
+				sound2DComp.Sound->setPlaybackSpeed(.5);
+		}
 	}
 
 	return ball;
@@ -508,7 +513,9 @@ void HeroScript::Throw(Engine::Entity ball)
 	auto& heroComp = GetComponent<HeroComponent>();
 
 	if (!magicBallComp.ThrowSound.empty())
-		Engine::SoundLibrary::Get(magicBallComp.ThrowSound)->Play2D();
+	{
+		ball.EmplaceOrReplace<Engine::Component::Audio::Sound2DComponent>(magicBallComp.ThrowSound, false, Engine::SoundLibrary::Get(magicBallComp.ThrowSound)->GetVolume());
+	}
 
 	glm::vec4 velocity = glm::toMat4(glm::quat(transformComp.Rotation)) * glm::vec4{ 0.0f, 0.0f, -28.0f, 0.0 };
 

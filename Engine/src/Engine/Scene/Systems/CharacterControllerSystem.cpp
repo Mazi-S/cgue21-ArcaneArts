@@ -45,16 +45,37 @@ namespace Engine::System::CharacterController {
 
 				// running
 				if (Engine::Input::IsKeyPressed(Engine::Key::LeftShift))
+				{
+					ccc.Running = true;
 					speed = 2.0f;
+				}
+				else
+				{
+					ccc.Running = false;
+				}
 
+				bool walking = false;
 				if (Engine::Input::IsKeyPressed(Engine::Key::D))
+				{
 					move.x += ccc.TranslationSpeed * speed * ts;
+					walking = true;
+				}
 				if (Engine::Input::IsKeyPressed(Engine::Key::A))
+				{
 					move.x -= ccc.TranslationSpeed * speed * ts;
+					walking = true;
+				}
 				if (Engine::Input::IsKeyPressed(Engine::Key::S))
+				{
 					move.z += ccc.TranslationSpeed * speed * ts;
+					walking = true;
+				}
 				if (Engine::Input::IsKeyPressed(Engine::Key::W))
+				{
 					move.z -= ccc.TranslationSpeed * speed * ts;
+					walking = true;
+				}
+				ccc.Walking = walking;
 
 				move = glm::toMat4(glm::quat({ 0.0f, currentOrientation.y, 0.0f })) * move;
 
@@ -62,6 +83,7 @@ namespace Engine::System::CharacterController {
 					float jump = 8 * ts;
 					move += glm::vec4{ 0.0f, jump * ccc.Jump, 0.0f, 0.0f };
 					ccc.Jump = glm::max(ccc.Jump - jump, -2.0f);
+					ccc.Jumping = ccc.Jump > -2.0f;
 				}
 				physx::PxControllerCollisionFlags collisionFlags = ccc.Controller->move({ move.x, move.y, move.z } , 0.001f, ts, physx::PxControllerFilters());
 

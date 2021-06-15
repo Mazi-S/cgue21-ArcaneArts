@@ -4,6 +4,7 @@
 
 #include "GameComponents.h"
 #include "Entities/PointLightFlickerScript.h"
+#include "Entities/WalkingSoundScript.h"
 
 void Engine::SceneHierarchyPanel::DrawAddGameComponent(Entity entity)
 {
@@ -16,6 +17,8 @@ void Engine::SceneHierarchyPanel::DrawAddGameComponent(Entity entity)
 		components.push_back("Hero");
 	if (!entity.HasComponent<PointLightFlickerComponent>())
 		components.push_back("PointLightFlicker");
+	if (!entity.HasComponent<WalkingSoundComponent>())
+		components.push_back("WalkingSound");
 
 	if (components.size() > 0 && ImGuiUtil::DrawComboControl("Add Game Comp.", component, components))
 	{
@@ -31,6 +34,11 @@ void Engine::SceneHierarchyPanel::DrawAddGameComponent(Entity entity)
 				entity.AddComponent<PointLightFlickerComponent>();
 
 			entity.AddNativeScript<PointLightFlickerScript>();
+		}
+		if (component == "WalkingSound")
+		{
+			entity.AddComponent<WalkingSoundComponent>();
+			entity.AddNativeScript<WalkingSoundScript>();
 		}
 	}
 }
@@ -91,4 +99,23 @@ void Engine::SceneHierarchyPanel::DrawGameComponents(Entity entity)
 			ss << component.IntensityDelta.x << " " << component.IntensityDelta.y << " " << component.IntensityDelta.z;
 			ImGuiUtil::Text("IntensityDelta", ss.str());
 		});
+
+	// Walking Sound Component
+	ImGuiUtil::DrawComponent<WalkingSoundComponent>("Walking Sound", entity, [](WalkingSoundComponent& component)
+	{
+		std::string soundSource = component.WalkingSound;
+		if (ImGuiUtil::DrawComboControl("WalkingSound", soundSource, SoundLibrary::GetNames()))
+		{
+			component.WalkingSound = soundSource;
+
+			if (component.Sound != nullptr)
+			{
+				component.Sound->stop();
+				component.Sound->drop();
+				component.Sound = nullptr;
+			}
+		}
+			
+	});
+
 }

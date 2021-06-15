@@ -508,6 +508,8 @@ namespace Engine {
 				ImGuiUtil::Text("Mouse", std::to_string((int)component.MouseX) + ", " + std::to_string((int)component.MouseY));
 				ImGuiUtil::Text("Jump", std::to_string(component.Jump));
 				ImGuiUtil::Text("Crouching", component.Crouching ? "true" : "false");
+				ImGuiUtil::Text("Running", component.Running ? "true" : "false");
+				ImGuiUtil::Text("Jumping", component.Jumping ? "true" : "false");
 			}, & m_Context->m_Registry, entity);
 
 		// Rigid Actor

@@ -1,6 +1,7 @@
 #pragma once
 #include "Engine.h"
 #include <cstdint>
+#include <irrKlang.h>
 
 struct MonsterComponent
 {
@@ -48,6 +49,16 @@ struct StoneComponent
 
 	StoneComponent() = default;
 	StoneComponent(const StoneComponent&) = default;
+};
+
+struct WalkingSoundComponent
+{
+	std::string WalkingSound;
+	irrklang::ISound* Sound = nullptr;
+
+	WalkingSoundComponent(std::string walkingSound = std::string())
+		: WalkingSound(walkingSound) { }
+	WalkingSoundComponent(const WalkingSoundComponent&) = default;
 };
 
 struct HeroComponent

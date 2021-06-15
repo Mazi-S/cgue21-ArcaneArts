@@ -51,6 +51,9 @@ namespace Engine::Component::Physics {
 		float MouseX = 0, MouseY = 0;
 		float Jump = 0;
 		bool Crouching = false;
+		bool Running = false;
+		bool Jumping = false;
+		bool Walking = false;
 
 		CharacterControllerComponent(float standingHeight = 2.0f, float crouchingHeight = 1.2f, float radius = 0.3f, float translationSpeed = 5.0f, float rotationSpeed = 0.002f, bool active = false, entt::entity head = entt::null)
 			: StandingHeight(standingHeight), CrouchingHeight(crouchingHeight), Radius(radius), TranslationSpeed(translationSpeed), RotationSpeed(rotationSpeed), Active(active), Head(head) { }

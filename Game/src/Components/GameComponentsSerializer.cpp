@@ -7,6 +7,7 @@
 #include "Entities/HeroScript.h"
 #include "Entities/MonsterScript.h"
 #include "Entities/PointLightFlickerScript.h"
+#include "Entities/WalkingSoundScript.h"
 
 #include "ActorFactory.h"
 
@@ -57,6 +58,19 @@ void Engine::SceneSerializer::SerializeGameComponents(YAML::Emitter& out, Entity
 		out << YAML::Key << "IntensityVariation" << YAML::Value << flickerComp.IntensityVariation;
 
 		out << YAML::EndMap; // PointLightFlickerComponent
+	}
+
+	// Walking Sound Component
+	if (entity.HasComponent<WalkingSoundComponent>())
+	{
+		out << YAML::Key << "WalkingSoundComponent";
+		out << YAML::BeginMap; // WalkingSoundComponent
+
+		auto& walkingSoundComp = entity.GetComponent<WalkingSoundComponent>();
+
+		out << YAML::Key << "Sound" << YAML::Value << walkingSoundComp.WalkingSound;
+
+		out << YAML::EndMap; // WalkingSoundComponent
 	}
 
 }
@@ -120,5 +134,16 @@ void Engine::SceneSerializer::DeserializeGameComponents(Entity deserializedEntit
 
 		deserializedEntity.AddComponent<PointLightFlickerComponent>(color, duration, durationVariation, intensity, intensityVariation);
 		deserializedEntity.AddNativeScript<PointLightFlickerScript>();
+	}
+
+	// Hero Component
+	if (entityNode["WalkingSoundComponent"])
+	{
+		auto compNode = entityNode["WalkingSoundComponent"];
+
+		std::string sound = compNode["Sound"].as<std::string>();
+
+		deserializedEntity.AddComponent<WalkingSoundComponent>(sound);
+		deserializedEntity.AddNativeScript<WalkingSoundScript>();
 	}
 }
