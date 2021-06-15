@@ -47,3 +47,7 @@ To generate the project files, run: `scripts/GenerateProjects.bat`
   * [YouTube - Brian Will](https://www.youtube.com/watch?v=QYvi1akO_Po)
 * Normal Mapping
   * [learnopengl.com](https://learnopengl.com/Advanced-Lighting/Normal-Mapping)
+* HDR
+  * [learnopengl.com](https://learnopengl.com/Advanced-Lighting/HDR)
+* Bloom
+  * [learnopengl.com](https://learnopengl.com/Advanced-Lighting/Bloom)
