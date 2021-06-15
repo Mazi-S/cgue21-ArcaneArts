@@ -14,6 +14,26 @@ namespace Engine::Component::Physics {
 		StaticColliderComponent() = default;
 	};
 
+	struct DynamicConvexComponent
+	{
+		physx::PxRigidDynamic* Actor = nullptr;
+
+		DynamicConvexComponent() = default;
+	};
+
+	struct PhysicsMaterialComponent
+	{
+		physx::PxMaterial* Material = nullptr;
+
+		float StaticFriction;
+		float DynamicFriction;
+		float Restitution;
+
+		PhysicsMaterialComponent(float staticFriction = 0.3f, float dynamicFriction = 0.5f, float restitution = 0.5f)
+			: StaticFriction(staticFriction), DynamicFriction(dynamicFriction), Restitution(restitution) { }
+		PhysicsMaterialComponent(const PhysicsMaterialComponent&) = default;
+	};
+
 	struct CharacterControllerComponent
 	{
 		bool Active;

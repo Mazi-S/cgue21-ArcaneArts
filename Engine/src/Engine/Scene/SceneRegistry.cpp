@@ -9,6 +9,8 @@
 #include "Factories.h"
 #include "Entity.h"
 
+#include "Engine/Physics/PhysicsAPI.h"
+
 // Renderer
 #include "Engine/Renderer/Renderer.h"
 #include "Engine/Renderer/ShadowMap.h"
@@ -53,24 +55,44 @@ namespace Engine {
 		particleSystemComp.ParticleSystem = nullptr;
 	}
 
+	void Scene::InitPhysicsMaterial(entt::registry& registry, entt::entity entity)
+	{
+		auto& materialComp = registry.get<Component::Physics::PhysicsMaterialComponent>(entity);
+		materialComp.Material = PhysicsAPI::CreateMaterial(materialComp.StaticFriction, materialComp.DynamicFriction, materialComp.Restitution);
+	}
+
+	void Scene::UpdatePhysicsMaterial(entt::registry& registry, entt::entity entity)
+	{
+		auto& materialComp = registry.get<Component::Physics::PhysicsMaterialComponent>(entity);
+		materialComp.Material->setStaticFriction(materialComp.StaticFriction);
+		materialComp.Material->setDynamicFriction(materialComp.DynamicFriction);
+		materialComp.Material->setRestitution(materialComp.Restitution);
+	}
+
 	void Scene::InitStaticCollider(entt::registry& registry, entt::entity entity)
 	{
 		auto [meshComp, staticColliderComp] = registry.try_get<Component::Renderer::MeshComponent, Component::Physics::StaticColliderComponent>(entity);
-		if (meshComp != nullptr && staticColliderComp != nullptr)
-		{
-			auto transformComp = System::Util::GlobalTransform(registry, entity);
-			auto actor = Engine::PhysicsAPI::CreateRigidStatic(transformComp.Translation, transformComp.Rotation);
 
-			Ref<Physics::PsMesh> pxMesh = MeshLibrary::Get(meshComp->Mesh)->GetPsMesh();
-			physx::PxTriangleMesh* triMesh = pxMesh->GetPxTriangleMesh();
-			auto shape = Engine::PhysicsAPI::CreateShape(triMesh, transformComp.Scale);
+		if (meshComp == nullptr || staticColliderComp == nullptr)
+			return;
 
-			actor->attachShape(*shape);
-			shape->release();
-			staticColliderComp->Actor = actor;
+		if (!registry.has<Component::Physics::PhysicsMaterialComponent>(entity))
+			registry.emplace<Component::Physics::PhysicsMaterialComponent>(entity);
 
-			m_PhysicsScene->AddActor(actor, Entity(entity, &registry));
-		}
+		auto& materialComp = registry.get<Component::Physics::PhysicsMaterialComponent>(entity);
+
+		auto transformComp = System::Util::GlobalTransform(registry, entity);
+		auto actor = Engine::PhysicsAPI::CreateRigidStatic(transformComp.Translation, transformComp.Rotation);
+
+		Ref<Physics::PsMesh> pxMesh = MeshLibrary::Get(meshComp->Mesh)->GetPsMesh();
+		physx::PxTriangleMesh* triMesh = pxMesh->GetPxTriangleMesh();
+		auto shape = Engine::PhysicsAPI::CreateShape(triMesh, transformComp.Scale, materialComp.Material);
+
+		actor->attachShape(*shape);
+		shape->release();
+		staticColliderComp->Actor = actor;
+
+		m_PhysicsScene->AddActor(actor, Entity(entity, &registry));
 	}
 
 	void Scene::UpdateStaticCollider(entt::registry& registry, entt::entity entity)
@@ -88,6 +110,54 @@ namespace Engine {
 			m_PhysicsScene->RemoveActor(staticColliderComp->Actor);
 			staticColliderComp->Actor->release();
 			staticColliderComp->Actor = nullptr;
+		}
+	}
+
+	void Scene::InitDynamicConvex(entt::registry& registry, entt::entity entity)
+	{
+		auto [meshComp, dynamicConvexComp] = registry.try_get<Component::Renderer::MeshComponent, Component::Physics::DynamicConvexComponent>(entity);
+
+		if (meshComp == nullptr || dynamicConvexComp == nullptr)
+			return;
+
+		if (!registry.has<Component::Physics::PhysicsMaterialComponent>(entity))
+			registry.emplace<Component::Physics::PhysicsMaterialComponent>(entity);
+
+		auto& materialComp = registry.get<Component::Physics::PhysicsMaterialComponent>(entity);
+
+		auto transformComp = System::Util::GlobalTransform(registry, entity);
+		auto actor = Engine::PhysicsAPI::CreateRigidDynamic(transformComp.Translation, transformComp.Rotation);
+
+		Ref<Physics::PsMesh> pxMesh = MeshLibrary::Get(meshComp->Mesh)->GetPsMesh();
+		physx::PxConvexMesh* convexMesh = pxMesh->GetPxConvexMesh();
+
+		if (convexMesh == nullptr)
+			return;
+
+		auto shape = Engine::PhysicsAPI::CreateShape(convexMesh, transformComp.Scale, materialComp.Material);
+
+		actor->attachShape(*shape);
+		shape->release();
+		dynamicConvexComp->Actor = actor;
+
+		m_PhysicsScene->AddActor(actor, Entity(entity, &registry));
+	}
+
+	void Scene::UpdateDynamicConvex(entt::registry& registry, entt::entity entity)
+	{
+		DestroyDynamicConvex(registry, entity);
+		InitDynamicConvex(registry, entity);
+	}
+
+	void Scene::DestroyDynamicConvex(entt::registry& registry, entt::entity entity)
+	{
+		auto dynamicConvexComp = registry.try_get<Component::Physics::DynamicConvexComponent>(entity);
+
+		if (dynamicConvexComp != nullptr && dynamicConvexComp->Actor != nullptr)
+		{
+			m_PhysicsScene->RemoveActor(dynamicConvexComp->Actor);
+			dynamicConvexComp->Actor->release();
+			dynamicConvexComp->Actor = nullptr;
 		}
 	}
 
@@ -239,10 +309,19 @@ namespace Engine {
 
 
 		// Physics components ////////////////////////////////////////////////////////////////////////////
+		// Physics Material
+		m_Registry.on_construct<Component::Physics::PhysicsMaterialComponent>().connect<&Scene::InitPhysicsMaterial>(*this);
+		m_Registry.on_update<Component::Physics::PhysicsMaterialComponent>().connect<&Scene::UpdatePhysicsMaterial>(*this);
+
 		// Static Collider
 		m_Registry.on_construct<Component::Physics::StaticColliderComponent>().connect<&Scene::InitStaticCollider>(*this);
 		m_Registry.on_update<Component::Physics::StaticColliderComponent>().connect<&Scene::UpdateStaticCollider>(*this);
 		m_Registry.on_destroy<Component::Physics::StaticColliderComponent>().connect<&Scene::DestroyStaticCollider>(*this);
+
+		// Dynamic Convex Component
+		m_Registry.on_construct<Component::Physics::DynamicConvexComponent>().connect<&Scene::InitDynamicConvex>(*this);
+		m_Registry.on_update<Component::Physics::DynamicConvexComponent>().connect<&Scene::UpdateDynamicConvex>(*this);
+		m_Registry.on_destroy<Component::Physics::DynamicConvexComponent>().connect<&Scene::DestroyDynamicConvex>(*this);
 
 		// Character Controller
 		m_Registry.on_construct<Component::Physics::CharacterControllerComponent>().connect<&Scene::InitCharacterController>(*this);

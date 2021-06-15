@@ -10,7 +10,7 @@ namespace Engine::System::Physics {
 	
 	void OnUpdate(entt::registry& registry)
 	{
-		// Update Regid Dynamic
+		// Update Rigid Dynamic
 		{
 			auto view = registry.view<Component::Physics::RigidDynamicComponent, Component::Core::TransformComponent>();
 			for (const entt::entity e : view)
@@ -32,6 +32,19 @@ namespace Engine::System::Physics {
 
 				const physx::PxExtendedVec3& pos = ccc.Controller->getPosition();
 				tc.Translation = { pos.x, pos.y, pos.z };
+			}
+		}
+
+		// Update Dynamic Convex
+		{
+			auto view = registry.view<Component::Physics::DynamicConvexComponent, Component::Core::TransformComponent>();
+			for (const entt::entity e : view)
+			{
+				auto& [dynamicConvexComp, transformComp] = view.get<Component::Physics::DynamicConvexComponent, Component::Core::TransformComponent>(e);
+
+				physx::PxTransform t = dynamicConvexComp.Actor->getGlobalPose();
+				transformComp.Translation = { t.p.x, t.p.y, t.p.z };
+				transformComp.Rotation = Engine::Util::Math::ToEulerAngles(t.q);
 			}
 		}
 	}

@@ -73,37 +73,39 @@ namespace Engine {
 		return body;
 	}
 
-	physx::PxShape* PhysicsAPI::CreateSphereShape(float radius)
+	physx::PxShape* PhysicsAPI::CreateSphereShape(float radius, physx::PxMaterial* material)
 	{
-		static physx::PxMaterial* material = s_PhysicsSDK->createMaterial(0.5f, 0.5f, 0.6f);
-		physx::PxShape* shape = s_PhysicsSDK->createShape(physx::PxSphereGeometry(radius), *material, true);
+		static physx::PxMaterial* material_default = s_PhysicsSDK->createMaterial(0.5f, 0.5f, 0.6f);
+		physx::PxShape* shape = s_PhysicsSDK->createShape(physx::PxSphereGeometry(radius), *(material == nullptr ? material_default : material), true);
 		return shape;
 	}
 
-	physx::PxShape* PhysicsAPI::CreateShape(physx::PxTriangleMesh* mesh, glm::vec3 scale)
+	physx::PxShape* PhysicsAPI::CreateShape(physx::PxTriangleMesh* mesh, glm::vec3 scale, physx::PxMaterial* material)
 	{
-		static physx::PxMaterial* material = s_PhysicsSDK->createMaterial(0.5f, 0.5f, 0.6f);
+		static physx::PxMaterial* material_default = s_PhysicsSDK->createMaterial(0.5f, 0.5f, 0.6f);
 
 		physx::PxTriangleMeshGeometry geometry = physx::PxTriangleMeshGeometry(mesh);
 		geometry.scale = physx::PxVec3({ scale.x, scale.y, scale.z });
-		physx::PxShape* shape = s_PhysicsSDK->createShape(geometry, *material, true);
+		physx::PxShape* shape = s_PhysicsSDK->createShape(geometry, *(material == nullptr ? material_default : material), true);
 
 		return shape;
 	}
 
-	physx::PxShape* PhysicsAPI::CreateShape(const std::string& meshName, glm::vec3 scale)
+	physx::PxShape* PhysicsAPI::CreateShape(physx::PxConvexMesh* mesh, glm::vec3 scale, physx::PxMaterial* material)
 	{
-		static physx::PxMaterial* material = s_PhysicsSDK->createMaterial(0.5f, 0.5f, 0.6f);
+		static physx::PxMaterial* material_default = s_PhysicsSDK->createMaterial(0.5f, 0.5f, 0.6f);
 
-		Ref<Physics::PsMesh> psMesh = MeshLibrary::Get(meshName)->GetPsMesh();
-
-		physx::PxTriangleMesh* triMesh = psMesh->GetPxTriangleMesh();
-
-		physx::PxTriangleMeshGeometry geometry = physx::PxTriangleMeshGeometry(triMesh);
+		physx::PxConvexMeshGeometry geometry = physx::PxConvexMeshGeometry(mesh);
 		geometry.scale = physx::PxVec3({ scale.x, scale.y, scale.z });
-		physx::PxShape* shape = s_PhysicsSDK->createShape(geometry, *material, true);
+		physx::PxShape* shape = s_PhysicsSDK->createShape(geometry, *(material == nullptr ? material_default : material), true);
 
 		return shape;
+	}
+
+	physx::PxMaterial* PhysicsAPI::CreateMaterial(float staticFriction, float dynamicFriction, float restitution)
+	{
+		physx::PxMaterial* material = s_PhysicsSDK->createMaterial(staticFriction, dynamicFriction, restitution);
+		return material;
 	}
 
 	physx::PxTriangleMesh* PhysicsAPI::CreateTriangleMesh(Physics::PsMesh* mesh)
@@ -124,6 +126,21 @@ namespace Engine {
 
 		physx::PxTriangleMesh* triangleMesh = s_Cooking->createTriangleMesh(meshDesc, s_PhysicsSDK->getPhysicsInsertionCallback());
 		return triangleMesh;
+	}
+
+	physx::PxConvexMesh* PhysicsAPI::CreateConvexMesh(Physics::PsMesh* mesh)
+	{
+		const std::vector<uint32_t> indices = mesh->Indices();
+		const std::vector<glm::vec3> vertices = mesh->Vertices();
+
+		physx::PxConvexMeshDesc meshDesc;
+		meshDesc.points.count = mesh->VertexCount();
+		meshDesc.points.stride = sizeof(physx::PxVec3);
+		meshDesc.points.data = vertices.data();
+		meshDesc.flags = physx::PxConvexFlag::eCOMPUTE_CONVEX;
+
+		physx::PxConvexMesh* convexMesh = s_Cooking->createConvexMesh(meshDesc, s_PhysicsSDK->getPhysicsInsertionCallback());
+		return convexMesh;
 	}
 
 	void PhysicsAPI::SetKinematic(physx::PxRigidDynamic* actor, bool kinematic)

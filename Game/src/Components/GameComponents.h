@@ -42,6 +42,14 @@ struct MagicBallComponent
 	MagicBallComponent(const MagicBallComponent&) = default;
 };
 
+struct StoneComponent
+{
+	float Charge = 0.0f;
+
+	StoneComponent() = default;
+	StoneComponent(const StoneComponent&) = default;
+};
+
 struct HeroComponent
 {
 	float Hitpoints = 100.0f;

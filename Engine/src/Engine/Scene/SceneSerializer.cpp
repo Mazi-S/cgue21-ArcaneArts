@@ -120,24 +120,26 @@ namespace Engine {
 
 	void SceneSerializer::SerializeComponents(YAML::Emitter& out, Entity entity)
 	{
-		using TagComponent = Engine::Component::Core::TagComponent;
-		using TransformComponent = Engine::Component::Core::TransformComponent;
-		using ParentComponent = Engine::Component::Core::ParentComponent;
+		using TagComponent					= Engine::Component::Core::TagComponent;
+		using TransformComponent			= Engine::Component::Core::TransformComponent;
+		using ParentComponent				= Engine::Component::Core::ParentComponent;
 
-		using MeshComponent = Engine::Component::Renderer::MeshComponent;
-		using MaterialComponent = Engine::Component::Renderer::MaterialComponent;
-		using ShadowComponent = Engine::Component::Renderer::ShadowComponent;
-		using DirectionalLightComponent = Engine::Component::Renderer::DirectionalLightComponent;
-		using PointLightComponent = Engine::Component::Renderer::PointLightComponent;
-		using CameraComponent = Engine::Component::Renderer::CameraComponent;
-		using ParticleSystemComponent = Engine::Component::Renderer::ParticleSystemComponent;
+		using MeshComponent					= Engine::Component::Renderer::MeshComponent;
+		using MaterialComponent				= Engine::Component::Renderer::MaterialComponent;
+		using ShadowComponent				= Engine::Component::Renderer::ShadowComponent;
+		using DirectionalLightComponent		= Engine::Component::Renderer::DirectionalLightComponent;
+		using PointLightComponent			= Engine::Component::Renderer::PointLightComponent;
+		using CameraComponent				= Engine::Component::Renderer::CameraComponent;
+		using ParticleSystemComponent		= Engine::Component::Renderer::ParticleSystemComponent;
 
-		using StaticColliderComponent = Engine::Component::Physics::StaticColliderComponent;
-		using CharacterControllerComponent = Engine::Component::Physics::CharacterControllerComponent;
+		using PhysicsMaterialComponent			= Engine::Component::Physics::PhysicsMaterialComponent;
+		using StaticColliderComponent			= Engine::Component::Physics::StaticColliderComponent;
+		using DynamicConvexComponent			= Engine::Component::Physics::DynamicConvexComponent;
+		using CharacterControllerComponent		= Engine::Component::Physics::CharacterControllerComponent;
 
-		using Sound2DComponent = Engine::Component::Audio::Sound2DComponent;
-		using Sound3DComponent = Engine::Component::Audio::Sound3DComponent;
-		using ListenerComponent = Engine::Component::Audio::ListenerComponent;
+		using Sound2DComponent			= Engine::Component::Audio::Sound2DComponent;
+		using Sound3DComponent			= Engine::Component::Audio::Sound3DComponent;
+		using ListenerComponent			= Engine::Component::Audio::ListenerComponent;
 
 		// Tag
 		if (entity.HasComponent<TagComponent>())
@@ -271,6 +273,21 @@ namespace Engine {
 		}
 
 		// Static Collider
+		if (entity.HasComponent<PhysicsMaterialComponent>())
+		{
+			out << YAML::Key << "PhysicsMaterialComponent";
+			out << YAML::Flow;
+			out << YAML::BeginMap; // PhysicsMaterialComponent
+
+			auto& physicsMaterialComp = entity.GetComponent<PhysicsMaterialComponent>();
+			out << YAML::Key << "StaticFriction" << YAML::Value << physicsMaterialComp.StaticFriction;
+			out << YAML::Key << "DynamicFriction" << YAML::Value << physicsMaterialComp.DynamicFriction;
+			out << YAML::Key << "Restitution" << YAML::Value << physicsMaterialComp.Restitution;
+
+			out << YAML::EndMap; // PhysicsMaterialComponent
+		}
+
+		// Static Collider
 		if (entity.HasComponent<StaticColliderComponent>())
 		{
 			out << YAML::Key << "StaticColliderComponent";
@@ -278,6 +295,16 @@ namespace Engine {
 			out << YAML::BeginMap; // StaticColliderComponent
 			out << YAML::EndMap; // StaticColliderComponent
 		}
+
+		// Static Collider
+		if (entity.HasComponent<DynamicConvexComponent>())
+		{
+			out << YAML::Key << "DynamicConvexComponent";
+			out << YAML::Flow;
+			out << YAML::BeginMap; // DynamicConvexComponent
+			out << YAML::EndMap; // DynamicConvexComponent
+		}
+
 
 		// Character Controller
 		if (entity.HasComponent<CharacterControllerComponent>())
@@ -369,20 +396,22 @@ namespace Engine {
 
 	void SceneSerializer::DeserializeComponents(Entity deserializedEntity, const YAML::Node& entityNode, std::map<uint32_t, Entity> entities)
 	{
-		using MeshComponent = Engine::Component::Renderer::MeshComponent;
-		using MaterialComponent = Engine::Component::Renderer::MaterialComponent;
-		using ShadowComponent = Engine::Component::Renderer::ShadowComponent;
-		using DirectionalLightComponent = Engine::Component::Renderer::DirectionalLightComponent;
-		using PointLightComponent = Engine::Component::Renderer::PointLightComponent;
-		using CameraComponent = Engine::Component::Renderer::CameraComponent;
-		using ParticleSystemComponent = Engine::Component::Renderer::ParticleSystemComponent;
+		using MeshComponent					= Engine::Component::Renderer::MeshComponent;
+		using MaterialComponent				= Engine::Component::Renderer::MaterialComponent;
+		using ShadowComponent				= Engine::Component::Renderer::ShadowComponent;
+		using DirectionalLightComponent		= Engine::Component::Renderer::DirectionalLightComponent;
+		using PointLightComponent			= Engine::Component::Renderer::PointLightComponent;
+		using CameraComponent				= Engine::Component::Renderer::CameraComponent;
+		using ParticleSystemComponent		= Engine::Component::Renderer::ParticleSystemComponent;
 
-		using StaticColliderComponent = Engine::Component::Physics::StaticColliderComponent;
-		using CharacterControllerComponent = Engine::Component::Physics::CharacterControllerComponent;
+		using PhysicsMaterialComponent		= Engine::Component::Physics::PhysicsMaterialComponent;
+		using StaticColliderComponent		= Engine::Component::Physics::StaticColliderComponent;
+		using DynamicConvexComponent		= Engine::Component::Physics::DynamicConvexComponent;
+		using CharacterControllerComponent	= Engine::Component::Physics::CharacterControllerComponent;
 
-		using Sound2DComponent = Engine::Component::Audio::Sound2DComponent;
-		using Sound3DComponent = Engine::Component::Audio::Sound3DComponent;
-		using ListenerComponent = Engine::Component::Audio::ListenerComponent;
+		using Sound2DComponent			= Engine::Component::Audio::Sound2DComponent;
+		using Sound3DComponent			= Engine::Component::Audio::Sound3DComponent;
+		using ListenerComponent			= Engine::Component::Audio::ListenerComponent;
 
 		
 		// Mesh
@@ -451,10 +480,28 @@ namespace Engine {
 			deserializedEntity.AddComponent<ParticleSystemComponent>(type, emitPower, cooling, particleSize, colorStart, colorEnd);
 		}
 
-		// Shadow
+		// Static Collider Component
+		if (entityNode["PhysicsMaterialComponent"])
+		{
+			auto compNode = entityNode["PhysicsMaterialComponent"];
+
+			float staticFriction = compNode["StaticFriction"].as<float>();
+			float dynamicFriction = compNode["DynamicFriction"].as<float>();
+			float restitution = compNode["Restitution"].as<float>();
+
+			deserializedEntity.AddComponent<PhysicsMaterialComponent>(staticFriction, dynamicFriction, restitution);
+		}
+
+		// Static Collider Component
 		if (entityNode["StaticColliderComponent"])
 		{
 			deserializedEntity.AddComponent<StaticColliderComponent>();
+		}
+
+		// Dynamic Convex Component
+		if (entityNode["DynamicConvexComponent"])
+		{
+			deserializedEntity.AddComponent<DynamicConvexComponent>();
 		}
 
 		// Character Controller

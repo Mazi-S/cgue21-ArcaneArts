@@ -8,6 +8,7 @@ enum class MagicBallType
 	Heal,
 	Fire,
 	Lightning,
+	Stone
 };
 
 float MagicBallMana(MagicBallType type);

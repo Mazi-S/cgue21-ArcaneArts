@@ -6,12 +6,15 @@
 
 #include "Events/CharacterHealthEvent.h"
 #include "Events/CharacterManaEvent.h"
+#include <random>
 
 using TransformComponent			= Engine::Component::Core::TransformComponent;
 using NativeScriptComponent			= Engine::Component::Core::NativeScriptComponent;
 using ParentComponent				= Engine::Component::Core::ParentComponent;
 using Unserializable				= Engine::Component::Core::Unserializable;
 
+using PhysicsMaterialComponent		= Engine::Component::Physics::PhysicsMaterialComponent;
+using DynamicConvexComponent		= Engine::Component::Physics::DynamicConvexComponent;
 using RigidDynamicComponent			= Engine::Component::Physics::RigidDynamicComponent;
 using KinematicMovementComponent	= Engine::Component::Physics::KinematicMovementComponent;
 
@@ -20,7 +23,6 @@ using ShadowComponent				= Engine::Component::Renderer::ShadowComponent;
 using PointLightComponent			= Engine::Component::Renderer::PointLightComponent;
 using MeshComponent					= Engine::Component::Renderer::MeshComponent;
 using ParticleSystemComponent		= Engine::Component::Renderer::ParticleSystemComponent;
-using ShadowComponent = Engine::Component::Renderer::ShadowComponent;
 
 static glm::vec3 s_ActiveHandOffset = { 0.77f, -0.35f, -1.58f };
 static glm::vec3 s_PassiveHandOffset = { -0.67f, -0.3f, -1.58f };
@@ -96,17 +98,20 @@ bool HeroScript::OnMouseButtonReleased(Engine::MouseButtonReleasedEvent& e)
 
 bool HeroScript::OnMouseScrolled(Engine::MouseScrolledEvent& e)
 {
-	// Order: None <-> Fire <-> Lightning <->
+	// Order: None <-> Fire <-> Lightning <-> Stone <->
 	switch (m_ActiveSpell)
 	{
 	case MagicBallType::None:
-		EquipActive(e.GetYOffset() > 0 ? MagicBallType::Fire : MagicBallType::Lightning);
+		EquipActive(e.GetYOffset() > 0 ? MagicBallType::Fire : MagicBallType::Stone);
 		break;
 	case MagicBallType::Fire:
 		EquipActive(e.GetYOffset() > 0 ? MagicBallType::Lightning : MagicBallType::None);
 		break;
 	case MagicBallType::Lightning:
-		EquipActive(e.GetYOffset() > 0 ? MagicBallType::None : MagicBallType::Fire);
+		EquipActive(e.GetYOffset() > 0 ? MagicBallType::Stone : MagicBallType::Fire);
+		break;
+	case MagicBallType::Stone:
+		EquipActive(e.GetYOffset() > 0 ? MagicBallType::None : MagicBallType::Lightning);
 		break;
 	default:
 		EquipActive(MagicBallType::None);
@@ -204,7 +209,7 @@ void HeroScript::EquipActive(MagicBallType type)
 	if (m_ActiveSpell != MagicBallType::None)
 		CancelActive();
 
-	if (type != MagicBallType::None)
+	if (type != MagicBallType::None && type != MagicBallType::Stone)
 	{
 		if (m_ActiveParticleSystem)
 			m_ActiveParticleSystem.Destroy();
@@ -218,6 +223,9 @@ void HeroScript::EquipActive(MagicBallType type)
 	}
 
 	m_ActiveSpell = type;
+
+	if (type == MagicBallType::Stone)
+		StartActive();
 }
 
 bool HeroScript::StartActive()
@@ -240,6 +248,12 @@ bool HeroScript::UseActive(Engine::Timestep ts)
 {
 	if (!m_ActiveHand)
 		return false;
+
+	if (m_ActiveHand.HasComponent<StoneComponent>())
+	{
+		m_ActiveHand.GetComponent<StoneComponent>().Charge += ts;
+		return true;
+	}
 
 	auto& heroComp = GetComponent<HeroComponent>();
 	auto& magicBallComp = m_ActiveHand.GetComponent<MagicBallComponent>();
@@ -281,6 +295,14 @@ bool HeroScript::StopActive()
 {
 	if (!m_ActiveHand)
 		return false;
+
+	if (m_ActiveSpell == MagicBallType::Stone)
+	{
+		ThrowStone(m_ActiveHand);
+		m_ActiveHand = Engine::Entity();
+		StartActive();
+		return true;
+	}
 
 	auto& magicBallComp = m_ActiveHand.GetComponent<MagicBallComponent>();
 	if (magicBallComp.Progress <= 1.0f)
@@ -363,6 +385,10 @@ void HeroScript::CancelPassive()
 
 Engine::Entity HeroScript::CreateMagicBall(MagicBallType type, glm::vec3 offset)
 {
+	static std::random_device rand_dev;
+	static std::mt19937 generator(rand_dev());
+	static std::uniform_real_distribution<float> distr(0, 6.283);
+
 	if (type == MagicBallType::None)
 		return Engine::Entity();
 
@@ -422,13 +448,25 @@ Engine::Entity HeroScript::CreateMagicBall(MagicBallType type, glm::vec3 offset)
 		ball.GetComponent<NativeScriptComponent>().Active = false;
 		ball.AddComponent<PointLightComponent>(glm::vec3{ 0.3f, 0.3f, 0.5f }, 0.4f, 0.1f, 0.05f);
 		break;
+	case MagicBallType::Stone:
+		transformComp.Scale = { 0.13f, 0.2f, 0.13f };
+		transformComp.Rotation = { distr(generator), distr(generator), distr(generator) };
+		ball.AddComponent<MeshComponent>("Rock_1");
+		ball.AddComponent<ShadowComponent>();
+		ball.AddComponent<MaterialComponent>("RockMaterial");
+		ball.AddComponent<PhysicsMaterialComponent>(0.7, 0.6, 0.1);
+		ball.AddComponent<StoneComponent>();
+		break;
 	default:
 		return Engine::Entity();
 	}
 
-	auto& magicBallComp = ball.GetComponent<MagicBallComponent>();
-	if (!magicBallComp.CastSound.empty())
-		Engine::SoundLibrary::Get(magicBallComp.CastSound)->Play2D();
+	if (type != MagicBallType::Stone)
+	{
+		auto& magicBallComp = ball.GetComponent<MagicBallComponent>();
+		if (!magicBallComp.CastSound.empty())
+			Engine::SoundLibrary::Get(magicBallComp.CastSound)->Play2D();
+	}
 
 	return ball;
 }
@@ -479,5 +517,19 @@ void HeroScript::Throw(Engine::Entity ball)
 	ball.AddComponent<RigidDynamicComponent>(actor);
 	ball.AddComponent<KinematicMovementComponent>(glm::vec3{ velocity.x, velocity.y, velocity.z });
 	ball.GetComponent<NativeScriptComponent>().Active = true;
+}
+
+void HeroScript::ThrowStone(Engine::Entity stone)
+{
+	Engine::System::Util::MakeIndependent(*m_RegistryHandle, stone);
+	DynamicConvexComponent& dynamicComp = stone.AddComponent<DynamicConvexComponent>();
+
+	auto& transformComp = GetComponent<TransformComponent>();
+	auto& stoneComp = stone.GetComponent<StoneComponent>();
+	float charge = std::min(1.0f, stoneComp.Charge);
+	glm::vec4 velocity = glm::toMat4(glm::quat(transformComp.Rotation)) * glm::vec4{ 0.0f, 0.0f, -20.0f * charge, 0.0 };
+
+	dynamicComp.Actor->setLinearVelocity({ velocity.x, velocity.y, velocity.z });
+
 }
 

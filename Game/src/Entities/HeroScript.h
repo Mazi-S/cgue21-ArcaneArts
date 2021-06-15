@@ -36,6 +36,7 @@ private:
 	Engine::Entity CreateMagicBallParticleSystem(MagicBallType type, glm::vec3 offset);
 
 	void Throw(Engine::Entity ball);
+	void ThrowStone(Engine::Entity stone);
 
 private:
 	MagicBallType m_ActiveSpell = MagicBallType::None;

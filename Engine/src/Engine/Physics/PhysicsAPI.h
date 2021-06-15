@@ -19,12 +19,14 @@ namespace Engine {
 		static physx::PxRigidDynamic* CreateRigidDynamic(glm::vec3 position, glm::vec3 rotation = {0.0f, 0.0f, 0.0f});
 		static physx::PxRigidStatic* CreateRigidStatic(glm::vec3 position, glm::vec3 rotation = { 0.0f, 0.0f, 0.0f });
 
-		static physx::PxShape* CreateSphereShape(float radius);
-		static physx::PxShape* CreateShape(physx::PxTriangleMesh* mesh, glm::vec3 scale);
+		static physx::PxShape* CreateSphereShape(float radius, physx::PxMaterial* material);
+		static physx::PxShape* CreateShape(physx::PxTriangleMesh* mesh, glm::vec3 scale, physx::PxMaterial* material);
+		static physx::PxShape* CreateShape(physx::PxConvexMesh* mesh, glm::vec3 scale, physx::PxMaterial* material);
 
-		static physx::PxShape* CreateShape(const std::string& meshName, glm::vec3 scale);
+		static physx::PxMaterial* CreateMaterial(float staticFriction, float dynamicFriction, float restitution);
 
 		static physx::PxTriangleMesh* CreateTriangleMesh(Physics::PsMesh* mesh);
+		static physx::PxConvexMesh* CreateConvexMesh(Physics::PsMesh* mesh);
 
 		static void SetKinematic(physx::PxRigidDynamic* actor, bool kinematic);
 		static void SetTrigger(physx::PxShape* shape, bool trigger);

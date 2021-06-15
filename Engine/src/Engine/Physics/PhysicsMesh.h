@@ -17,9 +17,13 @@ namespace Engine::Physics {
 		const std::vector<uint32_t> Indices() { return m_Indices; }
 
 		physx::PxTriangleMesh* GetPxTriangleMesh();
+		physx::PxConvexMesh* GetPxConvexMesh();
+
 	private:
 		bool HasPxTriangleMesh() { return m_PxTriangleMesh != nullptr; }
+		bool HasPxConvexMesh() { return m_PxConvexMesh != nullptr; }
 		void InitPxTriangleMesh();
+		void InitPxConvexMesh();
 
 		const uint32_t m_Vertices;
 		const uint32_t m_Faces;
@@ -28,5 +32,6 @@ namespace Engine::Physics {
 		const std::vector<uint32_t> m_Indices;
 
 		physx::PxTriangleMesh* m_PxTriangleMesh = nullptr;
+		physx::PxConvexMesh* m_PxConvexMesh = nullptr;
 	};
 }

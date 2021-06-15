@@ -176,7 +176,9 @@ namespace Engine {
 		using CameraComponent				= Engine::Component::Renderer::CameraComponent;
 		using ParticleSystemComponent		= Engine::Component::Renderer::ParticleSystemComponent;
 
+		using PhysicsMaterialComponent		= Engine::Component::Physics::PhysicsMaterialComponent;
 		using StaticColliderComponent		= Engine::Component::Physics::StaticColliderComponent;
+		using DynamicConvexComponent		= Engine::Component::Physics::DynamicConvexComponent;
 		using CharacterControllerComponent	= Engine::Component::Physics::CharacterControllerComponent;
 		using RigidComponent				= Engine::Component::Physics::RigidComponent;
 		using RigidDynamicComponent			= Engine::Component::Physics::RigidDynamicComponent;
@@ -207,8 +209,12 @@ namespace Engine {
 			components.push_back("Camera");
 		if (!entity.HasComponent<ParticleSystemComponent>())
 			components.push_back("ParticleSystem");
+		if (!entity.HasComponent<PhysicsMaterialComponent>())
+			components.push_back("PhysicsMaterial");
 		if (!entity.HasComponent<StaticColliderComponent>())
 			components.push_back("StaticCollider");
+		if (!entity.HasComponent<DynamicConvexComponent>())
+			components.push_back("DynamicConvex");
 		if (!entity.HasComponent<CharacterControllerComponent>())
 			components.push_back("CharacterController");
 		if (!entity.HasComponent<Sound2DComponent>())
@@ -238,8 +244,12 @@ namespace Engine {
 				entity.AddComponent<CameraComponent>();
 			if (component == "ParticleSystem")
 				entity.AddComponent<ParticleSystemComponent>();
+			if (component == "PhysicsMaterial")
+				entity.AddComponent<PhysicsMaterialComponent>();
 			if (component == "StaticCollider")
 				entity.AddComponent<StaticColliderComponent>();
+			if (component == "DynamicConvex")
+				entity.AddComponent<DynamicConvexComponent>();
 			if (component == "CharacterController")
 				entity.AddComponent<CharacterControllerComponent>();
 			if (component == "Sound2D")
@@ -267,7 +277,9 @@ namespace Engine {
 		using CameraComponent				= Engine::Component::Renderer::CameraComponent;
 		using ParticleSystemComponent		= Engine::Component::Renderer::ParticleSystemComponent;
 
+		using PhysicsMaterialComponent		= Engine::Component::Physics::PhysicsMaterialComponent;
 		using StaticColliderComponent		= Engine::Component::Physics::StaticColliderComponent;
+		using DynamicConvexComponent		= Engine::Component::Physics::DynamicConvexComponent;
 		using CharacterControllerComponent	= Engine::Component::Physics::CharacterControllerComponent;
 		using RigidComponent				= Engine::Component::Physics::RigidComponent;
 		using RigidDynamicComponent			= Engine::Component::Physics::RigidDynamicComponent;
@@ -419,12 +431,35 @@ namespace Engine {
 				ImGuiUtil::DrawColorControl("Color (end)", component.ColorEnd);
 		});
 
+		// Physics Material Component
+		ImGuiUtil::DrawComponent<PhysicsMaterialComponent>("Physics Material", entity, [](entt::registry* registryHandle, entt::entity entityHandle)
+			{
+				Entity entity = { entityHandle, registryHandle };
+				auto& component = entity.GetComponent<PhysicsMaterialComponent>();
+
+				if (ImGuiUtil::DrawFloatControl("Static Friction", component.StaticFriction, 0, 1, 0.01))
+					entity.Update<PhysicsMaterialComponent>();
+				if (ImGuiUtil::DrawFloatControl("Dynamic Friction", component.DynamicFriction, 0, 1, 0.01))
+					entity.Update<PhysicsMaterialComponent>();
+				if (ImGuiUtil::DrawFloatControl("Restitution", component.Restitution, 0, 1, 0.01))
+					entity.Update<PhysicsMaterialComponent>();
+
+			}, & m_Context->m_Registry, entity);
+
 		// Static Collider Component
 		ImGuiUtil::DrawComponent<StaticColliderComponent>("Static Collider", entity, [](auto& component)
 			{
 				ImGuiUtil::Text("Description", "Specifies if the entity has a physical collider.");
 				ImGui::Dummy({ 0, .5 });
 				ImGuiUtil::Text("Note", "Collider must be created after the TransformComponent and\nthe MeshComponent. Updates on these components will not\nbe reflected automatically to the collider.");
+			}, true);
+
+		// Dynamic Convex Component
+		ImGuiUtil::DrawComponent<DynamicConvexComponent>("Dynamic Convex", entity, [](auto& component)
+			{
+				ImGuiUtil::Text("Description", "Specifies if the entity is physically simulated.");
+				ImGui::Dummy({ 0, .5 });
+				ImGuiUtil::Text("Note", "DynamicConvexComponent must be created after the TransformComponent and\nthe MeshComponent. Updates on these components will not\nbe reflected automatically to the component.");
 			}, true);
 
 		// Character Controller Component

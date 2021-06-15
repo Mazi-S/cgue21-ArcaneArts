@@ -20,6 +20,9 @@ float MagicBallMana(MagicBallType type)
 	case MagicBallType::Lightning:
 		return 18.0f;
 		break;
+	case MagicBallType::Stone:
+		return 0.0f;
+		break;
 	}
 
 	return 0.0f;

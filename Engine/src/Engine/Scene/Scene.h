@@ -75,9 +75,16 @@ namespace Engine {
 		void DestroyParticleSystem(entt::registry& registry, entt::entity entity);
 
 		// Registry - PhysX
+		void InitPhysicsMaterial(entt::registry& registry, entt::entity entity);
+		void UpdatePhysicsMaterial(entt::registry& registry, entt::entity entity);
+
 		void InitStaticCollider(entt::registry& registry, entt::entity entity);
 		void UpdateStaticCollider(entt::registry& registry, entt::entity entity);
 		void DestroyStaticCollider(entt::registry& registry, entt::entity entity);
+
+		void InitDynamicConvex(entt::registry& registry, entt::entity entity);
+		void UpdateDynamicConvex(entt::registry& registry, entt::entity entity);
+		void DestroyDynamicConvex(entt::registry& registry, entt::entity entity);
 
 		void InitCharacterController(entt::registry& registry, entt::entity entity);
 		void UpdateCharacterController(entt::registry& registry, entt::entity entity);
