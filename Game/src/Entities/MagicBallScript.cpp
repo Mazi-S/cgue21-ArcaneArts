@@ -54,7 +54,7 @@ float MagicBallEffect(MagicBallType type)
 	switch (type)
 	{
 	case MagicBallType::Heal:
-		return 15.0f;
+		return 5.0f;
 		break;
 	case MagicBallType::Fire:
 		return 12.0f;

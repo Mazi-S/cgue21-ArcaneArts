@@ -27,9 +27,6 @@ Meshes:
   - Mesh: Fallen_Tree_2
     Path: assets/objects/forest/fallen_tree_2.obj
     TangentSpace: false
-  - Mesh: Hand
-    Path: assets\objects\hand.obj
-    TangentSpace: false
   - Mesh: Hand (left)
     Path: assets\objects\hand_left.obj
     TangentSpace: false
@@ -41,9 +38,6 @@ Meshes:
     TangentSpace: false
   - Mesh: Knight
     Path: assets/objects/knight.obj
-    TangentSpace: false
-  - Mesh: Monster
-    Path: assets/objects/monster.obj
     TangentSpace: false
   - Mesh: Pedestal
     Path: assets/objects/pedestal.obj
