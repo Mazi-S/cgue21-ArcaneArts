@@ -65,7 +65,7 @@ To generate the project files, run: `scripts/GenerateProjects.bat`
   * "[House](https://sketchfab.com/3d-models/house-74797358830a47eb982a0cb69a732461)" by [makcutka250](https://sketchfab.com/makcutka250) is licensed under [CC Attribution](https://creativecommons.org/licenses/by/4.0/)
 * Knight
   * "[Skull Knight](https://sketchfab.com/3d-models/skull-knight-e81fbf68b4c84f889f2b48df593daaa2)" by [iChill](https://sketchfab.com/mwisson) is licensed under [CC Attribution](https://creativecommons.org/licenses/by/4.0/)
-* pedestal.obj
+* Pedestal
   * "[Pedestal](https://sketchfab.com/3d-models/pedestal-2074d31d216b417da713b7dda84f76cc)" by [apolllo6](https://sketchfab.com/apolllo6) is licensed under [CC Attribution](https://creativecommons.org/licenses/by/4.0/)
 * Forest
   * "[Lowpoly Asset Collection | little nature pack](https://sketchfab.com/3d-models/lowpoly-asset-collection-little-nature-pack-765b6c119ad24940a029297094cb95c5)" by [DFS studio](https://sketchfab.com/DFS_studio) is licensed under [CC Attribution](https://creativecommons.org/licenses/by/4.0/)
