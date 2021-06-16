@@ -19,7 +19,7 @@ void ItemScript::OnUpdate(Engine::Timestep ts)
 	TransformComponent worldTransformComp_Hero = Engine::System::Util::GlobalTransform(*m_RegistryHandle, hero);
 	float distanceToHero = glm::length(worldTransformComp_Item.Translation - worldTransformComp_Hero.Translation);
 
-	if (distanceToHero < 2 && worldTransformComp_Item.Translation.y < worldTransformComp_Hero.Translation.y)
+	if (distanceToHero < 1.9 && worldTransformComp_Item.Translation.y < worldTransformComp_Hero.Translation.y)
 	{
 		Destroy();
 		hero.GetComponent<HeroComponent>().Hitpoints += 30;

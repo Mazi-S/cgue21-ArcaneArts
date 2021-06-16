@@ -81,8 +81,8 @@ namespace Engine::Factory {
 			registry.emplace<CameraComponent>(copiedEntity, registry.get<CameraComponent>(entity));
 
 		// Physics
-		if (registry.has<MaterialComponent>(entity))
-			registry.emplace<MaterialComponent>(copiedEntity);
+		if (registry.has<PhysicsMaterialComponent>(entity))
+			registry.emplace<PhysicsMaterialComponent>(copiedEntity, registry.get<PhysicsMaterialComponent>(entity));
 
 		if (registry.has<DynamicConvexComponent>(entity))
 			registry.emplace<DynamicConvexComponent>(copiedEntity);

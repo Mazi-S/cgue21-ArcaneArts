@@ -1,7 +1,7 @@
 Texture2DLibrary: Untitled
 Textures:
-  - Texture: House
-    Path: assets/textures/house.png
+  - Texture: Bricks
+    Path: assets/textures/Bricks.jpg
     Specification:
       Wrap_S: 10497
       Wrap_T: 10497
@@ -10,8 +10,8 @@ Textures:
       Mag_Filter: 9729
       ComparisonMode: 0
       Mipmaps: true
-  - Texture: Bricks
-    Path: assets/textures/Bricks.jpg
+  - Texture: House
+    Path: assets/textures/house.png
     Specification:
       Wrap_S: 10497
       Wrap_T: 10497
@@ -50,6 +50,16 @@ Textures:
       Mag_Filter: 9729
       ComparisonMode: 0
       Mipmaps: true
+  - Texture: Stone (normal)
+    Path: assets\textures\stone02n.png
+    Specification:
+      Wrap_S: 10497
+      Wrap_T: 10497
+      Border: [0, 0, 0, 0]
+      Min_Filter: 9987
+      Mag_Filter: 9987
+      ComparisonMode: 0
+      Mipmaps: true
   - Texture: Cave
     Path: assets/textures/cave.png
     Specification:
@@ -85,6 +95,16 @@ Textures:
     Specification:
       Wrap_S: 33648
       Wrap_T: 33648
+      Border: [0, 0, 0, 0]
+      Min_Filter: 9987
+      Mag_Filter: 9987
+      ComparisonMode: 0
+      Mipmaps: true
+  - Texture: Stone (color)
+    Path: assets\textures\stone02.png
+    Specification:
+      Wrap_S: 10497
+      Wrap_T: 10497
       Border: [0, 0, 0, 0]
       Min_Filter: 9987
       Mag_Filter: 9987

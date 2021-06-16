@@ -121,7 +121,6 @@ void main() {
 	vec3 normal = texture(u_NormalTexture, v_TexCoord).rgb;
 	normal = normal * 2.0 - 1.0;
 	normal = normalize(v_TBN * normal);
-	//vec3 normal = normalize(u_NormalMatrix * texture(u_NormalTexture, v_TexCoord).xyz);
 
 	// shadow
 	float shadow = ShadowCalculation(v_FragPosLightSpace, normal, u_DirectionalLight.Direction);

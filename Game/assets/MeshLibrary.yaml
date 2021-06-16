@@ -20,7 +20,7 @@ Meshes:
     TangentSpace: false
   - Mesh: Cube
     Path: assets/objects/cube.obj
-    TangentSpace: false
+    TangentSpace: true
   - Mesh: Fallen_Tree_1
     Path: assets/objects/forest/fallen_tree_1.obj
     TangentSpace: false

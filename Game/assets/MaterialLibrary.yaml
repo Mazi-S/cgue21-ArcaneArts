@@ -175,6 +175,16 @@ Materials:
     Shininess: 2
     Textures:
       0: ShadowMap
+  - Material: Stone (normal map)
+    Shader: TextureShader2
+    Ambient: [0.100000001, 0.100000001, 0.100000001]
+    Diffuse: [0.150000006, 0.150000006, 0.150000006]
+    Specular: [0.0599999987, 0.0599999987, 0.0599999987]
+    Shininess: 1
+    Textures:
+      0: ShadowMap
+      1: Stone (color)
+      2: Stone (normal)
   - Material: TerrainMaterial
     Shader: TextureShader2
     Ambient: [0.100000001, 0.100000001, 0.100000001]
