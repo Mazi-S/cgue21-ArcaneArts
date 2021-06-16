@@ -51,3 +51,19 @@ To generate the project files, run: `scripts/GenerateProjects.bat`
   * [learnopengl.com](https://learnopengl.com/Advanced-Lighting/HDR)
 * Bloom
   * [learnopengl.com](https://learnopengl.com/Advanced-Lighting/Bloom)
+
+### Models
+* Beholder
+  * "[Beholder](https://sketchfab.com/3d-models/beholder-2b28e79581d049958036cbac20b011a4)" by [Lekrieg](https://sketchfab.com/Lekrieg) is licensed under [CC Attribution](https://creativecommons.org/licenses/by/4.0/)
+* Campfire
+  * "[Lowpoly Campfire](https://sketchfab.com/3d-models/lowpoly-campfire-2b2fb40f34be47d2a710f8207f322ca5)" by [Dewberry](https://sketchfab.com/Dewberry) is licensed under [CC Attribution](https://creativecommons.org/licenses/by/4.0/)
+* Cave
+  * "[Cave](https://sketchfab.com/3d-models/cave-516a23277d3c485587e2bd14d245ac32)" by [inpakgames](https://sketchfab.com/inpakgames) is licensed under [CC Attribution](https://creativecommons.org/licenses/by/4.0/)
+* Hands
+  * "[Hand Topology Technical Demonstration](https://sketchfab.com/3d-models/hand-topology-technical-demonstration-686674f8bba44a54849cbefe63169a09)" by [lanternlit](https://sketchfab.com/lanternlit) is licensed under [CC Attribution](https://creativecommons.org/licenses/by/4.0/)
+* House
+  * "[House](https://sketchfab.com/3d-models/house-74797358830a47eb982a0cb69a732461)" by [makcutka250](https://sketchfab.com/makcutka250) is licensed under [CC Attribution](https://creativecommons.org/licenses/by/4.0/)
+* Knight
+  * "[Skull Knight](https://sketchfab.com/3d-models/skull-knight-e81fbf68b4c84f889f2b48df593daaa2)" by [iChill](https://sketchfab.com/mwisson) is licensed under [CC Attribution](https://creativecommons.org/licenses/by/4.0/)
+* pedestal.obj
+  * "[Pedestal](https://sketchfab.com/3d-models/pedestal-2074d31d216b417da713b7dda84f76cc)" by [apolllo6](https://sketchfab.com/apolllo6) is licensed under [CC Attribution](https://creativecommons.org/licenses/by/4.0/)
