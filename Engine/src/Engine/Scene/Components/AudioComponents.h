@@ -27,13 +27,14 @@ namespace Engine::Component::Audio {
 		irrklang::ISound* Sound = nullptr;
 
 		bool Loop;
+		bool Paused;
 		float Volume;
 
-		Sound3DComponent(std::string soundSource = std::string(), bool loop = false, float volume = 0.5)
-			: SoundSource(soundSource), Loop(loop), Volume(volume) {}
+		Sound3DComponent(std::string soundSource = std::string(), bool loop = false, bool paused = false, float volume = 0.5)
+			: SoundSource(soundSource), Loop(loop), Paused(paused), Volume(volume) {}
 
 		Sound3DComponent(const Sound3DComponent& other)
-			: SoundSource(other.SoundSource), Sound(nullptr), Loop(other.Loop), Volume(other.Volume) { }
+			: SoundSource(other.SoundSource), Sound(nullptr), Loop(other.Loop), Paused(other.Paused), Volume(other.Volume) { }
 	};
 
 	// Listener

@@ -354,6 +354,7 @@ namespace Engine {
 
 			out << YAML::Key << "SoundSource" << YAML::Value << sound3DComp.SoundSource;
 			out << YAML::Key << "Loop" << YAML::Value << sound3DComp.Loop;
+			out << YAML::Key << "Paused" << YAML::Value << sound3DComp.Paused;
 			out << YAML::Key << "Volume" << YAML::Value << sound3DComp.Volume;
 
 			out << YAML::EndMap; // Sound3DComponent
@@ -541,9 +542,10 @@ namespace Engine {
 
 			std::string soundSource = compNode["SoundSource"].as<std::string>();
 			bool loop = compNode["Loop"].as<bool>();
+			bool paused = compNode["Paused"].as<bool>();
 			float volume = compNode["Volume"].as<float>();
 
-			deserializedEntity.AddComponent<Sound3DComponent>(soundSource, loop, volume);
+			deserializedEntity.AddComponent<Sound3DComponent>(soundSource, loop, paused, volume);
 		}
 
 		// Listener

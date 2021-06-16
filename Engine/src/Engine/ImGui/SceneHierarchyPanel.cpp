@@ -587,6 +587,13 @@ namespace Engine {
 					update = true;
 				}
 
+				int paused = component.Paused;
+				if (ImGuiUtil::DrawComboControl("Paused", paused, { "false", "true" }))
+				{
+					component.Paused = paused;
+					update = true;
+				}
+
 				if (ImGuiUtil::DrawFloatControl("Volume", component.Volume, 0.0f, 1.0f, 0.001))
 				{
 					if (component.Sound != nullptr)

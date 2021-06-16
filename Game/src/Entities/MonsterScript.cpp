@@ -4,9 +4,12 @@
 #include "Events/MonsterDied.h"
 
 using TransformComponent			= Engine::Component::Core::TransformComponent;
+
 using KinematicMovementComponent	= Engine::Component::Physics::KinematicMovementComponent;
 using RigidDynamicComponent			= Engine::Component::Physics::RigidDynamicComponent;
 using CharacterControllerComponent	= Engine::Component::Physics::CharacterControllerComponent;
+
+using Sound3DComponent				= Engine::Component::Audio::Sound3DComponent;
 
 void MonsterScript::OnUpdate(Engine::Timestep ts)
 {
@@ -28,11 +31,6 @@ void MonsterScript::OnUpdate(Engine::Timestep ts)
 	}
 
 	TransformComponent worldTransformComp_Monster = Engine::System::Util::GlobalTransform(*m_RegistryHandle, m_EntityHandle);
-
-	if (!monsterComp.LiveSound.empty())
-	{
-		// Engine::SoundLibrary::Get(monsterComp.LiveSound)->Play3D(worldTransformComp_Monster.Translation, true, true);
-	}
 
 	// Get Hero
 	auto view = m_RegistryHandle->view<HeroComponent>();
@@ -73,6 +71,16 @@ void MonsterScript::OnUpdate(Engine::Timestep ts)
 
 	if (distanceToHero < monsterComp.ViewRange)
 	{
+		if (HasComponent<Sound3DComponent>())
+		{
+			auto& soundComp = GetComponent<Sound3DComponent>();
+			if (soundComp.Sound != nullptr && soundComp.Paused)
+			{
+				soundComp.Sound->setIsPaused(false);
+				soundComp.Paused = false;
+			}
+		}
+
 		glm::vec3 movement = glm::normalize(worldTransformComp_Hero.Translation - worldTransformComp_Monster.Translation) * monsterComp.Speed;
 		glm::quat rotation = glm::quatLookAt(glm::normalize(-movement), { 0,1,0 });
 		EmplaceOrReplace<KinematicMovementComponent>(movement, rotation);

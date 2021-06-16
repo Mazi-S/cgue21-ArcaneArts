@@ -261,7 +261,7 @@ namespace Engine {
 		Ref<Audio::SoundSource> soundSource = SoundLibrary::Get(sound3DComp.SoundSource);
 		glm::vec3 position = System::Util::Position(registry, entity);
 
-		sound3DComp.Sound = soundSource->Play3D(position, sound3DComp.Loop, false, true);
+		sound3DComp.Sound = soundSource->Play3D(position, sound3DComp.Loop, sound3DComp.Paused, true);
 		sound3DComp.Sound->setVolume(sound3DComp.Volume);
 	}
 
