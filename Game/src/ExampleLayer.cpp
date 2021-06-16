@@ -41,50 +41,6 @@ void ExampleLayer::OnAttach()
 	auto skybox = Engine::CreateRef<Engine::Skybox>();
 	m_Scene->SetSkybox(skybox);
 
-	// Monster
-	if (false) {
-		// Big Monsters
-		for (size_t i = 0; i < 2; i++)
-		{
-			Engine::Entity entity = m_Scene->CreateEntity("Monster [Big]");
-			auto mesh = "Monster";
-			glm::vec3 t{ (rand() % 100) - 50, 5.5f, (rand() % 100) - 50 };
-			glm::vec3 r{ 0.0f, 0.0f, 0.0f };
-			glm::vec3 s{ 1.0f, 1.0f, 1.0f };
-			entity.GetComponent<Engine::Component::Core::TransformComponent>().Translation = t;
-			entity.GetComponent<Engine::Component::Core::TransformComponent>().Rotation = r;
-			entity.GetComponent<Engine::Component::Core::TransformComponent>().Scale = s;
-			entity.AddComponent<Engine::Component::Renderer::MaterialComponent>("MonsterBigMaterial");
-			entity.AddComponent<Engine::Component::Renderer::ShadowComponent>();
-			entity.AddComponent<Engine::Component::Renderer::MeshComponent>(mesh);
-			auto actor = ActorFactory::Monster(mesh, t, r, s);
-			entity.AddComponent<Engine::Component::Physics::RigidDynamicComponent>(actor);
-			entity.AddComponent<MonsterComponent>("Monster", "MonsterDying");
-			entity.AddNativeScript<MonsterScript>();
-			entity.AddComponent<Engine::Component::Core::Unserializable>();
-		}
-		// Small Monsters
-		for (size_t i = 0; i < 4; i++)
-		{
-			Engine::Entity entity = m_Scene->CreateEntity("Monster [Small]");
-			std::string mesh = "Monster";
-			glm::vec3 t{ (rand() % 100) - 50, 5.5f, (rand() % 100) - 50 };
-			glm::vec3 r{ 0.0f, 0.0f, 0.0f };
-			glm::vec3 s{ 0.5f, 0.5f, 0.5f };
-			entity.GetComponent<Engine::Component::Core::TransformComponent>().Translation = t;
-			entity.GetComponent<Engine::Component::Core::TransformComponent>().Rotation = r;
-			entity.GetComponent<Engine::Component::Core::TransformComponent>().Scale = s;
-			entity.AddComponent<Engine::Component::Renderer::MaterialComponent>("MonsterSmallMaterial");
-			entity.AddComponent<Engine::Component::Renderer::ShadowComponent>();
-			entity.AddComponent<Engine::Component::Renderer::MeshComponent>(mesh);
-			auto actor = ActorFactory::Monster(mesh, t, r, s);
-			entity.AddComponent<Engine::Component::Physics::RigidDynamicComponent>(actor);
-			entity.AddComponent<MonsterComponent>("Monster", "MonsterDying", 35.0f, 10.0f, 4.5f, 30.0f, 2.5f);
-			entity.AddNativeScript<MonsterScript>();
-			entity.AddComponent<Engine::Component::Core::Unserializable>();
-		}
-	}
-
 	// ImGui
 	m_MaterialPanel = Engine::CreateScope<Engine::MaterialPanel>();
 	m_RendererPanel = Engine::CreateScope<Engine::RendererPanel>();

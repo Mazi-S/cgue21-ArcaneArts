@@ -85,7 +85,6 @@ namespace Engine {
 		if (m_SpectatorActive)
 			m_Spectator.OnUpdate(ts);
 
-		//System::CharacterController::OnUpdate(m_Registry, ts);
 		System::Audio::OnUpdate(m_Registry);
 		System::Renderer::OnUpdateParticleSystem(m_Registry, ts);
 	}

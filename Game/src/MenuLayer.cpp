@@ -31,7 +31,7 @@ void MenuLayer::OnDetach()
 
 void MenuLayer::OnUpdate(Engine::Timestep ts)
 {
-	static glm::mat4 menuTransform = glm::scale(glm::mat4(1), {1305, 675, 1});
+	static glm::mat4 menuTransform = glm::scale(glm::mat4(1), {1238, 700, 1});
 	static glm::mat4 endTransform = glm::translate(glm::mat4(1), { 0, 0, 1 }) * glm::scale(glm::mat4(1), { 1400 * 0.5, 252 * 0.5, 1 });
 
 	Engine::Renderer2D::BeginScene(m_MenuCamera);
@@ -75,6 +75,18 @@ bool MenuLayer::OnKeyPressed(Engine::KeyPressedEvent& event)
 	if (event.GetKeyCode() == Engine::Key::F11)
 	{
 		Engine::Application::Get().GetWindow().ToggleFullscreen();
+	}
+
+	if (event.GetKeyCode() == Engine::Key::Comma || event.GetKeyCode() == Engine::Key::KPSubtract)
+	{
+		float exposure = Engine::Renderer::GetExposure();
+		Engine::Renderer::SetExposure(exposure - 0.1f);
+	}
+
+	if (event.GetKeyCode() == Engine::Key::Period || event.GetKeyCode() == Engine::Key::KPAdd)
+	{
+		float exposure = Engine::Renderer::GetExposure();
+		Engine::Renderer::SetExposure(exposure + 0.1f);
 	}
 
 	return false;

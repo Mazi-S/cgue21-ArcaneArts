@@ -23,6 +23,9 @@ namespace Engine::Util {
 
 			if (application["brightness2D"])
 				m_Brightness2D = application["brightness2D"].as<float>();
+
+			if (application["exposure"])
+				m_Exposure = application["exposure"].as<float>();
 		}
 
 		if (config["window"])

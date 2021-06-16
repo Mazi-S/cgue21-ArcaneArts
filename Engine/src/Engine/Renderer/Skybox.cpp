@@ -40,7 +40,8 @@ namespace Engine {
 		auto& meshKnight = Engine::MeshLibrary::Get("Knight")->GetGlMesh();
 
 		glm::mat4 model = glm::mat4(1.0f);
-		model = glm::translate(model, glm::vec3(0.0f, 2.7f, 0.0f));
+		model = glm::translate(model, glm::vec3(20.5f, 2.7f, -4.0f));
+		model = glm::rotate(model, -1.0f, glm::vec3{0,1,0});
 		model = glm::scale(model, glm::vec3(2.0f, 2.0f, 2.0f));
 
 		glm::mat4 view = glm::inverse(camera.Transform);

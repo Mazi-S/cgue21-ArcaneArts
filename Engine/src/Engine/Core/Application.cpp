@@ -30,6 +30,7 @@ namespace Engine {
 		m_Brightness2D = appSpec.Brightness2D;
 
 		Renderer::Init();
+		Renderer::SetExposure(appSpec.Exposure);
 		Renderer2D::Init();
 		SoundEngine::Init();
 		PhysicsAPI::Init();

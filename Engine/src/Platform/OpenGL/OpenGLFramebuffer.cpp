@@ -43,7 +43,16 @@ namespace Engine::OpenGL {
 		m_Specification.Height = height;
 
 		if (m_RendererID != 0)
+		{
+			if (m_Specification.ColorAttachment.TextureLibrary)
+				Texture2DLibrary::Remove(m_ColorAttachment->GetName());
+			if (m_Specification.ColorAttachment1.TextureLibrary)
+				Texture2DLibrary::Remove(m_ColorAttachment1->GetName());
+			if (m_Specification.DepthAttachment.TextureLibrary)
+				Texture2DLibrary::Remove(m_DepthAttachment->GetName());
+
 			Destroy();
+		}
 		Init();
 	}
 

@@ -17,6 +17,7 @@ namespace Engine {
 	{
 		float Brightness = 1.0;
 		float Brightness2D = 1.0;
+		float Exposure = 1.0;
 	};
 
 	class Application

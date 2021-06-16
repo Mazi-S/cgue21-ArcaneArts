@@ -10,6 +10,7 @@ int main() {
 	Engine::ApplicationSpecification appSpec = Engine::ApplicationSpecification();
 	appSpec.Brightness = config.GetBrightness();
 	appSpec.Brightness2D = config.GetBrightness2D();
+	appSpec.Exposure = config.GetExposure();
 
 	Engine::WindowSpecification windowSpec = Engine::WindowSpecification();
 	windowSpec.Title = "Arcane Arts";

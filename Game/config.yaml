@@ -1,6 +1,8 @@
 application:
   brightness: 1.0
   brightness2D: 1.0
+  # use exposure for brightness; can be changed in game with -/+ or ,/.
+  exposure: 1.0
 
 window: 
   width: 1280

@@ -27,6 +27,12 @@ namespace Engine {
 	std::set<Ref<Material>> Renderer::s_Materials;
 	std::set<Ref<OpenGL::GlVertexArray>> Renderer::s_VertexArrays;
 
+	void Renderer::SetExposure(float exposure)
+	{
+		s_Exposure = exposure;
+		LOG_INFO("Renderer: exposure set to {}", s_Exposure);
+	}
+
 	void Renderer::Init()
 	{
 		LOG_INFO("Renderer::Init...");

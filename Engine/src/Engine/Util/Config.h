@@ -10,6 +10,7 @@ namespace Engine::Util {
 
 		float GetBrightness() { return m_Brightness; }
 		float GetBrightness2D() { return m_Brightness2D; }
+		float GetExposure() { return m_Exposure; }
 
 		float GetWidth() { return m_Width; }
 		float GetHeight() { return m_Height; }
@@ -23,6 +24,7 @@ namespace Engine::Util {
 
 		float m_Brightness = 1.0;
 		float m_Brightness2D = 1.0;
+		float m_Exposure = 1.0;
 
 		int m_Width = 1280;
 		int m_Height = 750;

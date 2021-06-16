@@ -26,9 +26,15 @@ namespace Engine {
 		static void Init();
 		static void Shutdown();
 
-		static void SetExposure(float exposure) { s_Exposure = exposure; }
+		static void SetExposure(float exposure);
 		static void SetHDR(bool hdr) { s_HDR = hdr; }
+		static void SetBloom(bool bloom) { s_Bloom = bloom; }
 		static void SetGammaCorrection(bool correction) { s_GammaCorrection = correction; }
+
+		static float GetExposure() { return s_Exposure; }
+		static bool GetHDR() { return s_HDR; }
+		static bool GetBloom() { return s_Bloom; }
+
 		static Ref<OpenGL::GlFramebuffer> GetFramebuffer() { return s_HDRFramebuffer; }
 
 		static void OnWindowResize(uint32_t width, uint32_t height);
