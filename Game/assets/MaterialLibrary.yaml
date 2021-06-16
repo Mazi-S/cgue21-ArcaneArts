@@ -101,24 +101,23 @@ Materials:
     Shininess: 5
     Textures:
       0: ShadowMap
-  - Material: MonsterBigMaterial
+  - Material: ManaMaterial
     Shader: TextureShader
-    Ambient: [0.100000001, 0.100000001, 0.100000001]
-    Diffuse: [0.100000001, 0.100000001, 0.100000001]
-    Specular: [0.100000001, 0.100000001, 0.100000001]
-    Shininess: 2
+    Ambient: [0.400000006, 0.400000006, 1]
+    Diffuse: [0.569999993, 0.409999996, 1]
+    Specular: [0.5, 0.5, 1]
+    Shininess: 7.19999981
     Textures:
       0: ShadowMap
-      1: MonsterBig
-  - Material: MonsterSmallMaterial
-    Shader: TextureShader
-    Ambient: [0.100000001, 0.100000001, 0.100000001]
-    Diffuse: [0.100000001, 0.100000001, 0.100000001]
-    Specular: [0.100000001, 0.100000001, 0.100000001]
-    Shininess: 2
+      1: Mana
+  - Material: Monster_body_green
+    Shader: ColorShader
+    Ambient: [0.0199999996, 0.0500000007, 0.0299999993]
+    Diffuse: [0.100000001, 0.189999998, 0.0799999982]
+    Specular: [0.0299999993, 0.0599999987, 0]
+    Shininess: 1
     Textures:
       0: ShadowMap
-      1: MonsterSmall
   - Material: Monster_body_purple
     Shader: ColorShader
     Ambient: [0.0399999991, 0.0399999991, 0.0500000007]
@@ -135,11 +134,27 @@ Materials:
     Shininess: 13.1999998
     Textures:
       0: ShadowMap
+  - Material: Monster_eye_big_2
+    Shader: ColorShader
+    Ambient: [0, 0, 0.109999999]
+    Diffuse: [0, 0, 0.0299999993]
+    Specular: [0, 0, 0.100000001]
+    Shininess: 13.1999998
+    Textures:
+      0: ShadowMap
   - Material: Monster_eye_small
     Shader: ColorShader
     Ambient: [0.0799999982, 0, 0]
     Diffuse: [0.140000001, 0, 0]
     Specular: [0.129999995, 0.00999999978, 0.129999995]
+    Shininess: 13.8000002
+    Textures:
+      0: ShadowMap
+  - Material: Monster_eye_small_2
+    Shader: ColorShader
+    Ambient: [0, 0, 0.0799999982]
+    Diffuse: [0, 0, 0.140000001]
+    Specular: [0.00999999978, 0.129999995, 0.129999995]
     Shininess: 13.8000002
     Textures:
       0: ShadowMap
@@ -153,17 +168,17 @@ Materials:
       0: ShadowMap
   - Material: PedestalMaterial
     Shader: ColorShader
-    Ambient: [0.109999999, 0.0500000007, 0.0199999996]
-    Diffuse: [0.109999999, 0.0500000007, 0.0199999996]
-    Specular: [0.109999999, 0.0500000007, 0.0199999996]
-    Shininess: 1
+    Ambient: [0.0599999987, 0.0299999993, 0.0199999996]
+    Diffuse: [0.0500000007, 0.0199999996, 0.0199999996]
+    Specular: [0.0799999982, 0.0500000007, 0.0199999996]
+    Shininess: 5.9000001
     Textures:
       0: ShadowMap
   - Material: RockMaterial
     Shader: ColorShader
-    Ambient: [0.100000001, 0.100000001, 0.100000001]
-    Diffuse: [0.100000001, 0.100000001, 0.100000001]
-    Specular: [0.100000001, 0.100000001, 0.100000001]
+    Ambient: [0.0500000007, 0.0599999987, 0.0700000003]
+    Diffuse: [0.0700000003, 0.0599999987, 0.0599999987]
+    Specular: [0.0799999982, 0.0799999982, 0.0799999982]
     Shininess: 1
     Textures:
       0: ShadowMap

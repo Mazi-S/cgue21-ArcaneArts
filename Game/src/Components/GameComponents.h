@@ -59,6 +59,14 @@ struct HealthItemComponent
 	HealthItemComponent(const HealthItemComponent&) = default;
 };
 
+struct ManaItemComponent
+{
+	uint16_t temp = 0;
+
+	ManaItemComponent() = default;
+	ManaItemComponent(const ManaItemComponent&) = default;
+};
+
 struct WalkingSoundComponent
 {
 	std::string WalkingSound;

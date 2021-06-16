@@ -5,7 +5,10 @@ using TransformComponent = Engine::Component::Core::TransformComponent;
 
 void ItemScript::OnUpdate(Engine::Timestep ts)
 {
-	if (!HasComponent<HealthItemComponent>())
+	bool healthItem = HasComponent<HealthItemComponent>();
+	bool manaItem = HasComponent<ManaItemComponent>();
+
+	if (!healthItem && ! manaItem)
 		return;
 
 	// Get Hero
@@ -22,7 +25,12 @@ void ItemScript::OnUpdate(Engine::Timestep ts)
 	if (distanceToHero < 1.9 && worldTransformComp_Item.Translation.y < worldTransformComp_Hero.Translation.y)
 	{
 		Destroy();
-		hero.GetComponent<HeroComponent>().Hitpoints += 30;
+		if (healthItem)
+			hero.GetComponent<HeroComponent>().Hitpoints += 30;
+
+		if (manaItem)
+			hero.GetComponent<HeroComponent>().Mana += 30;
+
 		Engine::SoundLibrary::Get("CollectItem")->Play2D(false, false, false);
 	}
 

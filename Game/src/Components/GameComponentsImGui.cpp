@@ -22,6 +22,8 @@ void Engine::SceneHierarchyPanel::DrawAddGameComponent(Entity entity)
 		components.push_back("WalkingSound");
 	if (!entity.HasComponent<HealthItemComponent>())
 		components.push_back("HealthItem");
+	if (!entity.HasComponent<ManaItemComponent>())
+		components.push_back("ManaItem");
 
 	if (components.size() > 0 && ImGuiUtil::DrawComboControl("Add Game Comp.", component, components))
 	{
@@ -46,6 +48,11 @@ void Engine::SceneHierarchyPanel::DrawAddGameComponent(Entity entity)
 		if (component == "HealthItem")
 		{
 			entity.AddComponent<HealthItemComponent>();
+			entity.AddNativeScript<ItemScript>();
+		}
+		if (component == "ManaItem")
+		{
+			entity.AddComponent<ManaItemComponent>();
 			entity.AddNativeScript<ItemScript>();
 		}
 	}
@@ -130,6 +137,12 @@ void Engine::SceneHierarchyPanel::DrawGameComponents(Entity entity)
 	ImGuiUtil::DrawComponent<HealthItemComponent>("Health Item", entity, [](HealthItemComponent& component)
 	{
 		ImGuiUtil::Text("Description", "Specifies if the entity is a health item.");
+	});
+
+	// Mana Item Component
+	ImGuiUtil::DrawComponent<ManaItemComponent>("Mana Item", entity, [](ManaItemComponent& component)
+	{
+		ImGuiUtil::Text("Description", "Specifies if the entity is a mana item.");
 	});
 
 }

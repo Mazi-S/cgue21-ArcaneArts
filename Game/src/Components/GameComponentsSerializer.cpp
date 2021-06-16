@@ -83,6 +83,15 @@ void Engine::SceneSerializer::SerializeGameComponents(YAML::Emitter& out, Entity
 		out << YAML::EndMap; // HealthItemComponent
 	}
 
+	// Mana Item
+	if (entity.HasComponent<ManaItemComponent>())
+	{
+		out << YAML::Key << "ManaItemComponent";
+		out << YAML::Flow;
+		out << YAML::BeginMap; // ManaItemComponent
+		out << YAML::EndMap; // ManaItemComponent
+	}
+
 }
 
 void Engine::SceneSerializer::DeserializeGameComponents(Entity deserializedEntity, const YAML::Node& entityNode)
@@ -161,6 +170,13 @@ void Engine::SceneSerializer::DeserializeGameComponents(Entity deserializedEntit
 	if (entityNode["HealthItemComponent"])
 	{
 		deserializedEntity.AddComponent<HealthItemComponent>();
+		deserializedEntity.AddNativeScript<ItemScript>();
+	}
+
+	// Mana Item
+	if (entityNode["ManaItemComponent"])
+	{
+		deserializedEntity.AddComponent<ManaItemComponent>();
 		deserializedEntity.AddNativeScript<ItemScript>();
 	}
 }
