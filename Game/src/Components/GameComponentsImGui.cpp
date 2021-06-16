@@ -5,6 +5,7 @@
 #include "GameComponents.h"
 #include "Entities/PointLightFlickerScript.h"
 #include "Entities/WalkingSoundScript.h"
+#include "Entities/ItemScript.h"
 
 void Engine::SceneHierarchyPanel::DrawAddGameComponent(Entity entity)
 {
@@ -19,6 +20,8 @@ void Engine::SceneHierarchyPanel::DrawAddGameComponent(Entity entity)
 		components.push_back("PointLightFlicker");
 	if (!entity.HasComponent<WalkingSoundComponent>())
 		components.push_back("WalkingSound");
+	if (!entity.HasComponent<HealthItemComponent>())
+		components.push_back("HealthItem");
 
 	if (components.size() > 0 && ImGuiUtil::DrawComboControl("Add Game Comp.", component, components))
 	{
@@ -39,6 +42,11 @@ void Engine::SceneHierarchyPanel::DrawAddGameComponent(Entity entity)
 		{
 			entity.AddComponent<WalkingSoundComponent>();
 			entity.AddNativeScript<WalkingSoundScript>();
+		}
+		if (component == "HealthItem")
+		{
+			entity.AddComponent<HealthItemComponent>();
+			entity.AddNativeScript<ItemScript>();
 		}
 	}
 }
@@ -77,7 +85,7 @@ void Engine::SceneHierarchyPanel::DrawGameComponents(Entity entity)
 			ImGuiUtil::Text("Description", "Defines the entity as the hero.");
 	});
 
-	// Hero Component
+	// Point Light Flicker
 	ImGuiUtil::DrawComponent<PointLightFlickerComponent>("PointLightFlicker", entity, [](PointLightFlickerComponent& component)
 		{
 			ImGuiUtil::DrawFloat3Control("Color", component.Color);
@@ -116,6 +124,12 @@ void Engine::SceneHierarchyPanel::DrawGameComponents(Entity entity)
 			}
 		}
 			
+	});
+
+	// Health Item Component
+	ImGuiUtil::DrawComponent<HealthItemComponent>("Health Item", entity, [](HealthItemComponent& component)
+	{
+		ImGuiUtil::Text("Description", "Specifies if the entity is a health item.");
 	});
 
 }

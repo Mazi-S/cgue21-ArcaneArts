@@ -36,3 +36,9 @@ SoundSources:
   - SoundSource: Walk
     Path: assets/sounds/walk.wav
     Volume: 1
+  - SoundSource: Healing
+    Path: assets/sounds/healing.wav
+    Volume: 0.5
+  - SoundSource: CollectItem
+    Path: assets/sounds/dropLeather.ogg
+    Volume: 0.4

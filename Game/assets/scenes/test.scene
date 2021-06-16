@@ -2,117 +2,44 @@ Scene: Untitled
 MainCamera: 4194227473
 Spectator: false
 Entities:
-  - Entity: 2766309096
+  - Entity: 2292807688
     TagComponent:
-      Tag: Cube 20
+      Tag: Health Item 3
     TransformComponent:
-      Translation: [-26.0002613, 1.67306459, 16.9963074]
-      Rotation: [-0.0197705813, -0.000163586898, 0.0063899965]
+      Translation: [-26.953022, 0.904540539, 31.8281307]
+      Rotation: [-3.06513929, -0.842918694, 3.00628924]
       Scale: [0.300000012, 0.300000012, 0.300000012]
     MeshComponent:
       Mesh: Cube
     MaterialComponent:
       Materials:
-        - RockMaterial
+        - HeartMaterial
     ShadowComponent: {}
     PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
     DynamicConvexComponent: {}
-  - Entity: 1346452857
+    HealthItemComponent: {}
+  - Entity: 3230373530
     TagComponent:
-      Tag: Cube 21
+      Tag: Health Item 2
     TransformComponent:
-      Translation: [-26.0037346, 1.66119576, 16.0008163]
-      Rotation: [-0.00774398493, 0.00437758723, 0.00628531352]
+      Translation: [-29.7200832, 0.970486403, 20.300108]
+      Rotation: [-1.93933928, 1.39009714, -2.17594934]
       Scale: [0.300000012, 0.300000012, 0.300000012]
     MeshComponent:
       Mesh: Cube
     MaterialComponent:
       Materials:
-        - RockMaterial
+        - HeartMaterial
     ShadowComponent: {}
     PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
     DynamicConvexComponent: {}
-  - Entity: 1267568048
-    TagComponent:
-      Tag: Cube 12
-    TransformComponent:
-      Translation: [-26.005724, 1.05772793, 15.5011635]
-      Rotation: [-0.00450834353, 0.00283656269, 0.0055624675]
-      Scale: [0.300000012, 0.300000012, 0.300000012]
-    MeshComponent:
-      Mesh: Cube
-    MaterialComponent:
-      Materials:
-        - RockMaterial
-    ShadowComponent: {}
-    PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
-    DynamicConvexComponent: {}
-  - Entity: 19303787
-    TagComponent:
-      Tag: Cube 11
-    TransformComponent:
-      Translation: [-26.0054035, 1.06510901, 16.4990578]
-      Rotation: [-0.00941056851, 0.00360493129, 0.0066781207]
-      Scale: [0.300000012, 0.300000012, 0.300000012]
-    MeshComponent:
-      Mesh: Cube
-    MaterialComponent:
-      Materials:
-        - RockMaterial
-    ShadowComponent: {}
-    PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
-    DynamicConvexComponent: {}
-  - Entity: 1830211325
-    TagComponent:
-      Tag: Cube 10
-    TransformComponent:
-      Translation: [-25.9968262, 1.08510315, 17.4936409]
-      Rotation: [-0.0378945395, 0.00217886199, 0.00805126037]
-      Scale: [0.300000012, 0.300000012, 0.300000012]
-    MeshComponent:
-      Mesh: Cube
-    MaterialComponent:
-      Materials:
-        - RockMaterial
-    ShadowComponent: {}
-    PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
-    DynamicConvexComponent: {}
-  - Entity: 60594371
-    TagComponent:
-      Tag: Cube 00
-    TransformComponent:
-      Translation: [-26.0079021, 0.501494825, 17.9857235]
-      Rotation: [-0.0548313409, 0.000733762456, 0.0235082228]
-      Scale: [0.300000012, 0.300000012, 0.300000012]
-    MeshComponent:
-      Mesh: Cube
-    MaterialComponent:
-      Materials:
-        - RockMaterial
-    ShadowComponent: {}
-    PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
-    DynamicConvexComponent: {}
-  - Entity: 2665044383
-    TagComponent:
-      Tag: Cube 02
-    TransformComponent:
-      Translation: [-26.0027733, 0.462141514, 16.0001736]
-      Rotation: [-0.00675291987, 0.000923339976, 0.00663712993]
-      Scale: [0.300000012, 0.300000012, 0.300000012]
-    MeshComponent:
-      Mesh: Cube
-    MaterialComponent:
-      Materials:
-        - RockMaterial
-    ShadowComponent: {}
-    PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
-    DynamicConvexComponent: {}
-  - Entity: 4264861675
+    HealthItemComponent: {}
+  - Entity: 3611538575
     TagComponent:
       Tag: Cube 30
     TransformComponent:
-      Translation: [-26.0015144, 2.26536679, 16.4985332]
-      Rotation: [-0.0101855677, 0.00123188074, 0.00559890829]
+      Translation: [-26.0047855, 2.26560354, 16.4995823]
+      Rotation: [-0.00732347509, 0.000194003442, 0.00757994642]
       Scale: [0.300000012, 0.300000012, 0.300000012]
     MeshComponent:
       Mesh: Cube
@@ -122,342 +49,152 @@ Entities:
     ShadowComponent: {}
     PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
     DynamicConvexComponent: {}
-  - Entity: 1841879771
+  - Entity: 4243795443
     TagComponent:
-      Tag: Cube 03
+      Tag: Head (mesh)
+    ParentComponent:
+      Parent: 1566966600
     TransformComponent:
-      Translation: [-26.0009041, 0.453468084, 15.0001984]
-      Rotation: [-0.00622216379, 0.000462205469, 0.000804699666]
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
       Scale: [0.300000012, 0.300000012, 0.300000012]
     MeshComponent:
-      Mesh: Cube
+      Mesh: Sphere
     MaterialComponent:
       Materials:
-        - RockMaterial
+        - MagicBall_Fire
     ShadowComponent: {}
-    PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
-    DynamicConvexComponent: {}
-  - Entity: 2305974892
+  - Entity: 3700315078
     TagComponent:
-      Tag: Cube 01
+      Tag: Point Light
+    ParentComponent:
+      Parent: 679966320
     TransformComponent:
-      Translation: [-26.0034771, 0.471873999, 16.9983788]
-      Rotation: [-0.0135550452, 0.00123288657, 0.00946163014]
-      Scale: [0.300000012, 0.300000012, 0.300000012]
+      Translation: [0, 0, 0]
+      Rotation: [0, 0.357792497, 0]
+      Scale: [0.0500000007, 0.0500000007, 0.0500000007]
+    PointLightComponent:
+      Color: [3.44535828, 1.87928665, 0.835238338]
+      Constant: 0.680000007
+      Linear: 0.150000006
+      Quadratic: 0.0500000007
+    PointLightFlickerComponent:
+      Color: [3.29999995, 1.79999995, 0.800000012]
+      Duration: 2.29999995
+      DurationVariation: 1.10000002
+      Intensity: 1.20000005
+      IntensityVariation: 0.100000001
+  - Entity: 1939253820
+    TagComponent:
+      Tag: Point Light
+    TransformComponent:
+      Translation: [3.52999997, 0.409999996, 0]
+      Rotation: [0, 0.357792497, 0]
+      Scale: [0.0500000007, 0.0500000007, 0.0500000007]
     MeshComponent:
-      Mesh: Cube
+      Mesh: Sphere
     MaterialComponent:
       Materials:
-        - RockMaterial
-    ShadowComponent: {}
-    PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
-    DynamicConvexComponent: {}
-  - Entity: 2559395055
+        - MagicBall_Light
+    PointLightComponent:
+      Color: [0.800000012, 0.800000012, 0.800000012]
+      Constant: 1
+      Linear: 0.400000006
+      Quadratic: 0.100000001
+  - Entity: 3308162787
     TagComponent:
-      Tag: sound
+      Tag: Point Light
+    TransformComponent:
+      Translation: [1.91999996, 0.409999996, 0]
+      Rotation: [0, 0.357792497, 0]
+      Scale: [0.0500000007, 0.0500000007, 0.0500000007]
+    MeshComponent:
+      Mesh: Sphere
+    MaterialComponent:
+      Materials:
+        - MagicBall_Light
+    PointLightComponent:
+      Color: [0.800000012, 0.800000012, 0.800000012]
+      Constant: 1
+      Linear: 0.400000006
+      Quadratic: 0.100000001
+  - Entity: 275213404
+    TagComponent:
+      Tag: Monster
+    TransformComponent:
+      Translation: [32.7000008, 0, 0]
+      Rotation: [0.0139626339, -1.53239918, 0.029670598]
+      Scale: [0.400000006, 0.5, 0.5]
+    MeshComponent:
+      Mesh: Monster
+    MaterialComponent:
+      Materials:
+        - MonsterBigMaterial
+    ShadowComponent: {}
+  - Entity: 679966320
+    TagComponent:
+      Tag: Fire (Particle System)
     ParentComponent:
       Parent: 140134073
     TransformComponent:
-      Translation: [0, 0, 0]
+      Translation: [0.230000004, 0.939999998, 0.0399999991]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
-    Sound3DComponent:
-      SoundSource: Campfire
-      Loop: true
-      Volume: 1
-  - Entity: 2169248326
+    ParticleSystemComponent:
+      Type: 0
+      EmitPower: 0.00100000005
+      Cooling: 0.0500000007
+      ParticleSize: 0.0599999987
+      ColorStart: [0.898039222, 0.721568644, 0, 1]
+      ColorEnd: [0.949019611, 0, 0, 0]
+  - Entity: 140134073
     TagComponent:
-      Tag: sound (forest)
-    ParentComponent:
-      Parent: 2240318446
+      Tag: Campfire
     TransformComponent:
-      Translation: [-7.81989717, 0, 7.79558468]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    Sound2DComponent:
-      SoundSource: Forest
-      Loop: true
-      Volume: 0.150000006
-  - Entity: 166188013
-    TagComponent:
-      Tag: Cloud
-    ParentComponent:
-      Parent: 1190749026
-    TransformComponent:
-      Translation: [0, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
+      Translation: [-16.7399998, 0.5, 19.1900005]
+      Rotation: [0.10297443, -0.980875134, -0.0191986226]
+      Scale: [0.5, 0.5, 0.5]
     MeshComponent:
-      Mesh: Cloud_2
+      Mesh: Campfire
     MaterialComponent:
       Materials:
-        - CloudMaterial
-  - Entity: 4216954262
-    TagComponent:
-      Tag: Cloud
-    ParentComponent:
-      Parent: 1190749026
-    TransformComponent:
-      Translation: [-2.81999993, 4.59000015, -18.2299995]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Cloud_2
-    MaterialComponent:
-      Materials:
-        - CloudMaterial
-  - Entity: 155802058
-    TagComponent:
-      Tag: Cloud
-    ParentComponent:
-      Parent: 1190749026
-    TransformComponent:
-      Translation: [11.9200001, -2.17000008, 0]
-      Rotation: [0, -0.356047153, -0.0698131695]
-      Scale: [1.36000001, 1.08000004, 1.30999994]
-    MeshComponent:
-      Mesh: Cloud_1
-    MaterialComponent:
-      Materials:
-        - CloudMaterial
-  - Entity: 2836059299
-    TagComponent:
-      Tag: Cloud
-    ParentComponent:
-      Parent: 1190749026
-    TransformComponent:
-      Translation: [-24.1299992, 5.09000015, -22.8400002]
-      Rotation: [0, -5.13999462, -0.158824965]
-      Scale: [1.63999999, 1.49000001, 1.75]
-    MeshComponent:
-      Mesh: Cloud_3
-    MaterialComponent:
-      Materials:
-        - CloudMaterial
-  - Entity: 1762707696
-    TagComponent:
-      Tag: Cloud
-    ParentComponent:
-      Parent: 1190749026
-    TransformComponent:
-      Translation: [-13.0600004, 8.10000038, -5.28999996]
-      Rotation: [-1.89717281, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Cloud_2
-    MaterialComponent:
-      Materials:
-        - CloudMaterial
-  - Entity: 2434273416
-    TagComponent:
-      Tag: Cloud
-    ParentComponent:
-      Parent: 1190749026
-    TransformComponent:
-      Translation: [-26.9300003, -3.27999997, 0]
-      Rotation: [0, -0.111701071, -0.0698131695]
-      Scale: [1.36000001, 1.08000004, 1.30999994]
-    MeshComponent:
-      Mesh: Cloud_1
-    MaterialComponent:
-      Materials:
-        - CloudMaterial
-  - Entity: 29861835
-    TagComponent:
-      Tag: Cloud
-    ParentComponent:
-      Parent: 1190749026
-    TransformComponent:
-      Translation: [16.3899994, 6.19000006, -18.4400005]
-      Rotation: [-1.89717281, -1.60395765, 0]
-      Scale: [1.71000004, 2.21000004, 1]
-    MeshComponent:
-      Mesh: Cloud_3
-    MaterialComponent:
-      Materials:
-        - CloudMaterial
-  - Entity: 3346410587
-    TagComponent:
-      Tag: Cloud
-    ParentComponent:
-      Parent: 1190749026
-    TransformComponent:
-      Translation: [-19.2099991, 4.53000021, -22.8400002]
-      Rotation: [0, 0.340339214, 0]
-      Scale: [1.63999999, 1.49000001, 1.75]
-    MeshComponent:
-      Mesh: Cloud_3
-    MaterialComponent:
-      Materials:
-        - CloudMaterial
-  - Entity: 1190749026
-    TagComponent:
-      Tag: Sky
-    TransformComponent:
-      Translation: [0.0799999982, 43.2000008, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1.28999996, 1.42999995, 1.27999997]
-  - Entity: 2899067678
-    TagComponent:
-      Tag: Cloud
-    ParentComponent:
-      Parent: 1190749026
-    TransformComponent:
-      Translation: [-24.6000004, 7.25, 26.3899994]
-      Rotation: [-1.89717281, -0.933751166, 0]
-      Scale: [1.21000004, 1.27999997, 1]
-    MeshComponent:
-      Mesh: Cloud_3
-    MaterialComponent:
-      Materials:
-        - CloudMaterial
-  - Entity: 3383275146
-    TagComponent:
-      Tag: Cloud
-    ParentComponent:
-      Parent: 1190749026
-    TransformComponent:
-      Translation: [-19.2099991, 4.53000021, -22.8400002]
-      Rotation: [0, 0.340339214, 0]
-      Scale: [1.63999999, 1.49000001, 1.75]
-    MeshComponent:
-      Mesh: Cloud_3
-    MaterialComponent:
-      Materials:
-        - CloudMaterial
-  - Entity: 2428037156
-    TagComponent:
-      Tag: Cloud
-    ParentComponent:
-      Parent: 1190749026
-    TransformComponent:
-      Translation: [-28.3099995, 10.2700005, 9.82999992]
-      Rotation: [-1.89717281, -1.18333328, 0]
-      Scale: [1.21000004, 1.27999997, 1]
-    MeshComponent:
-      Mesh: Cloud_2
-    MaterialComponent:
-      Materials:
-        - CloudMaterial
-  - Entity: 3025002044
-    TagComponent:
-      Tag: Cloud
-    ParentComponent:
-      Parent: 1190749026
-    TransformComponent:
-      Translation: [-12.8699999, 11.9700003, 26.3899994]
-      Rotation: [-1.89717281, -1.60395765, 0]
-      Scale: [1.71000004, 2.21000004, 1]
-    MeshComponent:
-      Mesh: Cloud_3
-    MaterialComponent:
-      Materials:
-        - CloudMaterial
-  - Entity: 3124897916
-    TagComponent:
-      Tag: Cloud
-    ParentComponent:
-      Parent: 1190749026
-    TransformComponent:
-      Translation: [-13.0600004, 10.2700005, 9.82999992]
-      Rotation: [-1.89717281, -0.801106155, 0]
-      Scale: [1.21000004, 1.27999997, 1]
-    MeshComponent:
-      Mesh: Cloud_2
-    MaterialComponent:
-      Materials:
-        - CloudMaterial
-  - Entity: 1080665466
-    TagComponent:
-      Tag: Hand (Left)
-    ParentComponent:
-      Parent: 1566966600
-    TransformComponent:
-      Translation: [-0.720000029, -0.529999971, -1.63999999]
-      Rotation: [-3.9043014, 1.64584553, -1.25489175]
-      Scale: [0.400000006, 0.400000006, 0.400000006]
-    MeshComponent:
-      Mesh: Hand (left)
-    MaterialComponent:
-      Materials:
-        - SkinMaterial
-  - Entity: 1921040173
-    TagComponent:
-      Tag: Hand (right)
-    ParentComponent:
-      Parent: 1566966600
-    TransformComponent:
-      Translation: [0.850000024, -0.529999971, -1.59000003]
-      Rotation: [-3.35103226, 1.33168626, 0.322885901]
-      Scale: [0.400000006, 0.400000006, 0.400000006]
-    MeshComponent:
-      Mesh: Hand (right)
-    MaterialComponent:
-      Materials:
-        - SkinMaterial
-  - Entity: 2829258692
-    TagComponent:
-      Tag: tree2
-    ParentComponent:
-      Parent: 2240318446
-    TransformComponent:
-      Translation: [11.79, 0.349999994, 19.5100002]
-      Rotation: [-0.0244346093, 2.37713838, 0.00872664619]
-      Scale: [1.23000002, 1.27999997, 1.13999999]
-    MeshComponent:
-      Mesh: Spruce_2
-    MaterialComponent:
-      Materials:
-        - ForestMaterial
+        - CampfireMaterial
     ShadowComponent: {}
-  - Entity: 3147554418
+    PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
+    StaticColliderComponent: {}
+  - Entity: 1160887233
     TagComponent:
-      Tag: tree1
+      Tag: house
     ParentComponent:
-      Parent: 2240318446
+      Parent: 211188067
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
+      Scale: [1.14999998, 1.45000005, 1.36000001]
     MeshComponent:
-      Mesh: Spruce_1
+      Mesh: House
     MaterialComponent:
       Materials:
-        - ForestMaterial
+        - HouseMaterial
     ShadowComponent: {}
-  - Entity: 2240318446
+    PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
+    StaticColliderComponent: {}
+  - Entity: 211188067
     TagComponent:
-      Tag: BG
-    ParentComponent:
-      Parent: 4262795053
+      Tag: group (house)
     TransformComponent:
-      Translation: [-44.1800003, 8.57999992, 42.9500008]
-      Rotation: [0, 0, 0]
+      Translation: [-23.9899998, 0.209999993, 28.0699997]
+      Rotation: [0, 0.825540721, 0]
       Scale: [1, 1, 1]
-  - Entity: 2851398726
-    TagComponent:
-      Tag: tree3
-    ParentComponent:
-      Parent: 2240318446
-    TransformComponent:
-      Translation: [13.46, -2.26999998, 19.5100002]
-      Rotation: [-0.0244346093, 2.37713838, 0.00872664619]
-      Scale: [1.25999999, 1.47000003, 1.15999997]
-    MeshComponent:
-      Mesh: Spruce_3
-    MaterialComponent:
-      Materials:
-        - ForestMaterial
-    ShadowComponent: {}
-  - Entity: 3892924384
+  - Entity: 3881286821
     TagComponent:
       Tag: rock
     ParentComponent:
       Parent: 211188067
     TransformComponent:
-      Translation: [2.55999994, -0.170000002, -7.42000008]
-      Rotation: [-2.67733502, 1.83783174, 2.18340683]
-      Scale: [1.25, 4.21999979, 1.61000001]
+      Translation: [-0.540000021, 0.949999988, -9.90999985]
+      Rotation: [-2.67384434, 2.06123376, 2.55690742]
+      Scale: [1.36000001, 4.3499999, 3.33999991]
     MeshComponent:
       Mesh: Rock_1
     MaterialComponent:
@@ -466,209 +203,66 @@ Entities:
     ShadowComponent: {}
     PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
     StaticColliderComponent: {}
-  - Entity: 1206472169
+  - Entity: 4186441918
     TagComponent:
-      Tag: tree 2
+      Tag: Rock 2
     ParentComponent:
-      Parent: 211188067
+      Parent: 4072439439
     TransformComponent:
-      Translation: [-2.49000001, 0.349999994, -5.78999996]
-      Rotation: [-0.0209439509, 0.644026518, -0.052359879]
-      Scale: [0.579999983, 0.49000001, 0.409999996]
+      Translation: [-0.800000012, -0.430000007, 1.12]
+      Rotation: [2.80125332, -3.81528974, 0]
+      Scale: [0.439999998, 0.430000007, 0.50999999]
     MeshComponent:
-      Mesh: Spruce_2
+      Mesh: Rock_1
     MaterialComponent:
       Materials:
-        - ForestMaterial
+        - RockMaterial
     ShadowComponent: {}
     PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
     StaticColliderComponent: {}
-  - Entity: 245337996
+  - Entity: 3998791398
     TagComponent:
-      Tag: tree
+      Tag: Stump 1
     ParentComponent:
-      Parent: 211188067
+      Parent: 4072439439
     TransformComponent:
-      Translation: [-0.560000002, -0.589999974, 4.8499999]
-      Rotation: [0, -1.31597829, 0.00523598772]
+      Translation: [-2.38000011, 0.370000005, 0.0500000007]
+      Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     MeshComponent:
-      Mesh: Spruce_2
+      Mesh: Stump_1
     MaterialComponent:
       Materials:
         - ForestMaterial
     ShadowComponent: {}
     PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
     StaticColliderComponent: {}
-  - Entity: 3184719169
+  - Entity: 1167111413
     TagComponent:
-      Tag: Tree 1
+      Tag: Rock 1
+    ParentComponent:
+      Parent: 4072439439
+    TransformComponent:
+      Translation: [0.00999999978, -0.0199999996, 0.340000004]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Rock_1
+    MaterialComponent:
+      Materials:
+        - RockMaterial
+    ShadowComponent: {}
+    PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
+    StaticColliderComponent: {}
+  - Entity: 4072439439
+    TagComponent:
+      Tag: group 1.2
     ParentComponent:
       Parent: 583606279
     TransformComponent:
-      Translation: [-3.6500001, -3.27999997, -5.3499999]
-      Rotation: [0, 0.244346097, 0]
-      Scale: [0.899999976, 0.970000029, 0.889999986]
-    MeshComponent:
-      Mesh: Spruce_2
-    MaterialComponent:
-      Materials:
-        - ForestMaterial
-    ShadowComponent: {}
-    PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
-    StaticColliderComponent: {}
-  - Entity: 583606279
-    TagComponent:
-      Tag: group 1
-    TransformComponent:
-      Translation: [-20.8212299, 3.34744644, -14.195694]
-      Rotation: [0, 0, 0]
+      Translation: [-3.5, -2.53999996, -2.48000002]
+      Rotation: [0.0122173047, -0.363028467, 0]
       Scale: [1, 1, 1]
-  - Entity: 3453682429
-    TagComponent:
-      Tag: Fallen Tree 2
-    ParentComponent:
-      Parent: 583606279
-    TransformComponent:
-      Translation: [-2.53999996, -0.819999993, -2.97000003]
-      Rotation: [-0.181514233, 0.479965538, -0.0471238904]
-      Scale: [1.70000005, 1.70000005, 1.20000005]
-    MeshComponent:
-      Mesh: Fallen_Tree_2
-    MaterialComponent:
-      Materials:
-        - ForestMaterial
-    ShadowComponent: {}
-    PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
-    StaticColliderComponent: {}
-  - Entity: 1064142081
-    TagComponent:
-      Tag: Fallen Tree 1
-    ParentComponent:
-      Parent: 583606279
-    TransformComponent:
-      Translation: [0, -2.5999999, 0]
-      Rotation: [0.116937056, -3.64250207, 0.0890117884]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Fallen_Tree_1
-    MaterialComponent:
-      Materials:
-        - ForestMaterial
-    ShadowComponent: {}
-    PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
-    StaticColliderComponent: {}
-  - Entity: 1117240975
-    TagComponent:
-      Tag: Body
-    ParentComponent:
-      Parent: 4080604153
-    TransformComponent:
-      Translation: [0, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [0.200000003, 1.10000002, 0.200000003]
-    MeshComponent:
-      Mesh: Cube
-    MaterialComponent:
-      Materials:
-        - SkinMaterial
-    ShadowComponent: {}
-  - Entity: 1566966600
-    TagComponent:
-      Tag: Head
-    ParentComponent:
-      Parent: 4080604153
-    TransformComponent:
-      Translation: [0, 1, 0]
-      Rotation: [-0.106003523, -6.11807489, 0]
-      Scale: [1, 1, 1]
-    ListenerComponent: {}
-    HeroComponent: {}
-  - Entity: 4080604153
-    TagComponent:
-      Tag: Character
-    TransformComponent:
-      Translation: [-18.0930576, 1.30094206, 27.099987]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    CharacterControllerComponent:
-      Active: false
-      Head: 1566966600
-      TranslationSpeed: 5
-      RotationSpeed: 0.00200000009
-      StandingHeight: 2
-      CrouchingHeight: 1.20000005
-      Radius: 0.300000012
-    WalkingSoundComponent:
-      Sound: Walk
-  - Entity: 3119929771
-    TagComponent:
-      Tag: Tree 01
-    TransformComponent:
-      Translation: [17.0699997, -0.170000002, -30.2999992]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1.21000004, 1]
-    MeshComponent:
-      Mesh: Spruce_1
-    MaterialComponent:
-      Materials:
-        - ForestMaterial
-    ShadowComponent: {}
-    PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
-    StaticColliderComponent: {}
-  - Entity: 3936254363
-    TagComponent:
-      Tag: Cave
-    TransformComponent:
-      Translation: [14.6099997, -0.0799999982, -34.4099998]
-      Rotation: [0.00174532924, -1.63886416, -0.00523598772]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Cave
-    MaterialComponent:
-      Materials:
-        - CaveMaterial
-        - CaveMaterial
-    ShadowComponent: {}
-    PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
-    StaticColliderComponent: {}
-  - Entity: 4262795053
-    TagComponent:
-      Tag: Terrain
-    TransformComponent:
-      Translation: [0, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    MeshComponent:
-      Mesh: Terrain
-    MaterialComponent:
-      Materials:
-        - TerrainMaterial
-    PhysicsMaterialComponent: {StaticFriction: 0.75999999, DynamicFriction: 0.699999988, Restitution: 0.400000006}
-    StaticColliderComponent: {}
-  - Entity: 4194227473
-    TagComponent:
-      Tag: Camera
-    ParentComponent:
-      Parent: 1566966600
-    TransformComponent:
-      Translation: [0, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
-    CameraComponent:
-      FOV: 0.785398185
-      Near: 0.00999999978
-      Far: 1000
-  - Entity: 2510716866
-    TagComponent:
-      Tag: Directional Light
-    TransformComponent:
-      Translation: [0, 0, 0]
-      Rotation: [0, 0.0314159244, 0]
-      Scale: [1, 1, 1]
-    DirectionalLightComponent:
-      Direction: [-4.5999999, -12, 16.3999996]
-      Color: [0.5, 0.600000024, 0.600000024]
   - Entity: 2134992527
     TagComponent:
       Tag: Beholder
@@ -697,75 +291,218 @@ Entities:
       Speed: 2
       ViewRange: 22
       HitRange: 3
-  - Entity: 4072439439
+  - Entity: 2510716866
     TagComponent:
-      Tag: group 1.2
-    ParentComponent:
-      Parent: 583606279
+      Tag: Directional Light
     TransformComponent:
-      Translation: [-3.5, -2.53999996, -2.48000002]
-      Rotation: [0.0122173047, -0.363028467, 0]
+      Translation: [0, 0, 0]
+      Rotation: [0, 0.0314159244, 0]
       Scale: [1, 1, 1]
-  - Entity: 1167111413
+    DirectionalLightComponent:
+      Direction: [-4.5999999, -12, 16.3999996]
+      Color: [0.5, 0.600000024, 0.600000024]
+  - Entity: 4194227473
     TagComponent:
-      Tag: Rock 1
+      Tag: Camera
     ParentComponent:
-      Parent: 4072439439
+      Parent: 1566966600
     TransformComponent:
-      Translation: [0.00999999978, -0.0199999996, 0.340000004]
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    CameraComponent:
+      FOV: 0.785398185
+      Near: 0.00999999978
+      Far: 1000
+  - Entity: 4262795053
+    TagComponent:
+      Tag: Terrain
+    TransformComponent:
+      Translation: [0, 0, 0]
       Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
     MeshComponent:
-      Mesh: Rock_1
+      Mesh: Terrain
     MaterialComponent:
       Materials:
-        - RockMaterial
+        - TerrainMaterial
+    PhysicsMaterialComponent: {StaticFriction: 0.75999999, DynamicFriction: 0.699999988, Restitution: 0.400000006}
+    StaticColliderComponent: {}
+  - Entity: 3936254363
+    TagComponent:
+      Tag: Cave
+    TransformComponent:
+      Translation: [14.6099997, -0.0799999982, -34.4099998]
+      Rotation: [0.00174532924, -1.63886416, -0.00523598772]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Cave
+    MaterialComponent:
+      Materials:
+        - CaveMaterial
+        - CaveMaterial
     ShadowComponent: {}
     PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
     StaticColliderComponent: {}
-  - Entity: 3998791398
+  - Entity: 3119929771
     TagComponent:
-      Tag: Stump 1
-    ParentComponent:
-      Parent: 4072439439
+      Tag: Tree 01
     TransformComponent:
-      Translation: [-2.38000011, 0.370000005, 0.0500000007]
+      Translation: [17.0699997, -0.170000002, -30.2999992]
       Rotation: [0, 0, 0]
-      Scale: [1, 1, 1]
+      Scale: [1, 1.21000004, 1]
     MeshComponent:
-      Mesh: Stump_1
+      Mesh: Spruce_1
     MaterialComponent:
       Materials:
         - ForestMaterial
     ShadowComponent: {}
     PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
     StaticColliderComponent: {}
-  - Entity: 4186441918
+  - Entity: 4080604153
     TagComponent:
-      Tag: Rock 2
-    ParentComponent:
-      Parent: 4072439439
+      Tag: Character
     TransformComponent:
-      Translation: [-0.800000012, -0.430000007, 1.12]
-      Rotation: [2.80125332, -3.81528974, 0]
-      Scale: [0.439999998, 0.430000007, 0.50999999]
+      Translation: [-27.45401, 1.2165525, 16.1731262]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    CharacterControllerComponent:
+      Active: false
+      Head: 1566966600
+      TranslationSpeed: 5
+      RotationSpeed: 0.00200000009
+      StandingHeight: 2
+      CrouchingHeight: 1.20000005
+      Radius: 0.300000012
+    WalkingSoundComponent:
+      Sound: Walk
+  - Entity: 1566966600
+    TagComponent:
+      Tag: Head
+    ParentComponent:
+      Parent: 4080604153
+    TransformComponent:
+      Translation: [0, 1, 0]
+      Rotation: [-0.361204326, 9.0459404, 0]
+      Scale: [1, 1, 1]
+    ListenerComponent: {}
+    HeroComponent: {}
+  - Entity: 1117240975
+    TagComponent:
+      Tag: Body
+    ParentComponent:
+      Parent: 4080604153
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [0.200000003, 1.10000002, 0.200000003]
     MeshComponent:
-      Mesh: Rock_1
+      Mesh: Cube
     MaterialComponent:
       Materials:
-        - RockMaterial
+        - SkinMaterial
+    ShadowComponent: {}
+  - Entity: 1064142081
+    TagComponent:
+      Tag: Fallen Tree 1
+    ParentComponent:
+      Parent: 583606279
+    TransformComponent:
+      Translation: [0, -2.5999999, 0]
+      Rotation: [0.116937056, -3.64250207, 0.0890117884]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Fallen_Tree_1
+    MaterialComponent:
+      Materials:
+        - ForestMaterial
     ShadowComponent: {}
     PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
     StaticColliderComponent: {}
-  - Entity: 3881286821
+  - Entity: 3453682429
+    TagComponent:
+      Tag: Fallen Tree 2
+    ParentComponent:
+      Parent: 583606279
+    TransformComponent:
+      Translation: [-2.53999996, -0.819999993, -2.97000003]
+      Rotation: [-0.181514233, 0.479965538, -0.0471238904]
+      Scale: [1.70000005, 1.70000005, 1.20000005]
+    MeshComponent:
+      Mesh: Fallen_Tree_2
+    MaterialComponent:
+      Materials:
+        - ForestMaterial
+    ShadowComponent: {}
+    PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
+    StaticColliderComponent: {}
+  - Entity: 583606279
+    TagComponent:
+      Tag: group 1
+    TransformComponent:
+      Translation: [-20.8212299, 3.34744644, -14.195694]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+  - Entity: 3184719169
+    TagComponent:
+      Tag: Tree 1
+    ParentComponent:
+      Parent: 583606279
+    TransformComponent:
+      Translation: [-3.6500001, -3.27999997, -5.3499999]
+      Rotation: [0, 0.244346097, 0]
+      Scale: [0.899999976, 0.970000029, 0.889999986]
+    MeshComponent:
+      Mesh: Spruce_2
+    MaterialComponent:
+      Materials:
+        - ForestMaterial
+    ShadowComponent: {}
+    PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
+    StaticColliderComponent: {}
+  - Entity: 245337996
+    TagComponent:
+      Tag: tree
+    ParentComponent:
+      Parent: 211188067
+    TransformComponent:
+      Translation: [-0.560000002, -0.589999974, 4.8499999]
+      Rotation: [0, -1.31597829, 0.00523598772]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Spruce_2
+    MaterialComponent:
+      Materials:
+        - ForestMaterial
+    ShadowComponent: {}
+    PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
+    StaticColliderComponent: {}
+  - Entity: 1206472169
+    TagComponent:
+      Tag: tree 2
+    ParentComponent:
+      Parent: 211188067
+    TransformComponent:
+      Translation: [-2.49000001, 0.349999994, -5.78999996]
+      Rotation: [-0.0209439509, 0.644026518, -0.052359879]
+      Scale: [0.579999983, 0.49000001, 0.409999996]
+    MeshComponent:
+      Mesh: Spruce_2
+    MaterialComponent:
+      Materials:
+        - ForestMaterial
+    ShadowComponent: {}
+    PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
+    StaticColliderComponent: {}
+  - Entity: 3892924384
     TagComponent:
       Tag: rock
     ParentComponent:
       Parent: 211188067
     TransformComponent:
-      Translation: [-0.540000021, 0.949999988, -9.90999985]
-      Rotation: [-2.67384434, 2.06123376, 2.55690742]
-      Scale: [1.36000001, 4.3499999, 3.33999991]
+      Translation: [2.55999994, -0.170000002, -7.42000008]
+      Rotation: [-2.67733502, 1.83783174, 2.18340683]
+      Scale: [1.25, 4.21999979, 1.61000001]
     MeshComponent:
       Mesh: Rock_1
     MaterialComponent:
@@ -774,140 +511,451 @@ Entities:
     ShadowComponent: {}
     PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
     StaticColliderComponent: {}
-  - Entity: 211188067
+  - Entity: 2851398726
     TagComponent:
-      Tag: group (house)
-    TransformComponent:
-      Translation: [-23.9899998, 0.209999993, 28.0699997]
-      Rotation: [0, 0.825540721, 0]
-      Scale: [1, 1, 1]
-  - Entity: 1160887233
-    TagComponent:
-      Tag: house
+      Tag: tree3
     ParentComponent:
-      Parent: 211188067
+      Parent: 2240318446
+    TransformComponent:
+      Translation: [13.46, -2.26999998, 19.5100002]
+      Rotation: [-0.0244346093, 2.37713838, 0.00872664619]
+      Scale: [1.25999999, 1.47000003, 1.15999997]
+    MeshComponent:
+      Mesh: Spruce_3
+    MaterialComponent:
+      Materials:
+        - ForestMaterial
+    ShadowComponent: {}
+  - Entity: 2240318446
+    TagComponent:
+      Tag: BG
+    ParentComponent:
+      Parent: 4262795053
+    TransformComponent:
+      Translation: [-44.1800003, 8.57999992, 42.9500008]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+  - Entity: 3147554418
+    TagComponent:
+      Tag: tree1
+    ParentComponent:
+      Parent: 2240318446
     TransformComponent:
       Translation: [0, 0, 0]
       Rotation: [0, 0, 0]
-      Scale: [1.14999998, 1.45000005, 1.36000001]
-    MeshComponent:
-      Mesh: House
-    MaterialComponent:
-      Materials:
-        - HouseMaterial
-    ShadowComponent: {}
-    PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
-    StaticColliderComponent: {}
-  - Entity: 140134073
-    TagComponent:
-      Tag: Campfire
-    TransformComponent:
-      Translation: [-16.7399998, 0.5, 19.1900005]
-      Rotation: [0.10297443, -0.980875134, -0.0191986226]
-      Scale: [0.5, 0.5, 0.5]
-    MeshComponent:
-      Mesh: Campfire
-    MaterialComponent:
-      Materials:
-        - CampfireMaterial
-    ShadowComponent: {}
-    PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
-    StaticColliderComponent: {}
-  - Entity: 679966320
-    TagComponent:
-      Tag: Fire (Particle System)
-    ParentComponent:
-      Parent: 140134073
-    TransformComponent:
-      Translation: [0.230000004, 0.939999998, 0.0399999991]
-      Rotation: [0, 0, 0]
       Scale: [1, 1, 1]
-    ParticleSystemComponent:
-      Type: 0
-      EmitPower: 0.00100000005
-      Cooling: 0.0500000007
-      ParticleSize: 0.0599999987
-      ColorStart: [0.898039222, 0.721568644, 0, 1]
-      ColorEnd: [0.949019611, 0, 0, 0]
-  - Entity: 275213404
-    TagComponent:
-      Tag: Monster
-    TransformComponent:
-      Translation: [32.7000008, 0, 0]
-      Rotation: [0.0139626339, -1.53239918, 0.029670598]
-      Scale: [0.400000006, 0.5, 0.5]
     MeshComponent:
-      Mesh: Monster
+      Mesh: Spruce_1
     MaterialComponent:
       Materials:
-        - MonsterBigMaterial
+        - ForestMaterial
     ShadowComponent: {}
-  - Entity: 3308162787
+  - Entity: 2829258692
     TagComponent:
-      Tag: Point Light
-    TransformComponent:
-      Translation: [1.91999996, 0.409999996, 0]
-      Rotation: [0, 0.357792497, 0]
-      Scale: [0.0500000007, 0.0500000007, 0.0500000007]
-    MeshComponent:
-      Mesh: Sphere
-    MaterialComponent:
-      Materials:
-        - MagicBall_Light
-    PointLightComponent:
-      Color: [0.800000012, 0.800000012, 0.800000012]
-      Constant: 1
-      Linear: 0.400000006
-      Quadratic: 0.100000001
-  - Entity: 1939253820
-    TagComponent:
-      Tag: Point Light
-    TransformComponent:
-      Translation: [3.52999997, 0.409999996, 0]
-      Rotation: [0, 0.357792497, 0]
-      Scale: [0.0500000007, 0.0500000007, 0.0500000007]
-    MeshComponent:
-      Mesh: Sphere
-    MaterialComponent:
-      Materials:
-        - MagicBall_Light
-    PointLightComponent:
-      Color: [0.800000012, 0.800000012, 0.800000012]
-      Constant: 1
-      Linear: 0.400000006
-      Quadratic: 0.100000001
-  - Entity: 3700315078
-    TagComponent:
-      Tag: Point Light
+      Tag: tree2
     ParentComponent:
-      Parent: 679966320
+      Parent: 2240318446
     TransformComponent:
-      Translation: [0, 0, 0]
-      Rotation: [0, 0.357792497, 0]
-      Scale: [0.0500000007, 0.0500000007, 0.0500000007]
-    PointLightComponent:
-      Color: [3.63763785, 1.98416209, 0.881854117]
-      Constant: 0.680000007
-      Linear: 0.150000006
-      Quadratic: 0.0500000007
-    PointLightFlickerComponent:
-      Color: [3.29999995, 1.79999995, 0.800000012]
-      Duration: 2.29999995
-      DurationVariation: 1.10000002
-      Intensity: 1.20000005
-      IntensityVariation: 0.100000001
-  - Entity: 4243795443
+      Translation: [11.79, 0.349999994, 19.5100002]
+      Rotation: [-0.0244346093, 2.37713838, 0.00872664619]
+      Scale: [1.23000002, 1.27999997, 1.13999999]
+    MeshComponent:
+      Mesh: Spruce_2
+    MaterialComponent:
+      Materials:
+        - ForestMaterial
+    ShadowComponent: {}
+  - Entity: 1921040173
     TagComponent:
-      Tag: Head (mesh)
+      Tag: Hand (right)
     ParentComponent:
       Parent: 1566966600
     TransformComponent:
-      Translation: [0, 0, 0]
-      Rotation: [0, 0, 0]
-      Scale: [0.300000012, 0.300000012, 0.300000012]
+      Translation: [0.850000024, -0.529999971, -1.59000003]
+      Rotation: [-3.35103226, 1.33168626, 0.322885901]
+      Scale: [0.400000006, 0.400000006, 0.400000006]
     MeshComponent:
-      Mesh: Sphere
+      Mesh: Hand (right)
     MaterialComponent:
       Materials:
-        - MagicBall_Fire
+        - SkinMaterial
+  - Entity: 1080665466
+    TagComponent:
+      Tag: Hand (Left)
+    ParentComponent:
+      Parent: 1566966600
+    TransformComponent:
+      Translation: [-0.720000029, -0.529999971, -1.63999999]
+      Rotation: [-3.9043014, 1.64584553, -1.25489175]
+      Scale: [0.400000006, 0.400000006, 0.400000006]
+    MeshComponent:
+      Mesh: Hand (left)
+    MaterialComponent:
+      Materials:
+        - SkinMaterial
+  - Entity: 3124897916
+    TagComponent:
+      Tag: Cloud
+    ParentComponent:
+      Parent: 1190749026
+    TransformComponent:
+      Translation: [-13.0600004, 10.2700005, 9.82999992]
+      Rotation: [-1.89717281, -0.801106155, 0]
+      Scale: [1.21000004, 1.27999997, 1]
+    MeshComponent:
+      Mesh: Cloud_2
+    MaterialComponent:
+      Materials:
+        - CloudMaterial
+  - Entity: 3025002044
+    TagComponent:
+      Tag: Cloud
+    ParentComponent:
+      Parent: 1190749026
+    TransformComponent:
+      Translation: [-12.8699999, 11.9700003, 26.3899994]
+      Rotation: [-1.89717281, -1.60395765, 0]
+      Scale: [1.71000004, 2.21000004, 1]
+    MeshComponent:
+      Mesh: Cloud_3
+    MaterialComponent:
+      Materials:
+        - CloudMaterial
+  - Entity: 2428037156
+    TagComponent:
+      Tag: Cloud
+    ParentComponent:
+      Parent: 1190749026
+    TransformComponent:
+      Translation: [-28.3099995, 10.2700005, 9.82999992]
+      Rotation: [-1.89717281, -1.18333328, 0]
+      Scale: [1.21000004, 1.27999997, 1]
+    MeshComponent:
+      Mesh: Cloud_2
+    MaterialComponent:
+      Materials:
+        - CloudMaterial
+  - Entity: 3383275146
+    TagComponent:
+      Tag: Cloud
+    ParentComponent:
+      Parent: 1190749026
+    TransformComponent:
+      Translation: [-19.2099991, 4.53000021, -22.8400002]
+      Rotation: [0, 0.340339214, 0]
+      Scale: [1.63999999, 1.49000001, 1.75]
+    MeshComponent:
+      Mesh: Cloud_3
+    MaterialComponent:
+      Materials:
+        - CloudMaterial
+  - Entity: 2899067678
+    TagComponent:
+      Tag: Cloud
+    ParentComponent:
+      Parent: 1190749026
+    TransformComponent:
+      Translation: [-24.6000004, 7.25, 26.3899994]
+      Rotation: [-1.89717281, -0.933751166, 0]
+      Scale: [1.21000004, 1.27999997, 1]
+    MeshComponent:
+      Mesh: Cloud_3
+    MaterialComponent:
+      Materials:
+        - CloudMaterial
+  - Entity: 1190749026
+    TagComponent:
+      Tag: Sky
+    TransformComponent:
+      Translation: [0.0799999982, 43.2000008, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1.28999996, 1.42999995, 1.27999997]
+  - Entity: 3346410587
+    TagComponent:
+      Tag: Cloud
+    ParentComponent:
+      Parent: 1190749026
+    TransformComponent:
+      Translation: [-19.2099991, 4.53000021, -22.8400002]
+      Rotation: [0, 0.340339214, 0]
+      Scale: [1.63999999, 1.49000001, 1.75]
+    MeshComponent:
+      Mesh: Cloud_3
+    MaterialComponent:
+      Materials:
+        - CloudMaterial
+  - Entity: 29861835
+    TagComponent:
+      Tag: Cloud
+    ParentComponent:
+      Parent: 1190749026
+    TransformComponent:
+      Translation: [16.3899994, 6.19000006, -18.4400005]
+      Rotation: [-1.89717281, -1.60395765, 0]
+      Scale: [1.71000004, 2.21000004, 1]
+    MeshComponent:
+      Mesh: Cloud_3
+    MaterialComponent:
+      Materials:
+        - CloudMaterial
+  - Entity: 2434273416
+    TagComponent:
+      Tag: Cloud
+    ParentComponent:
+      Parent: 1190749026
+    TransformComponent:
+      Translation: [-26.9300003, -3.27999997, 0]
+      Rotation: [0, -0.111701071, -0.0698131695]
+      Scale: [1.36000001, 1.08000004, 1.30999994]
+    MeshComponent:
+      Mesh: Cloud_1
+    MaterialComponent:
+      Materials:
+        - CloudMaterial
+  - Entity: 1762707696
+    TagComponent:
+      Tag: Cloud
+    ParentComponent:
+      Parent: 1190749026
+    TransformComponent:
+      Translation: [-13.0600004, 8.10000038, -5.28999996]
+      Rotation: [-1.89717281, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Cloud_2
+    MaterialComponent:
+      Materials:
+        - CloudMaterial
+  - Entity: 2836059299
+    TagComponent:
+      Tag: Cloud
+    ParentComponent:
+      Parent: 1190749026
+    TransformComponent:
+      Translation: [-24.1299992, 5.09000015, -22.8400002]
+      Rotation: [0, -5.13999462, -0.158824965]
+      Scale: [1.63999999, 1.49000001, 1.75]
+    MeshComponent:
+      Mesh: Cloud_3
+    MaterialComponent:
+      Materials:
+        - CloudMaterial
+  - Entity: 155802058
+    TagComponent:
+      Tag: Cloud
+    ParentComponent:
+      Parent: 1190749026
+    TransformComponent:
+      Translation: [11.9200001, -2.17000008, 0]
+      Rotation: [0, -0.356047153, -0.0698131695]
+      Scale: [1.36000001, 1.08000004, 1.30999994]
+    MeshComponent:
+      Mesh: Cloud_1
+    MaterialComponent:
+      Materials:
+        - CloudMaterial
+  - Entity: 4216954262
+    TagComponent:
+      Tag: Cloud
+    ParentComponent:
+      Parent: 1190749026
+    TransformComponent:
+      Translation: [-2.81999993, 4.59000015, -18.2299995]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Cloud_2
+    MaterialComponent:
+      Materials:
+        - CloudMaterial
+  - Entity: 166188013
+    TagComponent:
+      Tag: Cloud
+    ParentComponent:
+      Parent: 1190749026
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    MeshComponent:
+      Mesh: Cloud_2
+    MaterialComponent:
+      Materials:
+        - CloudMaterial
+  - Entity: 2169248326
+    TagComponent:
+      Tag: sound (forest)
+    ParentComponent:
+      Parent: 2240318446
+    TransformComponent:
+      Translation: [-7.81989717, 0, 7.79558468]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Sound2DComponent:
+      SoundSource: Forest
+      Loop: true
+      Volume: 0.150000006
+  - Entity: 2559395055
+    TagComponent:
+      Tag: sound
+    ParentComponent:
+      Parent: 140134073
+    TransformComponent:
+      Translation: [0, 0, 0]
+      Rotation: [0, 0, 0]
+      Scale: [1, 1, 1]
+    Sound3DComponent:
+      SoundSource: Campfire
+      Loop: true
+      Volume: 1
+  - Entity: 2305974892
+    TagComponent:
+      Tag: Cube 01
+    TransformComponent:
+      Translation: [-26.0035172, 0.471956015, 16.9982815]
+      Rotation: [-0.0137414988, 0.00120531849, 0.00950538553]
+      Scale: [0.300000012, 0.300000012, 0.300000012]
+    MeshComponent:
+      Mesh: Cube
+    MaterialComponent:
+      Materials:
+        - RockMaterial
     ShadowComponent: {}
+    PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
+    DynamicConvexComponent: {}
+  - Entity: 1841879771
+    TagComponent:
+      Tag: Cube 03
+    TransformComponent:
+      Translation: [-26.0007381, 0.453189373, 14.9997292]
+      Rotation: [-0.00770581514, 0.000516645669, 0.000224733594]
+      Scale: [0.300000012, 0.300000012, 0.300000012]
+    MeshComponent:
+      Mesh: Cube
+    MaterialComponent:
+      Materials:
+        - RockMaterial
+    ShadowComponent: {}
+    PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
+    DynamicConvexComponent: {}
+  - Entity: 4264861675
+    TagComponent:
+      Tag: Health Item 1
+    TransformComponent:
+      Translation: [-21.2960491, 5.16591358, -13.5213556]
+      Rotation: [-0.222561315, -0.467831999, 0.20211868]
+      Scale: [0.300000012, 0.300000012, 0.300000012]
+    MeshComponent:
+      Mesh: Cube
+    MaterialComponent:
+      Materials:
+        - HeartMaterial
+    ShadowComponent: {}
+    PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
+    DynamicConvexComponent: {}
+    HealthItemComponent: {}
+  - Entity: 2665044383
+    TagComponent:
+      Tag: Cube 02
+    TransformComponent:
+      Translation: [-26.0023041, 0.461979181, 15.999692]
+      Rotation: [-0.00851363502, 0.00109553454, 0.00500859972]
+      Scale: [0.300000012, 0.300000012, 0.300000012]
+    MeshComponent:
+      Mesh: Cube
+    MaterialComponent:
+      Materials:
+        - RockMaterial
+    ShadowComponent: {}
+    PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
+    DynamicConvexComponent: {}
+  - Entity: 60594371
+    TagComponent:
+      Tag: Cube 00
+    TransformComponent:
+      Translation: [-26.0079098, 0.501519501, 17.9856739]
+      Rotation: [-0.0549432635, 0.000831828336, 0.0235174634]
+      Scale: [0.300000012, 0.300000012, 0.300000012]
+    MeshComponent:
+      Mesh: Cube
+    MaterialComponent:
+      Materials:
+        - RockMaterial
+    ShadowComponent: {}
+    PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
+    DynamicConvexComponent: {}
+  - Entity: 1830211325
+    TagComponent:
+      Tag: Cube 10
+    TransformComponent:
+      Translation: [-25.9982853, 1.0845257, 17.4938259]
+      Rotation: [-0.0375884734, 0.00210845377, 0.00945680588]
+      Scale: [0.300000012, 0.300000012, 0.300000012]
+    MeshComponent:
+      Mesh: Cube
+    MaterialComponent:
+      Materials:
+        - RockMaterial
+    ShadowComponent: {}
+    PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
+    DynamicConvexComponent: {}
+  - Entity: 19303787
+    TagComponent:
+      Tag: Cube 11
+    TransformComponent:
+      Translation: [-26.0062847, 1.06462944, 16.4987621]
+      Rotation: [-0.0072507523, 0.00316610211, 0.00919401273]
+      Scale: [0.300000012, 0.300000012, 0.300000012]
+    MeshComponent:
+      Mesh: Cube
+    MaterialComponent:
+      Materials:
+        - RockMaterial
+    ShadowComponent: {}
+    PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
+    DynamicConvexComponent: {}
+  - Entity: 1267568048
+    TagComponent:
+      Tag: Cube 12
+    TransformComponent:
+      Translation: [-26.0060215, 1.05749297, 15.4998674]
+      Rotation: [-0.00340004265, 0.00233671069, 0.00421827566]
+      Scale: [0.300000012, 0.300000012, 0.300000012]
+    MeshComponent:
+      Mesh: Cube
+    MaterialComponent:
+      Materials:
+        - RockMaterial
+    ShadowComponent: {}
+    PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
+    DynamicConvexComponent: {}
+  - Entity: 1346452857
+    TagComponent:
+      Tag: Cube 21
+    TransformComponent:
+      Translation: [-26.0047836, 1.6619643, 16.0002975]
+      Rotation: [-0.00907937437, 0.00301967142, 0.00774920173]
+      Scale: [0.300000012, 0.300000012, 0.300000012]
+    MeshComponent:
+      Mesh: Cube
+    MaterialComponent:
+      Materials:
+        - RockMaterial
+    ShadowComponent: {}
+    PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
+    DynamicConvexComponent: {}
+  - Entity: 2766309096
+    TagComponent:
+      Tag: Cube 20
+    TransformComponent:
+      Translation: [-26.002676, 1.67213368, 16.9967594]
+      Rotation: [-0.018728802, -0.000677730306, 0.00849331636]
+      Scale: [0.300000012, 0.300000012, 0.300000012]
+    MeshComponent:
+      Mesh: Cube
+    MaterialComponent:
+      Materials:
+        - RockMaterial
+    ShadowComponent: {}
+    PhysicsMaterialComponent: {StaticFriction: 0.300000012, DynamicFriction: 0.5, Restitution: 0.5}
+    DynamicConvexComponent: {}

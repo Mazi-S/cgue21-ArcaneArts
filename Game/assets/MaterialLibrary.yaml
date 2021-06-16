@@ -35,6 +35,15 @@ Materials:
     Textures:
       0: ShadowMap
       1: Forest
+  - Material: HeartMaterial
+    Shader: TextureShader
+    Ambient: [1, 0.400000006, 0.400000006]
+    Diffuse: [1, 0.409999996, 0.569999993]
+    Specular: [1, 0.5, 0.5]
+    Shininess: 7.19999981
+    Textures:
+      0: ShadowMap
+      1: Heart
   - Material: HouseMaterial
     Shader: TextureShader
     Ambient: [0.100000001, 0.100000001, 0.100000001]

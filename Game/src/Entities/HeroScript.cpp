@@ -18,6 +18,8 @@ using DynamicConvexComponent		= Engine::Component::Physics::DynamicConvexCompone
 using RigidDynamicComponent			= Engine::Component::Physics::RigidDynamicComponent;
 using KinematicMovementComponent	= Engine::Component::Physics::KinematicMovementComponent;
 
+using Sound2DComponent				= Engine::Component::Audio::Sound2DComponent;
+
 using MaterialComponent				= Engine::Component::Renderer::MaterialComponent;
 using ShadowComponent				= Engine::Component::Renderer::ShadowComponent;
 using PointLightComponent			= Engine::Component::Renderer::PointLightComponent;
@@ -70,11 +72,18 @@ bool HeroScript::OnMouseButtonPressed(Engine::MouseButtonPressedEvent& e)
 		//TODO: play sound if failed!!!
 	}
 
-	//if (e.GetMouseButton() == Engine::Mouse::ButtonRight)
-	//{
-	//	bool created = StartPassive();
-	//	//TODO: play sound if failed!!!
-	//}
+	if (e.GetMouseButton() == Engine::Mouse::ButtonRight)
+	{
+		if (m_PassiveHand && m_PassiveHand.HasComponent<MagicBallComponent>())
+		{
+			auto& magicBallComp = m_PassiveHand.GetComponent<MagicBallComponent>();
+			if (!magicBallComp.ThrowSound.empty())
+			{
+				auto& sound2DComp = m_PassiveHand.EmplaceOrReplace<Sound2DComponent>(magicBallComp.ThrowSound, false, Engine::SoundLibrary::Get(magicBallComp.ThrowSound)->GetVolume());
+				sound2DComp.Sound->setPlaybackSpeed(5.5);
+			}
+		}
+	}
 
 	return false;
 }
@@ -84,14 +93,12 @@ bool HeroScript::OnMouseButtonReleased(Engine::MouseButtonReleasedEvent& e)
 	if (e.GetMouseButton() == Engine::Mouse::ButtonLeft)
 	{
 		bool success = StopActive();
-		//TODO: play sound if failed!!!
 	}
 
-	//if (e.GetMouseButton() == Engine::Mouse::ButtonRight)
-	//{
-	//	bool success = StopPassive();
-	//	//TODO: play sound if failed!!!
-	//}
+	if (e.GetMouseButton() == Engine::Mouse::ButtonRight)
+	{
+		bool success = StopPassive();
+	}
 
 	return false;
 }
@@ -333,7 +340,6 @@ void HeroScript::EquipPassive(MagicBallType type)
 	if (m_PassiveSpell != MagicBallType::None)
 		CancelPassive();
 
-	// TODO: start particle system
 	m_PassiveSpell = type;
 }
 
@@ -372,6 +378,12 @@ bool HeroScript::UsePassive(Engine::Timestep ts)
 
 bool HeroScript::StopPassive()
 {
+	if (m_PassiveHand && m_PassiveHand.HasComponent<Sound2DComponent>())
+	{
+		m_PassiveHand.RemoveComponent<Sound2DComponent>();
+		return true;
+	}
+
 	return false;
 }
 
@@ -417,7 +429,7 @@ Engine::Entity HeroScript::CreateMagicBall(MagicBallType type, glm::vec3 offset)
 		ball.AddComponent<MeshComponent>("Sphere UV");
 		ball.AddComponent<MaterialComponent>("MagicBall_Heal");
 		ball.AddComponent<MagicBallComponent>(
-			std::string(), std::string(), std::string(),
+			std::string(), "Healing", std::string(),
 			MagicBallEffect(type), MagicBallMana(type), MagicBallCastTime(type)
 		);
 		ball.AddComponent<PointLightComponent>(glm::vec3{ 0.7f, 0.57f, 0.2f }, 0.8f, 0.2f, 0.1f);

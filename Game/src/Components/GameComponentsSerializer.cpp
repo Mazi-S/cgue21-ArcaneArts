@@ -8,6 +8,7 @@
 #include "Entities/MonsterScript.h"
 #include "Entities/PointLightFlickerScript.h"
 #include "Entities/WalkingSoundScript.h"
+#include "Entities/ItemScript.h"
 
 #include "ActorFactory.h"
 
@@ -71,6 +72,15 @@ void Engine::SceneSerializer::SerializeGameComponents(YAML::Emitter& out, Entity
 		out << YAML::Key << "Sound" << YAML::Value << walkingSoundComp.WalkingSound;
 
 		out << YAML::EndMap; // WalkingSoundComponent
+	}
+
+	// Health Item
+	if (entity.HasComponent<HealthItemComponent>())
+	{
+		out << YAML::Key << "HealthItemComponent";
+		out << YAML::Flow;
+		out << YAML::BeginMap; // HealthItemComponent
+		out << YAML::EndMap; // HealthItemComponent
 	}
 
 }
@@ -145,5 +155,12 @@ void Engine::SceneSerializer::DeserializeGameComponents(Entity deserializedEntit
 
 		deserializedEntity.AddComponent<WalkingSoundComponent>(sound);
 		deserializedEntity.AddNativeScript<WalkingSoundScript>();
+	}
+
+	// Health Item
+	if (entityNode["HealthItemComponent"])
+	{
+		deserializedEntity.AddComponent<HealthItemComponent>();
+		deserializedEntity.AddNativeScript<ItemScript>();
 	}
 }

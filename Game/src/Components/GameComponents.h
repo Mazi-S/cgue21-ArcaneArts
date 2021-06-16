@@ -51,6 +51,14 @@ struct StoneComponent
 	StoneComponent(const StoneComponent&) = default;
 };
 
+struct HealthItemComponent
+{
+	uint16_t temp = 0;
+
+	HealthItemComponent() = default;
+	HealthItemComponent(const HealthItemComponent&) = default;
+};
+
 struct WalkingSoundComponent
 {
 	std::string WalkingSound;

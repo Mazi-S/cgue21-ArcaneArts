@@ -1,7 +1,7 @@
 Texture2DLibrary: Untitled
 Textures:
-  - Texture: Bricks
-    Path: assets/textures/Bricks.jpg
+  - Texture: House
+    Path: assets/textures/house.png
     Specification:
       Wrap_S: 10497
       Wrap_T: 10497
@@ -10,8 +10,8 @@ Textures:
       Mag_Filter: 9729
       ComparisonMode: 0
       Mipmaps: true
-  - Texture: House
-    Path: assets/textures/house.png
+  - Texture: Bricks
+    Path: assets/textures/Bricks.jpg
     Specification:
       Wrap_S: 10497
       Wrap_T: 10497
@@ -98,5 +98,15 @@ Textures:
       Border: [0, 0, 0, 0]
       Min_Filter: 9987
       Mag_Filter: 9987
+      ComparisonMode: 0
+      Mipmaps: true
+  - Texture: Heart
+    Path: assets\textures\woodHeart.jpg
+    Specification:
+      Wrap_S: 10497
+      Wrap_T: 10497
+      Border: [0, 0, 0, 0]
+      Min_Filter: 9729
+      Mag_Filter: 9729
       ComparisonMode: 0
       Mipmaps: true
