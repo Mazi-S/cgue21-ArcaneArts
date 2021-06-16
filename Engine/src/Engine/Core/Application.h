@@ -33,6 +33,7 @@ namespace Engine {
 
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* overlay);
+		void PopLayer();
 
 		void Remove(Layer* layer);
 

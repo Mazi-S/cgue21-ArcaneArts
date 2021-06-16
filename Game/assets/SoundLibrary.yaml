@@ -2,10 +2,10 @@ SoundLibrary: Untitled
 SoundSources:
   - SoundSource: FireballCast
     Path: assets/sounds/fireball-cast.wav
-    Volume: 0.200000012
+    Volume: 0.300000012
   - SoundSource: FireballShoot
     Path: assets/sounds/fireball-shoot.wav
-    Volume: 0.050000001
+    Volume: 0.100000001
   - SoundSource: Campfire
     Path: assets/sounds/campfire.wav
     Volume: 0.050000001

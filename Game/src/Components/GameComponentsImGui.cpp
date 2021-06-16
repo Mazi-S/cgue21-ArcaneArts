@@ -122,13 +122,6 @@ void Engine::SceneHierarchyPanel::DrawGameComponents(Entity entity)
 		if (ImGuiUtil::DrawComboControl("WalkingSound", soundSource, SoundLibrary::GetNames()))
 		{
 			component.WalkingSound = soundSource;
-
-			if (component.Sound != nullptr)
-			{
-				component.Sound->stop();
-				component.Sound->drop();
-				component.Sound = nullptr;
-			}
 		}
 			
 	});

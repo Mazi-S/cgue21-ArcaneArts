@@ -55,6 +55,12 @@ void ExampleLayer::OnAttach()
 void ExampleLayer::OnDetach()
 {
 	// Shutdown here
+	m_MaterialPanel = nullptr;
+	m_RendererPanel = nullptr;
+	m_ShaderPanel = nullptr;
+	m_TexturePanel = nullptr;
+	m_MeshPanel = nullptr;
+	m_SceneHierarchyPanel = nullptr;
 	m_Scene = nullptr;
 }
 

@@ -39,10 +39,10 @@ float MagicBallCastTime(MagicBallType type)
 		return 1.0f;
 		break;
 	case MagicBallType::Fire:
-		return 1.2f;
+		return 0.5f;
 		break;
 	case MagicBallType::Lightning:
-		return 1.8f;
+		return 0.8f;
 		break;
 	}
 

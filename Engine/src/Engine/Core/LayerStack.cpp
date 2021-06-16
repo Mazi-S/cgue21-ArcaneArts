@@ -38,6 +38,11 @@ namespace Engine {
 		}
 	}
 
+	Layer* LayerStack::PeekLayer()
+	{
+		return m_Layers[m_LayerInsertIndex - 1];
+	}
+
 	void LayerStack::Pop(Layer* layer)
 	{
 		auto itLayer = std::find(m_Layers.begin(), m_Layers.begin() + m_LayerInsertIndex, layer);

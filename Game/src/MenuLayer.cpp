@@ -101,6 +101,7 @@ bool MenuLayer::OnWindowResize(Engine::WindowResizeEvent& event)
 bool MenuLayer::OnGameEnd(GameEndEvent& event)
 {
 	m_GameState = event.Victory() ? GameState::Victory : GameState::Defeat;
+	Engine::Application::Get().PopLayer();
 	return false;
 }
 

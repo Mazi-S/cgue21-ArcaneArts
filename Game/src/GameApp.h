@@ -8,6 +8,8 @@ public:
 
 	~GameApp() = default;
 
+	static Engine::Layer s_GameLayer;
+
 	static void Victory();
 	static void Defeat();
 };

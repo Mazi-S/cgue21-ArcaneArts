@@ -79,6 +79,11 @@ void MonsterScript::OnUpdate(Engine::Timestep ts)
 				soundComp.Sound->setIsPaused(false);
 				soundComp.Paused = false;
 			}
+			else if (soundComp.Sound == nullptr)
+			{
+				Engine::Ref<Engine::Audio::SoundSource> soundSource = Engine::SoundLibrary::Get(soundComp.SoundSource);
+				soundComp.Sound = soundSource->Play3D({0,0,0}, true, false, true);
+			}
 		}
 
 		glm::vec3 movement = glm::normalize(worldTransformComp_Hero.Translation - worldTransformComp_Monster.Translation) * monsterComp.Speed;

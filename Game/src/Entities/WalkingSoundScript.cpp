@@ -3,6 +3,28 @@
 
 using CharacterControllerComponent = Engine::Component::Physics::CharacterControllerComponent;
 
+void WalkingSoundScript::OnCreate()
+{
+	auto* walkingSoundComp = m_RegistryHandle->try_get<WalkingSoundComponent>(m_EntityHandle);
+
+	if (walkingSoundComp != nullptr && walkingSoundComp->WalkingSound != std::string())
+	{
+		Engine::Ref<Engine::Audio::SoundSource> source = Engine::SoundLibrary::Get(walkingSoundComp->WalkingSound);
+		m_Sound = source->Play2D(true, false, true);
+		m_Sound->setVolume(0);
+	}
+}
+
+void WalkingSoundScript::OnDestroy()
+{
+	if (m_Sound != nullptr)
+	{
+		m_Sound->stop();
+		m_Sound->drop();
+		m_Sound = nullptr;
+	}
+}
+
 void WalkingSoundScript::OnUpdate(Engine::Timestep ts)
 {
 	auto [walkingSoundComp, characterControllerComp] = m_RegistryHandle->try_get<WalkingSoundComponent, CharacterControllerComponent>(m_EntityHandle);
@@ -10,30 +32,30 @@ void WalkingSoundScript::OnUpdate(Engine::Timestep ts)
 	if (walkingSoundComp == nullptr || walkingSoundComp->WalkingSound == std::string() || characterControllerComp == nullptr)
 		return;
 
-	if (walkingSoundComp->Sound == nullptr)
+	if (m_Sound == nullptr)
 	{
 		Engine::Ref<Engine::Audio::SoundSource> source = Engine::SoundLibrary::Get(walkingSoundComp->WalkingSound);
-		walkingSoundComp->Sound = source->Play2D(true, false, true);
+		m_Sound = source->Play2D(true, false, true);
 	}
 
 	if (characterControllerComp->Jumping || !characterControllerComp->Walking)
 	{
-		walkingSoundComp->Sound->setVolume(0);
+		m_Sound->setVolume(0);
 	}
 	else if (characterControllerComp->Running)
 	{
-		walkingSoundComp->Sound->setVolume(0.3);
-		walkingSoundComp->Sound->setPlaybackSpeed(1.5);
+		m_Sound->setVolume(0.3);
+		m_Sound->setPlaybackSpeed(1.5);
 	}
 	else if (characterControllerComp->Crouching)
 	{
-		walkingSoundComp->Sound->setVolume(0.1);
-		walkingSoundComp->Sound->setPlaybackSpeed(0.5);
-
+		m_Sound->setVolume(0.1);
+		m_Sound->setPlaybackSpeed(0.5);
 	}
 	else
 	{
-		walkingSoundComp->Sound->setVolume(0.2);
-		walkingSoundComp->Sound->setPlaybackSpeed(1.0);
+		m_Sound->setVolume(0.2);
+		m_Sound->setPlaybackSpeed(1.0);
 	}
 }
+

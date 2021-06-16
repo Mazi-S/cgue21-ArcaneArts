@@ -85,6 +85,12 @@ namespace Engine {
 		layer->OnAttach();
 	}
 
+	void Application::PopLayer()
+	{
+		auto* layer = m_LayerStack->PeekLayer();
+		m_RemovedLayers.push_back(layer);
+	}
+
 	void Application::Remove(Layer* layer) {
 		m_RemovedLayers.push_back(layer);
 	}

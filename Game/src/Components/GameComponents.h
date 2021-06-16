@@ -70,7 +70,6 @@ struct ManaItemComponent
 struct WalkingSoundComponent
 {
 	std::string WalkingSound;
-	irrklang::ISound* Sound = nullptr;
 
 	WalkingSoundComponent(std::string walkingSound = std::string())
 		: WalkingSound(walkingSound) { }

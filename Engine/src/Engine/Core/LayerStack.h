@@ -13,6 +13,7 @@ namespace Engine {
 		void PushOverlay(Layer* overlay);
 		void PopLayer(Layer* layer);
 		void PopOverlay(Layer* overlay);
+		Layer* PeekLayer();
 
 		void Pop(Layer* layer);
 

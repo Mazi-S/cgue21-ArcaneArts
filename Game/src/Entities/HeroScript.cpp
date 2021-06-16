@@ -481,7 +481,7 @@ Engine::Entity HeroScript::CreateMagicBall(MagicBallType type, glm::vec3 offset)
 			auto& sound2DComp = ball.EmplaceOrReplace<Engine::Component::Audio::Sound2DComponent>(magicBallComp.CastSound, false, Engine::SoundLibrary::Get(magicBallComp.CastSound)->GetVolume());
 
 			if(type == MagicBallType::Fire)
-				sound2DComp.Sound->setPlaybackSpeed(.5);
+				sound2DComp.Sound->setPlaybackSpeed(.9);
 		}
 	}
 
